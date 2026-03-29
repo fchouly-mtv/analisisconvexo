@@ -1,0 +1,712 @@
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{hyperref}
+\urlstyle{rm}
+\usepackage[spanish]{babel}
+\usepackage{booktabs}
+\usepackage{subfigure}
+%\usepackage{makeidx}
+\usepackage{imakeidx}
+%\usepackage[spanish,onelanguage]{algorithm2e}
+%\usepackage[ruled,vlined]{algorithm2e} % ou \usepackage{algorithmic} selon ta préférence
+\usepackage[spanish]{algorithm} % Charge le package algorithm avec support espagnol
+\floatname{algorithm}{Algoritmo} % Change le nom de l'environnement
+%
+
+%\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algrenewcommand\algorithmicrequire{\textbf{Requerido:}}
+\algrenewcommand\algorithmicensure{\textbf{Garantizar:}}
+% Redéfinir les mots-clés en espagnol
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicdo{\textbf{hacer}}
+\algrenewcommand\algorithmicend{\textbf{fin}}
+%\algrenewcommand\algorithmicendfor{\textbf{FinPara}}
+\algrenewcommand\algorithmicreturn{\textbf{Devolver}}
+
+\usepackage{tocbibind}
+
+%\usepackage{footmisc}
+%\usepackage{perpage}
+
+% Format Curso
+%\usepackage[letterpaper,top=3cm,bottom=3cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+% Format DIRAC
+\usepackage[paperwidth=17cm, paperheight=24cm, top=2.7cm, bottom=2.7cm, left=2.0cm, right=2.0cm]{geometry}
+%\usepackage[paperwidth=17cm, paperheight=24cm, top=2.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm]{geometry}
+%\usepackage[paperwidth=17cm, paperheight=24cm, margin=1.5cm]{geometry}
+
+\usepackage{titlesec}
+
+% Personalizar el formato del capítulo
+\titleformat{\chapter}[display]
+    %{\normalfont\Large\bfseries}
+    {\normalfont\LARGE\bfseries}
+    % Texto plano (sin cursiva), grande y en negrita
+    {\chaptertitlename\ \thechapter}
+    {1ex}
+    {} % Sin formato adicional antes del título
+    [\vspace{1ex}\titlerule] % Línea horizontal después del título
+
+% Ajustar el espaciado antes y después del título
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+
+% Configurar el encabezado y pie de página
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % Limpiar encabezados y pies de página existentes
+\fancyhead[RE,LO]{\normalfont\leftmark} % Título del capítulo en el encabezado exterior (izquierdo en páginas pares, derecho en páginas impares)
+\fancyhead[LE,RO]{\normalfont\thepage} % Número de página en el encabezado interior (derecho en páginas pares, izquierdo en páginas impares)
+\renewcommand{\headrulewidth}{0.4pt} % Grosor de la línea de separación del encabezado
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter. #1}{}} % Incluir número del capítulo en el encabezado
+
+% Désactiver l'en-tête sur la 2e page (table des matières)
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{arrows.meta, shapes.geometric}
+
+%\usepackage{listings}
+\usepackage{xcolor}
+
+\usepackage{listings}
+%\renewcommand{\lstlistingname}{Listado} % Change "Listing" à "Listado"
+\renewcommand{\lstlistlistingname}{Índice de listados} % Optionnel : pour la table des listados
+
+% Configuration globale pour toutes les lstlistings
+\renewcommand{\lstlistingname}{\textbf{\footnotesize Listado}} % Nom en gras
+\lstset{
+    captionpos=b, % Position de la légende (b = bas)
+    basicstyle=\ttfamily\footnotesize, % Style du code
+    caption=\textbf{\footnotesize \lstname} % Légende en gras et footnotesize
+}
+
+% Configuration supplémentaire (optionnelle)
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b, % Position de la légende (b=bas, t=haut)
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=2,
+}
+
+\lstset{
+    basicstyle=\ttfamily,
+    breaklines=true,
+    inputencoding=utf8, 
+    extendedchars=true, 
+    literate=%
+        {á}{{\'a}}1
+        {é}{{\'e}}1
+        {í}{{\'i}}1
+        {ó}{{\'o}}1
+        {ú}{{\'u}}1
+        {ñ}{{\~n}}1
+}
+
+% Define a Python style
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    stepnumber=1,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{black!5},
+    captionpos=b
+}
+
+\lstdefinestyle{juliastyle}{
+    %language=Julia,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    stepnumber=1,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{black!5},
+    captionpos=b
+}
+
+\lstdefinestyle{matlabstyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  breaklines=true,
+  frame=single,
+  captionpos=b
+}
+
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{cor}{Corollary}
+%\newtheorem{lemma}{lemma}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{definition}{Definition}
+
+\newtheorem{theorem}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem{lemma}{Lema}
+\newtheorem{proposition}{Proposición}
+\newtheorem{definition}{Definición}
+\newtheorem{remark}{Observación}
+\newtheorem{ex}{Ejemplo}
+
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\dcaption}[1]{\caption{\footnotesize \textbf{#1}}}
+
+% Pour changer le titre de la table des matières
+\addto\captionsspanish{%
+  \renewcommand{\contentsname}{Tabla de contenido}%
+}
+
+\usepackage{caption}
+
+\captionsetup[figure]{
+    labelfont={bf},      % Met le label (ex: "Figure 1:") en gras
+    textfont={bf},       % Met le texte de la légende en gras
+    font=footnotesize    % Met la légende en taille footnotesize
+}
+
+\captionsetup[table]{
+    labelfont={bf},      % Met le label (ex: "Figure 1:") en gras
+    textfont={bf},       % Met le texte de la légende en gras
+    font=footnotesize    % Met la légende en taille footnotesize
+}
+
+%\MakePerPage{footnote}
+\usepackage{chngcntr} % Pour contrôler les compteurs
+\counterwithout{footnote}{chapter} % Empêche la réinitialisation des notes de bas de page à chaque chapitre
+
+% Cambiar el título de la bibliografía
+\addto\captionsspanish{\renewcommand{\bibname}{Referencias bibliográficas}}
+
+\title{Análisis convexo y aplicaciones}
+%ODEs and PDEs}
+\author{Franz Chouly}
+\date{En Construcci\'on (\today)}
+
+% Define el índice y cambia el título
+\makeindex[title=Índice temático] % Cambia "Índice" por "truc much
+%\makeindex
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{empty}
+
+% Table des matières : on force le style "plain" pour cette page
+\thispagestyle{plain}
+% Retour au style "fancy" pour les pages suivantes
+\pagestyle{fancy}
+\tableofcontents
+
+%\chapter*{Agradecimientos}
+%\addcontentsline{toc}{chapter}{Agradecimientos}
+%\markboth{Agradecimientos}{Agradecimientos}
+
+%Quiero agradecer, primero \dots
+
+%\chapter*{Pr\'ologo}
+%\addcontentsline{toc}{chapter}{Pr\'ologo}
+%\markboth{Pr\'ologo}{Pr\'ologo}
+
+%\medskip
+
+%\begin{flushright}
+%{{Franz Chouly}} %, Montevideo, el 6 de Agosto de 2025}}
+%\end{flushright}
+
+\chapter{Introducción}
+
+El \textbf{análisis convexo} es una rama fundamental de las matemáticas que estudia funciones y conjuntos convexos, ofreciendo herramientas teóricas y prácticas para resolver problemas complejos en ciencia, ingeniería y economía. Este libro aborda desde los fundamentos matemáticos del análisis convexo hasta sus aplicaciones más avanzadas, incluyendo optimización convexa, aprendizaje automático, geometría algorítmica y teoría de juegos.
+
+Se presentan las definiciones y propiedades esenciales de conjuntos y funciones convexas, junto con conceptos clave como el subgradiente, la cáscara convexa y la dualidad. Estos fundamentos son la base para entender algoritmos de optimización y técnicas numéricas que se desarrollan en los capítulos posteriores.
+Se incluyen ejemplos ilustrativos, fórmulas matemáticas precisas y fragmentos de código en Python para facilitar la implementación de los métodos descritos.
+
+El libro está diseñado para estudiantes de grado y posgrado. A lo largo del texto, se enfatiza la relación entre el análisis convexo y otras áreas de las matemáticas, como el análisis funcional, la teoría de la medida y la geometría computacional, mostrando cómo estas disciplinas se complementan para abordar desafíos modernos.
+
+El enfoque pedagógico del libro facilita la comprensión de conceptos abstractos mediante ejemplos paso a paso, ejercicios propuestos y aplicaciones en contextos reales. 
+Al final de cada capítulo, se proporcionan referencias bibliográficas clave para profundizar en los temas tratados, así como enlaces a recursos adicionales en línea, como repositorios de código y conjuntos de datos.
+
+\chapter{Conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
+
+Los conjuntos convexos son fundamentales en matemática, especialmente en geometría algorítmica, optimización y aprendizaje automático. Este capítulo explora la teoría de conjuntos convexos, con énfasis en la \textbf{cáscara convexa} (o \emph{convex hull}), sus propiedades, algoritmos para su cálculo y aplicaciones en geometría computacional. 
+
+\section{Definición y propiedades}
+
+\begin{definition}[Conjunto convexo]
+Un conjunto \( C \subseteq \mathbb{R}^n \) es \textbf{convexo} si para todo \( x, y \in C \) y todo \( \lambda \in [0,1] \),
+\[
+\lambda x + (1-\lambda) y \in C.
+\]
+\end{definition}
+
+\begin{theorem}[Intersección de conjuntos convexos]
+La intersección arbitraria de conjuntos convexos es convexa. Si \( \{C_i\}_{i \in I} \) es una familia de conjuntos convexos, entonces \( \bigcap_{i \in I} C_i \) es convexo.
+\end{theorem}
+
+\begin{definition}[Combinación convexa]
+Una \textbf{combinación convexa} de puntos \( x_1, x_2, \dots, x_k \in \mathbb{R}^n \) es una expresión de la forma
+\[
+\sum_{i=1}^k \lambda_i x_i, \quad \text{con} \quad \lambda_i \geq 0 \quad \text{y} \quad \sum_{i=1}^k \lambda_i = 1.
+\]
+\end{definition}
+
+\section{Cáscara convexa}
+
+\begin{definition}[Cáscara convexa]
+La \textbf{cáscara convexa} de un conjunto \( S \subseteq \mathbb{R}^n \), denotada \( \text{conv}(S) \), es el conjunto convexo más pequeño que contiene a \( S \). Formalmente,
+\[
+\text{conv}(S) = \left\{ \sum_{i=1}^k \lambda_i x_i \mid x_i \in S, \lambda_i \geq 0, \sum_{i=1}^k \lambda_i = 1, k \in \mathbb{N} \right\}.
+\]
+\end{definition}
+
+\begin{theorem}[Caracterización de la cáscara convexa]
+Si \( S \subseteq \mathbb{R}^n \), entonces
+\[
+\text{conv}(S) = \bigcap \{ C \subseteq \mathbb{R}^n \mid C \text{ es convexo y } S \subseteq C \}.
+\]
+\end{theorem}
+
+En dimensión 2, la cáscara convexa de un conjunto finito de puntos es un polígono convexo cuyos vértices son un subconjunto de los puntos dados.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.5, point/.style={circle, fill=black, inner sep=0pt, minimum size=3pt}]
+    % Conjunto de puntos
+    \foreach \x/\y in {0/0, 1/2, 2/1, 3/3, 2/0, 4/2, 3/0} {
+        \node[point] at (\x,\y) {};
+    }
+
+    % Cáscara convexa (polígono)
+    \draw[thick, blue] (0,0) -- (1,2) -- (3,3) -- (4,2) -- (3,0) -- cycle;
+
+    % Puntos dentro de la cáscara
+    \foreach \x/\y in {1.5/1, 2.5/1.5, 3/1, 2/0.5} {
+        \node[point, fill=red] at (\x,\y) {};
+    }
+
+    % Leyendas
+    \node at (2,-0.5) {Puntos en \( S \)};
+    \node[blue] at (2,3.5) {Cáscara convexa de \( S \)};
+    \node[red] at (3.5,1.2) {Puntos en \( \text{conv}(S) \)};
+\end{tikzpicture}
+\caption{Visualización de la cáscara convexa de un conjunto de puntos en \( \mathbb{R}^2 \).}
+\end{figure}
+
+\section{Aplicaciones}
+
+\subsection{Envoltura convexa de un conjunto de puntos}
+
+La \textbf{envoltura convexa} (o cáscara convexa) de un conjunto finito de puntos en el plano es el polígono convexo más pequeño que contiene a todos los puntos. Este concepto es esencial en:
+
+\begin{itemize}
+    \item \textbf{Geometría computacional}: Para problemas de colisión, localización de puntos y clustering.
+    \item \textbf{Visión por computadora}: En reconstrucción 3D y reconocimiento de formas.
+    \item \textbf{Robótica}: Para planificación de caminos y evitación de obstáculos.
+    \item \textbf{Aprendizaje automático}: En clustering (por ejemplo, el algoritmo DBSCAN).
+\end{itemize}
+
+\subsection{Separación de conjuntos convexos}
+
+\begin{theorem}[Teorema de separación de hiperplanos]
+Si \( C \) y \( D \) son dos conjuntos convexos disjuntos en \( \mathbb{R}^n \), entonces existe un hiperplano \( H \) que separa \( C \) y \( D \), es decir, existe \( a \in \mathbb{R}^n \) y \( b \in \mathbb{R} \) tales que
+\[
+a^T x \leq b \quad \forall x \in C, \quad a^T y \geq b \quad \forall y \in D.
+\]
+\end{theorem}
+
+Este teorema es la base de algoritmos de separación en optimización convexa y aprendizaje automático (por ejemplo, máquinas de vectores de soporte).
+
+\subsection{Algoritmo de Graham (1972)}
+
+El algoritmo de Graham es uno de los métodos más eficientes para calcular la envoltura convexa de un conjunto de puntos en el plano, con una complejidad de \( O(n \log n) \).
+
+\begin{lstlisting}[style=pythonstyle, caption={Implementación del algoritmo de Graham en Python}, label={lst:graham}]
+import numpy as np
+from math import atan2
+
+def graham_scan(points):
+    # Ordenar los puntos por coordenada x (y luego por y)
+    points = sorted(points, key=lambda p: (p[0], p[1]))
+
+    # Función para calcular el ángulo polar
+    def polar_angle(p0, p1=None):
+        if p1 is None:
+            p1 = points[0]
+        y_span = p0[1] - p1[1]
+        x_span = p0[0] - p1[0]
+        return atan2(y_span, x_span)
+
+    # Ordenar por ángulo polar
+    points = sorted(points[1:], key=polar_angle)
+
+    # Inicializar la pila
+    stack = [points[0], points[1]]
+
+    for i in range(2, len(points)):
+        while len(stack) > 1 and cross_product(stack[-2], stack[-1], points[i]) <= 0:
+            stack.pop()
+        stack.append(points[i])
+
+    return stack
+
+def cross_product(o, a, b):
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+\end{lstlisting}
+
+\subsection{Algoritmo de Jarvis (1973)}
+
+El algoritmo de Jarvis, también conocido como el "marching ants", tiene una complejidad de \( O(nh) \), donde \( h \) es el número de puntos en la envoltura convexa.
+
+\begin{lstlisting}[style=pythonstyle, caption={Implementación del algoritmo de Jarvis en Python}, label={lst:jarvis}]
+def jarvis_march(points):
+    # Encontrar el punto más a la izquierda (punto inicial)
+    start = min(points, key=lambda p: (p[0], p[1]))
+
+    hull = []
+    current = start
+    while True:
+        hull.append(current)
+        next_point = points[0]
+        for p in points:
+            if p == current:
+                continue
+            # Calcular el ángulo cruzado
+            cross = (p[0] - current[0]) * (next_point[1] - current[1]) - \
+                    (p[1] - current[1]) * (next_point[0] - current[0])
+            if cross > 0 or (cross == 0 and distance(current, p) > distance(current, next_point)):
+                next_point = p
+
+        if next_point == start:
+            break
+        current = next_point
+
+    return hull
+
+def distance(p1, p2):
+    return (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2
+\end{lstlisting}
+
+
+\subsection{Clustering con cáscara convexa}
+
+En aprendizaje automático, la cáscara convexa se utiliza en algoritmos de clustering como \textbf{DBSCAN} para identificar regiones densas y separar clusters. La idea es que los puntos dentro de una misma cáscara convexa pertenecen al mismo cluster.
+
+\subsection{Optimización convexa}
+
+En problemas de optimización, la cáscara convexa de un conjunto de restricciones define la región factible. La optimalidad de un punto \( x^* \) puede caracterizarse utilizando el teorema de separación de hiperplanos y las propiedades de la cáscara convexa.
+
+
+\chapter{Funciones convexas} %en dimensión finita}
+
+Este capítulo aborda el análisis de funciones convexas en dimensión finita, un concepto central en optimización, economía matemática y aprendizaje automático. Se estudian dos contextos principales: el caso general (no necesariamente continuo) y el caso continuo (donde la convexidad implica continuidad local). Para cada contexto, se presentan definiciones, propiedades fundamentales, caracterizaciones de mínimos locales y globales, y herramientas como el subgradiente y la Hessiana.
+
+\section{Caso general}
+
+\begin{definition}[Función convexa en dimensión finita]
+Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) es \textbf{convexa} si su dominio \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es convexo y para todo \( x, y \in \text{dom}(f) \) y \( \lambda \in [0,1] \),
+\[
+f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y).
+\]
+\end{definition}
+
+\begin{definition}[Subgradiente]
+Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un vector \( g \in \mathbb{R}^n \) es un \textbf{subgradiente} de \( f \) en \( x \) si
+\[
+f(y) \geq f(x) + g^T (y - x) \quad \forall y \in \mathbb{R}^n.
+\]
+El conjunto de todos los subgradientes de \( f \) en \( x \) se denota \( \partial f(x) \).
+\end{definition}
+
+\begin{theorem}[Caracterización de mínimos]
+Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un punto \( x^* \in \text{dom}(f) \) es un mínimo global de \( f \) si y solo si
+\[
+0 \in \partial f(x^*).
+\]
+\end{theorem}
+
+Las funciones convexas en dimensión finita pueden ser discontinuas en la frontera de su dominio. Sin embargo, siempre son \textbf{localmente acotadas por arriba} en el interior de su dominio y, por lo tanto, son continuas en el interior de \( \text{dom}(f) \).
+
+\section{Casos continuo y diferenciable}
+
+\begin{definition}[Función convexa diferenciable]
+Si \( f: \mathbb{R}^n \to \mathbb{R} \) es convexa y diferenciable en \( x \), entonces
+\[
+f(y) \geq f(x) + \nabla f(x)^T (y - x) \quad \forall y \in \mathbb{R}^n.
+\]
+Además, \( \nabla f(x) \) es el único subgradiente de \( f \) en \( x \).
+\end{definition}
+
+\begin{definition}[Función convexa dos veces diferenciable]
+Si \( f: \mathbb{R}^n \to \mathbb{R} \) es convexa y dos veces diferenciable, entonces su matriz Hessiana \( \nabla^2 f(x) \) es \textbf{semidefinida positiva} para todo \( x \in \mathbb{R}^n \). Recíprocamente, si \( \nabla^2 f(x) \) es semidefinida positiva para todo \( x \), entonces \( f \) es convexa.
+\end{definition}
+
+\begin{theorem}[Caracterización de mínimos con gradiente]
+Sea \( f: \mathbb{R}^n \to \mathbb{R} \) una función convexa y diferenciable. Un punto \( x^* \in \mathbb{R}^n \) es un mínimo global de \( f \) si y solo si
+\[
+\nabla f(x^*) = 0.
+\]
+\end{theorem}
+
+\begin{theorem}[Caracterización de mínimos con Hessiana]
+Sea \( f: \mathbb{R}^n \to \mathbb{R} \) una función convexa y dos veces diferenciable. Un punto \( x^* \in \mathbb{R}^n \) es un mínimo global estricto de \( f \) si y solo si
+\[
+\nabla f(x^*) = 0 \quad \text{y} \quad \nabla^2 f(x^*) \text{ es definida positiva.}
+\]
+\end{theorem}
+
+\chapter{Métodos de minimización}
+
+Los métodos de minimización son herramientas fundamentales en matemática aplicada, optimización, aprendizaje automático y ciencia de datos. Este capítulo aborda los principios y algoritmos más relevantes para resolver problemas de minimización de funciones, desde enfoques clásicos hasta técnicas avanzadas basadas en análisis convexo y métodos numéricos. Cada sección incluye las fórmulas clave de los métodos y, cuando es posible, su relación con ecuaciones diferenciales que modelan la dinámica de la minimización.
+
+\section{Gradiente descendente}
+El \textbf{gradiente descendente} es un método iterativo para minimizar una función \( f: \mathbb{R}^n \to \mathbb{R} \) diferenciable. El algoritmo se define como:
+\[
+x_{k+1} = x_k - \alpha_k \nabla f(x_k),
+\]
+donde \( \alpha_k > 0 \) es el tamaño de paso (o tasa de aprendizaje) y \( \nabla f(x_k) \) es el gradiente de \( f \) en \( x_k \).
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+El método de gradiente descendente puede interpretarse como una discretización de la ecuación diferencial ordinaria (EDO) asociada al flujo gradiente:
+\[
+\frac{dx}{dt} = -\nabla f(x(t)).
+\]
+La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
+\end{quotation}
+
+\section{Método de Newton}
+El \textbf{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
+\[
+x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
+\]
+donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales.
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+El método de Newton puede verse como una aproximación de la dinámica de segundo orden:
+\[
+\frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -\nabla f(x),
+\]
+donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
+\end{quotation}
+
+\section{Método de punto fijo}
+El \textbf{método de punto fijo} busca resolver \( x = g(x) \), donde \( g \) es una función iterativa. Para minimización, se define \( g(x) = x - \alpha \nabla f(x) \), y la iteración es:
+\[
+x_{k+1} = g(x_k).
+\]
+La convergencia depende de que \( g \) sea una contracción.
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+Si \( g(x) = x - \alpha \nabla f(x) \), el método de punto fijo puede relacionarse con la EDO:
+\[
+\frac{dx}{dt} = -\nabla f(x).
+\]
+Este es el mismo flujo gradiente del método de gradiente descendente.
+\end{quotation}
+
+\section{Método de penalización}
+El \textbf{método de penalización} transforma un problema con restricciones \( \min f(x) \) sujeto a \( c_i(x) = 0 \) en un problema sin restricciones:
+\[
+\min f(x) + \mu \sum_{i=1}^m c_i(x)^2,
+\]
+donde \( \mu > 0 \) es el parámetro de penalización.
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+La dinámica asociada puede modelarse como:
+\[
+\frac{dx}{dt} = -\nabla f(x) - 2\mu \sum_{i=1}^m c_i(x) \nabla c_i(x),
+\]
+que combina el gradiente de la función objetivo con el gradiente de las restricciones.
+\end{quotation}
+
+\section{Método de Lagrange}
+El \textbf{método de Lagrange} introduce multiplicadores \( \lambda \) para problemas con restricciones \( c_i(x) = 0 \). La función Lagrangiana es:
+\[
+\mathcal{L}(x, \lambda) = f(x) + \sum_{i=1}^m \lambda_i c_i(x).
+\]
+Las condiciones de optimalidad son:
+\[
+\nabla_x \mathcal{L}(x^*, \lambda^*) = 0, \quad c_i(x^*) = 0.
+\]
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+La dinámica de los multiplicadores de Lagrange puede describirse mediante:
+\[
+\frac{dx}{dt} = -\nabla_x \mathcal{L}(x, \lambda), \quad \frac{d\lambda}{dt} = c(x).
+\]
+Esta ecuación diferencial parcial (EDP) describe la evolución de \( x \) y \( \lambda \) hacia un punto de equilibrio.
+\end{quotation}
+
+\section{Métodos cuasi-Newton (BFGS)}
+El método \textbf{BFGS} aproxima la inversa de la Hessiana \( H_k \) mediante actualizaciones iterativas:
+\[
+H_{k+1} = \left( I - \frac{y_k s_k^T}{y_k^T s_k} \right) H_k \left( I - \frac{s_k y_k^T}{y_k^T s_k} \right) + \frac{s_k s_k^T}{y_k^T s_k},
+\]
+donde \( s_k = x_{k+1} - x_k \) y \( y_k = \nabla f(x_{k+1}) - \nabla f(x_k) \). La iteración es:
+\[
+x_{k+1} = x_k - \alpha_k H_k \nabla f(x_k).
+\]
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+Los métodos cuasi-Newton pueden interpretarse como aproximaciones de la dinámica de segundo orden:
+\[
+\frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -H^{-1} \nabla f(x),
+\]
+donde \( H \) es la aproximación de la Hessiana.
+\end{quotation}
+
+
+\chapter{Medida y análisis funcional}
+
+Este capítulo está dedicado a profundizar en los fundamentos matemáticos esenciales para el análisis avanzado: la \textbf{teoría de medida}, la \textbf{integral de Lebesgue} y los \textbf{espacios funcionales}. Estos conceptos son pilares en el estudio de la probabilidad, la ecuación diferencial parcial, el análisis funcional y la teoría de control. A través de un enfoque riguroso, se presentan las herramientas teóricas necesarias para abordar problemas complejos en matemática, sentando las bases para el desarrollo de métodos modernos en optimización, física matemática y ciencia de datos.
+
+\section{Medida}
+La noción de \textbf{medida} generaliza el concepto clásico de longitud, área y volumen a conjuntos abstractos, permitiendo cuantificar el "tamaño" de subconjuntos en espacios arbitrarios. Esta teoría es fundamental para definir integrales generalizadas, como la integral de Lebesgue, y para analizar funciones medibles. Se exploran las propiedades de los espacios de medida, la construcción de medidas a partir de premedidas, y la relación entre la medida y la topología. Además, se estudian los teoremas clásicos de convergencia, como el de la convergencia monótona y el de la convergencia dominada, que son esenciales en el análisis funcional y en la teoría de la probabilidad.
+
+\section{Hahn--Banach}
+El \textbf{teorema de Hahn--Banach} es uno de los resultados más profundos y útiles del análisis funcional. Este teorema garantiza la existencia de extensiones lineales y continuas de funcionales definidos en subespacios de un espacio vectorial normado, preservando su norma. Sus consecuencias son vastas: permite demostrar la existencia de funcionales lineales continuos no triviales, la separación de conjuntos convexos disjuntos, y la unicidad de normas equivalentes. El teorema de Hahn--Banach es clave en la dualidad entre espacios de Banach y en el estudio de la convergencia en espacios de funciones.
+
+\section{Espacios de Hilbert}
+Los \textbf{espacios de Hilbert} son generalizaciones del espacio euclidiano a dimensiones infinitas, donde la noción de ortogonalidad y proyección juega un papel central. Estos espacios poseen una estructura geométrica rica, basada en el producto interno, y permiten desarrollar teorías de series de Fourier generalizadas, bases ortonormales y operadores compactos. Se analizan propiedades como la completitud, la descomposición ortogonal y la representación de funcionales lineales continuos mediante el teorema de representación de Riesz. Los espacios de Hilbert son fundamentales en mecánica cuántica, teoría de aproximación y procesamiento de señales.
+
+\section{Espacios de Lebesgue}
+Los \textbf{espacios de Lebesgue} \( L^p \) son espacios funcionales que generalizan el concepto de integrabilidad en el sentido de Lebesgue. Estos espacios, parametrizados por \( p \in [1, \infty] \), consisten en clases de equivalencia de funciones medibles cuyas potencias \( p \)-ésimas son integrables. Se estudian sus propiedades topológicas, la densidad de funciones continuas, y los teoremas de densidad y aproximación. Además, se exploran las desigualdades fundamentales, como las de Hölder y Minkowski, y su relación con la convergencia en medida y la continuidad de operadores lineales.
+
+\section{Derivada débil}
+La \textbf{derivada débil} extiende el concepto clásico de derivada a funciones que no son diferenciables en el sentido usual, pero que poseen una derivada generalizada en un sentido distribucional. Esta noción es esencial en la teoría de distribuciones y en el estudio de ecuaciones diferenciales parciales, donde muchas soluciones no son clásicas. Se definen los espacios de Sobolev y se analizan sus propiedades, incluyendo los teoremas de inmersión y traza, que permiten entender cómo las propiedades de regularidad de una función se transfieren a su frontera. La derivada débil es una herramienta poderosa para formular problemas variacionales y analizar su solubilidad.
+
+\section{Espacios de Sobolev}
+Los \textbf{espacios de Sobolev} son espacios funcionales que combinan propiedades de diferenciabilidad y integrabilidad, siendo fundamentales en el estudio de ecuaciones diferenciales parciales y en el análisis numérico. Estos espacios consisten en funciones cuyas derivadas débiles hasta cierto orden pertenecen a espacios de Lebesgue. Se analizan sus propiedades de completitud, densidad, y los teoremas de compactación, que son cruciales para demostrar la existencia de soluciones débiles. Los espacios de Sobolev también permiten formular problemas de minimización en cálculo de variaciones y en la teoría del potencial, proporcionando un marco riguroso para el análisis de regularidad y unicidad de soluciones.
+
+\chapter{Dimensión infinita}
+
+El estudio de la \textbf{dimensión infinita} en el ámbito del análisis convexo y la optimización permite abordar problemas complejos que surgen en mecánica de sólidos, teoría de control, economía y aprendizaje automático. En este contexto, las funciones y conjuntos convexos se definen en espacios de Hilbert o de Banach, donde las herramientas del análisis funcional son esenciales para garantizar la existencia de soluciones y su caracterización. La optimización en dimensión infinita extiende los principios de la programación convexa clásica, permitiendo modelar fenómenos con restricciones no lineales y operadores diferenciales. Este enfoque es fundamental para desarrollar métodos numéricos robustos y teoremas de dualidad que subyacen en aplicaciones modernas como el control óptimo y la teoría de juegos.
+
+\chapter{Desigualdades variacionales}
+
+Las desigualdades variacionales son útiles para modelar numerosos problemas de la física o la ingeniería~\cite{duvaut76,glowinski80,kinderlehrer80}. Sin embargo, rara vez se abordan en los cursos de posgrado de análisis numérico. El objetivo de esta breve nota es presentar el análisis numérico del problema del obstáculo, cuando se discretiza mediante elementos finitos. El problema del obstáculo es, de hecho, el prototipo ideal de una desigualdad variacional y, quizás, el más sencillo de ellos.
+
+Denotamos por \(H^{s}(\cdot)\), \(s\in \mathbb{R}\), a los espacios de Sobolev. Para un subconjunto abierto \(D\) de \(\mathbb{R}^n\), la norma usual de \(H^{s}(D)\) se denota por \(\|\cdot\|_{s,D}\). El espacio \(H^1_0(D)\) es el subespacio de funciones en \(H^1(D)\) con traza nula en \(\partial D\). La letra \(C\) representa una constante genérica, independiente de los parámetros de discretización.
+
+\section{El obstáculo}
+
+\subsection{Formulación fuerte}
+Este enfoque clásico del problema del obstáculo presenta la formulación en términos de ecuaciones diferenciales parciales y condiciones de contorno. 
+
+\subsection{Desigualdad variacional}
+Las desigualdades variacionales proporcionan un marco general para estudiar problemas con restricciones, como el del obstáculo. Este planteamiento permite modelar fenómenos físicos donde las soluciones deben satisfacer condiciones de desigualdad en lugar de igualdades. La teoría de desigualdades variacionales es fundamental para entender la estructura matemática del problema.
+
+\subsection{Existencia y unicidad}
+El estudio de la existencia y unicidad de soluciones es crucial para garantizar la validez de los modelos matemáticos. En el caso del obstáculo, se demuestra que, bajo condiciones adecuadas, existe una solución única que satisface las restricciones físicas del problema. Este análisis sienta las bases para el desarrollo de métodos numéricos confiables.
+
+\subsection{Aproximación de Galerkin}
+La aproximación de Galerkin es un método numérico ampliamente utilizado para resolver problemas descritos por desigualdades variacionales. Este enfoque permite discretizar el problema y transformarlo en un sistema algebraico resoluble. Su simplicidad y eficacia lo convierten en una herramienta estándar en el análisis numérico.
+
+\subsection{Penalización}
+El método de penalización reemplaza las restricciones del problema original por términos en la función objetivo. Este enfoque simplifica la implementación numérica y permite aplicar técnicas estándar de resolución. Sin embargo, la elección del parámetro de penalización es clave para la estabilidad y precisión del método.
+
+\subsection{Newton semi-suave}
+El método de Newton semi-suave es una técnica avanzada para resolver problemas de desigualdades variacionales, combinando ideas de métodos de Newton y subgradientes. Este enfoque aprovecha la estructura diferenciable a trozos de las funciones involucradas, mejorando la convergencia en problemas no lineales. Su aplicación es especialmente relevante en contextos donde la solución puede presentar comportamientos complejos.
+
+\subsection{Implementación en scikit-fem}
+scikit-fem es una biblioteca de Python que facilita la implementación de métodos de elementos finitos para resolver problemas variacionales. Su integración con NumPy y SciPy permite desarrollar soluciones eficientes y modulares. Esta herramienta es ideal para prototipar y validar algoritmos numéricos en entornos académicos y de investigación.
+
+\subsection{Comentarios adicionales}
+\begin{itemize}
+    \item \textbf{Método de Nitsche o multiplicadores}: Estas técnicas alternativas permiten incorporar las restricciones del problema de manera explícita en la formulación débil, mejorando la estabilidad numérica en ciertos casos. El método de Nitsche, en particular, ofrece una forma elegante de manejar las condiciones de desigualdad.
+    \item \textbf{Aplicaciones}: El problema del obstáculo tiene aplicaciones en mecánica de sólidos, fluidos, finanzas y otras áreas de la ciencia e ingeniería. Su versatilidad lo convierte en un modelo fundamental para estudiar fenómenos con restricciones geométricas o físicas.
+\end{itemize}
+
+\chapter{Conclusión y perspectivas}
+\label{ch:conclusion}
+
+Para concluir nuestra breve introducción, damos unas sugerencias que permitirán al lector ir más allá en el tema y/o descubrir otros campos relacionados.
+
+\section{Optimización matemática}
+El análisis convexo es fundamental en la teoría de la optimización, especialmente en problemas de programación matemática. Las funciones convexas y los conjuntos convexos permiten modelar y resolver problemas de minimización o maximización con restricciones, garantizando la existencia de soluciones globales óptimas. Por ejemplo, en \textbf{programación convexa}, se minimiza una función convexa sobre un conjunto convexo, lo que asegura convergencia a soluciones globales.
+\begin{align*}
+    \text{Minimizar } & f(x) \\
+    \text{Sujeto a } & g_i(x) \leq 0, \quad i = 1, \dots, m \\
+                     & h_j(x) = 0, \quad j = 1, \dots, p,
+\end{align*}
+donde \( f \) es convexa y \( g_i \), \( h_j \) son funciones convexas.
+
+\section{Control y sistemas dinámicos}
+En teoría de control, el análisis convexo se aplica para estabilizar sistemas dinámicos y diseñar controladores robustos. Los \textbf{conos tangentes} y las \textbf{funciones de Lyapunov convexas} son herramientas clave para analizar la estabilidad asintótica y diseñar estrategias de control óptimo.
+
+\section{Aprendizaje Automático}
+En aprendizaje automático, el análisis convexo es esencial en algoritmos como \textbf{Support Vector Machines (SVM)} y \textbf{regresión logística}. Las SVM, por ejemplo, buscan el hiperplano que maximice el margen entre clases, lo que se formula como un problema de optimización convexa. La convexidad garantiza que el algoritmo encuentre la solución globalmente óptima.
+\begin{equation*}
+    \min_{w, b} \frac{1}{2} \|w\|^2 \quad \text{sujeto a} \quad y_i (w \cdot x_i + b) \geq 1 \quad \forall i.
+\end{equation*}
+
+\section{Economía y finanzas}
+En economía, el análisis convexo se utiliza para modelar preferencias de agentes económicos, funciones de producción y problemas de equilibrio general. Por ejemplo, las \textbf{funciones de utilidad cuasi-convexas} permiten analizar decisiones bajo incertidumbre, mientras que la convexidad de las funciones de costo es clave en la teoría de la firma.
+
+\section{Teoría de juegos}
+En teoría de juegos, los conceptos de convexidad son centrales para analizar equilibrios de Nash en juegos no cooperativos. Las estrategias mixtas y las funciones de pago convexas permiten demostrar la existencia de equilibrios y estudiar su estabilidad.
+
+\section{Geometría y computación}
+% IVR
+En geometría computacional, el análisis convexo se aplica en algoritmos de \textbf{envueltas convexas} (como el algoritmo de Graham) y en problemas de localización de puntos. La convexidad permite diseñar algoritmos eficientes para encontrar soluciones aproximadas o exactas en conjuntos de datos de alta dimensionalidad.
+
+\section{Procesamiento de señales e imágenes}
+En procesamiento de imágenes, técnicas como la \textbf{reconstrucción convexa} y la \textbf{regularización total variación (TV)} se basan en la convexidad para minimizar artefactos y mejorar la calidad de la imagen. Estas técnicas son fundamentales en tomografía, resonancia magnética y reconstrucción 3D.
+
+\section{Teoría de la Información}
+En teoría de la información, las funciones convexas como la \textbf{entropía relativa} (o divergencia de Kullback-Leibler) son herramientas esenciales para analizar la capacidad de canales de comunicación y diseñar códigos eficientes.
+
+
+%Machin Learning
+%control optimal EDO EDP
+%Troltsch Kunisch
+%Quarteroni Trelat
+%inequations variationnel
+%Glowinski Kikuchi Oden
+
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+{\footnotesize
+\bibliographystyle{siam}
+\bibliography{biblio}
+}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+{\scriptsize \printindex}
+
+\end{document} 
