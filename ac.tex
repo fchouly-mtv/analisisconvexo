@@ -258,27 +258,210 @@ Al final de cada capítulo, se proporcionan referencias bibliográficas clave pa
 
 \chapter{Conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
 
-Los conjuntos convexos son fundamentales en matemática, especialmente en geometría algorítmica, optimización y aprendizaje automático. Este capítulo explora la teoría de conjuntos convexos, con énfasis en la \textbf{cáscara convexa} (o \emph{convex hull}), sus propiedades, algoritmos para su cálculo y aplicaciones en geometría computacional. 
+%***
+%Los conjuntos convexos son fundamentales en matemática, especialmente en geometría algorítmica, optimización y aprendizaje automático. Este capítulo explora la teoría de conjuntos convexos, con énfasis en la \textbf{cáscara convexa} (o \emph{convex hull}), sus propiedades, algoritmos para su cálculo y aplicaciones en geometría computacional. 
+%***
+
+Los conjuntos convexos son fundamentales en geometría computacional, optimización y aprendizaje automático. Su estudio permite resolver problemas complejos mediante estructuras bien definidas y propiedades robustas. La importancia de estos conjuntos radica en su capacidad para modelar fenómenos reales de manera eficiente, desde la planificación de rutas hasta la clasificación de datos. Además, su definición intuitiva —un conjunto donde el segmento entre dos puntos cualesquiera siempre está contenido— facilita su aplicación en algoritmos y teoremas. En la práctica, los conjuntos convexos aparecen en problemas de minimización, donde garantizan la existencia de soluciones óptimas. Su utilidad se extiende también a la robótica, el procesamiento de imágenes y la inteligencia artificial, donde sirven como herramientas clave para el análisis y la toma de decisiones.
+
+La cáscara convexa, (\emph{convex hull}), es una de las aplicaciones más relevantes de estos conjuntos. Se trata del conjunto convexo más pequeño que contiene a un grupo dado de puntos, actuando como un envoltorio geométrico que preserva la estructura esencial del conjunto original. Este concepto es crucial en geometría computacional, donde permite resolver problemas como la detección de colisiones o la reconstrucción de superficies en tres dimensiones. En el aprendizaje automático, la cáscara convexa se utiliza para definir regiones de decisión en algoritmos de clasificación, como las máquinas de vectores de soporte. Su cálculo eficiente es posible gracias a algoritmos como el de Graham o QuickHull, que optimizan el proceso reduciendo la complejidad computacional. Además, su visualización intuitiva ayuda a comprender mejor la distribución de datos en espacios multidimensionales. 
+Este capítulo explora tanto la teoría como las aplicaciones prácticas de los conjuntos convexos y la cáscara convexa. A través de ejemplos concretos y algoritmos, se busca proporcionar al lector una buena comprensión de estos conceptos. 
+%Se analizan casos de uso en optimización, donde la convexidad garantiza la convergencia de métodos iterativos como el de Newton. También se discuten aplicaciones en robótica, donde la cáscara convexa facilita la planificación de movimientos en entornos con obstáculos. En el ámbito del aprendizaje automático, se muestra cómo estos conjuntos permiten separar clases de datos de manera eficiente. Finalmente, se destacan las implicaciones de estos conceptos en la resolución de problemas reales, subrayando su relevancia en la ciencia de datos y la ingeniería moderna.
 
 \section{Definición y propiedades}
 
+Los conjuntos convexos son uno de los conceptos más versátiles y poderosos en matemáticas, con aplicaciones que abarcan desde la optimización hasta el aprendizaje automático. Un conjunto es convexo si, intuitivamente, no presenta huecos ni entrantes: cualquier segmento de recta que una dos puntos del conjunto permanece completamente dentro de él. Esta propiedad, aparentemente simple, tiene implicaciones profundas en teoría y práctica, permitiendo resolver problemas de minimización, clasificación y modelado con garantías de eficiencia y robustez.
+
+\subsection{Para empezar}
+
 \begin{definition}[Conjunto convexo]
-Un conjunto \( C \subseteq \mathbb{R}^n \) es \textbf{convexo} si para todo \( x, y \in C \) y todo \( \lambda \in [0,1] \),
-\[
-\lambda x + (1-\lambda) y \in C.
-\]
+    Un conjunto \( C \subseteq \mathbb{R}^n \) es \textbf{convexo} si, para todo \( x, y \in C \) y todo \( \lambda \in [0,1] \), se cumple que:
+    \[
+    \lambda x + (1-\lambda) y \in C.
+    \]
+    En otras palabras, el conjunto contiene todos los puntos del segmento de recta que une \( x \) e \( y \).
 \end{definition}
+
+\begin{ex}
+\textbf{\textit{Ejemplos clásicos de conjuntos convexos:}}
+\begin{itemize}
+    \item Un \textbf{segmento de recta} en \( \mathbb{R}^n \): \([a, b] = \{ \lambda a + (1-\lambda) b \mid \lambda \in [0,1] \}\).
+    \item Un \textbf{disco} (o bola cerrada) en \( \mathbb{R}^2 \): \( \{ (x,y) \mid x^2 + y^2 \leq r^2 \} \).
+    \item Un \textbf{hiperplano} en \( \mathbb{R}^n \): \( \{ x \mid a^T x = b \} \), donde \( a \in \mathbb{R}^n \) y \( b \in \mathbb{R} \).
+    \item El \textbf{espacio vectorial} \( \mathbb{R}^n \) en sí mismo.
+\end{itemize}
+\end{ex}
 
 \begin{theorem}[Intersección de conjuntos convexos]
-La intersección arbitraria de conjuntos convexos es convexa. Si \( \{C_i\}_{i \in I} \) es una familia de conjuntos convexos, entonces \( \bigcap_{i \in I} C_i \) es convexo.
+    Sea \( \{C_i\}_{i \in I} \) una familia de conjuntos convexos en \( \mathbb{R}^n \). Entonces, su intersección \( \bigcap_{i \in I} C_i \) también es un conjunto convexo.
 \end{theorem}
 
+\begin{proof}
+    Sea \( x, y \in \bigcap_{i \in I} C_i \) y \( \lambda \in [0,1] \). Por definición de intersección, \( x, y \in C_i \) para todo \( i \in I \). Como cada \( C_i \) es convexo, \[ \lambda x + (1-\lambda) y \in C_i \] para todo \( i \in I \). Por lo tanto, \( \lambda x + (1-\lambda) y \in \bigcap_{i \in I} C_i \), lo que prueba que la intersección es convexa.
+\end{proof}
+
 \begin{definition}[Combinación convexa]
-Una \textbf{combinación convexa} de puntos \( x_1, x_2, \dots, x_k \in \mathbb{R}^n \) es una expresión de la forma
-\[
-\sum_{i=1}^k \lambda_i x_i, \quad \text{con} \quad \lambda_i \geq 0 \quad \text{y} \quad \sum_{i=1}^k \lambda_i = 1.
-\]
+    Una \textbf{combinación convexa} de puntos \( x_1, x_2, \dots, x_k \in \mathbb{R}^n \) es una expresión de la forma:
+    \[
+    \sum_{i=1}^k \lambda_i x_i, \quad \text{donde} \quad \lambda_i \geq 0 \quad \text{y} \quad \sum_{i=1}^k \lambda_i = 1.
+    \]
 \end{definition}
+
+\subsection{Interior y clausura de un conjunto convexo}
+
+%En esta sección 
+Ahora
+exploramos propiedades esenciales de los conjuntos convexos: primero, su comportamiento respecto al interior y la clausura. % su relación con los hiperplanos de separación, y sus características topológicas.
+
+\begin{proposition}
+    Sea \( C \subseteq \mathbb{R}^n \) un conjunto convexo. Entonces, su interior \( \mathring{C} \) y su clausura \( \overline{C} \) son también conjuntos convexos.
+\end{proposition}
+
+\begin{proof} Veamos ambos casos.
+
+%\section*{Demostración}
+
+%\begin{proof}
+Sean \( C \subseteq \mathbb{R}^n \) un conjunto convexo y \( \mathring{C} \) su interior. Queremos demostrar que \( \mathring{C} \) es convexo, es decir, que para todo \( x, y \in \mathring{C} \) y todo \( \lambda \in [0,1] \), el punto \( z = \lambda x + (1-\lambda)y \) pertenece a \( \mathring{C} \).
+
+\begin{enumerate}
+    \item \textbf{Premisas:}
+%    \begin{itemize}
+%        \item 
+Sean \( x, y \in \mathring{C} \). Por definición de punto interior, existen bolas abiertas \( B(x, r_x) \subseteq C \) y \( B(y, r_y) \subseteq C \), donde \( r_x, r_y > 0 \).
+%        \item 
+Sea \( \lambda \in [0,1] \).
+%        \item 
+Definimos \( z = \lambda x + (1-\lambda)y \).
+%    \end{itemize}
+
+    \item \textbf{Construcción de la bola centrada en \( z \):}
+%    \begin{itemize}
+%        \item 
+Sea \( r = \min(r_x, r_y) > 0 \).
+%        \item 
+Consideremos la bola abierta \( B(z, r) \).
+%\item 
+Para todo \( w \in B(z, r) \), escribimos \( w = z + v \), donde \( \|v\| < r \).
+%    \end{itemize}
+
+    \item \textbf{Expresión de \( w \) como combinación convexa:}
+%    \begin{itemize}
+%        \item 
+Observamos que:
+        \[
+        w = z + v = \lambda x + (1-\lambda)y + v.
+        \]
+%        \item 
+Podemos descomponer \( v \) como:
+        \[
+        v = \lambda v + (1-\lambda)v,
+        \]
+        donde \( \|v\| < r \leq r_x \) y \( \|v\| < r \leq r_y \). Esto es posible porque \( r = \min(r_x, r_y) \).
+%    \end{itemize}
+
+    \item \textbf{Verificación de que \( w \in C \):}
+%    \begin{itemize}
+ %       \item 
+ Como \( B(x, r_x) \subseteq C \) y \( B(y, r_y) \subseteq C \), entonces:
+        \[
+        x + v \in B(x, r_x) \subseteq C \quad \text{y} \quad y + v \in B(y, r_y) \subseteq C.
+        \]
+%        \item 
+Por convexidad de \( C \), la combinación convexa:
+        \[
+        \lambda(x + v) + (1-\lambda)(y + v) = z + v = w
+        \]
+        también está en \( C \).
+%    \end{itemize}
+
+%    \item \textbf{Conclusión:}
+%    \begin{itemize}
+%        \item 
+Dado que para todo \( w \in B(z, r) \) se tiene \( w \in C \), entonces \( B(z, r) \subseteq C \).
+%        \item 
+Esto implica que \( z \in \mathring{C} \).
+%\item 
+Como \( z \) es un punto arbitrario en el segmento \( [x, y] \), se concluye que \( [x, y] \subseteq \mathring{C} \).
+%    \end{itemize}
+\end{enumerate}
+Por lo tanto, \( \mathring{C} \) es un conjunto convexo.
+%\end{proof}
+
+\medskip
+
+    \textbf{Caso de la clausura \( \overline{C} \):}
+    Sean \( x, y \in \overline{C} \) y \( \lambda \in [0,1] \). Existen sucesiones \( \{x_k\} \) e \( \{y_k\} \) en \( C \) tales que \( x_k \to x \) e \( y_k \to y \). Definimos \( z_k = \lambda x_k + (1-\lambda)y_k \). Como \( C \) es convexo, \( z_k \in C \) para todo \( k \). Además, \( z_k \to \lambda x + (1-\lambda)y = z \), por lo que \( z \in \overline{C} \).
+\end{proof}
+
+%\subsection{Teorema de separación por un hiperplano}
+
+%\begin{definition}[Hiperplano]
+%    Un hiperplano en \( \mathbb{R}^n \) es un conjunto de la forma:
+%    \[
+%    H = \{ x \in \mathbb{R}^n \mid a^T x = b \},
+%    \]
+%    donde \( a \in \mathbb{R}^n \setminus \{0\} \) y \( b \in \mathbb{R} \).
+%\end{definition}
+
+%\begin{theorem}[Separación por un hiperplano]
+%    Sean \( C_1 \) y \( C_2 \) dos conjuntos convexos no vacíos en \( \mathbb{R}^n \), con \( C_1 \) compacto y \( C_2 \) cerrado. Si \( C_1 \cap C_2 = \emptyset \), entonces existe un hiperplano que separa estrictamente \( C_1 \) y \( C_2 \). Es decir, existen \( a \in \mathbb{R}^n \) y \( b \in \mathbb{R} \) tales que:
+%    \[
+%    \sup_{x \in C_1} a^T x < \inf_{y \in C_2} a^T y.
+%    \]
+%\end{theorem}
+
+%\begin{proof}
+%    Consideremos la función \( f(x, y) = \|x - y\|^2 \), definida para \( x \in C_1 \) e \( y \in C_2 \). Como \( C_1 \) es compacto y \( C_2 \) es cerrado, \( f \) alcanza su mínimo en un punto \( (x_0, y_0) \in C_1 \times C_2 \). Definimos el hiperplano:
+%    \[
+%    H = \{ z \in \mathbb{R}^n \mid (x_0 - y_0)^T (z - x_0) = 0 \}.
+%    \]
+%    Como \( C_1 \cap C_2 = \emptyset \), \( x_0 \neq y_0 \). Para todo \( x \in C_1 \), se cumple:
+%    \[
+%    (x - x_0)^T (x_0 - y_0) \leq 0,
+%    \]
+%    lo que implica:
+%    \[
+%    x^T (x_0 - y_0) \leq x_0^T (x_0 - y_0).
+%    \]
+%    De manera similar, para todo \( y \in C_2 \):
+%    \[
+%    y^T (x_0 - y_0) \geq y_0^T (x_0 - y_0).
+%    \]
+%    Por lo tanto, el hiperplano \( H \) separa estrictamente \( C_1 \) y \( C_2 \).
+%\end{proof}
+
+%---
+
+%\subsection{Propiedades topológicas de los conjuntos convexos}
+
+%\begin{definition}[Conjunto cerrado y compacto]
+%    Un conjunto \( C \subseteq \mathbb{R}^n \) es:
+%    \begin{itemize}
+%        \item \textbf{Cerrado} si contiene todos sus puntos límite.
+%        \item \textbf{Compacto} si es cerrado y acotado.
+%    \end{itemize}
+%\end{definition}
+
+%\begin{proposition}[Convexidad y topología]
+%    Sea \( C \subseteq \mathbb{R}^n \) un conjunto convexo. Entonces:
+%    \begin{enumerate}
+%        \item \( C \) es \textbf{conexo por arcos}: para todo \( x, y \in C \), existe un arco continuo \( \gamma: [0,1] \to C \) tal que \( \gamma(0) = x \) y \( \gamma(1) = y \).
+%        \item \( C \) es \textbf{arcoconexo}: cualquier par de puntos puede unirse por una curva continua contenida en \( C \).
+%        \item Si \( C \) es cerrado, su interior \( \mathring{C} \) es denso en \( C \) (es decir, \( \overline{\mathring{C}} = C \)).
+%    \end{enumerate}
+%\end{proposition}
+
+%\begin{proof}
+%    \begin{enumerate}
+%        \item Para \( x, y \in C \), el segmento \( \gamma(t) = (1-t)x + ty \) es un arco continuo contenido en \( C \) (por convexidad).
+%        \item Consecuencia directa de la convexidad: cualquier curva poligonal que una \( x \) e \( y \) está contenida en \( C \).
+%        \item Si \( C \) es cerrado, para todo \( x \in C \) y todo \( \epsilon > 0 \), existe \( y \in \mathring{C} \) tal que \( \|x - y\| < \epsilon \). Esto se debe a que \( C \) es la clausura de su interior.
+%    \end{enumerate}
+%\end{proof}
+
+%---
+
 
 \section{Cáscara convexa}
 
@@ -644,11 +827,111 @@ El método de penalización reemplaza las restricciones del problema original po
 El método de Newton semi-suave es una técnica avanzada para resolver problemas de desigualdades variacionales, combinando ideas de métodos de Newton y subgradientes. Este enfoque aprovecha la estructura diferenciable a trozos de las funciones involucradas, mejorando la convergencia en problemas no lineales. Su aplicación es especialmente relevante en contextos donde la solución puede presentar comportamientos complejos.
 
 \subsection{Implementación en scikit-fem}
-scikit-fem es una biblioteca de Python que facilita la implementación de métodos de elementos finitos para resolver problemas variacionales. Su integración con NumPy y SciPy permite desarrollar soluciones eficientes y modulares. Esta herramienta es ideal para prototipar y validar algoritmos numéricos en entornos académicos y de investigación.
+scikit-fem es una biblioteca de Python que facilita la implementación de métodos de elementos finitos para resolver problemas variacionales. Su integración con NumPy y SciPy permite desarrollar soluciones eficientes y modulares. Esta herramienta es ideal para prototipar y validar algoritmos numéricos en entornos académicos y de investigación. Veamos el listado siguiente, escrito por Lucas Curci.
+
+\begin{lstlisting}[caption={Diferenciación automática con scikit-fem}, label={lst:autodiff-skfem}, style=pythonstyle]
+"""Diferenciación automática.
+Utiliza diferenciación automática para derivar el sistema tangente
+para el método de Newton.
+"""
+
+from skfem import *
+from skfem.autodiff import NonlinearForm
+from skfem.autodiff.helpers import grad, dot
+import numpy as np
+import jax.numpy as jnp
+
+m = MeshTri().refined(5)
+
+@NonlinearForm(hessian=True)
+def J(u, _):
+    eps = 1e-2
+    return (1/2 * dot(grad(u), grad(u)) - u
+            + (1 / eps) * ((u - jnp.minimum(u.value, 0.01))**2))
+
+basis = Basis(m, ElementTriP1())
+
+D = m.boundary_nodes()
+x = np.zeros(basis.N)
+
+for itr in range(100):
+    x_prev = x.copy()
+    x += solve(*condense(*J.assemble(basis, x=x), D=D))
+    res = np.linalg.norm(x - x_prev)
+    if res < 1e-8:
+        break
+    if __name__ == "__main__":
+        print(res)
+
+if __name__ == "__main__":
+    from skfem.visuals.matplotlib import plot3, show
+    plot3(m, x)
+    show()
+\end{lstlisting}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\linewidth]{download (1).png}
+    \caption{Solución del obstáculo penalizado con scikit-fem}
+    \label{fig:exemple_image}
+\end{figure}
+
+%\begin{verbatim}
+%    """
+%from skfem import *
+%from skfem.autodiff %import NonlinearForm
+%from skfem.autodiff.helpers import grad, dot, div
+%import numpy as np
+%import jax.numpy as jnp
+
+%m = MeshTri().refined(5)
+
+%@NonlinearForm(hessian=True)
+%def J(u, _):
+%    gamma = 1000
+%    return (1/2 * dot(grad(u), grad(u)) - u
+%            - (1/2) * (1/gamma) * (0 + 1)**2
+%            + (gamma / 2) * (jnp.maximum(u.value - 0.01 - (1/gamma) * (0 + 1),0))**2)
+
+%basis = Basis(m, ElementTriP1())
+
+%D = m.boundary_nodes()
+%x = np.zeros(basis.N)
+
+%for itr in range(100):
+%    x_prev = x.copy()
+%    x += solve(*condense(*J.assemble(basis, x=x), D=D))
+%    res = np.linalg.norm(x - x_prev)
+%    if res < 1e-8:
+%        break
+%    if __name__ == "__main__":
+%        print(res)
+%
+%if __name__ == "__main__":
+%    from skfem.visuals.matplotlib import plot3, show
+%    plot3(m, x)
+%    show()
+%    
+%    ******
 
 \subsection{Comentarios adicionales}
+
+%Aquí unos comentarios para profundizar el tema de las desigualdades variacionales.
+
+%\paragraph{Mas desigualdades variacionales}
+
+% Projets
+
+%\paragraph{Aplicaciones del obstaculo}
+
+%\paragraph{Mas tecnicas de aproximacion}
+
 \begin{itemize}
-    \item \textbf{Método de Nitsche o multiplicadores}: Estas técnicas alternativas permiten incorporar las restricciones del problema de manera explícita en la formulación débil, mejorando la estabilidad numérica en ciertos casos. El método de Nitsche, en particular, ofrece una forma elegante de manejar las condiciones de desigualdad.
+    \item 
+    
+    
+    \textbf{Método de Nitsche o multiplicadores}: Estas técnicas alternativas permiten incorporar las restricciones del problema de manera explícita en la formulación débil, mejorando la estabilidad numérica en ciertos casos. El método de Nitsche, en particular, ofrece una forma elegante de manejar las condiciones de desigualdad.
     \item \textbf{Aplicaciones}: El problema del obstáculo tiene aplicaciones en mecánica de sólidos, fluidos, finanzas y otras áreas de la ciencia e ingeniería. Su versatilidad lo convierte en un modelo fundamental para estudiar fenómenos con restricciones geométricas o físicas.
 \end{itemize}
 
