@@ -177,6 +177,8 @@
 \newtheorem{remark}{Observación}
 \newtheorem{ex}{Ejemplo}
 
+\DeclareMathOperator{\envolt}{\mathrm{conv}}
+
 \newcommand{\calF}{\mathcal{F}}
 \newcommand{\calG}{\mathcal{G}}
 \newcommand{\dcaption}[1]{\caption{\footnotesize \textbf{#1}}}
@@ -462,54 +464,415 @@ Por lo tanto, \( \mathring{C} \) es un conjunto convexo.
 
 %---
 
+%\section{Definición y caracterización de la envoltura convexa}
 
-\section{Cáscara convexa}
+\section{Envoltura convexa}
 
-\begin{definition}[Cáscara convexa]
-La \textbf{cáscara convexa} de un conjunto \( S \subseteq \mathbb{R}^n \), denotada \( \text{conv}(S) \), es el conjunto convexo más pequeño que contiene a \( S \). Formalmente,
+La \textbf{envoltura convexa} de un conjunto \( S \subseteq \mathbb{R}^n \) es un concepto fundamental en análisis convexo y optimización. Permite caracterizar los conjuntos convexos minimales que contienen a \( S \), y entender sus propiedades geométricas y analíticas.
+
+\subsection{Caracterizaci\'on}
+
+Una definici\'on posible de la envoltura (o c\'ascara) convexa es la siguiente.
+
+\begin{definition}[Caracterización de la envoltura convexa]
+Sea \( S \subseteq \mathbb{R}^n \). Entonces,
 \[
-\text{conv}(S) = \left\{ \sum_{i=1}^k \lambda_i x_i \mid x_i \in S, \lambda_i \geq 0, \sum_{i=1}^k \lambda_i = 1, k \in \mathbb{N} \right\}.
+\envolt(S) = \left\{ \sum_{i=1}^k \lambda_i x_i \ \middle|\ x_i \in S, \lambda_i \geq 0, \sum_{i=1}^k \lambda_i = 1, k \in \mathbb{N} \right\},
 \]
+es un conjunto convexo que contiene a \( S \), y es el más pequeño en el sentido de la inclusión.
 \end{definition}
 
-\begin{theorem}[Caracterización de la cáscara convexa]
-Si \( S \subseteq \mathbb{R}^n \), entonces
+%Esta definición es en realidad un \textbf{teorema} 
+El teorema siguiente ilustra %
+% ya 
+que existen dos caracterizaciones equivalentes de \( \envolt(S) \): una por combinación convexa, y otra por intersección de conjuntos convexos que contienen a \( S \) (véase
+\cite{BoydVandenberghe2004}, 
+\cite{hiriart2001}, \cite{Rockafellar1970} por la demonstraci\'on).
+
+
+\begin{theorem}[Equivalencia por intersección]
+Además, la envoltura convexa de \( S \) satisface la siguiente caracterización:
 \[
-\text{conv}(S) = \bigcap \{ C \subseteq \mathbb{R}^n \mid C \text{ es convexo y } S \subseteq C \}.
+\envolt(S) = \bigcap \{ C \subseteq \mathbb{R}^n \mid \envolt(C) = C \text{ y } S \subseteq C \}.
 \]
 \end{theorem}
 
-En dimensión 2, la cáscara convexa de un conjunto finito de puntos es un polígono convexo cuyos vértices son un subconjunto de los puntos dados.
+El resultado siguiente, conocido como la \emph{propiedad de los vértices}, también es un teorema (véase \cite{Grünbaum1963}).
+
+\begin{theorem}[Propiedad de los vértices en dimensión 2]
+En dimensión 2, si \( S \) es un conjunto finito de puntos en \( \mathbb{R}^2 \), entonces \( \envolt(S) \) es un polígono convexo cuyos vértices son un subconjunto de \( S \). %Este resultado, conocido como la "propiedad de los vértices", también es un teorema (véase \cite{Grünbaum1963}).
+\end{theorem}
+
+%\begin{thebibliography}
+%\bibitem{Rockafellar1970}
+%  Rockafellar, R. T. (1970).
+%  *Análisis convexo*.
+%  Princeton University Press.
+%  \url{https://press.princeton.edu/books/paperback/9780691001081/convex-analysis}
+
+%\bibitem{BoydVandenberghe2004}
+%  Boyd, S., & Vandenberghe, L. (2004).
+%  *Optimización convexa*.
+%  Cambridge University Press.
+%  \url{https://web.stanford.edu/~boyd/cvxbook/}
+
+%\bibitem{Grünbaum1963}
+%  Grünbaum, B. (1963).
+%  *Poliedros convexos*.
+%  Tractos de Matemática Pura de Interscience.
+%  \url{https://www.ams.org/books/itm/63/}
+%\end{thebibliography}
+
+La figura~\ref{fig:pentagone} ilustra la envoltura convexa de un conjunto de puntos en \(\mathbb{R}^2\). En ella, los vértices del pentágono convexo están marcados con cuadrados negros, los puntos interiores con rombos rojos, y los puntos originales del conjunto \( S \) con círculos negros.
 
 \begin{figure}[h!]
 \centering
-\begin{tikzpicture}[scale=1.5, point/.style={circle, fill=black, inner sep=0pt, minimum size=3pt}]
-    % Conjunto de puntos
-    \foreach \x/\y in {0/0, 1/2, 2/1, 3/3, 2/0, 4/2, 3/0} {
+\begin{tikzpicture}[
+    scale=1.5,
+    point/.style={circle, fill=black, inner sep=0pt, minimum size=6pt},
+    sommet/.style={rectangle, fill=black!80, inner sep=0pt, minimum size=8pt},
+    interieur/.style={diamond, fill=red, inner sep=0pt, minimum size=8pt, draw=white, thick},
+    epaisseur/.style={line width=1.5pt},
+    ]
+
+    % Conjunto de puntos S (cercles noirs)
+    \foreach \x/\y in {0.5/1, 1.5/2.5, 2.5/2.5, 3.5/1, 2/0, 1.1/1.5, 2.5/1} {
         \node[point] at (\x,\y) {};
     }
 
-    % Cáscara convexa (polígono)
-    \draw[thick, blue] (0,0) -- (1,2) -- (3,3) -- (4,2) -- (3,0) -- cycle;
-
-    % Puntos dentro de la cáscara
-    \foreach \x/\y in {1.5/1, 2.5/1.5, 3/1, 2/0.5} {
-        \node[point, fill=red] at (\x,\y) {};
+    % Sommets du pentagone (carrés noirs)
+    \foreach \x/\y in {0.5/1, 1.5/2.5, 2.5/2.5, 3.5/1, 2/0} {
+        \node[sommet] at (\x,\y) {};
     }
 
+    % Puntos dentro de la cáscara (losanges rojos avec contour blanc pour mieux voir)
+    \foreach \x/\y in {1.1/1.5, 2.5/1, 2/1.5, 3/1.2} {
+        \node[interieur] at (\x,\y) {};
+    }
+
+    % Pentagone convexe (enveloppe convexa)
+    \draw[epaisseur, blue!80!black, %fill=blue!5, 
+    rounded corners=2pt] (0.5,1) -- (1.5,2.5) -- (2.5,2.5) -- (3.5,1) -- (2,0) -- cycle;
+
+    % Label
+    \node[above, blue!80!black, font=\bfseries] at (2,2.8) {Envoltura convexa de \( S \)};
+
     % Leyendas
-    \node at (2,-0.5) {Puntos en \( S \)};
-    \node[blue] at (2,3.5) {Cáscara convexa de \( S \)};
-    \node[red] at (3.5,1.2) {Puntos en \( \text{conv}(S) \)};
+    \node[below] at (2,-0.3) {Puntos en \( S \)};
+    \node[red!80!black, right] at (3.5,1.2) {Puntos en \( \mathrm{conv}(S) \)};
 \end{tikzpicture}
-\caption{Visualización de la cáscara convexa de un conjunto de puntos en \( \mathbb{R}^2 \).}
+\caption{Visualización de la envoltura convexa de un conjunto de puntos en \( \mathbb{R}^2 \).} %Los puntos negros son los vértices del pentágono convexo, los rojos están en su interior, y los círculos son puntos del conjunto original \( S \).}
+\label{fig:pentagone}
 \end{figure}
 
-\section{Aplicaciones}
+%\section{Aplicaciones}
 
-\subsection{Envoltura convexa de un conjunto de puntos}
+%\subsection{Envoltura convexa de un conjunto de puntos}
 
-La \textbf{envoltura convexa} (o cáscara convexa) de un conjunto finito de puntos en el plano es el polígono convexo más pequeño que contiene a todos los puntos. Este concepto es esencial en:
+%La \textbf{envoltura convexa} (o cáscara convexa) de un conjunto finito de puntos en el plano es el polígono convexo más pequeño que contiene a todos los puntos. Este concepto es esencial en:
+
+%\begin{itemize}
+%    \item \textbf{Geometría computacional}: Para problemas de colisión, localización de puntos y clustering.
+%    \item \textbf{Visión por computadora}: En reconstrucción 3D y reconocimiento de formas.
+%    \item \textbf{Robótica}: Para planificación de caminos y evitación de obstáculos.
+%    \item \textbf{Aprendizaje automático}: En clustering (por ejemplo, el algoritmo DBSCAN).
+%\end{itemize}
+
+%\subsection{Separación de conjuntos convexos}
+
+%\begin{theorem}[Teorema de separación de hiperplanos]
+%Si \( C \) y \( D \) son dos conjuntos convexos disjuntos en \( \mathbb{R}^n \), entonces existe un hiperplano \( H \) que separa \( C \) y \( D \), es decir, existe \( a \in \mathbb{R}^n \) y \( b \in \mathbb{R} \) tales que
+%\[
+%a^T x \leq b \quad \forall x \in C, \quad a^T y \geq b \quad \forall y \in D.
+%\]
+%\end{theorem}
+
+%Este teorema es la base de algoritmos de separación en optimización convexa y aprendizaje automático (por ejemplo, máquinas de vectores de soporte).
+
+\subsection{Técnicas para calcular la envoltura convexa}
+\label{subsec:techniques_enveloppe}
+
+A lo largo de los años, se han desarrollado numerosos métodos para calcular la envoltura convexa de un conjunto de puntos en el plano o en espacios de mayor dimensión. Las técnicas más antiguas, como el \textbf{método de fuerza bruta}, consisten en comparar todos los subconjuntos posibles de puntos, lo que resulta en una complejidad computacional extremadamente alta, del orden de \( O(n^4) \) en dos dimensiones. Una mejora significativa llegó con el algoritmo de \textbf{envuelto de regalo (Jarvis March, 1973)} %\cite{Jarvis1973}, 
+que construye la envoltura convexa recorriendo los puntos en orden angular, alcanzando una complejidad de \( O(nh) \), donde \( n \) es el número total de puntos y \( h \) el número de puntos en la envoltura. Con el avance de la computación y la necesidad de mayor eficiencia, surgieron algoritmos más sofisticados, como el \textbf{scan de Graham (1972)}, %\cite{Graham1972}, 
+que ordena los puntos por ángulo polar y construye la envoltura en \( O(n \log n) \), y el \textbf{QuickHull}, %\cite{Barber1996}, 
+que emplea una estrategia de "divide y vencerás" con una complejidad promedio similar. Entre las técnicas modernas destacan algoritmos híbridos como el de \textbf{Chan} %\cite{Chan1996}, 
+que combina ideas de Graham y QuickHull para lograr una complejidad de \( O(n \log h) \), o el \textbf{Andrew's monotone chain} %\cite{Andrew1979}, 
+una variante optimizada del scan de Graham para conjuntos de puntos ordenados. Además, en contextos específicos o dimensiones superiores, se recurre a métodos basados en programación lineal o técnicas estocásticas. %Estas soluciones reflejan la evolución desde enfoques intuitivos pero lentos hacia algoritmos altamente optimizados, demostrando los avances en complejidad algorítmica y geometría computacional.
+
+\subsection{Algoritmo de Graham Scan} %para el cálculo de la envoltura convexa}
+\label{subsec:graham}
+
+El \textbf{algoritmo de Graham Scan} %\cite{Graham1972} 
+es un método eficiente para calcular la \textbf{envoltura convexa} de un conjunto finito de puntos en el plano. Su complejidad es de \( O(n \log n) \), donde \( n \) es el número de puntos en el conjunto \( S \).
+
+\subsubsection{Idea general}
+El objetivo es encontrar el polígono convexo más pequeño que contiene todos los puntos de \( S \subseteq \mathbb{R}^2 \). La idea central es:
+\begin{itemize}
+    \item \textbf{Ordenar los puntos} por su ángulo polar respecto a un \textbf{punto base} (generalmente el de menor coordenada \( y \)).
+    \item \textbf{Construir la envoltura} recorriendo los puntos ordenados y eliminando aquellos que no contribuyen a la convexidad.
+\end{itemize}
+
+\subsubsection{Etapas del algoritmo}
+
+\begin{enumerate}
+    \item \textbf{Selección del punto base \( p_0 \):}
+    \begin{itemize}
+        \item Elegir el punto con la \textbf{coordenada \( y \) mínima} (y \( x \) mínima en caso de empate).
+        \item Este punto \textbf{siempre pertenece} a la envoltura convexa.
+    \end{itemize}
+
+    \item \textbf{Ordenamiento por ángulo polar:}
+    \begin{itemize}
+        \item Calcular el ángulo que forma cada punto \( p_i \) con el punto base \( p_0 \) usando la función \texttt{atan2}.
+        \item Ordenar los puntos en \textbf{orden creciente de ángulo polar} respecto a \( p_0 \).
+        \item Si dos puntos tienen el mismo ángulo, conservar el más lejano.
+    \end{itemize}
+
+    \item \textbf{Construcción de la envoltura con una pila:}
+    \begin{itemize}
+        \item Inicializar una pila con los primeros tres puntos ordenados (\( p_0 \), \( p_1 \), \( p_2 \)).
+        \item Para cada punto \( p_i \) (desde \( p_3 \) hasta \( p_{n-1} \)):
+        \begin{enumerate}
+            \item Mientras el ángulo formado por los últimos tres puntos en la pila sea \textbf{mayor a 180°} (es decir, hay un "doblez hacia adentro"), eliminar el punto del medio de la pila.
+            \item Empujar \( p_i \) en la pila.
+        \end{enumerate}
+        \item Para verificar la convexidad entre tres puntos consecutivos \( A \), \( B \), \( C \) en la pila, calcular el \textbf{producto cruzado}:
+        \[
+        \text{Producto cruzado} = (B_x - A_x)(C_y - B_y) - (B_y - A_y)(C_x - B_x)
+        \]
+        \begin{itemize}
+            \item Si el producto cruzado es \textbf{negativo}, el ángulo en \( B \) es mayor a 180° (no convexo).
+            \item Si es \textbf{cero}, los puntos son colineales.
+            \item Si es \textbf{positivo}, el ángulo es menor a 180° (convexo).
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{¿Qué representa \( n \) en la complejidad?}
+\begin{itemize}
+    \item \( n \) es el \textbf{número total de puntos} en el conjunto \( S \).
+    \item La complejidad del algoritmo es \( O(n \log n) \), debido principalmente al \textbf{ordenamiento por ángulo polar}.
+    \item La construcción de la pila es \( O(n) \), ya que cada punto se empuja y se saca como máximo una vez.
+\end{itemize}
+
+\subsubsection{Ejemplo paso a paso}
+Consideremos el conjunto de puntos \[ S = \{(0,0), (1,1), (2,0), (1,-1), (0.5,0.5)\}. \]
+\begin{enumerate}
+    \item Punto base: \( p_0 = (0,0) \).
+    \item Ordenar por ángulo polar: \( (2,0) \), \( (1,-1) \), \( (0.5,0.5) \), \( (1,1) \).
+    \item Construcción de la pila:
+    \begin{itemize}
+        \item Empujar \( (0,0) \), \( (2,0) \), \( (1,-1) \).
+        \item Para \( (0.5,0.5) \): 
+        Verificar convexidad entre \( (0,0) \), \( (2,0) \), \( (1,-1) \). 
+        Eliminar \( (2,0) \).
+        \item Empujar \( (0.5,0.5) \).
+        \item Para \( (1,1) \): 
+        Verificar convexidad entre \( (0,0) \), \( (0.5,0.5) \), \( (1,-1) \). 
+        Empujar \( (1,1) \).
+    \end{itemize}
+    \item Envoltura convexa final: \( [(0,0), (0.5,0.5), (1,1), (1,-1)] \).
+\end{enumerate}
+
+%\subsubsection{Pseudocódigo}
+%\begin{verbatim}
+%Algoritmo Graham-Scan(S):
+%    si |S| < 3 entonces
+%        devolver S  // La envoltura es el conjunto mismo
+%    fin si
+%
+%    // Paso 1: Encontrar el punto base p0
+%    p0 ← punto con y mínima (y x mínima en caso de empate)
+%
+%    // Paso 2: Ordenar por ángulo polar respecto a p0
+%    ordenar S \ {p0} por ángulo polar respecto a p0
+%
+%    // Paso 3: Construir la envoltura convexa
+%    pila ← pila vacía
+%    empujar p0 en pila
+%    empujar S[1] en pila
+%    empujar S[2] en pila
+%
+%    para i desde 3 hasta |S|-1 hacer
+%        mientras el producto cruzado de los últimos tres puntos en pila < 0 hacer
+%            sacar de pila
+%        fin mientras
+%        empujar S[i] en pila
+%    fin para
+%
+%    devolver pila
+%\end{verbatim}
+
+%\begin{lstlisting}[style=pythonstyle, caption={Implementación del algoritmo de Graham en Python}, label={lst:graham}]
+%import numpy as np
+%from math import atan2
+
+%def graham_scan(points):
+%    # Ordenar los puntos por coordenada x (y luego por y)
+%    points = sorted(points, key=lambda p: (p[0], p[1]))
+
+%    # Función para calcular el ángulo polar
+%    def polar_angle(p0, p1=None):
+%        if p1 is None:
+%            p1 = points[0]
+%        y_span = p0[1] - p1[1]
+%        x_span = p0[0] - p1[0]
+%        return atan2(y_span, x_span)
+
+%    # Ordenar por ángulo polar
+%    points = sorted(points[1:], key=polar_angle)
+
+%    # Inicializar la pila
+%    stack = [points[0], points[1]]
+
+%    for i in range(2, len(points)):
+%        while len(stack) > 1 and cross_product(stack[-2], stack[-1], points[i]) <= 0:
+%            stack.pop()
+        %stack.append(points[i])
+
+%    return stack
+
+%def cross_product(o, a, b):
+%    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+%\end{lstlisting}
+
+\subsection{Algoritmo QuickHull} %para el cálculo de la envoltura convexa}
+\label{subsec:quickhull}
+
+El \textbf{algoritmo QuickHull} %\cite{Barber1996} 
+es un método eficiente para calcular la envoltura convexa de un conjunto de puntos en el plano, basado en una estrategia de \textbf{divide y vencerás}. Su nombre proviene de su similitud con el algoritmo de ordenamiento \texttt{Quicksort}, ya que también utiliza una partición recursiva del conjunto de puntos para construir la envoltura convexa.
+
+\subsubsection{Idea general}
+La idea central del QuickHull es:
+\begin{itemize}
+    \item Identificar los puntos que forman los vértices de la envoltura convexa mediante la búsqueda de los puntos más alejados de los segmentos que unen pares de puntos.
+    \item Dividir recursivamente el conjunto de puntos en subconjuntos más pequeños, cada uno asociado a un segmento de la envoltura parcial, y repetir el proceso hasta que no queden puntos externos.
+\end{itemize}
+
+\subsubsection{Etapas del algoritmo}
+
+\begin{enumerate}
+    \item \textbf{Inicialización:}
+    \begin{itemize}
+        \item Encontrar los puntos con las \textbf{coordenadas \( x \) mínima y máxima} en el conjunto \( S \). Estos puntos \textbf{siempre pertenecen} a la envoltura convexa.
+        \item Estos dos puntos definen el \textbf{segmento inicial} de la envoltura convexa.
+    \end{itemize}
+
+    \item \textbf{División recursiva:}
+    \begin{itemize}
+        \item Para cada segmento de la envoltura parcial (inicialmente, el segmento entre los puntos \( x_{\min} \) y \( x_{\max} \)), encontrar el punto \( p \) más alejado del segmento.
+        \item Este punto \( p \) es un nuevo vértice de la envoltura convexa.
+        \item Dividir el conjunto de puntos en dos subconjuntos:
+        \begin{itemize}
+            \item Los puntos que están a la \textbf{izquierda} del triángulo formado por el segmento y \( p \).
+            \item Los puntos que están a la \textbf{derecha} del mismo triángulo.
+        \end{itemize}
+        \item Repetir el proceso recursivamente para cada subconjunto.
+    \end{itemize}
+
+    \item \textbf{Construcción final:}
+    \begin{itemize}
+        \item Combinar los resultados de las divisiones recursivas para formar la envoltura convexa completa.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Complejidad}
+\begin{itemize}
+    \item En el \textbf{caso promedio}, la complejidad del QuickHull es \( O(n \log n) \), similar al scan de Graham.
+    \item En el \textbf{peor caso} (por ejemplo, cuando los puntos están en un círculo), la complejidad puede degradarse a \( O(n^2) \).
+    \item Sin embargo, en la práctica, suele ser más rápido que otros algoritmos debido a su naturaleza recursiva y su capacidad para descartar grandes conjuntos de puntos en cada iteración.
+\end{itemize}
+
+\subsubsection{Ejemplo}
+Consideremos el conjunto de puntos \[ S = \{(0,0), (1,1), (2,0), (1,-1), (0.5,0.5)\}. \]
+\begin{enumerate}
+    \item Puntos iniciales: \( x_{\min} = (0,0) \) y \( x_{\max} = (2,0) \).
+    \item El punto más alejado del segmento \( (0,0)-(2,0) \) es \( (1,1) \).
+    \item Dividir \( S \) en dos subconjuntos:
+    \begin{itemize}
+        \item Izquierda: \( \{(0,0), (0.5,0.5), (1,1)\} \).
+        \item Derecha: \( \{(2,0), (1,-1), (0.5,0.5)\} \).
+    \end{itemize}
+    \item Repetir el proceso para cada subconjunto hasta obtener la envoltura convexa final: \[ [(0,0), (1,1), (2,0), (1,-1)]. \]
+\end{enumerate}
+
+%\subsubsection{Pseudocódigo}
+%\begin{verbatim}
+%Algoritmo QuickHull(S):
+%    si |S| < 3 entonces
+%        devolver S
+%    fin si
+%
+%    // Paso 1: Encontrar los puntos con x mínima y máxima
+%    p_min ← punto con x mínima
+%    p_max ← punto con x máxima
+%
+%    // Conjunto de puntos a la izquierda y derecha del segmento p_min-p_max
+%    izquierda ← {p ∈ S | p está a la izquierda de p_min-p_max}
+%    derecha ← {p ∈ S | p está a la derecha de p_min-p_max}
+%
+%    // Paso 2: Llamadas recursivas
+%    envoltura_izquierda ← QuickHullRecursivo(p_min, p_max, izquierda)
+%    envoltura_derecha ← QuickHullRecursivo(p_max, p_min, derecha)
+%
+%    // Paso 3: Combinar resultados
+%    devolver [p_min] + envoltura_izquierda + [p_max] + envoltura_derecha
+%\end{verbatim}
+
+\subsubsection{Ventajas y limitaciones}
+\begin{itemize}
+    \item \textbf{Ventajas:} Rápido en la práctica, fácil de implementar, y eficiente para conjuntos de puntos dispersos.
+    \item \textbf{Limitaciones:} En el peor caso, puede ser lento (\( O(n^2) \)), y su rendimiento depende de la distribución de los puntos.
+\end{itemize}
+
+%\subsection{Algoritmo de Jarvis (1973)}
+
+%El algoritmo de Jarvis, también conocido como el "marching ants", tiene una complejidad de \( O(nh) \), donde \( h \) es el número de puntos en la envoltura convexa.
+
+%\begin{lstlisting}[style=pythonstyle, caption={Implementación del algoritmo de Jarvis en Python}, label={lst:jarvis}]
+%def jarvis_march(points):
+%    # Encontrar el punto más a la izquierda (punto inicial)
+%    start = min(points, key=lambda p: (p[0], p[1]))
+%
+%    hull = []
+%    current = start
+%    while True:
+%        hull.append(current)
+%        next_point = points[0]
+%        for p in points:
+%            if p == current:
+%                continue
+%            # Calcular el ángulo cruzado
+%            cross = (p[0] - current[0]) * (next_point[1] - current[1]) - \
+%                    (p[1] - current[1]) * (next_point[0] - current[0])
+%            if cross > 0 or (cross == 0 and distance(current, p) > distance(current, next_point)):
+%                next_point = p
+%
+%        if next_point == start:
+%            break
+%        current = next_point
+%
+%    return hull
+%
+%def distance(p1, p2):
+%    return (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2
+%\end{lstlisting}
+
+
+%\subsection{Clustering con cáscara convexa}
+
+%En aprendizaje automático, la cáscara convexa se utiliza en algoritmos de clustering como \textbf{DBSCAN} para identificar regiones densas y separar clusters. La idea es que los puntos dentro de una misma cáscara convexa pertenecen al mismo cluster.
+
+%\subsection{Optimización convexa}
+
+%En problemas de optimización, la cáscara convexa de un conjunto de restricciones define la región factible. La optimalidad de un punto \( x^* \) puede caracterizarse utilizando el teorema de separación de hiperplanos y las propiedades de la cáscara convexa.
+
+\subsection{Aplicaciones}
+
+%\subsection{Envoltura convexa de un conjunto de puntos}
+
+La \textbf{envoltura convexa} (o cáscara convexa) %de un conjunto finito de puntos en el plano es el polígono convexo más pequeño que contiene a todos los puntos. Este concepto 
+es esencial en:
 
 \begin{itemize}
     \item \textbf{Geometría computacional}: Para problemas de colisión, localización de puntos y clustering.
@@ -518,96 +881,12 @@ La \textbf{envoltura convexa} (o cáscara convexa) de un conjunto finito de punt
     \item \textbf{Aprendizaje automático}: En clustering (por ejemplo, el algoritmo DBSCAN).
 \end{itemize}
 
-\subsection{Separación de conjuntos convexos}
+\section{Para profundizar}
 
-\begin{theorem}[Teorema de separación de hiperplanos]
-Si \( C \) y \( D \) son dos conjuntos convexos disjuntos en \( \mathbb{R}^n \), entonces existe un hiperplano \( H \) que separa \( C \) y \( D \), es decir, existe \( a \in \mathbb{R}^n \) y \( b \in \mathbb{R} \) tales que
-\[
-a^T x \leq b \quad \forall x \in C, \quad a^T y \geq b \quad \forall y \in D.
-\]
-\end{theorem}
-
-Este teorema es la base de algoritmos de separación en optimización convexa y aprendizaje automático (por ejemplo, máquinas de vectores de soporte).
-
-\subsection{Algoritmo de Graham (1972)}
-
-El algoritmo de Graham es uno de los métodos más eficientes para calcular la envoltura convexa de un conjunto de puntos en el plano, con una complejidad de \( O(n \log n) \).
-
-\begin{lstlisting}[style=pythonstyle, caption={Implementación del algoritmo de Graham en Python}, label={lst:graham}]
-import numpy as np
-from math import atan2
-
-def graham_scan(points):
-    # Ordenar los puntos por coordenada x (y luego por y)
-    points = sorted(points, key=lambda p: (p[0], p[1]))
-
-    # Función para calcular el ángulo polar
-    def polar_angle(p0, p1=None):
-        if p1 is None:
-            p1 = points[0]
-        y_span = p0[1] - p1[1]
-        x_span = p0[0] - p1[0]
-        return atan2(y_span, x_span)
-
-    # Ordenar por ángulo polar
-    points = sorted(points[1:], key=polar_angle)
-
-    # Inicializar la pila
-    stack = [points[0], points[1]]
-
-    for i in range(2, len(points)):
-        while len(stack) > 1 and cross_product(stack[-2], stack[-1], points[i]) <= 0:
-            stack.pop()
-        stack.append(points[i])
-
-    return stack
-
-def cross_product(o, a, b):
-    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
-\end{lstlisting}
-
-\subsection{Algoritmo de Jarvis (1973)}
-
-El algoritmo de Jarvis, también conocido como el "marching ants", tiene una complejidad de \( O(nh) \), donde \( h \) es el número de puntos en la envoltura convexa.
-
-\begin{lstlisting}[style=pythonstyle, caption={Implementación del algoritmo de Jarvis en Python}, label={lst:jarvis}]
-def jarvis_march(points):
-    # Encontrar el punto más a la izquierda (punto inicial)
-    start = min(points, key=lambda p: (p[0], p[1]))
-
-    hull = []
-    current = start
-    while True:
-        hull.append(current)
-        next_point = points[0]
-        for p in points:
-            if p == current:
-                continue
-            # Calcular el ángulo cruzado
-            cross = (p[0] - current[0]) * (next_point[1] - current[1]) - \
-                    (p[1] - current[1]) * (next_point[0] - current[0])
-            if cross > 0 or (cross == 0 and distance(current, p) > distance(current, next_point)):
-                next_point = p
-
-        if next_point == start:
-            break
-        current = next_point
-
-    return hull
-
-def distance(p1, p2):
-    return (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2
-\end{lstlisting}
-
-
-\subsection{Clustering con cáscara convexa}
-
-En aprendizaje automático, la cáscara convexa se utiliza en algoritmos de clustering como \textbf{DBSCAN} para identificar regiones densas y separar clusters. La idea es que los puntos dentro de una misma cáscara convexa pertenecen al mismo cluster.
-
-\subsection{Optimización convexa}
-
-En problemas de optimización, la cáscara convexa de un conjunto de restricciones define la región factible. La optimalidad de un punto \( x^* \) puede caracterizarse utilizando el teorema de separación de hiperplanos y las propiedades de la cáscara convexa.
-
+Recomendamos al lector interesado en profundizar en el tema consultar las siguientes obras: 
+\cite{BoydVandenberghe2004}, \cite{Grünbaum1963}, 
+\cite{hiriart2001},  
+\cite{Rockafellar1970}.
 
 \chapter{Funciones convexas} %en dimensión finita}
 
