@@ -1,4 +1,5 @@
 \documentclass[12pt]{book}
+\usepackage{epigraph} 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -890,33 +891,428 @@ Recomendamos al lector interesado en profundizar en el tema consultar las siguie
 
 \chapter{Funciones convexas} %en dimensión finita}
 
-Este capítulo aborda el análisis de funciones convexas en dimensión finita, un concepto central en optimización, economía matemática y aprendizaje automático. Se estudian dos contextos principales: el caso general (no necesariamente continuo) y el caso continuo (donde la convexidad implica continuidad local). Para cada contexto, se presentan definiciones, propiedades fundamentales, caracterizaciones de mínimos locales y globales, y herramientas como el subgradiente y la Hessiana.
+Este capítulo aborda el análisis de funciones convexas en dimensión finita, un concepto central en optimización, economía matemática y aprendizaje automático. Se estudian dos contextos principales: el caso general (no necesariamente continuo) y el caso continuo. Para cada contexto, se presentan definiciones, propiedades fundamentales, caracterizaciones de mínimos locales y globales, y herramientas como el subgradiente y la Hessiana.
 
 \section{Caso general}
 
+Antes de abordar las propiedades específicas de las funciones convexas continuas, comenzaremos analizando el caso más general: funciones convexas que, aunque definidas sobre conjuntos convexos, no necesariamente cumplen con la propiedad de continuidad.
+
+\subsection{
+%Funciones convexas en dimensión finita: 
+Definición, ejemplos y propiedades}
+\label{subsec:funcion_convexa}
+
+\begin{epigraph}{\small
+``La convexidad es el lenguaje natural de la optimización y el análisis de funciones en espacios vectoriales.''}
+%\source
+{Adaptado de \textit{Convex Analysis} (Rockafellar, 1970)}
+\end{epigraph}
+
+Las funciones convexas son un pilar fundamental en el análisis matemático, la optimización y la inteligencia artificial. Su definición, aunque aparentemente simple, encierra profundas implicaciones geométricas y algebraicas, especialmente en espacios de dimensión finita. A continuación, exploramos esta noción desde sus bases hasta ejemplos concretos, destacando el papel del dominio extendido y su relación con la convexidad de conjuntos.
+
 \begin{definition}[Función convexa en dimensión finita]
-Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) es \textbf{convexa} si su dominio \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es convexo y para todo \( x, y \in \text{dom}(f) \) y \( \lambda \in [0,1] \),
+Una función \[f: \mathbb{R}^n \to (-\infty, +\infty] \] es \textbf{convexa} si su \textbf{dominio extendido} \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es un conjunto convexo y, para todo \( x, y \in \text{dom}(f) \) y todo \( \lambda \in [0,1] \), se cumple:
 \[
 f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y).
 \]
 \end{definition}
+
+%\subsubsection{Explicación del dominio extendido}
+El \textbf{dominio extendido} \( \text{dom}(f) \) incluye todos los puntos donde \( f \) no toma el valor \( +\infty \). Este concepto es crucial porque:
+\begin{itemize}
+    \item Permite manejar funciones definidas solo en subconjuntos específicos de \( \mathbb{R}^n \) (por ejemplo, restricciones en optimización).
+    \item Garantiza que la desigualdad de convexidad se aplique \textbf{solo} a pares de puntos donde \( f \) está bien definida.
+\end{itemize}
+
+\subsubsection{Ejemplos ilustrativos}
+
+\begin{ex}[Función valor absoluto: \( f(x) = |x| \)] Tiene las c\'aracteristicas siguientes.
+\begin{itemize}
+    \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
+    \item \textbf{Convexidad:} Cumple la desigualdad de convexidad (por desigualdad triangular):
+    \[
+    |\lambda x + (1-\lambda)y| \leq \lambda |x| + (1-\lambda)|y|.
+    \]
+    \item \textbf{Visualización:}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.99, domain=-2:2]
+    \draw[-] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[-] (0,-0.5) -- (0,2.5) node[above] {$f(x)$};
+    \draw[blue, thick] plot (\x, {abs(\x)});
+    \node[below] at (2,0) {$f(x) = |x|$};
+\end{tikzpicture}
+\end{center}
+\end{ex}
+
+\begin{ex}[Función parte positiva: \( f(x) = \max(x, 0) \)] Tiene las c\'aracteristicas siguientes.
+\begin{itemize}
+    \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
+    \item \textbf{Convexidad:} %Es lineal por tramos, por lo que es convexa.
+    se verifica directamente con la d\'efinici\'on.
+    \item \textbf{Visualización:}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.99, domain=-2:2]
+    \draw[-] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[-] (0,-0.5) -- (0,2.5) node[above] {$f(x)$};
+    \draw[blue, thick] plot (\x, {max(\x,0)});
+    \node[below] at (2,0) {$f(x) = \max(x, 0)$};
+\end{tikzpicture}
+\end{center}
+\end{ex}
+
+\begin{ex}[Función indicatriz de un conjunto convexo \( C \)]
+% \textbf{Función indicatriz de un conjunto convexo \( C \):}
+Se define as\'i:
+    \[
+    f(x) = \begin{cases}
+    0 & \text{si } x \in C, \\
+    +\infty & \text{si } x \notin C.
+    \end{cases}
+    \]
+    \begin{itemize}
+        \item \textbf{Dominio extendido:} \( \text{dom}(f) = C \), que es convexo por definición.
+        \item \textbf{Convexidad:} La desigualdad se cumple trivialmente (ambos lados son \( +\infty \) o \( 0 \)).
+    \end{itemize}
+\end{ex}
+
+\begin{ex}
+[Función norma euclidiana]  
+
+  \textbf{Función norma euclidiana:} Se define por \( f(x) = \|x\|_2 \).
+    \begin{itemize}
+        \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R}^n \).
+        \item \textbf{Convexidad:} Desigualdad triangular:
+        \[
+        \|\lambda x + (1-\lambda)y\|_2 \leq \lambda \|x\|_2 + (1-\lambda)\|y\|_2.
+        \]
+    \end{itemize}
+\end{ex}
+
+%\subsection{Función convexa propia: definición y propiedades}
+%\label{subsec:funcion_convexa_propia}
+
+Las funciones convexas propias son un caso especialmente importante en optimización y análisis convexo, ya que combinan la convexidad con condiciones naturales sobre su dominio y valores. A continuación, presentamos su definición formal. % y sus implicaciones clave.
+
+\begin{definition}[Función convexa propia]
+Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{convexa propia} si cumple las siguientes condiciones:
+\begin{enumerate}
+    \item \textbf{Convexidad:} \( f \) es convexa en el sentido usual:
+    \[
+    f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \quad \forall x, y \in \mathbb{R}^n, \forall \lambda \in [0,1].
+    \]
+    \item \textbf{Condición de no trivialidad:} \( f(x) < +\infty \) para al menos un \( x \in \mathbb{R}^n \) (es decir, \( \text{dom}(f) \neq \emptyset \)).
+    %\item %\textbf{Condición de no infinitud global:} \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \) (no existen puntos donde \( f \) tome el valor \( -\infty \)).
+\end{enumerate}
+\end{definition}
+
+%\subsubsection{Interpretación}
+%\begin{itemize}
+%    \item La condición de convexidad asegura la "rigidez" geométrica necesaria para aplicaciones en optimización.
+%    \item La condición de no trivialidad garantiza que la función tenga un interés práctico (no es idénticamente \( +\infty \)).
+%    \item La condición de no infinitud global evita comportamientos patológicos como \( f(x) = -\infty \) para todo \( x \).
+%\end{itemize}
+
+%\subsubsection{Ejemplos}
+%\begin{itemize}
+%    \item \textbf{Función propia:} \( f(x) = x^2 \) (convexa, \( \text{dom}(f) = \mathbb{R} \), y \( f(x) > -\infty \)).
+%    \item \textbf{No propia:} \( f(x) = +\infty \) para todo \( x \) (trivial y sin interés).
+%    \item \textbf{No propia:} \( f(x) = -\infty \) para algún \( x \) (prohibido por definición).
+%\end{itemize}
+
+El epígrafe de una función es, en términos sencillos, el 'volumen' o la región en el espacio que se forma por todos los puntos que están por encima de la gráfica de la función.
+
+\begin{definition}[Epígrafe de una función]
+El \textbf{epígrafe} de \( f \) se define como:
+\[
+\text{epi}(f) = \{(x, \alpha) \in \mathbb{R}^n \times \mathbb{R} \mid f(x) \leq \alpha\}.
+\]
+\end{definition}
+
+
+\paragraph{Propiedades clave de funciones convexas}
+\begin{itemize}
+    \item \textbf{Cierre bajo sumas ponderadas:} Si \( f \) y \( g \) son convexas, entonces \( \alpha f + \beta g \) también lo es para \( \alpha, \beta \geq 0 \).
+    \item \textbf{Subniveles convexos:} El conjunto \( \{x \mid f(x) \leq \alpha\} \) es convexo para todo \( \alpha \in \mathbb{R} \).
+    \item \textbf{Relación con la convexidad de conjuntos:} Una función es convexa si y solo si su \textbf{epígrafe} (conjunto de puntos por encima de su gráfica) es un conjunto convexo en \( \mathbb{R}^{n+1} \).
+\end{itemize}
+
+\subsubsection{Transición a propiedades avanzadas}
+La convexidad no solo simplifica el análisis de funciones, sino que también garantiza la existencia de mínimos globales en problemas de optimización. En lo siguiente, exploraremos cómo estas propiedades se aplican en algoritmos de optimización y aprendizaje automático, donde la convexidad es una condición suficiente para la eficiencia computacional.
+
+%\textbf{Nota:} Para una implementación práctica, recomendamos consultar librerías como \texttt{CVXPY} o \texttt{Convex.jl}, que permiten modelar y resolver problemas de optimización convexa de manera eficiente.
+
+\subsection{Propiedades de continuidad} % de funciones convexas en dimensión finita}
+\label{subsec:continuidad_funciones_convexas}
+
+Las funciones convexas en dimensión finita poseen propiedades de continuidad que las distinguen de otras clases de funciones y son fundamentales en optimización y análisis convexo. A continuación, se presentan los resultados teóricos principales, sus demostraciones y ejemplos ilustrativos.
+
+\begin{theorem}[Continuidad en el interior del dominio]
+\label{thm:continuidad_interior}
+Sea \[ f: \mathbb{R}^n \to (-\infty, +\infty] \] una función convexa propia. Entonces, \( f \) es \textbf{localmente lipschitziana} y por lo tanto \textbf{continua} en el interior de su dominio extendido \( \text{int}(\text{dom}(f)) \).
+\end{theorem}
+
+\begin{proof}
+%La convexidad implica que, para todo \( x \in \text{int}(\text{dom}(f)) \), existe un entorno \( B(x, r) \) donde \( f \) está acotada superiormente. Por el teorema de la acotación local de funciones convexas \cite{Rockafellar1970}, \( f \) es localmente lipschitziana en \( \text{int}(\text{dom}(f)) \), lo que garantiza su continuidad. 
+La prueba  puede consultarse en \cite[Sección 2.1.2]{BoydVandenberghe2004}. %, Sección 2.1.2.
+\end{proof}
+
+\begin{theorem}[Continuidad global en \( \mathbb{R}^n \)]
+\label{thm:continuidad_globa}
+Si \( f: \mathbb{R}^n \to \mathbb{R} \) es una función convexa y \( \text{dom}(f) = \mathbb{R}^n \), entonces \( f \) es \textbf{globalmente continua} en \( \mathbb{R}^n \).
+\end{theorem}
+
+\begin{proof}
+%Como \( f \) es convexa y definida en todo \( \mathbb{R}^n \), por el Teorema \ref{thm:continuidad_interior}, \( f \) es localmente lipschitziana en todo punto. La compacidad de los conjuntos cerrados y acotados en \( \mathbb{R}^n \) garantiza que \( f \) es globalmente continua. Para una demostración formal, 
+Véase \cite[Teorema 10.1]{Rockafellar1970}.
+\end{proof}
+
+\subsubsection{Ejemplos, contraejemplos y casos límite}
+
+\begin{ex}[Función convexa discontinua en la frontera]
+Consideremos la función indicatriz de un conjunto convexo \( C \):
+\[
+f(x) = \begin{cases}
+0 & \text{si } x \in C, \\
++\infty & \text{si } x \notin C.
+\end{cases}
+\]
+\begin{itemize}
+    \item \( f \) es convexa propia si \( C \) es no vacío y convexo.
+    \item \( f \) es discontinua en todo punto \( x \in \partial C \) (frontera de \( C \)), ya que \( \lim_{y \to x, y \notin C} f(y) = +\infty \).
+    \item Este ejemplo muestra que la continuidad solo se garantiza en el interior de \( \text{dom}(f) \).
+\end{itemize}
+\end{ex}
+
+\begin{ex}[Función convexa definida en \( \mathbb{R}^n \)]
+La función \( f(x) = \|x\|_2^2 \) es convexa y definida en \( \mathbb{R}^n \). Por el Teorema \ref{thm:continuidad_globa}, \( f \) es continua en todo \( \mathbb{R}^n \).
+\end{ex}
+
+\begin{ex}[No convexidad de la función de Heaviside]
+\label{ex:heaviside_non_convexe}
+%
+Consideramos la función de Heaviside, definida como:
+\[
+H(x) = \begin{cases}
+0 & \text{si } x < 0, \\
+c & \text{si } x = 0, \quad \text{donde } c \in \{0, 1\}, \\
+1 & \text{si } x > 0.
+\end{cases}
+\]
+Demostramos que \( H \) no es convexa, independientemente del valor de \( c \).
+\textbf{Caso 1 : \( H(0) = 0 \)}
+Tomemos \( x_1 = -1 \), \( x_2 = 2 \), y \( \lambda = 0.5 \):
+\[
+H(0.5 \cdot (-1) + 0.5 \cdot 2) = H(0.5) = 1,
+\]
+y
+\[
+0.5 \cdot H(-1) + 0.5 \cdot H(2) = 0.5 \cdot 0 + 0.5 \cdot 1 = 0.5.
+\]
+Aquí, \( 1 \not\leq 0.5 \): la desigualdad de convexidad no se cumple.
+Por lo tanto, \( H \) no es convexa incluso si \( H(0) = 0 \).
+
+\textbf{Caso 2 : \( H(0) = 1 \)}
+Tomemos:
+- \( x_1 = -1 \) (donde \( H(-1) = 0 \)),
+- \( x_2 = 1 \) (donde \( H(1) = 1 \)),
+- \( \lambda = 0.5 \).
+Calculamos:
+\[
+H(\lambda x_1 + (1-\lambda) x_2) = H(0) = 1,
+\]
+y
+\[
+0.5 \cdot H(-1) + 0.5 \cdot H(1) = 0.5 \cdot 0 + 0.5 \cdot 1 = 0.5.
+\]
+La desigualdad de convexidad exige:
+\[
+1 \leq 0.5,
+\]
+lo cual es falso. Por lo tanto, \( H \) no es convexa si \( H(0) = 1 \).
+Independientemente del valor de \( H(0) \) (\( 0 \) o \( 1 \)), la función de Heaviside no satisface la desigualdad de convexidad para ciertos puntos. Por lo tanto, nunca es convexa.
+\end{ex}
+
+\subsubsection{Implicaciones en optimización}
+
+\begin{itemize}
+    \item \textbf{Existencia de mínimos:} Si \( f \) es convexa propia y \( C \subset \mathbb{R}^n \) es un conjunto convexo cerrado no vacío, entonces \( f \) alcanza su mínimo sobre \( C \) si \( C \cap \text{dom}(f) \neq \emptyset \) \cite{Rockafellar1970}.
+    \item \textbf{Estabilidad numérica:} La continuidad de \( f \) en el interior de su dominio garantiza la convergencia de algoritmos como el de gradiente descendente.
+    \item \textbf{Subgradientes:} En puntos donde \( f \) no es diferenciable (por ejemplo, \( f(x) = |x| \) en \( x = 0 \)), la convexidad permite definir subgradientes, que son herramientas clave en optimización.
+\end{itemize}
+
+%\subsubsection{Resumen de propiedades}
+
+%\begin{table}[h!]
+%\centering
+%\begin{tabular}{|l|l|l|}
+%\hline
+%\textbf{Propiedad} & \textbf{Caso} & \textbf{Consecuencia} \\ \hline
+%Continuidad en interior & \( \text{int}(\text{dom}(f)) \neq \emptyset \) & \( f \) es localmente lipschitziana \\ \hline
+%Continuidad global & \( \text{dom}(f) = \mathbb{R}^n \) & \( f \) es continua en \( \mathbb{R}^n \) \\ \hline
+%Discontinuidad en frontera & \( f(x) = +\infty \) en \( \partial \text{dom}(f) \) & \( f \) puede ser discontinua en \( \partial \text{dom}(f) \) \\ \hline
+%\end{tabular}
+%\caption{Resumen de propiedades de continuidad para funciones convexas en dimensión finita.}
+%\label{tab:continuidad_resumen}
+%\end{table}
+%
+%---
+%
+%\textbf{Nota:} Para un estudio más detallado de las pruebas y aplicaciones, se recomienda consultar:
+%\begin{itemize}
+%    \item \cite{Rockafellar1970}: Fundamentos teóricos y demostraciones rigurosas.
+%    \item \cite{BoydVandenberghe2004}: Enfoque práctico y ejemplos en optimización convexa.
+%    \item \cite{Hiriart-Urruty2001}: Análisis avanzado de funciones convexas y sus propiedades.
+%\end{itemize}
+
+\subsection{Subdiferencial de funciones convexas}
+
+La noción de subdiferencial generaliza el concepto de gradiente a funciones convexas que no son necesariamente diferenciables. Esta herramienta es fundamental en optimización convexa, ya que permite caracterizar óptimos incluso en presencia de no diferenciabilidad.
 
 \begin{definition}[Subgradiente]
 Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un vector \( g \in \mathbb{R}^n \) es un \textbf{subgradiente} de \( f \) en \( x \) si
 \[
 f(y) \geq f(x) + g^T (y - x) \quad \forall y \in \mathbb{R}^n.
 \]
-El conjunto de todos los subgradientes de \( f \) en \( x \) se denota \( \partial f(x) \).
+El conjunto de todos los subgradientes de \( f \) en \( x \) se denota \( \partial f(x) \) y se llama \textbf{subdiferencial} de \( f \) en \( x \).
 \end{definition}
 
+Intuitivamente, un subgradiente define un hiperplano de soporte al epígrafo de la función en el punto considerado. Cuando la función es diferenciable, el subdiferencial se reduce a un singleton que contiene el gradiente clásico.
+
+A continuación, resumimos algunas propiedades fundamentales del subdiferencial en dimensión finita.
+
+\paragraph{Propiedades clave.}
+Sea \( f: \mathbb{R}^n \to (-\infty,+\infty] \) convexa y \( x \in \mathrm{dom}(f) \). Entonces:
+\begin{itemize}
+    \item El conjunto \( \partial f(x) \) es convexo y cerrado.
+    \item Si \( f \) es diferenciable en \( x \), entonces
+    \[
+    \partial f(x) = \{ \nabla f(x) \}.
+    \]
+    \item La condición de optimalidad de primer orden se escribe:
+    \[
+    0 \in \partial f(x) \quad \Longleftrightarrow \quad x \text{ es un minimizador global de } f.
+    \]
+    \item La aplicación \( x \mapsto \partial f(x) \) es monótona en el sentido de operadores:
+    \[
+    (g_1 - g_2)^T (x_1 - x_2) \geq 0
+    \quad \text{para todo } g_i \in \partial f(x_i).
+    \]
+\end{itemize}
+
+Para ilustrar esta noción, presentamos ahora algunos ejemplos clásicos de cálculo de subdiferenciales.
+
+\paragraph{Ejemplos.}
+
+\begin{itemize}
+    \item \textbf{Valor absoluto.} Sea \( f(x) = |x| \) con \( x \in \mathbb{R} \). Entonces:
+    \[
+    \partial f(x) =
+    \begin{cases}
+        \{1\} & \text{si } x > 0, \\
+        \{-1\} & \text{si } x < 0, \\
+        [-1,1] & \text{si } x = 0.
+    \end{cases}
+    \]
+
+    \item \textbf{Parte positiva.} Sea \( f(x) = \max(0,x) \). Entonces:
+    \[
+    \partial f(x) =
+    \begin{cases}
+        \{1\} & \text{si } x > 0, \\
+        \{0\} & \text{si } x < 0, \\
+        [0,1] & \text{si } x = 0.
+    \end{cases}
+    \]
+
+    \item \textbf{Función indicatriz.} Sea \( C \subset \mathbb{R}^n \) un conjunto convexo cerrado y
+    \[
+    \iota_C(x) =
+    \begin{cases}
+        0 & \text{si } x \in C, \\
+        +\infty & \text{si } x \notin C.
+    \end{cases}
+    \]
+    Entonces, para \( x \in C \), el subdiferencial está dado por el cono normal:
+    \[
+    \partial \iota_C(x) = N_C(x) = \{ g \in \mathbb{R}^n \mid g^T (y - x) \leq 0, \ \forall y \in C \}.
+    \]
+\end{itemize}
+
+Estos ejemplos muestran cómo el subdiferencial captura la falta de diferenciabilidad mediante conjuntos de pendientes admisibles, lo cual resulta esencial en el análisis y la resolución de problemas de optimización convexa no suave.
+
+\subsection{Caracterización de mínimos} % mediante el subdiferencial}
+
+Una de las principales ventajas del subdiferencial es que permite formular condiciones de optimalidad de primer orden sin requerir diferenciabilidad. En el contexto de funciones convexas, esta caracterización es particularmente simple y poderosa.
+%
+El siguiente resultado establece una condición necesaria y suficiente de optimalidad global.
+
 \begin{theorem}[Caracterización de mínimos]
-Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un punto \( x^* \in \text{dom}(f) \) es un mínimo global de \( f \) si y solo si
+Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un punto \( x^* \in \mathrm{dom}(f) \) es un mínimo global de \( f \) si y solo si
 \[
 0 \in \partial f(x^*).
 \]
 \end{theorem}
 
-Las funciones convexas en dimensión finita pueden ser discontinuas en la frontera de su dominio. Sin embargo, siempre son \textbf{localmente acotadas por arriba} en el interior de su dominio y, por lo tanto, son continuas en el interior de \( \text{dom}(f) \).
+Este resultado generaliza la condición clásica \( \nabla f(x^*) = 0 \) del caso diferenciable. En efecto, cuando \( f \) es diferenciable en \( x^* \), se tiene \( \partial f(x^*) = \{\nabla f(x^*)\} \), y la condición anterior se reduce a la conocida anulación del gradiente.
+
+\paragraph{Idea de la demostración.}
+La demostración se basa directamente en la definición de subgradiente.
+\begin{itemize}
+    \item (\emph{Suficiencia}) Si \( 0 \in \partial f(x^*) \), entonces por definición:
+    \[
+    f(y) \geq f(x^*) \quad \forall y \in \mathbb{R}^n,
+    \]
+    lo que implica que \( x^* \) es un mínimo global.
+    \item (\emph{Necesidad}) Si \( x^* \) es un mínimo global, entonces
+    \[
+    f(y) \geq f(x^*) \quad \forall y,
+    \]
+    lo que corresponde exactamente a la desigualdad de subgradiente con \( g = 0 \).
+\end{itemize}
+
+Para una demostración más detallada y en un marco más general (espacios vectoriales normados), se puede consultar textos clásicos de optimización convexa como \cite{hiriart2001}. %Rockafellar o Hiriart-Urruty y Lemaréchal.
+
+\paragraph{Interpretación geométrica.}
+La condición \( 0 \in \partial f(x^*) \) significa que existe un hiperplano de soporte horizontal al epígrafo de \( f \) en \( x^* \). Intuitivamente, esto indica que no existe ninguna dirección de descenso, lo que caracteriza un mínimo global en el caso convexo.
+
+A continuación, ilustramos esta caracterización con ejemplos clásicos.
+
+\paragraph{Ejemplos.}
+
+\begin{itemize}
+    \item \textbf{Valor absoluto.} Sea \( f(x) = |x| \). Entonces:
+    \[
+    \partial f(0) = [-1,1].
+    \]
+    Como \( 0 \in [-1,1] \), se concluye que \( x^* = 0 \) es un mínimo global. En cambio, si \( x \neq 0 \), entonces \( \partial f(x) \) no contiene al cero, lo que confirma que no son minimizadores.
+
+    \item \textbf{Parte positiva.} Sea \( f(x) = \max(0,x) \). Se tiene:
+    \[
+    \partial f(0) = [0,1].
+    \]
+    Dado que \( 0 \in \partial f(0) \), el punto \( x^* = 0 \) es un mínimo global (de hecho, \( f(x) \geq 0 \) para todo \( x \)).
+
+    \item \textbf{Función indicatriz.} Sea \( C \subset \mathbb{R}^n \) convexo cerrado y \( f = \iota_C \). Entonces:
+    \[
+    \partial f(x) = N_C(x).
+    \]
+    La condición de optimalidad se escribe:
+    \[
+    0 \in N_C(x^*),
+    \]
+    lo cual equivale a decir que
+    \[
+    0^T (y - x^*) \leq 0 \quad \forall y \in C,
+    \]
+    condición que es siempre verdadera. Esto refleja el hecho de que todo punto de \( C \) es minimizador de \( \iota_C \).
+\end{itemize}
+
+\paragraph{Comentario.}
+Este criterio es fundamental en optimización convexa y sirve como base para numerosos algoritmos (métodos de subgradiente, métodos proximales, etc.). Su simplicidad contrasta con su gran generalidad, ya que sigue siendo válido incluso en ausencia de diferenciabilidad.
 
 \section{Casos continuo y diferenciable}
 
