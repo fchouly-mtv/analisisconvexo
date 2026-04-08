@@ -219,6 +219,12 @@
 \makeindex[title=Índice temático] % Cambia "Índice" por "truc much
 %\makeindex
 
+\newcommand{\sob}{\mathcal{H}}
+\newcommand{\bes}{\mathcal{B}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\dist}{\text{dist}}
+
 \begin{document}
 
 \maketitle
@@ -1456,6 +1462,131 @@ Este capítulo está dedicado a profundizar en los fundamentos matemáticos esen
 \section{Medida}
 La noción de \textbf{medida} generaliza el concepto clásico de longitud, área y volumen a conjuntos abstractos, permitiendo cuantificar el "tamaño" de subconjuntos en espacios arbitrarios. Esta teoría es fundamental para definir integrales generalizadas, como la integral de Lebesgue, y para analizar funciones medibles. Se exploran las propiedades de los espacios de medida, la construcción de medidas a partir de premedidas, y la relación entre la medida y la topología. Además, se estudian los teoremas clásicos de convergencia, como el de la convergencia monótona y el de la convergencia dominada, que son esenciales en el análisis funcional y en la teoría de la probabilidad.
 
+%\section{Propiedades Finas de Funciones en Teoría de la Medida}
+
+\section{Medida y funciones}
+
+\subsection{Funciones BV} %de Variación Acotada (BV)}
+
+\begin{definition}[Variación acotada]
+Una función \(f: [a,b] \to \mathbb{R}\) es de \textbf{variación acotada} si su variación total es finita:
+\[
+V_a^b(f) = \sup \left\{ \sum_{i=1}^n |f(x_i) - f(x_{i-1})| : a = x_0 < x_1 < \cdots < x_n = b \right\} < \infty.
+\]
+El espacio \(BV([a,b])\) es el conjunto de funciones de variación acotada en \([a,b]\).
+\end{definition}
+
+\begin{theorem}[Estructura de funciones BV]
+Toda función \(f \in BV([a,b])\) puede escribirse como la diferencia de dos funciones crecientes. Además, \(f\) es derivable en casi todo punto y su derivada es integrable.
+\end{theorem}
+
+\subsection{Continuidad absoluta}
+
+\begin{definition}[Continuidad absoluta]
+Una función \(f: [a,b] \to \mathbb{R}\) es \textbf{absolutamente continua} si para todo \(\varepsilon > 0\) existe \(\delta > 0\) tal que para cualquier colección finita de intervalos disjuntos \((a_i, b_i) \subset [a,b]\) con \(\sum_{i} (b_i - a_i) < \delta\), se tiene:
+\[
+\sum_{i} |f(b_i) - f(a_i)| < \varepsilon.
+\]
+\end{definition}
+
+\begin{theorem}[Caracterización de funciones absolutamente continuas]
+Sea \(f: [a,b] \to \mathbb{R}\) una función. Las siguientes afirmaciones son equivalentes:
+\begin{enumerate}
+    \item \(f\) es absolutamente continua.
+    \item \(f\) es la integral indefinida de su derivada: existe \(g \in L^1([a,b])\) tal que
+    \[
+    f(x) = f(a) + \int_a^x g(t) \, dt \quad \forall x \in [a,b].
+    \]
+    \item \(f\) es continua, de variación acotada, y la medida de Lebesgue-Stieltjes asociada a \(f\) es absolutamente continua respecto a la medida de Lebesgue.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Las funciones absolutamente continuas son un subconjunto propio de las funciones continuas de variación acotada. Además, toda función absolutamente continua es derivable en casi todo punto y su derivada coincide con la función \(g\) del teorema anterior.
+\end{remark}
+
+\begin{ex}
+La función \(f(x) = x^2 \sin(1/x)\) para \(x \neq 0\) y \(f(0) = 0\) es absolutamente continua en \([0,1]\), pero no es Lipschitz continua.
+\end{ex}
+
+\begin{ex}
+La función de Cantor-Lebesgue es un ejemplo clásico de función en \(BV([0,1])\) pero no absolutamente continua.
+\end{ex}
+
+%\subsection{Diferenciabilidad en Casi Todo Punto y Teorema de Lebesgue}
+
+\subsection{Teorema de aproximación de Lebesgue} % y Diferenciabilidad}
+
+\begin{theorem}[Teorema de aproximación de Lebesgue]
+Sea \(f: \mathbb{R}^n \to \mathbb{R}\) una función medible. Entonces, existe una sucesión de funciones continuas \(f_k\) tal que \(f_k \to f\) casi en todo punto y en medida.
+\end{theorem}
+
+\begin{remark}
+Este teorema es fundamental para aproximar funciones no continuas por funciones continuas en el contexto de la teoría de la medida, y está estrechamente relacionado con la diferenciabilidad en casi todo punto.
+\end{remark}
+
+
+\subsection{Teorema de Lebesgue}
+
+\begin{theorem}[Teorema de diferenciación de Lebesgue]
+Sea \(f: \mathbb{R}^n \to \mathbb{R}\) una función localmente integrable. Entonces, para casi todo \(x \in \mathbb{R}^n\), se tiene:
+\[
+\lim_{r \to 0^+} \frac{1}{|B(x,r)|} \int_{B(x,r)} f(y) \, dy = f(x),
+\]
+donde \(B(x,r)\) es la bola de centro \(x\) y radio \(r\).
+\end{theorem}
+
+\begin{theorem}[Teorema de Lebesgue para funciones de variación acotada]
+Sea \(f: [a,b] \to \mathbb{R}\) una función de variación acotada. Entonces, \(f\) es derivable en casi todo punto de \([a,b]\), y su derivada \(f'\) es integrable en \([a,b]\).
+\end{theorem}
+
+\begin{remark}
+El teorema de Lebesgue asegura que, aunque una función no sea continua, su promedio local converge a su valor en casi todo punto. Esto es clave para entender la diferenciabilidad en el contexto de la teoría de la medida.
+\end{remark}
+
+
+\subsection{Teorema de Rademacher} %Derivabilidad de Funciones Lipschitz}
+
+\begin{definition}[Función Lipschitz]
+Una función \(f: \mathbb{R}^n \to \mathbb{R}^m\) es \textbf{Lipschitz} si existe \(L \geq 0\) tal que
+\[
+|f(x) - f(y)| \leq L |x - y| \quad \forall x, y \in \mathbb{R}^n.
+\]
+El menor \(L\) que satisface esta desigualdad se denomina \textbf{constante de Lipschitz} de \(f\).
+\end{definition}
+
+\begin{theorem}[Teorema de Rademacher]
+Toda función Lipschitz \(f: \mathbb{R}^n \to \mathbb{R}^m\) es derivable en casi todo punto de \(\mathbb{R}^n\). Además, su diferencial \(Df(x)\) es esencialmente acotada (i.e., \(\|Df(x)\| \leq L\) c.t.p.).
+\end{theorem}
+
+\begin{proof}
+La demostración clásica usa el teorema de diferenciación de Lebesgue y el hecho de que las funciones Lipschitz son de variación acotada en casi todo punto. %Se puede consultar en Evans y Gariepy \cite{evans1992}.
+\end{proof}
+
+\begin{remark}
+El teorema de Rademacher es fundamental en el análisis de funciones no diferenciables en el sentido clásico, pero con regularidad Lipschitz. Extiende el resultado de que las funciones de variación acotada son derivables en casi todo punto (Teorema de Lebesgue).
+\end{remark}
+
+\begin{ex}
+La función \(f(x) = |x|\) es Lipschitz en \(\mathbb{R}\), pero no es derivable en \(x=0\). Sin embargo, es derivable en casi todo punto de \(\mathbb{R}\) (excepto en \(x=0\)).
+\end{ex}
+
+\subsection{Resumen de Relaciones entre Propiedades}
+{\footnotesize
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Propiedad} & \textbf{Derivable en c.t.p.} & \textbf{Relación con \(L^1\)} \\
+\hline
+Continuidad absoluta & Sí & \(f(x) = f(a) + \int_a^x g(t) \, dt\) \\
+Función Lipschitz & Sí (Rademacher) & \(\|Df\|_\infty \leq L\) \\
+Variación acotada & Sí (Lebesgue) & \(f' \in L^1\) \\
+Medible & No necesariamente & Aproximable por funciones continuas \\
+\hline
+\end{tabular}
+\end{center}
+}
+
 \section{Hahn--Banach}
 El \textbf{teorema de Hahn--Banach} es uno de los resultados más profundos y útiles del análisis funcional. Este teorema garantiza la existencia de extensiones lineales y continuas de funcionales definidos en subespacios de un espacio vectorial normado, preservando su norma. Sus consecuencias son vastas: permite demostrar la existencia de funcionales lineales continuos no triviales, la separación de conjuntos convexos disjuntos, y la unicidad de normas equivalentes. El teorema de Hahn--Banach es clave en la dualidad entre espacios de Banach y en el estudio de la convergencia en espacios de funciones.
 
@@ -1470,6 +1601,148 @@ La \textbf{derivada débil} extiende el concepto clásico de derivada a funcione
 
 \section{Espacios de Sobolev}
 Los \textbf{espacios de Sobolev} son espacios funcionales que combinan propiedades de diferenciabilidad y integrabilidad, siendo fundamentales en el estudio de ecuaciones diferenciales parciales y en el análisis numérico. Estos espacios consisten en funciones cuyas derivadas débiles hasta cierto orden pertenecen a espacios de Lebesgue. Se analizan sus propiedades de completitud, densidad, y los teoremas de compactación, que son cruciales para demostrar la existencia de soluciones débiles. Los espacios de Sobolev también permiten formular problemas de minimización en cálculo de variaciones y en la teoría del potencial, proporcionando un marco riguroso para el análisis de regularidad y unicidad de soluciones.
+
+\section{Ejemplos} %de funciones y distribuciones}
+
+\subsection{Generales}
+
+A continuación se dan ejemplos sencillos en una dimensión (dominio habitual \((-1,1)\) o \(\mathbb{R}\)) que ilustran pertenencia o no a los espacios \(L^{2}\) y \(H^{1}\).
+
+\begin{itemize}
+    \item \textbf{Función continua que está en \(L^{2}\) pero no en \(H^{1}\):} 
+    \[
+    f(x)=|x|^{\alpha},\qquad \alpha=\tfrac{1}{4},\quad x\in(-1,1).
+    \]
+    Aquí \(f\in L^{2}((-1,1))\) porque \(\int_{-1}^{1}|x|^{2\alpha}\,dx<\infty\) (ya que \(2\alpha>-1\)), pero la derivada puntual es \(f'(x)=\alpha\,\operatorname{sgn}(x)|x|^{\alpha-1}\) cuya norma \(L^{2}\) diverge porque \(2(\alpha-1)\le -1\); por tanto no existe derivada débil en \(L^{2}\) y \(f\notin H^{1}((-1,1))\). Este ejemplo es continuo pero no pertenece a \(H^{1}\).
+
+    \item \textbf{Función discontinua que pertenece a \(L^{2}\) pero no a \(H^{1}\):}
+    \[
+    \chi_{(0,1)}(x)=\begin{cases}1,&x\in(0,1),\\0,&\text{en otro caso},\end{cases}
+    \]
+    vista como función en \(\mathbb{R}\). Tiene norma \(L^{2}\) finita, pero presenta una discontinuidad por salto; su derivada en sentido de distribuciones contiene deltas de frontera (no representables por una función en \(L^{2}\)), luego \(\chi_{(0,1)}\notin H^{1}(\mathbb{R})\).
+
+    \item \textbf{Función o distribución que no está en \(L^{2}\):}
+    \begin{itemize}
+        \item La función singular \(g(x)=|x|^{-\beta}\) en \((-1,1)\) con \(\beta\geq\tfrac{1}{2}\) no pertenece a \(L^{2}((-1,1))\) porque \(\int_{-1}^{1}|x|^{-2\beta}\,dx=\infty\).
+        \item La delta de Dirac \(\delta_{0}\) (distribución) no es una función en \(L^{2}\) (no es una función cuadrado-integrable).
+    \end{itemize}
+\end{itemize}
+
+Cada ejemplo indica la razón básica (comportamiento en el origen o saltos) por la que falla la integrabilidad cuadrática o la existencia de derivada débil en \(L^{2}\).
+
+\subsection{Indicador}
+
+La función $\mathrm{1}_{\{0,1\}}(x)$ representa la \textbf{indicador de $\{0,1\}$}, definida como:
+\[
+\mathrm{1}_{\{0,1\}}(x) =
+\begin{cases}
+1 & \text{si } x \in \{0,1\}, \\
+0 & \text{en otro caso}.
+\end{cases}
+\]
+Esta función es discontinua en $x=0$ y $x=1$, por lo que no pertenece a los espacios clásicos de Sobolev $H^s(\mathbb{R})$ para $s \geq 1/2$ en el sentido estándar. Sin embargo, su regularidad puede analizarse en el marco de los \textbf{espacios de Sobolev fraccionarios} $H^s(\mathbb{R})$, $s \in (0,1)$.
+
+En particular, la indicatriz $\mathrm{1}_{\{0,1\}}$ pertenece al espacio $H^{1/2 - \varepsilon}(\mathbb{R})$ para todo $\varepsilon > 0$, pero \textbf{no} pertenece a $H^{1/2}(\mathbb{R})$. Este resultado se justifica mediante el cálculo de la norma de Sobolev fraccionaria:
+\[
+\| \mathrm{1}_{\{0,1\}} \|_{H^s(\mathbb{R})}^2
+= \int_{\mathbb{R}} |\xi|^{2s} |\widehat{\mathrm{1}_{\{0,1\}}}(\xi)|^2 \, d\xi,
+\]
+donde $\widehat{\mathrm{1}_{\{0,1\}}}(\xi)$ es la transformada de Fourier de la indicatriz. Dado que la transformada de Fourier de $\mathrm{1}_{\{0,1\}}$ decae como $|\xi|^{-1}$ en el infinito, la integral converge si y solo si $s < 1/2$. Por lo tanto, la regularidad fraccionaria de la indicatriz está limitada por $s = 1/2$.
+La \textbf{transformada de Fourier} de la indicatriz \(\mathrm{1}_{\{0,1\}}(x)\) es:
+\[
+\widehat{\mathrm{1}_{\{0,1\}}}(\xi) = e^{-i\xi} \frac{\sin(\xi)}{\xi},
+\]
+que también puede escribirse como:
+\[
+\widehat{1_{\{0,1\}}}(\xi) = e^{-i\xi} \frac{\sin(\xi)}{\xi}.
+\]
+Esta función decae como \(|\xi|^{-1}\) cuando \(|\xi| \to \infty\).
+
+\section{M\'as espacios funcionales}
+
+\subsection{Espacios de Sobolev \(H^s(\R)\)}
+El espacio de Sobolev \(H^s(\R)\) para \(s \in \mathbb{R}\) se define como:
+\[
+H^s(\R) = \left\{ f \in \mathcal{S}'(\R) : \int_{\R} (1 + |\xi|^2)^s |\widehat{f}(\xi)|^2 \, d\xi < \infty \right\},
+\]
+donde \(\widehat{f}\) es la transformada de Fourier de \(f\). La norma en \(H^s(\R)\) es:
+\[
+\|f\|_{H^s(\R)}^2 = \int_{\R} (1 + |\xi|^2)^s |\widehat{f}(\xi)|^2 \, d\xi.
+\]
+
+\subsection{Espacios de Besov \(\bes_{p,q}^s(\R)\)}
+El espacio de Besov \(\bes_{p,q}^s(\R)\) para \(s \in \mathbb{R}\) y \(p, q \in [1, \infty]\) se define mediante diferencias finitas o mediante la descomposición en frecuencias. Intuitivamente, mide la regularidad de \(f\) en términos de cómo sus diferencias finitas decaen. Para \(0 < s < 1\) y \(1 \leq p, q \leq \infty\), se tiene:
+\[
+\bes_{p,q}^s(\R) = \left\{ f \in L^p(\R) : \left( \int_0^\infty \left( t^{-s} \omega_p(f, t) \right)^q \frac{dt}{t} \right)^{1/q} < \infty \right\},
+\]
+donde \(\omega_p(f, t)\) es el módulo de continuidad en \(L^p\).
+
+\subsection{Exponente de Hölder}
+El \textbf{exponente de Hölder} \(\alpha\) de una función \(f\) en un punto \(x_0\) es el supremo de todos \(\alpha > 0\) tales que:
+\[
+|f(x) - f(x_0)| \leq C |x - x_0|^\alpha \quad \text{para } x \text{ cerca de } x_0.
+\]
+
+%\section{Ejemplos de Fractales 1D y su Regularidad}
+\section{Fractales}
+
+\subsection{Función de Weierstrass}
+La \textbf{función de Weierstrass} se define para \(\lambda > 1\) y \(0 < H < 1\) como:
+\[
+W_H(x) = \sum_{n=0}^{\infty} \lambda^{-nH} \cos(2\pi \lambda^n x).
+\]
+\begin{itemize}
+    \item \textbf{Propiedades:} Es continua pero nowhere differentiable.
+    \item \textbf{Regularidad de Sobolev:} \(W_H \in H^s(\R)\) para todo \(s < H\).
+    \item \textbf{Regularidad de Besov:} \(W_H \in \bes_{p,q}^H(\R)\) para todo \(p, q \geq 1\).
+    \item \textbf{Exponente de Hölder:} \(\alpha = H\) en casi todo punto.
+    \item \textbf{Referencia:} Mandelbrot \cite{mandelbrot1982fractal}.
+\end{itemize}
+
+\subsection{Función de Takagi} %(Escalera del Diablo)}
+La \textbf{función de Takagi} se define como:
+\[
+T(x) = \sum_{n=0}^{\infty} \frac{1}{2^n} \dist(2^n x, \Z),
+\]
+donde \(\dist(x, \Z)\) es la distancia de \(x\) al entero más cercano.
+\begin{itemize}
+    \item \textbf{Propiedades:} Es continua, creciente, y nowhere differentiable.
+    \item \textbf{Regularidad de Sobolev:} \(T \in H^s(\R)\) para todo \(s < 1/2\).
+    \item \textbf{Regularidad de Besov:} \(T \in \bes_{p,q}^{1/2}(\R)\) para todo \(p, q \geq 1\).
+    \item \textbf{Exponente de Hölder:} \(\alpha = 1/2\) en casi todo punto.
+    \item \textbf{Referencia:} Takagi \cite{takagi1903}.
+\end{itemize}
+
+\subsection{Movimiento browniano fraccionario}
+El \textbf{movimiento Browniano fraccionario} \(B_H(t)\) con parámetro de Hurst \(0 < H < 1\) es un proceso estocástico gaussiano con trayectorias fractales.
+\begin{itemize}
+    \item \textbf{Propiedades:} Tiene trayectorias continuas pero nowhere diferenciables si \(H \neq 1\).
+    \item \textbf{Regularidad de Sobolev:} Casi todas las trayectorias satisfacen \(B_H \in H^s(\R)\) para todo \(s < H\).
+    \item \textbf{Regularidad de Besov:} Casi todas las trayectorias satisfacen \(B_H \in \bes_{p,q}^H(\R)\) para todo \(p, q \geq 1\).
+    \item \textbf{Exponente de Hölder:} \(\alpha = H\) en casi todo punto y trayectoria.
+    \item \textbf{Referencia:} Samorodnitsky y Taqqu \cite{samorodnitsky1994}.
+\end{itemize}
+
+\subsection{Conjunto de Cantor}
+El \textbf{conjunto de Cantor} \(C\) se construye eliminando el tercio central de cada intervalo.
+\begin{itemize}
+    \item \textbf{Propiedades:} Es un fractal autosimilar con dimensión de Hausdorff \(D = \frac{\log 2}{\log 3}\).
+    \item \textbf{Función indicatriz:} La función \(\mathrm{1}_C(x)\) tiene regularidad de Besov \(s < D\).
+    \item \textbf{Regularidad de Sobolev:} \(\mathrm{1}_C \notin H^{1/2}(\R)\).
+    \item \textbf{Referencia:} Cantor \cite{cantor1883}.
+\end{itemize}
+
+\subsection{Función de Cantor-Lebesgue}
+La \textbf{función de Cantor-Lebesgue} \(f_C(x)\) es continua, creciente, y singular (constante en los intervalos del complemento de \(C\)).
+\begin{itemize}
+    \item \textbf{Propiedades:} Es constante en los intervalos de \(\R \setminus C\).
+    \item \textbf{Regularidad de Sobolev:} \(f_C \notin H^{1/2}(\R)\).
+    \item \textbf{Regularidad de Besov:} \(f_C \in \bes_{p,q}^s(\R)\) para \(s < D\).
+    \item \textbf{Referencia:} Lebesgue \cite{lebesgue1904}.
+\end{itemize}
+
+\section{Ecuaciones elípticas}
+Las ecuaciones elípticas son un tipo de ecuaciones en derivadas parciales de segundo orden cuyo símbolo principal es definido positivo (por ejemplo, la ecuación de Laplace $\Delta u=0$ o la de Poisson $-\Delta u=f$), y modelan estados estacionarios y distribuciones espaciales equilibradas; en problemas de contorno bien planteados suelen garantizar existencia, unicidad y regularidad de soluciones suaves en dominios regulares, y poseen propiedades cualitativas importantes como el principio del máximo, estimaciones a priori y dependencia continua respecto de los datos, lo que las convierte en herramientas centrales en análisis y aplicaciones físicas e ingenieriles.
 
 \chapter{Dimensión infinita}
 
@@ -1609,6 +1882,24 @@ if __name__ == "__main__":
     \textbf{Método de Nitsche o multiplicadores}: Estas técnicas alternativas permiten incorporar las restricciones del problema de manera explícita en la formulación débil, mejorando la estabilidad numérica en ciertos casos. El método de Nitsche, en particular, ofrece una forma elegante de manejar las condiciones de desigualdad.
     \item \textbf{Aplicaciones}: El problema del obstáculo tiene aplicaciones en mecánica de sólidos, fluidos, finanzas y otras áreas de la ciencia e ingeniería. Su versatilidad lo convierte en un modelo fundamental para estudiar fenómenos con restricciones geométricas o físicas.
 \end{itemize}
+
+%\chapter{Generalidades sobre el control óptimo y el principio de Pontryaguin}
+\chapter{Control óptimo}
+
+
+El control óptimo es una rama de las matemáticas aplicadas que se ocupa de determinar la mejor manera de influir sobre la evolución de un sistema dinámico con el fin de optimizar un cierto criterio. Este tipo de problemas aparece de forma natural en numerosos campos, como la ingeniería, la economía, la biología o la física, donde se busca tomar decisiones que conduzcan a un comportamiento deseado del sistema.
+
+En el contexto de las ecuaciones diferenciales, un sistema dinámico se describe mediante una relación que vincula la evolución temporal del estado con ciertas variables de control. Estas variables representan las acciones que pueden ser ajustadas para modificar la trayectoria del sistema. El objetivo consiste entonces en seleccionar dichas variables de control de manera que se minimice o maximice una cantidad de interés, como puede ser un costo, una energía o un rendimiento.
+
+Una característica fundamental de los problemas de control óptimo es la interacción entre la dinámica del sistema y el criterio de optimización. Esta interacción da lugar a una estructura matemática rica y compleja, en la que las soluciones deben satisfacer simultáneamente restricciones dinámicas y condiciones de optimalidad. A diferencia de los problemas de optimización estática, aquí las decisiones se distribuyen a lo largo del tiempo, lo que introduce una dimensión adicional de dificultad.
+
+Entre los resultados más influyentes en este campo se encuentra el principio del máximo de Pontryaguin. Este principio proporciona una caracterización necesaria de las soluciones óptimas y constituye una herramienta central en el análisis teórico del control óptimo. Su importancia radica en que transforma un problema global de optimización en una condición local que debe cumplirse a lo largo de la trayectoria óptima.
+
+De manera conceptual, el principio de Pontryaguin introduce variables auxiliares que permiten evaluar la sensibilidad del criterio de optimización frente a variaciones en el estado del sistema. Estas variables, junto con el estado y el control, forman un conjunto ampliado cuya evolución está gobernada por un sistema acoplado. La condición de optimalidad se expresa entonces mediante un principio de tipo variacional que selecciona, en cada instante, los controles que resultan más favorables.
+
+Este enfoque ha tenido un impacto profundo tanto en el desarrollo teórico como en las aplicaciones del control óptimo. Ha permitido el diseño de métodos numéricos, el análisis de propiedades cualitativas de las soluciones y la formulación de estrategias de control en problemas reales. Además, ha servido como base para desarrollos posteriores, como la programación dinámica y las formulaciones en términos de ecuaciones en derivadas parciales.
+
+En resumen, el control óptimo proporciona un marco matemático poderoso para la toma de decisiones en sistemas dinámicos, y el principio de Pontryaguin constituye una de sus piedras angulares. Su estudio continúa siendo un área activa de investigación, motivada tanto por desafíos teóricos como por aplicaciones cada vez más complejas.
 
 \chapter{Conclusión y perspectivas}
 \label{ch:conclusion}
