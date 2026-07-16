@@ -30,7 +30,8 @@
 %\algrenewcommand\algorithmicendfor{\textbf{FinPara}}
 \algrenewcommand\algorithmicreturn{\textbf{Devolver}}
 
-\usepackage{tocbibind}
+%\usepackage{tocbibind}
+\usepackage[nottoc]{tocbibind}
 
 %\usepackage{footmisc}
 %\usepackage{perpage}
@@ -210,7 +211,7 @@
 % Cambiar el título de la bibliografía
 \addto\captionsspanish{\renewcommand{\bibname}{Referencias bibliográficas}}
 
-\title{Análisis convexo y aplicaciones}
+\title{Análisis convexo}
 %ODEs and PDEs}
 \author{Franz Chouly}
 \date{En Construcci\'on (\today)}
@@ -242,6 +243,16 @@
 %\markboth{Agradecimientos}{Agradecimientos}
 
 %Quiero agradecer, primero \dots
+% CMAT
+% Francoise Soutien
+% Jean-Baptiste HH, collegues
+% Conseils
+% JPB et Mauricio
+% Boyd Vandenberg, Luenberger
+% Patrick, Yves, Initiation VI
+% Dalmasso, Le Marechal,
+% Peter Sturm
+% JB Durand
 
 %\chapter*{Pr\'ologo}
 %\addcontentsline{toc}{chapter}{Pr\'ologo}
@@ -255,15 +266,182 @@
 
 \chapter{Introducción}
 
-El \textbf{análisis convexo} es una rama fundamental de las matemáticas que estudia funciones y conjuntos convexos, ofreciendo herramientas teóricas y prácticas para resolver problemas complejos en ciencia, ingeniería y economía. Este libro aborda desde los fundamentos matemáticos del análisis convexo hasta sus aplicaciones más avanzadas, incluyendo optimización convexa, aprendizaje automático, geometría algorítmica y teoría de juegos.
+El \textrm{análisis convexo} es una rama fundamental de las matemáticas que estudia funciones y conjuntos convexos, ofreciendo herramientas teóricas y prácticas para resolver problemas complejos en ciencia, ingeniería y economía. Este libro aborda desde los fundamentos matemáticos del análisis convexo hasta sus aplicaciones más avanzadas, incluyendo desigualdades variacionales, optimización convexa, aprendizaje automático e inteligencia artificial, geometría algorítmica y teoría de juegos.
 
-Se presentan las definiciones y propiedades esenciales de conjuntos y funciones convexas, junto con conceptos clave como el subgradiente, la cáscara convexa y la dualidad. Estos fundamentos son la base para entender algoritmos de optimización y técnicas numéricas que se desarrollan en los capítulos posteriores.
-Se incluyen ejemplos ilustrativos, fórmulas matemáticas precisas y fragmentos de código en Python para facilitar la implementación de los métodos descritos.
+Se presentan las definiciones y propiedades esenciales de conjuntos y funciones convexas, junto con conceptos clave como el subgradiente, la cáscara convexa y la dualidad. Estos fundamentos son la base para entender algoritmos de optimización y técnicas numéricas que se desarrollan en varios capítulos.
+%Se incluyen ejemplos ilustrativos, fórmulas matemáticas precisas y fragmentos de código en Python para facilitar la implementación de los métodos descritos.
 
-El libro está diseñado para estudiantes de grado y posgrado. A lo largo del texto, se enfatiza la relación entre el análisis convexo y otras áreas de las matemáticas, como el análisis funcional, la teoría de la medida y la geometría computacional, mostrando cómo estas disciplinas se complementan para abordar desafíos modernos.
+%El libro está diseñado para estudiantes de grado y posgrado. A lo largo del texto, se enfatiza la relación entre el análisis convexo y otras áreas de las matemáticas, como el análisis funcional, la teoría de la medida y la geometría computacional, mostrando cómo estas disciplinas se complementan para abordar desafíos modernos.
 
-El enfoque pedagógico del libro facilita la comprensión de conceptos abstractos mediante ejemplos paso a paso, ejercicios propuestos y aplicaciones en contextos reales. 
-Al final de cada capítulo, se proporcionan referencias bibliográficas clave para profundizar en los temas tratados, así como enlaces a recursos adicionales en línea, como repositorios de código y conjuntos de datos.
+%El enfoque pedagógico del libro facilita la comprensión de conceptos abstractos mediante ejemplos paso a paso, ejercicios propuestos y aplicaciones en contextos reales. 
+%Al final de cada capítulo, se proporcionan referencias bibliográficas clave para profundizar en los temas tratados, así como enlaces a recursos adicionales en línea, como repositorios de código y conjuntos de datos.
+
+% Dire sur quoi se base le cours
+% References cles
+Para el desarrollo de este trabajo, nos apoyaremos fundamentalmente en las obras de [machin] y [truc], complementadas con las contribuciones de [bidule] y [chose].
+% ALLAIRE
+% BOYD VANDENBERG
+% LUENBERGER
+% BREZIS
+% LE MARECHAL HH
+%
+% Rockafellar
+% ETC
+A partir de ahora, utilizaremos la notación $V$ para designar un espacio de Hilbert (espacio vectorial normado completo). Cuando $V$ sea de dimensión finita, lo denotaremos por $V_n$, donde $n$ indica la dimensión de $V$.
+
+\chapter{Descenso de gradiente}
+El descenso de gradiente es un algoritmo iterativo de optimización de primer orden utilizado para minimizar funciones. Su idea central es moverse en la dirección opuesta al gradiente de la función en el punto actual, lo que garantiza una disminución local del valor de la función. Este método es ampliamente aplicado en aprendizaje automático y optimización numérica debido a su simplicidad y eficacia. La elección del tamaño de paso, o tasa de aprendizaje, es crucial para la convergencia del algoritmo. Sin embargo, su rendimiento puede verse afectado por la elección de parámetros y la geometría de la función.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Fundamentos teóricos del descenso de gradiente.
+    \item Variantes: descenso de gradiente estocástico, por lotes.
+    \item Aplicaciones en aprendizaje automático.
+\end{itemize}
+
+\chapter{Funciones convexas}
+Las funciones convexas juegan un papel fundamental en optimización, ya que garantizan que cualquier mínimo local es también un mínimo global. Una función $f: \mathbb{R}^n \to \mathbb{R}$ es convexa si el segmento de línea que une cualquier par de puntos en su gráfico siempre queda por encima del gráfico. Esta propiedad simplifica significativamente el análisis y la resolución de problemas de optimización. Además, las funciones convexas tienen derivadas monótonas, lo que facilita la aplicación de métodos numéricos. Su estudio es esencial para entender la eficiencia de algoritmos como el descenso de gradiente.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Definición y propiedades básicas.
+    \item Ejemplos y aplicaciones en optimización.
+    \item Relación con el descenso de gradiente.
+\end{itemize}
+
+\chapter{Condiciones de optimalidad}
+Las condiciones de optimalidad son criterios matemáticos que permiten identificar si un punto es un mínimo local o global de una función. En optimización sin restricciones, un punto $x^*$ es un mínimo local si el gradiente $\nabla f(x^*) = 0$ y la matriz hessiana $\nabla^2 f(x^*)$ es definida positiva. Estas condiciones son fundamentales para desarrollar algoritmos de optimización y analizar su convergencia. Además, en problemas con restricciones, se utilizan condiciones como las de Karush-Kuhn-Tucker (KKT). Su comprensión es clave para resolver problemas prácticos de manera eficiente.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Condiciones necesarias y suficientes para óptimos locales y globales.
+    \item Aplicación en problemas con y sin restricciones.
+    \item Ejemplos prácticos.
+\end{itemize}
+
+\chapter{Método de Newton}
+El método de Newton es un algoritmo de optimización de segundo orden que utiliza información de la segunda derivada para acelerar la convergencia. A diferencia del descenso de gradiente, este método aproxima la función objetivo localmente por una función cuadrática y encuentra su mínimo en una sola iteración. Aunque requiere el cálculo de la matriz hessiana, su convergencia es típicamente más rápida, especialmente cerca del óptimo. Es ampliamente utilizado en problemas donde la precisión y la velocidad son críticas. Sin embargo, su implementación puede ser costosa en términos computacionales.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Fundamentos teóricos y derivación del método.
+    \item Comparación con el descenso de gradiente.
+    \item Aplicaciones y limitaciones.
+\end{itemize}
+
+---
+\chapter{Desigualdades variacionales}
+Las desigualdades variacionales generalizan el concepto de ecuaciones para incluir problemas donde la solución no necesariamente satisface una igualdad. Estas formulan condiciones en las que una función debe satisfacer una desigualdad para todas las direcciones factibles. Son herramientas poderosas en el análisis de problemas de equilibrio, optimización y economía matemática. Su estudio permite abordar problemas que no pueden ser resueltos mediante métodos tradicionales de optimización. Además, tienen aplicaciones en el análisis de redes y el diseño de sistemas complejos.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Definición y ejemplos básicos.
+    \item Métodos de resolución.
+    \item Aplicaciones en economía y física.
+\end{itemize}
+
+\chapter{Dualidad}
+La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones económicas y geométricas profundas.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Formulación del problema dual.
+    \item Relación entre soluciones primales y duales.
+    \item Aplicaciones en optimización convexa.
+\end{itemize}
+
+\chapter{Nociones avanzadas}
+Las nociones avanzadas en optimización incluyen temas como la optimización no convexa, métodos de puntos interiores y técnicas de regularización. Estos métodos abordan problemas donde los enfoques tradicionales pueden fallar o ser ineficientes. La optimización no convexa, por ejemplo, es esencial en problemas donde la función objetivo tiene múltiples mínimos locales. Los métodos de puntos interiores son especialmente útiles para problemas con restricciones de desigualdad. Estas técnicas avanzadas permiten resolver problemas más complejos y realistas, pero requieren un profundo entendimiento teórico y computacional.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Optimización no convexa y métodos de puntos interiores.
+    \item Técnicas de regularización.
+    \item Aplicaciones en problemas complejos.
+\end{itemize}
+
+\chapter{Perspectivas}
+Las perspectivas en optimización incluyen el desarrollo de métodos híbridos que combinan lo mejor de diferentes enfoques, como el descenso de gradiente y el método de Newton. La integración con técnicas de aprendizaje automático está abriendo nuevas áreas de investigación, como la optimización en espacios de alta dimensión. Además, el avance en hardware computacional permite abordar problemas cada vez más grandes y complejos. La optimización también está encontrando aplicaciones en campos emergentes como la inteligencia artificial y la ciencia de datos. El futuro promete avances emocionantes en la teoría y la práctica de la optimización.
+
+\textbf{Sugerencia de plan:}
+\begin{itemize}
+    \item Tendencias actuales en optimización.
+    \item Integración con aprendizaje automático.
+    \item Desafíos futuros y oportunidades.
+\end{itemize}
+
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+{\footnotesize
+\bibliographystyle{siam}
+\bibliography{biblio}
+}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+{\scriptsize \printindex}
+
+\end{document} 
+
+E: evn Hilbert E_n
+
+1 Descente de gradient
+
+2 Functions convexes
+
+3 Conditions optimalite
+
+4 
+
+Dualite
+
+Inequations variationnelles
+
+Themes plus avances
+
+
+\chapter{Algoritmos de minimización}
+
+Los algoritmos de minimización son herramientas fundamentales en matemática. % aplicada, optimización, aprendizaje automático y ciencia de datos. 
+Este capítulo aborda los %principios y dos 
+algoritmos más relevantes para resolver problemas de minimización de funciones, desde enfoques clásicos hasta técnicas avanzadas basadas en análisis convexo y métodos numéricos. Cada sección incluye las fórmulas clave de los métodos y, cuando es posible, su relación con ecuaciones diferenciales que modelan la dinámica de la minimización.
+
+\section{Ejemplos}
+
+Funcional cuadrática. Ver \cite{allaire2007}.
+
+\section{Gradiente descendente}
+El \textbf{gradiente descendente} es un método iterativo para minimizar una función \( f: \mathbb{R}^n \to \mathbb{R} \) diferenciable. El algoritmo se define como:
+\[
+x_{k+1} = x_k - \alpha_k \nabla f(x_k),
+\]
+donde \( \alpha_k > 0 \) es el tamaño de paso (o tasa de aprendizaje) y \( \nabla f(x_k) \) es el gradiente de \( f \) en \( x_k \).
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+El método de gradiente descendente puede interpretarse como una discretización de la ecuación diferencial ordinaria (EDO) asociada al flujo gradiente:
+\[
+\frac{dx}{dt} = -\nabla f(x(t)).
+\]
+La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
+\end{quotation}
+
+\section{Método de Newton / Newton semi-suave}
+El \textbf{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
+\[
+x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
+\]
+donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales.
+
+\begin{quotation}
+\textbf{Vínculo con ecuaciones diferenciales:}
+El método de Newton puede verse como una aproximación de la dinámica de segundo orden:
+\[
+\frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -\nabla f(x),
+\]
+donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
+\end{quotation}
+
+
 
 \chapter{Conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
 
@@ -279,9 +457,13 @@ Este capítulo explora tanto la teoría como las aplicaciones prácticas de los 
 
 \section{Definición y propiedades}
 
-Los conjuntos convexos son uno de los conceptos más versátiles y poderosos en matemáticas, con aplicaciones que abarcan desde la optimización hasta el aprendizaje automático. Un conjunto es convexo si, intuitivamente, no presenta huecos ni entrantes: cualquier segmento de recta que una dos puntos del conjunto permanece completamente dentro de él. Esta propiedad, aparentemente simple, tiene implicaciones profundas en teoría y práctica, permitiendo resolver problemas de minimización, clasificación y modelado con garantías de eficiencia y robustez.
+%*** % Reprendre ici 
+Los conjuntos convexos son uno de los conceptos más %versátiles y 
+poderosos en matemáticas, con aplicaciones que abarcan desde la optimización hasta el aprendizaje automático. Un conjunto es convexo si, intuitivamente, no presenta huecos ni entrantes: cualquier segmento de recta que una dos puntos del conjunto permanece completamente dentro de él. Esta propiedad, aparentemente simple, tiene implicaciones profundas en teoría y práctica, permitiendo resolver problemas de minimización, clasificación y modelado con garantías de eficiencia y robustez.
 
 \subsection{Para empezar}
+
+En el marco de la geometría y el análisis funcional, los conjuntos convexos emergen como objetos fundamentales, definidos por la propiedad intrínseca de contener, junto con cualquier par de sus puntos, el segmento de recta que los une. %Este concepto, sencillo en apariencia, sienta las bases para explorar estructuras geométricas más complejas y su aplicabilidad en áreas tan diversas como la optimización, la teoría de juegos o incluso la inteligencia artificial.
 
 \begin{definition}[Conjunto convexo]
     Un conjunto \( C \subseteq \mathbb{R}^n \) es \textbf{convexo} si, para todo \( x, y \in C \) y todo \( \lambda \in [0,1] \), se cumple que:
@@ -471,8 +653,84 @@ Por lo tanto, \( \mathring{C} \) es un conjunto convexo.
 
 %---
 
-%\section{Definición y caracterización de la envoltura convexa}
+%\section{Cono convexo}
+%\chapter{Conos Convexos}
+\section{Conos Convexos}
+%\section{Conos Convexos: Definición y Propiedades}
 
+\subsection{Definición}
+
+Un \textbf{cono} en un espacio vectorial real \( V \) es un subconjunto \( K \subseteq V \) que satisface:
+\begin{itemize}
+    \item Si \( x \in K \) y \( \lambda \geq 0 \), entonces \( \lambda x \in K \).
+    \item Si \( x, y \in K \), entonces \( x + y \in K \).
+\end{itemize}
+
+Un cono \( K \) es \textbf{convexo} si es convexo como conjunto, es decir, si para todo \( x, y \in K \) y \( \lambda \in [0,1] \), se cumple:
+\[
+\lambda x + (1 - \lambda) y \in K.
+\]
+En particular, todo cono convexo es cerrado bajo combinaciones lineales no negativas de sus elementos.
+
+%\begin{definicion}[Cono Convexo]
+Sea \( V \) un espacio vectorial real. Un subconjunto \( K \subseteq V \) es un \textbf{cono convexo} si:
+\begin{enumerate}
+    \item \( K \) es un cono: \( \lambda x \in K \) para todo \( x \in K \) y \( \lambda \geq 0 \).
+    \item \( K \) es convexo: \( \lambda x + (1 - \lambda) y \in K \) para todo \( x, y \in K \) y \( \lambda \in [0,1] \).
+\end{enumerate}
+%\end{definicion}
+
+\subsection{Ejemplos}
+
+%\begin{observacion}[Ejemplos de Conos Convexos]
+\begin{enumerate}
+    \item \textbf{Cono positivo en \( \mathbb{R}^n \)}:
+    \[
+    \mathbb{R}^n_+ = \{ x \in \mathbb{R}^n \mid x_i \geq 0 \text{ para todo } i = 1, \ldots, n \}.
+    \]
+    Es un cono convexo, ya que la suma de vectores no negativos es no negativo y el producto por escalares no negativos preserva la no negatividad.
+
+    \item \textbf{Cono de Lorentz} (o cono de segundo orden):
+    \[
+    L^n = \{ (x_0, x_1, \ldots, x_n) \in \mathbb{R}^{n+1} \mid x_0 \geq \sqrt{x_1^2 + \cdots + x_n^2} \}.
+    \]
+    Este cono es convexo y juega un papel importante en optimización convexa.
+
+    \item \textbf{Cono de matrices semidefinidas positivas}:
+    \[
+    \mathbb{S}^n_+ = \{ X \in \mathbb{R}^{n \times n} \mid X = X^\top \text{ y } x^\top X x \geq 0 \text{ para todo } x \in \mathbb{R}^n \}.
+    \]
+    Es un cono convexo en el espacio de matrices simétricas.
+\end{enumerate}
+%\end{observacion}
+
+\subsection{Propiedades Principales}
+
+%\begin{teorema}[Propiedades de Conos Convexos]
+Sea \( K \subseteq V \) un cono convexo. Entonces:
+\begin{enumerate}
+    \item \( K \) es cerrado bajo combinaciones lineales no negativas:
+    \[
+    \sum_{i=1}^m \lambda_i x_i \in K \quad \text{para todo } x_i \in K, \lambda_i \geq 0, m \in \mathbb{N}.
+    \]
+    \item El \textbf{dual} de \( K \), definido como
+    \[
+    K^* = \{ y \in V^* \mid \langle y, x \rangle \geq 0 \text{ para todo } x \in K \},
+    \]
+    también es un cono convexo.
+    \item Si \( K \) es cerrado (en la topología apropiada), entonces \( (K^*)^* = K \).
+\end{enumerate}
+%\end{teorema}
+
+%\begin{observacion}
+\begin{itemize}
+    \item La propiedad de ser cerrado bajo combinaciones lineales no negativas es equivalente a la convexidad del cono.
+    \item El dual \( K^* \) permite caracterizar desigualdades lineales y es fundamental en programación convexa.
+\end{itemize}
+%\end{observacion}
+
+
+%\section{Definición y caracterización de la envoltura convexa}
 \section{Envoltura convexa}
 
 La \textbf{envoltura convexa} de un conjunto \( S \subseteq \mathbb{R}^n \) es un concepto fundamental en análisis convexo y optimización. Permite caracterizar los conjuntos convexos minimales que contienen a \( S \), y entender sus propiedades geométricas y analíticas.
@@ -887,6 +1145,17 @@ es esencial en:
     \item \textbf{Robótica}: Para planificación de caminos y evitación de obstáculos.
     \item \textbf{Aprendizaje automático}: En clustering (por ejemplo, el algoritmo DBSCAN).
 \end{itemize}
+
+% Separacion
+
+\section{Separación de convexos}
+
+En el contexto de la separación de conjuntos convexos, el resultado fundamental establece que, si dos conjuntos convexos son disjuntos, siempre existe un hiperplano que los separa. Este hiperplano actúa como una barrera en el espacio que permite distinguir claramente entre los elementos de un conjunto y los del otro, sin solapamientos. 
+%\begin{theorem}
+%\dots
+%\end{theorem}
+
+% Carateodory -- Minkowski ETC Farkas
 
 \section{Para profundizar}
 
@@ -1320,7 +1589,30 @@ A continuación, ilustramos esta caracterización con ejemplos clásicos.
 \paragraph{Comentario.}
 Este criterio es fundamental en optimización convexa y sirve como base para numerosos algoritmos (métodos de subgradiente, métodos proximales, etc.). Su simplicidad contrasta con su gran generalidad, ya que sigue siendo válido incluso en ausencia de diferenciabilidad.
 
-\section{Casos continuo y diferenciable}
+%\section{Teorema de Existencia de Mínimo para Funciones Convexas en Dimensión Finita}
+
+\section{Existencia de mínimo}
+
+%\subsection{Teorema}
+
+Consideremos una función $f: \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ convexa, propia (es decir, $f(x) < +\infty$ para al menos un $x \in \mathbb{R}^n$) y semicontinua inferiormente. Si el dominio efectivo de $f$, definido como $\text{dom}(f) = \{x \in \mathbb{R}^n : f(x) < +\infty\}$, es no vacío, cerrado y acotado, entonces $f$ alcanza su mínimo global en $\mathbb{R}^n$.
+
+\begin{theorem}
+    Sea $f: \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ una función convexa, propia y semicontinua inferiormente. Si $\text{dom}(f)$ es no vacío, cerrado y acotado, entonces existe $x^* \in \text{dom}(f)$ tal que
+    \begin{equation*}
+        f(x^*) = \inf_{x \in \mathbb{R}^n} f(x).
+    \end{equation*}
+\end{theorem}
+
+%\subsection{Demostración}
+
+%La demostración de este teorema se basa en el teorema de Weierstrass, que establece que una función continua en un conjunto compacto alcanza su mínimo y máximo. Dado que $f$ es semicontinua inferiormente y $\text{dom}(f)$ es cerrado y acotado (por lo tanto, compacto), se sigue que $f$ alcanza su mínimo en $\text{dom}(f)$. La convexidad de $f$ garantiza la unicidad del mínimo si $f$ es estrictamente convexa.
+
+%\subsection{Ejemplo}
+
+Consideremos la función $f(x) = x^2$, definida en $\mathbb{R}$. Esta función es convexa, propia y semicontinua inferiormente. Su dominio efectivo es $\mathbb{R}$, que no es acotado. Sin embargo, si restringimos el dominio a un intervalo cerrado y acotado, por ejemplo, $[-1, 1]$, entonces $f$ alcanza su mínimo en $x = 0$.
+
+\section{Caso diferenciable}
 
 \begin{definition}[Función convexa diferenciable]
 Si \( f: \mathbb{R}^n \to \mathbb{R} \) es convexa y diferenciable en \( x \), entonces
@@ -1352,6 +1644,10 @@ Sea \( f: \mathbb{R}^n \to \mathbb{R} \) una función convexa y dos veces difere
 
 Los métodos de minimización son herramientas fundamentales en matemática aplicada, optimización, aprendizaje automático y ciencia de datos. Este capítulo aborda los principios y algoritmos más relevantes para resolver problemas de minimización de funciones, desde enfoques clásicos hasta técnicas avanzadas basadas en análisis convexo y métodos numéricos. Cada sección incluye las fórmulas clave de los métodos y, cuando es posible, su relación con ecuaciones diferenciales que modelan la dinámica de la minimización.
 
+\section{Ejemplos}
+
+Funcional cuadrática. Ver \cite{allaire2007}.
+
 \section{Gradiente descendente}
 El \textbf{gradiente descendente} es un método iterativo para minimizar una función \( f: \mathbb{R}^n \to \mathbb{R} \) diferenciable. El algoritmo se define como:
 \[
@@ -1368,7 +1664,7 @@ El método de gradiente descendente puede interpretarse como una discretización
 La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
 \end{quotation}
 
-\section{Método de Newton}
+\section{Método de Newton / Newton semi-suave}
 El \textbf{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
 \[
 x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
@@ -1434,6 +1730,61 @@ La dinámica de los multiplicadores de Lagrange puede describirse mediante:
 \]
 Esta ecuación diferencial parcial (EDP) describe la evolución de \( x \) y \( \lambda \) hacia un punto de equilibrio.
 \end{quotation}
+
+\section{Método de Lagrange aumentado} % en Dimensión Finita}
+
+Se puede consultar Burman et al., 2023.
+
+\subsection{Definición}
+
+El método de Lagrange aumentado, también conocido como método de los multiplicadores de Lagrange con penalización, es una técnica utilizada para resolver problemas de optimización con restricciones. Este método es una generalización del método clásico de los multiplicadores de Lagrange, incorporando una función de penalización que permite manejar restricciones de igualdad de manera más flexible.
+
+\textbf{Problema general:}
+Dado un problema de optimización no lineal con restricciones de igualdad:
+\begin{equation*}
+    \begin{aligned}
+        & \min_{x \in \mathbb{R}^n} & & f(x) \\
+        & \text{sujeto a} & & h_i(x) = 0, \quad i = 1, \ldots, m,
+    \end{aligned}
+\end{equation*}
+\noindent donde $f: \mathbb{R}^n \to \mathbb{R}$ es la función objetivo y $h_i: \mathbb{R}^n \to \mathbb{R}$ son las funciones de restricción, el método de Lagrange aumentado introduce una función de penalización cuadrática en las restricciones, transformando el problema en uno sin restricciones de la siguiente manera:
+\begin{equation*}
+    \mathcal{L}_\mu(x, \lambda) = f(x) + \lambda^T h(x) + \frac{\mu}{2} \|h(x)\|^2,
+\end{equation*}
+\noindent donde $\lambda \in \mathbb{R}^m$ son los multiplicadores de Lagrange asociados a las restricciones, y $\mu > 0$ es un parámetro de penalización.
+
+\subsection{Algoritmo}
+
+El algoritmo básico del método de Lagrange aumentado (Uzawa) es el siguiente:
+
+\begin{enumerate}
+    \item Inicializar $\lambda_0$ y $\mu > 0$.
+    \item Resolver el problema sin restricciones:
+    \begin{equation*}
+        x_{k+1} = \arg\min_{x} \mathcal{L}_\mu(x, \lambda_k).
+    \end{equation*}
+    \item Actualizar los multiplicadores:
+    \begin{equation*}
+        \lambda_{k+1} = \lambda_k + \mu h(x_{k+1}).
+    \end{equation*}
+    \item Verificar convergencia. Si no se cumple, repetir desde el paso 2.
+\end{enumerate}
+
+\subsection{Ejemplo}
+
+Consideremos el siguiente problema de optimización con restricción de igualdad:
+\begin{equation*}
+    \begin{aligned}
+        & \min_{x,y} & & x^2 + y^2 \\
+        & \text{sujeto a} & & x + y = 1.
+    \end{aligned}
+\end{equation*}
+Aplicando el método de Lagrange aumentado, definimos la función de Lagrange aumentada:
+\begin{equation*}
+    \mathcal{L}_\mu(x, y, \lambda) = x^2 + y^2 + \lambda (x + y - 1) + \frac{\mu}{2} (x + y - 1)^2.
+\end{equation*}
+Para resolver el problema, minimizamos $\mathcal{L}_\mu$ respecto a $x$ e $y$, y luego actualizamos $\lambda$ iterativamente hasta alcanzar la convergencia.
+\noindent Por ejemplo, si tomamos $\mu = 1$ y $\lambda_0 = 0$, el punto óptimo se alcanza en $(x, y) = (0.5, 0.5)$.
 
 \section{Métodos cuasi-Newton (BFGS)}
 El método \textbf{BFGS} aproxima la inversa de la Hessiana \( H_k \) mediante actualizaciones iterativas:
@@ -1748,6 +2099,20 @@ Las ecuaciones elípticas son un tipo de ecuaciones en derivadas parciales de se
 
 El estudio de la \textbf{dimensión infinita} en el ámbito del análisis convexo y la optimización permite abordar problemas complejos que surgen en mecánica de sólidos, teoría de control, economía y aprendizaje automático. En este contexto, las funciones y conjuntos convexos se definen en espacios de Hilbert o de Banach, donde las herramientas del análisis funcional son esenciales para garantizar la existencia de soluciones y su caracterización. La optimización en dimensión infinita extiende los principios de la programación convexa clásica, permitiendo modelar fenómenos con restricciones no lineales y operadores diferenciales. Este enfoque es fundamental para desarrollar métodos numéricos robustos y teoremas de dualidad que subyacen en aplicaciones modernas como el control óptimo y la teoría de juegos.
 
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+{\footnotesize
+\bibliographystyle{siam}
+\bibliography{biblio}
+}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+{\scriptsize \printindex}
+
+\end{document} 
+
+\chapter{***********************}
+
 \chapter{Desigualdades variacionales}
 
 Las desigualdades variacionales son útiles para modelar numerosos problemas de la física o la ingeniería~\cite{duvaut76,glowinski80,kinderlehrer80}. Sin embargo, rara vez se abordan en los cursos de posgrado de análisis numérico. El objetivo de esta breve nota es presentar el análisis numérico del problema del obstáculo, cuando se discretiza mediante elementos finitos. El problema del obstáculo es, de hecho, el prototipo ideal de una desigualdad variacional y, quizás, el más sencillo de ellos.
@@ -1900,6 +2265,16 @@ De manera conceptual, el principio de Pontryaguin introduce variables auxiliares
 Este enfoque ha tenido un impacto profundo tanto en el desarrollo teórico como en las aplicaciones del control óptimo. Ha permitido el diseño de métodos numéricos, el análisis de propiedades cualitativas de las soluciones y la formulación de estrategias de control en problemas reales. Además, ha servido como base para desarrollos posteriores, como la programación dinámica y las formulaciones en términos de ecuaciones en derivadas parciales.
 
 En resumen, el control óptimo proporciona un marco matemático poderoso para la toma de decisiones en sistemas dinámicos, y el principio de Pontryaguin constituye una de sus piedras angulares. Su estudio continúa siendo un área activa de investigación, motivada tanto por desafíos teóricos como por aplicaciones cada vez más complejas.
+
+% Ici exemples rigolos du allaire
+% A processer pour ameliorer Espagnol
+\section{Motivacion y ejemplos}
+
+Aqui van unos ejemplos.
+
+\subsection{Commande optimale}
+
+\dots
 
 \chapter{Conclusión y perspectivas}
 \label{ch:conclusion}
