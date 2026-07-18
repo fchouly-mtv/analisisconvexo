@@ -278,143 +278,75 @@ Se presentan las definiciones y propiedades esenciales de conjuntos y funciones 
 
 % Dire sur quoi se base le cours
 % References cles
-Para el desarrollo de este trabajo, nos apoyaremos fundamentalmente en las obras de [machin] y [truc], complementadas con las contribuciones de [bidule] y [chose].
-% ALLAIRE
-% BOYD VANDENBERG
-% LUENBERGER
+Para el desarrollo de este trabajo, nos apoyaremos fundamentalmente en las obras de G. Allaire~\cite{allaire2007},
+de S. Boyd and L. Vandenberghe~\cite{BoydVandenberghe2004},
+de J.-B. Hiriart-Urruty and C. Lemar\'{e}chal~\cite{hiriart2001}
+y D. G. Luenberger~\cite{luenberger1969}. 
+%complementadas con las contribuciones de [bidule] y [chose].
 % BREZIS
-% LE MARECHAL HH
-%
 % Rockafellar
+%\cite{Rockafellar1970}
 % ETC
 A partir de ahora, utilizaremos la notación $V$ para designar un espacio de Hilbert (espacio vectorial normado completo). Cuando $V$ sea de dimensión finita, lo denotaremos por $V_n$, donde $n$ indica la dimensión de $V$.
 
 \chapter{Descenso de gradiente}
-El descenso de gradiente es un algoritmo iterativo de optimización de primer orden utilizado para minimizar funciones. Su idea central es moverse en la dirección opuesta al gradiente de la función en el punto actual, lo que garantiza una disminución local del valor de la función. Este método es ampliamente aplicado en aprendizaje automático y optimización numérica debido a su simplicidad y eficacia. La elección del tamaño de paso, o tasa de aprendizaje, es crucial para la convergencia del algoritmo. Sin embargo, su rendimiento puede verse afectado por la elección de parámetros y la geometría de la función.
+El descenso de gradiente es un algoritmo iterativo de optimización de primer orden utilizado para minimizar funciones. Su idea central es moverse en la dirección opuesta al gradiente de la función en el punto actual, lo que garantiza una disminución local del valor de la función. Este método es ampliamente aplicado en aprendizaje automático y optimización numérica debido a su simplicidad y eficacia. La elección del tamaño de paso, o tasa de aprendizaje, es crucial para la convergencia del algoritmo. Sin embargo, su rendimiento puede verse afectado por la elección de parámetros y la geometría de la función. Seguimos~\cite{allaire2007}.
 
-\textbf{Sugerencia de plan:}
+\section{Aplicaciones}
+
+\subsection{Aprendizaje autom\'atico} 
+%Función Fuertemente Convexa: Regresión Lineal con Regularización L2 (Ridge)}
+%\subsection{Contexto}
+En aprendizaje automático, la regresión Ridge busca minimizar el error cuadrático entre las predicciones de un modelo lineal y los datos reales, añadiendo un término de regularización L2 para evitar el sobreajuste.
+
+%\subsection{Funcional}
+Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
+$$
+J(\mathbf{w}) = \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \|\mathbf{w}\|_2^2
+$$
+donde $ \lambda > 0 $ es el parámetro de regularización.
+
+\subsection{Optimización de forma} %: Área de un Triángulo bajo Restricción de Perímetro}
+%\subsection{Contexto}
+Encontrar las coordenadas de los vértices de un triángulo que minimice su área, sujetas a una restricción de perímetro fijo. Este es un problema simplificado de optimización de forma.
+
+%\subsection{Funcional}
+Para un triángulo con vértices $ \mathbf{p}_1 = (x_1, y_1) $, $ \mathbf{p}_2 = (x_2, y_2) $, $ \mathbf{p}_3 = (x_3, y_3) $, y un perímetro $ P $ fijo:
 \begin{itemize}
-    \item Fundamentos teóricos del descenso de gradiente.
-    \item Variantes: descenso de gradiente estocástico, por lotes.
-    \item Aplicaciones en aprendizaje automático.
+    \item \textbf{Área} (a minimizar):
+    $
+    A(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = \frac{1}{2}  (\mathbf{p}_2 - \mathbf{p}_1) \times (\mathbf{p}_3 - \mathbf{p}_1) 
+    $
+    (producto vectorial en 2D).
+    \item \textbf{Restricción}:
+    $
+    \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 = P.
+    $
 \end{itemize}
+%
+%\subsection{Penalización}
+Para transformar el problema restringido en uno no restringido, se usa:
+$$
+J(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = A(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) + \mu \left( \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 - P \right)^2
+$$
+donde $ \mu $ es un parámetro de penalización.
 
-\chapter{Funciones convexas}
-Las funciones convexas juegan un papel fundamental en optimización, ya que garantizan que cualquier mínimo local es también un mínimo global. Una función $f: \mathbb{R}^n \to \mathbb{R}$ es convexa si el segmento de línea que une cualquier par de puntos en su gráfico siempre queda por encima del gráfico. Esta propiedad simplifica significativamente el análisis y la resolución de problemas de optimización. Además, las funciones convexas tienen derivadas monótonas, lo que facilita la aplicación de métodos numéricos. Su estudio es esencial para entender la eficiencia de algoritmos como el descenso de gradiente.
+\section{Gradiente a paso constante}
 
-\textbf{Sugerencia de plan:}
+%\section{Un ejemplo triste}
+Consideremos la función convexa $f(x) = x^2 + 2x + 1$. El objetivo es encontrar el mínimo global de esta función utilizando el método de descenso de gradiente.
+
+\subsection{Definición}
+El método de \textbf{descenso de gradiente a paso constante} se define como:
+$$
+\mathbf{x}_{k+1} = \mathbf{x}_k - \alpha \nabla f(\mathbf{x}_k)
+$$
+donde:
 \begin{itemize}
-    \item Definición y propiedades básicas.
-    \item Ejemplos y aplicaciones en optimización.
-    \item Relación con el descenso de gradiente.
+    \item $\mathbf{x}_k$ es la posición actual en la iteración $k$,
+    \item $\alpha$ es el \textbf{tamaño del paso} (constante),
+    \item $\nabla f(\mathbf{x}_k)$ es el gradiente de la función $f$ evaluado en $\mathbf{x}_k$.
 \end{itemize}
-
-\chapter{Condiciones de optimalidad}
-Las condiciones de optimalidad son criterios matemáticos que permiten identificar si un punto es un mínimo local o global de una función. En optimización sin restricciones, un punto $x^*$ es un mínimo local si el gradiente $\nabla f(x^*) = 0$ y la matriz hessiana $\nabla^2 f(x^*)$ es definida positiva. Estas condiciones son fundamentales para desarrollar algoritmos de optimización y analizar su convergencia. Además, en problemas con restricciones, se utilizan condiciones como las de Karush-Kuhn-Tucker (KKT). Su comprensión es clave para resolver problemas prácticos de manera eficiente.
-
-\textbf{Sugerencia de plan:}
-\begin{itemize}
-    \item Condiciones necesarias y suficientes para óptimos locales y globales.
-    \item Aplicación en problemas con y sin restricciones.
-    \item Ejemplos prácticos.
-\end{itemize}
-
-\chapter{Método de Newton}
-El método de Newton es un algoritmo de optimización de segundo orden que utiliza información de la segunda derivada para acelerar la convergencia. A diferencia del descenso de gradiente, este método aproxima la función objetivo localmente por una función cuadrática y encuentra su mínimo en una sola iteración. Aunque requiere el cálculo de la matriz hessiana, su convergencia es típicamente más rápida, especialmente cerca del óptimo. Es ampliamente utilizado en problemas donde la precisión y la velocidad son críticas. Sin embargo, su implementación puede ser costosa en términos computacionales.
-
-\textbf{Sugerencia de plan:}
-\begin{itemize}
-    \item Fundamentos teóricos y derivación del método.
-    \item Comparación con el descenso de gradiente.
-    \item Aplicaciones y limitaciones.
-\end{itemize}
-
----
-\chapter{Desigualdades variacionales}
-Las desigualdades variacionales generalizan el concepto de ecuaciones para incluir problemas donde la solución no necesariamente satisface una igualdad. Estas formulan condiciones en las que una función debe satisfacer una desigualdad para todas las direcciones factibles. Son herramientas poderosas en el análisis de problemas de equilibrio, optimización y economía matemática. Su estudio permite abordar problemas que no pueden ser resueltos mediante métodos tradicionales de optimización. Además, tienen aplicaciones en el análisis de redes y el diseño de sistemas complejos.
-
-\textbf{Sugerencia de plan:}
-\begin{itemize}
-    \item Definición y ejemplos básicos.
-    \item Métodos de resolución.
-    \item Aplicaciones en economía y física.
-\end{itemize}
-
-\chapter{Dualidad}
-La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones económicas y geométricas profundas.
-
-\textbf{Sugerencia de plan:}
-\begin{itemize}
-    \item Formulación del problema dual.
-    \item Relación entre soluciones primales y duales.
-    \item Aplicaciones en optimización convexa.
-\end{itemize}
-
-\chapter{Nociones avanzadas}
-Las nociones avanzadas en optimización incluyen temas como la optimización no convexa, métodos de puntos interiores y técnicas de regularización. Estos métodos abordan problemas donde los enfoques tradicionales pueden fallar o ser ineficientes. La optimización no convexa, por ejemplo, es esencial en problemas donde la función objetivo tiene múltiples mínimos locales. Los métodos de puntos interiores son especialmente útiles para problemas con restricciones de desigualdad. Estas técnicas avanzadas permiten resolver problemas más complejos y realistas, pero requieren un profundo entendimiento teórico y computacional.
-
-\textbf{Sugerencia de plan:}
-\begin{itemize}
-    \item Optimización no convexa y métodos de puntos interiores.
-    \item Técnicas de regularización.
-    \item Aplicaciones en problemas complejos.
-\end{itemize}
-
-\chapter{Perspectivas}
-Las perspectivas en optimización incluyen el desarrollo de métodos híbridos que combinan lo mejor de diferentes enfoques, como el descenso de gradiente y el método de Newton. La integración con técnicas de aprendizaje automático está abriendo nuevas áreas de investigación, como la optimización en espacios de alta dimensión. Además, el avance en hardware computacional permite abordar problemas cada vez más grandes y complejos. La optimización también está encontrando aplicaciones en campos emergentes como la inteligencia artificial y la ciencia de datos. El futuro promete avances emocionantes en la teoría y la práctica de la optimización.
-
-\textbf{Sugerencia de plan:}
-\begin{itemize}
-    \item Tendencias actuales en optimización.
-    \item Integración con aprendizaje automático.
-    \item Desafíos futuros y oportunidades.
-\end{itemize}
-
-%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
-%\nocite{*}
-{\footnotesize
-\bibliographystyle{siam}
-\bibliography{biblio}
-}
-
-%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
-{\scriptsize \printindex}
-
-\end{document} 
-
-E: evn Hilbert E_n
-
-1 Descente de gradient
-
-2 Functions convexes
-
-3 Conditions optimalite
-
-4 
-
-Dualite
-
-Inequations variationnelles
-
-Themes plus avances
-
-
-\chapter{Algoritmos de minimización}
-
-Los algoritmos de minimización son herramientas fundamentales en matemática. % aplicada, optimización, aprendizaje automático y ciencia de datos. 
-Este capítulo aborda los %principios y dos 
-algoritmos más relevantes para resolver problemas de minimización de funciones, desde enfoques clásicos hasta técnicas avanzadas basadas en análisis convexo y métodos numéricos. Cada sección incluye las fórmulas clave de los métodos y, cuando es posible, su relación con ecuaciones diferenciales que modelan la dinámica de la minimización.
-
-\section{Ejemplos}
-
-Funcional cuadrática. Ver \cite{allaire2007}.
-
-\section{Gradiente descendente}
-El \textbf{gradiente descendente} es un método iterativo para minimizar una función \( f: \mathbb{R}^n \to \mathbb{R} \) diferenciable. El algoritmo se define como:
-\[
-x_{k+1} = x_k - \alpha_k \nabla f(x_k),
-\]
-donde \( \alpha_k > 0 \) es el tamaño de paso (o tasa de aprendizaje) y \( \nabla f(x_k) \) es el gradiente de \( f \) en \( x_k \).
 
 \begin{quotation}
 \textbf{Vínculo con ecuaciones diferenciales:}
@@ -425,25 +357,421 @@ El método de gradiente descendente puede interpretarse como una discretización
 La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
 \end{quotation}
 
-\section{Método de Newton / Newton semi-suave}
+
+\subsection{Python}
+
+\begin{lstlisting}[style=pythonstyle, caption={Gradiente a paso constante.}, label={lst:g1}]
+import numpy as np
+
+def f(x):
+    return x*2 + 2x + 1
+
+def df(x):
+    return 2*x + 2
+
+def gradient_descent(alpha, x0, max_iter=1000):
+    x = x0
+    for _ in range(max_iter):
+        grad = df(x)
+        x = x - alpha * grad
+    return x
+
+Ejemplo de uso
+
+alpha = 0.1
+x0 = 5.0
+x_min = gradient_descent(alpha, x0)
+print(f"Mínimo encontrado en x = {x_min:.4f}")
+\end{lstlisting}
+
+
+
+\section{Gradiente a paso variable}
+
+\subsection{Definición}
+En el método de \textbf{descenso de gradiente a paso variable}, el tamaño del paso $\alpha_k$ puede cambiar en cada iteración. Una estrategia común es usar una \textbf{búsqueda de línea} (line search) para elegir $\alpha_k$ que minimice $f(\mathbf{x}_k - \alpha_k \nabla f(\mathbf{x}_k))$.
+%
+La actualización se escribe como:
+%
+$$
+\mathbf{x}_{k+1} = \mathbf{x}_k - \alpha_k \nabla f(\mathbf{x}_k)
+$$
+
+\subsection{Python}
+
+\begin{lstlisting}[style=pythonstyle, caption={Gradiente a paso variable.}, label={lst:g2}]
+from scipy.optimize import minimize_scalar
+
+def gradient_descent_variable(x0, max_iter=1000):
+    x = x0
+    for _ in range(max_iter):
+        grad = df(x)
+        # Búsqueda de línea para encontrar alpha óptimo
+        res = minimize_scalar(lambda a: f(x - a * grad), bounds=(0, 1), method='bounded')
+        alpha_k = res.x
+        x = x - alpha_k * grad
+    return x
+
+Ejemplo de uso
+
+x_min_var = gradient_descent_variable(x0)
+print(f"Mínimo encontrado con paso variable en x = {x_min_var:.4f}")
+\end{lstlisting}
+
+\section{Convergencia}
+El método de descenso de gradiente converge a un mínimo local si:
+la función $f$ es \textbf{convexa} y \textbf{diferenciable} y el tamaño del paso $\alpha_k$ cumple ciertas condiciones, como las \textbf{condiciones de Wolfe}:
+    \begin{itemize}
+        \item $f(\mathbf{x}_{k+1}) \leq f(\mathbf{x}_k) + c_1 \alpha_k \nabla f(\mathbf{x}_k)^T \mathbf{d}k$ (condición de Armijo),
+        \item $\nabla f(\mathbf{x}{k+1})^T \mathbf{d}_k \geq c_2 \nabla f(\mathbf{x}_k)^T \mathbf{d}_k$ (condición de curvatura).
+    \end{itemize}
+    donde $0 < c_1 < c_2 < 1$ y $\mathbf{d}_k = -\nabla f(\mathbf{x}_k)$.
+
+\chapter{Funciones convexas}
+Las funciones convexas juegan un papel fundamental en optimización, ya que garantizan que cualquier mínimo local es también un mínimo global. Una función $f: V \to \mathbb{R}$ es convexa si el segmento de línea que une cualquier par de puntos en su gráfico siempre queda por encima del gráfico. Esta propiedad simplifica significativamente el análisis y la resolución de problemas de optimización. Además, las funciones convexas tienen derivadas monótonas, lo que facilita la aplicación de métodos numéricos. Su estudio es esencial para entender la eficiencia de algoritmos como el descenso de gradiente. %Seguimos~\cite{allaire2007}.
+
+\section{Conjuntos y funciones convexas} %(dimensión infinita, sobre un espacio de Hilbert $V$)}
+
+\subsection{Definiciones}
+Sea $V$ un espacio de Hilbert sobre $\mathbb{R}$. 
+
+\begin{itemize}
+    \item Un conjunto $C \subset V$ es \textbf{convexo} si para todo $x, y \in C$ y todo $\lambda \in [0, 1]$, se cumple:
+    $$
+    \lambda x + (1 - \lambda) y \in C.
+    $$
+    \item Una función $f: V \to \mathbb{R} \cup {+\infty}$ es \textbf{convexa} si para todo $x, y \in V$ y todo $\lambda \in [0, 1]$, se cumple:
+    $$
+    f(\lambda x + (1 - \lambda) y) \leq \lambda f(x) + (1 - \lambda) f(y).
+    $$
+    \item Funci\'on convexa fuerte:
+%    * Strongly convex function 911 (definition): 
+\begin{equation}
+    J(\frac12 (u+v)) \leq \frac12 (J(u)+J(v)) - \frac{\alpha}{8} \| u-v \|^2.
+\end{equation}
+%(it is convex and strictly convex).
+\end{itemize}
+
+\subsection{Ejemplo}
+Sea $V = L^2([0,1])$ el espacio de Hilbert de funciones cuadrado-integrables en $[0,1]$.
+La función $f(u) = \int_0^1 |u(t)|^2 , dt$ es convexa en $V$.
+
+
+
+\section{Existencia de mínimos}
+
+\begin{theorem}
+Si $V$ es un espacio de Hilbert y $f: V \to \mathbb{R} \cup {+\infty}$ es una función:
+\begin{itemize}
+    \item \textbf{convexa},
+    \item \textbf{semi-continua inferiormente} (para la topología fuerte de $V$),
+    \item \textbf{coerciva} (es decir, $f(v) \to +\infty$ cuando $|v|_V \to +\infty$),
+\end{itemize}
+entonces $f$ alcanza su mínimo en $V$.
+\end{theorem}
+
+%\subsection{Ejemplo}
+Sea $V = H^1_0(\Omega)$ (espacio de Sobolev) y $f(u) = \frac{1}{2} \int_\Omega |\nabla u|^2 , dx - \int_\Omega fu , dx$, donde $f \in L^2(\Omega)$.
+Bajo ciertas condiciones, $f$ es convexa, continua y coerciva, por lo que tiene un mínimo en $V$.
+
+
+\section{Funciones diferenciables}
+
+\subsection{Definición}
+Sea $f: V \to \mathbb{R}$ una función. Decimos que $f$ es \textbf{diferenciable en el sentido de Fréchet} en $x \in V$ si existe un funcional lineal continuo $f'(x) \in V'$ (el dual de $V$) tal que:
+%
+$$
+\lim_{h \to 0} \frac{|f(x + h) - f(x) - \langle f'(x), h \rangle|}{|h|_V} = 0.
+$$
+%
+Si $f$ es diferenciable en todo $V$, decimos que $f$ es \textbf{diferenciable en $V$}.
+
+\subsection{Ejemplo}
+Sea $V = H^1_0(\Omega)$ y $f(u) = \frac{1}{2} \int_\Omega |\nabla u|^2 , dx$.
+La derivada de Fréchet de $f$ en $u$ es el funcional lineal:
+
+$$
+\langle f'(u), v \rangle = \int_\Omega \nabla u \cdot \nabla v , dx, \quad \forall v \in V.
+$$
+
+\section{Criterios de optimalidad} %bajo restricciones de desigualdad (Euler-Lagrange)}
+
+\subsection{Condiciones de optimalidad}
+Sea $K \subset V$ un conjunto convexo y cerrado, y $f: V \to \mathbb{R}$ una función convexa y diferenciable.
+Un punto $u \in K$ es mínimo de $f$ en $K$ si y solo si:
+%
+$$
+\langle f'(u), v - u \rangle \geq 0, \quad \forall v \in K.
+$$
+%
+Esta es la \textbf{desigualdad variacional de Euler-Lagrange}.
+
+%\subsection{Multiplicadores de Lagrange}
+%Si las restricciones son de la forma $g_i(u) \leq 0$ para $i = 1, \dots, m$, donde $g_i: V \to \mathbb{R}$ son funciones convexas y diferenciables,
+%las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) afirman que existe $u \in V$ y multiplicadores $\lambda_i \geq 0$ tales que:
+
+%\begin{align*}
+%\langle f'(u) + \sum_{i=1}^m \lambda_i g_i'(u), v - u \rangle &\geq 0, \quad \forall v \in V, \
+%\lambda_i g_i(u) &= 0, \quad \forall i = 1, \dots, m.
+%\end{align*}
+
+%\chapter{Condiciones de optimalidad}
+%Las condiciones de optimalidad son criterios matemáticos que permiten identificar si un punto es un mínimo local o global de una función. En optimización sin restricciones, un punto $x^*$ es un mínimo local si el gradiente $\nabla f(x^*) = 0$ y la matriz hessiana $\nabla^2 f(x^*)$ es definida positiva. Estas condiciones son fundamentales para desarrollar algoritmos de optimización y analizar su convergencia. Además, en problemas con restricciones, se utilizan condiciones como las de Karush-Kuhn-Tucker (KKT). Su comprensión es clave para resolver problemas prácticos de manera eficiente.
+
+%\textbf{Sugerencia de plan:}
+%\begin{itemize}
+%    \item Condiciones necesarias y suficientes para óptimos locales y globales.
+%    \item Aplicación en problemas con y sin restricciones.
+%    \item Ejemplos prácticos.
+%\end{itemize}
+
+\chapter{Método de Newton}
+El método de Newton es un algoritmo de optimización de segundo orden que utiliza información de la segunda derivada para acelerar la convergencia. A diferencia del descenso de gradiente, este método aproxima la función objetivo localmente por una función cuadrática y encuentra su mínimo en una sola iteración. Aunque requiere el cálculo de la matriz hessiana, su convergencia es típicamente más rápida, especialmente cerca del óptimo. Es ampliamente utilizado en problemas donde la precisión y la velocidad son críticas. Sin embargo, su implementación puede ser costosa en términos computacionales.
+
+%\section{Método de Newton / Newton semi-suave}
+
 El \textbf{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
 \[
 x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
 \]
 donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales.
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
+%
+%\begin{quotation}
+%\textbf{Vínculo con ecuaciones diferenciales:}
 El método de Newton puede verse como una aproximación de la dinámica de segundo orden:
 \[
 \frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -\nabla f(x),
 \]
 donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
-\end{quotation}
+%\end{quotation}
+
+\chapter{Desigualdades variacionales}
+
+Las desigualdades variacionales son útiles para modelar numerosos problemas de la física o la ingeniería~\cite{duvaut76,glowinski80,kinderlehrer80}. Sin embargo, rara vez se abordan en los cursos de posgrado de análisis numérico. El objetivo es presentar el análisis numérico del problema del obstáculo, cuando se discretiza mediante elementos finitos. El problema del obstáculo es, de hecho, el prototipo ideal de una desigualdad variacional y, quizás, el más sencillo de ellos.
+
+Denotamos por \(H^{s}(\cdot)\), \(s\in \mathbb{R}\), a los espacios de Sobolev. Para un subconjunto abierto \(D\) de \(\mathbb{R}^n\), la norma usual de \(H^{s}(D)\) se denota por \(\|\cdot\|_{s,D}\). El espacio \(H^1_0(D)\) es el subespacio de funciones en \(H^1(D)\) con traza nula en \(\partial D\). La letra \(C\) representa una constante genérica, independiente de los parámetros de discretización.
+
+%\section{El obstáculo}
+
+\section{Formulación fuerte}
+Este enfoque clásico del problema del obstáculo presenta la formulación en términos de ecuaciones diferenciales parciales y condiciones de contorno. 
+
+\section{Desigualdad variacional}
+Las desigualdades variacionales proporcionan un marco general para estudiar problemas con restricciones, como el del obstáculo. Este planteamiento permite modelar fenómenos físicos donde las soluciones deben satisfacer condiciones de desigualdad en lugar de igualdades. La teoría de desigualdades variacionales es fundamental para entender la estructura matemática del problema.
+
+\section{Existencia y unicidad}
+El estudio de la existencia y unicidad de soluciones es crucial para garantizar la validez de los modelos matemáticos. En el caso del obstáculo, se demuestra que, bajo condiciones adecuadas, existe una solución única que satisface las restricciones físicas del problema. Este análisis sienta las bases para el desarrollo de métodos numéricos confiables.
+
+\section{Aproximación de Galerkin}
+La aproximación de Galerkin es un método numérico ampliamente utilizado para resolver problemas descritos por desigualdades variacionales. Este enfoque permite discretizar el problema y transformarlo en un sistema algebraico resoluble. Su simplicidad y eficacia lo convierten en una herramienta estándar en el análisis numérico.
+
+\subsection{Penalización}
+El método de penalización reemplaza las restricciones del problema original por términos en la función objetivo. Este enfoque simplifica la implementación numérica y permite aplicar técnicas estándar de resolución. Sin embargo, la elección del parámetro de penalización es clave para la estabilidad y precisión del método.
+
+\subsection{Newton semi-suave}
+El método de Newton semi-suave es una técnica avanzada para resolver problemas de desigualdades variacionales, combinando ideas de métodos de Newton y subgradientes. Este enfoque aprovecha la estructura diferenciable a trozos de las funciones involucradas, mejorando la convergencia en problemas no lineales. Su aplicación es especialmente relevante en contextos donde la solución puede presentar comportamientos complejos.
+
+\subsection{Implementación en scikit-fem}
+scikit-fem es una biblioteca de Python que facilita la implementación de métodos de elementos finitos para resolver problemas variacionales. Su integración con NumPy y SciPy permite desarrollar soluciones eficientes y modulares. Esta herramienta es ideal para prototipar y validar algoritmos numéricos en entornos académicos y de investigación. Veamos el listado siguiente, escrito por Lucas Curci.
+
+\begin{lstlisting}[caption={Diferenciación automática con scikit-fem.}, label={lst:autodiff-skfem}, style=pythonstyle]
+"""Diferenciación automática.
+Utiliza diferenciación automática para derivar el sistema tangente
+para el método de Newton.
+"""
+
+from skfem import *
+from skfem.autodiff import NonlinearForm
+from skfem.autodiff.helpers import grad, dot
+import numpy as np
+import jax.numpy as jnp
+
+m = MeshTri().refined(5)
+
+@NonlinearForm(hessian=True)
+def J(u, _):
+    eps = 1e-2
+    return (1/2 * dot(grad(u), grad(u)) - u
+            + (1 / eps) * ((u - jnp.minimum(u.value, 0.01))**2))
+
+basis = Basis(m, ElementTriP1())
+
+D = m.boundary_nodes()
+x = np.zeros(basis.N)
+
+for itr in range(100):
+    x_prev = x.copy()
+    x += solve(*condense(*J.assemble(basis, x=x), D=D))
+    res = np.linalg.norm(x - x_prev)
+    if res < 1e-8:
+        break
+    if __name__ == "__main__":
+        print(res)
+
+if __name__ == "__main__":
+    from skfem.visuals.matplotlib import plot3, show
+    plot3(m, x)
+    show()
+\end{lstlisting}
 
 
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.8\linewidth]{download (1).png}
+%    \caption{Solución del obstáculo penalizado con scikit-fem}
+%    \label{fig:exemple_image}
+%\end{figure}
 
-\chapter{Conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
+%\begin{verbatim}
+%    """
+%from skfem import *
+%from skfem.autodiff %import NonlinearForm
+%from skfem.autodiff.helpers import grad, dot, div
+%import numpy as np
+%import jax.numpy as jnp
+
+%m = MeshTri().refined(5)
+
+%@NonlinearForm(hessian=True)
+%def J(u, _):
+%    gamma = 1000
+%    return (1/2 * dot(grad(u), grad(u)) - u
+%            - (1/2) * (1/gamma) * (0 + 1)**2
+%            + (gamma / 2) * (jnp.maximum(u.value - 0.01 - (1/gamma) * (0 + 1),0))**2)
+
+%basis = Basis(m, ElementTriP1())
+
+%D = m.boundary_nodes()
+%x = np.zeros(basis.N)
+
+%for itr in range(100):
+%    x_prev = x.copy()
+%    x += solve(*condense(*J.assemble(basis, x=x), D=D))
+%    res = np.linalg.norm(x - x_prev)
+%    if res < 1e-8:
+%        break
+%    if __name__ == "__main__":
+%        print(res)
+%
+%if __name__ == "__main__":
+%    from skfem.visuals.matplotlib import plot3, show
+%    plot3(m, x)
+%    show()
+%    
+%    ******
+
+\subsection{Comentarios adicionales}
+
+%Aquí unos comentarios para profundizar el tema de las desigualdades variacionales.
+
+%\paragraph{Mas desigualdades variacionales}
+
+% Projets
+
+%\paragraph{Aplicaciones del obstaculo}
+
+%\paragraph{Mas tecnicas de aproximacion}
+
+\begin{itemize}
+    \item 
+    
+    
+    \textbf{Método de Nitsche o multiplicadores}: Estas técnicas alternativas permiten incorporar las restricciones del problema de manera explícita en la formulación débil, mejorando la estabilidad numérica en ciertos casos. El método de Nitsche, en particular, ofrece una forma elegante de manejar las condiciones de desigualdad.
+    \item \textbf{Aplicaciones}: El problema del obstáculo tiene aplicaciones en mecánica de sólidos, fluidos, finanzas y otras áreas de la ciencia e ingeniería. Su versatilidad lo convierte en un modelo fundamental para estudiar fenómenos con restricciones geométricas o físicas.
+\end{itemize}
+
+\chapter{Dualidad}
+La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones económicas y geométricas profundas.
+
+%\textbf{Sugerencia de plan:}
+%\begin{itemize}
+%    \item Formulación del problema dual.
+%    \item Relación entre soluciones primales y duales.
+%    \item Aplicaciones en optimización convexa.
+%\end{itemize}
+
+\chapter{Perspectivas}
+\label{ch:conclusion}
+
+Para concluir nuestra breve introducción, damos unas sugerencias que permitirán al lector ir más allá en el tema y/o descubrir otros campos relacionados.
+
+\section{Optimización matemática}
+El análisis convexo es fundamental en la teoría de la optimización, especialmente en problemas de programación matemática. Las funciones convexas y los conjuntos convexos permiten modelar y resolver problemas de minimización o maximización con restricciones, garantizando la existencia de soluciones globales óptimas. Por ejemplo, en \textbf{programación convexa}, se minimiza una función convexa sobre un conjunto convexo, lo que asegura convergencia a soluciones globales.
+\begin{align*}
+    \text{Minimizar } & f(x) \\
+    \text{Sujeto a } & g_i(x) \leq 0, \quad i = 1, \dots, m \\
+                     & h_j(x) = 0, \quad j = 1, \dots, p,
+\end{align*}
+donde \( f \) es convexa y \( g_i \), \( h_j \) son funciones convexas.
+
+\section{Control y sistemas dinámicos}
+En teoría de control, el análisis convexo se aplica para estabilizar sistemas dinámicos y diseñar controladores robustos. Los \textbf{conos tangentes} y las \textbf{funciones de Lyapunov convexas} son herramientas clave para analizar la estabilidad asintótica y diseñar estrategias de control óptimo.
+
+\section{Aprendizaje automático}
+En aprendizaje automático, el análisis convexo es esencial en algoritmos como \textbf{Support Vector Machines (SVM)} y \textbf{regresión logística}. Las SVM, por ejemplo, buscan el hiperplano que maximice el margen entre clases, lo que se formula como un problema de optimización convexa. La convexidad garantiza que el algoritmo encuentre la solución globalmente óptima.
+\begin{equation*}
+    \min_{w, b} \frac{1}{2} \|w\|^2 \quad \text{sujeto a} \quad y_i (w \cdot x_i + b) \geq 1 \quad \forall i.
+\end{equation*}
+
+\section{Economía y finanzas}
+En economía, el análisis convexo se utiliza para modelar preferencias de agentes económicos, funciones de producción y problemas de equilibrio general. Por ejemplo, las \textbf{funciones de utilidad cuasi-convexas} permiten analizar decisiones bajo incertidumbre, mientras que la convexidad de las funciones de costo es clave en la teoría de la firma.
+
+\section{Teoría de juegos}
+En teoría de juegos, los conceptos de convexidad son centrales para analizar equilibrios de Nash en juegos no cooperativos. Las estrategias mixtas y las funciones de pago convexas permiten demostrar la existencia de equilibrios y estudiar su estabilidad.
+
+\section{Geometría y computación}
+% IVR
+En geometría computacional, el análisis convexo se aplica en algoritmos de \textbf{envueltas convexas} (como el algoritmo de Graham) y en problemas de localización de puntos. La convexidad permite diseñar algoritmos eficientes para encontrar soluciones aproximadas o exactas en conjuntos de datos de alta dimensionalidad.
+
+\section{Procesamiento de señales e imágenes}
+En procesamiento de imágenes, técnicas como la \textbf{reconstrucción convexa} y la \textbf{regularización total variación (TV)} se basan en la convexidad para minimizar artefactos y mejorar la calidad de la imagen. Estas técnicas son fundamentales en tomografía, resonancia magnética y reconstrucción 3D.
+
+\section{Teoría de la información}
+En teoría de la información, las funciones convexas como la \textbf{entropía relativa} (o divergencia de Kullback-Leibler) son herramientas esenciales para analizar la capacidad de canales de comunicación y diseñar códigos eficientes.
+
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+%{\footnotesize
+%\bibliographystyle{siam}
+%\bibliography{biblio}
+%}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+%{\scriptsize \printindex}
+
+%\end{document} 
+
+%\chapter{********************}
+
+%\chapter{Algoritmos de minimización}
+
+%Los algoritmos de minimización son herramientas fundamentales en matemática. % aplicada, optimización, aprendizaje automático y ciencia de datos. 
+%Este capítulo aborda los %principios y dos 
+%algoritmos más relevantes para resolver problemas de minimización de funciones, desde enfoques clásicos hasta técnicas avanzadas basadas en análisis convexo y métodos numéricos. Cada sección incluye las fórmulas clave de los métodos y, cuando es posible, su relación con ecuaciones diferenciales que modelan la dinámica de la minimización.
+
+%\section{Ejemplos}
+
+%Funcional cuadrática. Ver \cite{allaire2007}.
+
+%\section{Gradiente descendente}
+%El \textbf{gradiente descendente} es un método iterativo para minimizar una función \( f: \mathbb{R}^n \to \mathbb{R} \) diferenciable. El algoritmo se define como:
+%\[
+%x_{k+1} = x_k - \alpha_k \nabla f(x_k),
+%\]
+%donde \( \alpha_k > 0 \) es el tamaño de paso (o tasa de aprendizaje) y \( \nabla f(x_k) \) es el gradiente de \( f \) en \( x_k \).
+
+%\begin{quotation}
+%\textbf{Vínculo con ecuaciones diferenciales:}
+%El método de gradiente descendente puede interpretarse como una discretización de la ecuación diferencial ordinaria (EDO) asociada al flujo gradiente:
+%\[
+%\frac{dx}{dt} = -\nabla f(x(t)).
+%\]
+%La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
+%\end{quotation}
+
+\appendix
+
+\chapter{M\'as sobre conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
 
 %***
 %Los conjuntos convexos son fundamentales en matemática, especialmente en geometría algorítmica, optimización y aprendizaje automático. Este capítulo explora la teoría de conjuntos convexos, con énfasis en la \textbf{cáscara convexa} (o \emph{convex hull}), sus propiedades, algoritmos para su cálculo y aplicaciones en geometría computacional. 
@@ -655,7 +983,7 @@ Por lo tanto, \( \mathring{C} \) es un conjunto convexo.
 
 %\section{Cono convexo}
 %\chapter{Conos Convexos}
-\section{Conos Convexos}
+\section{Conos convexos}
 %\section{Conos Convexos: Definición y Propiedades}
 
 \subsection{Definición}
@@ -704,7 +1032,7 @@ Sea \( V \) un espacio vectorial real. Un subconjunto \( K \subseteq V \) es un 
 \end{enumerate}
 %\end{observacion}
 
-\subsection{Propiedades Principales}
+\subsection{Propiedades principales}
 
 %\begin{teorema}[Propiedades de Conos Convexos]
 Sea \( K \subseteq V \) un cono convexo. Entonces:
@@ -1164,7 +1492,7 @@ Recomendamos al lector interesado en profundizar en el tema consultar las siguie
 \cite{hiriart2001},  
 \cite{Rockafellar1970}.
 
-\chapter{Funciones convexas} %en dimensión finita}
+\chapter{Funciones convexas en dimensión finita}
 
 Este capítulo aborda el análisis de funciones convexas en dimensión finita, un concepto central en optimización, economía matemática y aprendizaje automático. Se estudian dos contextos principales: el caso general (no necesariamente continuo) y el caso continuo. Para cada contexto, se presentan definiciones, propiedades fundamentales, caracterizaciones de mínimos locales y globales, y herramientas como el subgradiente y la Hessiana.
 
@@ -1640,61 +1968,7 @@ Sea \( f: \mathbb{R}^n \to \mathbb{R} \) una función convexa y dos veces difere
 \]
 \end{theorem}
 
-\chapter{Métodos de minimización}
-
-Los métodos de minimización son herramientas fundamentales en matemática aplicada, optimización, aprendizaje automático y ciencia de datos. Este capítulo aborda los principios y algoritmos más relevantes para resolver problemas de minimización de funciones, desde enfoques clásicos hasta técnicas avanzadas basadas en análisis convexo y métodos numéricos. Cada sección incluye las fórmulas clave de los métodos y, cuando es posible, su relación con ecuaciones diferenciales que modelan la dinámica de la minimización.
-
-\section{Ejemplos}
-
-Funcional cuadrática. Ver \cite{allaire2007}.
-
-\section{Gradiente descendente}
-El \textbf{gradiente descendente} es un método iterativo para minimizar una función \( f: \mathbb{R}^n \to \mathbb{R} \) diferenciable. El algoritmo se define como:
-\[
-x_{k+1} = x_k - \alpha_k \nabla f(x_k),
-\]
-donde \( \alpha_k > 0 \) es el tamaño de paso (o tasa de aprendizaje) y \( \nabla f(x_k) \) es el gradiente de \( f \) en \( x_k \).
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-El método de gradiente descendente puede interpretarse como una discretización de la ecuación diferencial ordinaria (EDO) asociada al flujo gradiente:
-\[
-\frac{dx}{dt} = -\nabla f(x(t)).
-\]
-La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
-\end{quotation}
-
-\section{Método de Newton / Newton semi-suave}
-El \textbf{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
-\[
-x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
-\]
-donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales.
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-El método de Newton puede verse como una aproximación de la dinámica de segundo orden:
-\[
-\frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -\nabla f(x),
-\]
-donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
-\end{quotation}
-
-\section{Método de punto fijo}
-El \textbf{método de punto fijo} busca resolver \( x = g(x) \), donde \( g \) es una función iterativa. Para minimización, se define \( g(x) = x - \alpha \nabla f(x) \), y la iteración es:
-\[
-x_{k+1} = g(x_k).
-\]
-La convergencia depende de que \( g \) sea una contracción.
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-Si \( g(x) = x - \alpha \nabla f(x) \), el método de punto fijo puede relacionarse con la EDO:
-\[
-\frac{dx}{dt} = -\nabla f(x).
-\]
-Este es el mismo flujo gradiente del método de gradiente descendente.
-\end{quotation}
+\chapter{M\'as métodos}
 
 \section{Método de penalización}
 El \textbf{método de penalización} transforma un problema con restricciones \( \min f(x) \) sujeto a \( c_i(x) = 0 \) en un problema sin restricciones:
@@ -1702,15 +1976,6 @@ El \textbf{método de penalización} transforma un problema con restricciones \(
 \min f(x) + \mu \sum_{i=1}^m c_i(x)^2,
 \]
 donde \( \mu > 0 \) es el parámetro de penalización.
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-La dinámica asociada puede modelarse como:
-\[
-\frac{dx}{dt} = -\nabla f(x) - 2\mu \sum_{i=1}^m c_i(x) \nabla c_i(x),
-\]
-que combina el gradiente de la función objetivo con el gradiente de las restricciones.
-\end{quotation}
 
 \section{Método de Lagrange}
 El \textbf{método de Lagrange} introduce multiplicadores \( \lambda \) para problemas con restricciones \( c_i(x) = 0 \). La función Lagrangiana es:
@@ -1722,18 +1987,18 @@ Las condiciones de optimalidad son:
 \nabla_x \mathcal{L}(x^*, \lambda^*) = 0, \quad c_i(x^*) = 0.
 \]
 
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-La dinámica de los multiplicadores de Lagrange puede describirse mediante:
-\[
-\frac{dx}{dt} = -\nabla_x \mathcal{L}(x, \lambda), \quad \frac{d\lambda}{dt} = c(x).
-\]
-Esta ecuación diferencial parcial (EDP) describe la evolución de \( x \) y \( \lambda \) hacia un punto de equilibrio.
-\end{quotation}
+%\begin{quotation}
+%\textbf{Vínculo con ecuaciones diferenciales:}
+%La dinámica de los multiplicadores de Lagrange puede describirse mediante:
+%\[
+%\frac{dx}{dt} = -\nabla_x \mathcal{L}(x, \lambda), \quad \frac{d\lambda}{dt} = c(x).
+%\]
+%Esta ecuación diferencial parcial (EDP) describe la evolución de \( x \) y \( \lambda \) hacia un punto de equilibrio.
+%\end{quotation}
 
 \section{Método de Lagrange aumentado} % en Dimensión Finita}
 
-Se puede consultar Burman et al., 2023.
+%Se puede consultar Burman et al., 2023.
 
 \subsection{Definición}
 
@@ -1795,16 +2060,6 @@ donde \( s_k = x_{k+1} - x_k \) y \( y_k = \nabla f(x_{k+1}) - \nabla f(x_k) \).
 \[
 x_{k+1} = x_k - \alpha_k H_k \nabla f(x_k).
 \]
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-Los métodos cuasi-Newton pueden interpretarse como aproximaciones de la dinámica de segundo orden:
-\[
-\frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -H^{-1} \nabla f(x),
-\]
-donde \( H \) es la aproximación de la Hessiana.
-\end{quotation}
-
 
 \chapter{Medida y análisis funcional}
 
@@ -2095,233 +2350,165 @@ La \textbf{función de Cantor-Lebesgue} \(f_C(x)\) es continua, creciente, y sin
 \section{Ecuaciones elípticas}
 Las ecuaciones elípticas son un tipo de ecuaciones en derivadas parciales de segundo orden cuyo símbolo principal es definido positivo (por ejemplo, la ecuación de Laplace $\Delta u=0$ o la de Poisson $-\Delta u=f$), y modelan estados estacionarios y distribuciones espaciales equilibradas; en problemas de contorno bien planteados suelen garantizar existencia, unicidad y regularidad de soluciones suaves en dominios regulares, y poseen propiedades cualitativas importantes como el principio del máximo, estimaciones a priori y dependencia continua respecto de los datos, lo que las convierte en herramientas centrales en análisis y aplicaciones físicas e ingenieriles.
 
-\chapter{Dimensión infinita}
+\chapter{Ejemplos para minimizar con descenso de gradiente}
 
-El estudio de la \textbf{dimensión infinita} en el ámbito del análisis convexo y la optimización permite abordar problemas complejos que surgen en mecánica de sólidos, teoría de control, economía y aprendizaje automático. En este contexto, las funciones y conjuntos convexos se definen en espacios de Hilbert o de Banach, donde las herramientas del análisis funcional son esenciales para garantizar la existencia de soluciones y su caracterización. La optimización en dimensión infinita extiende los principios de la programación convexa clásica, permitiendo modelar fenómenos con restricciones no lineales y operadores diferenciales. Este enfoque es fundamental para desarrollar métodos numéricos robustos y teoremas de dualidad que subyacen en aplicaciones modernas como el control óptimo y la teoría de juegos.
+Este presenta cuatro ejemplos \textbf{concretos y precisos} de funcionales diferenciables que pueden minimizarse utilizando el método de \textbf{descenso de gradiente}. Los ejemplos abarcan:
+\begin{itemize}
+    \item Una función fuertemente convexa (regresión Ridge).
+    \item Un problema físico (energía potencial de un sistema de resortes).
+    \item Un problema de optimización de forma (área de un polígono bajo restricción de perímetro).
+    \item Un ejemplo de aprendizaje automático (regresión logística).
+\end{itemize}
+Todos los ejemplos están formulados con un número reducido de variables (entre 2 y 10) para facilitar su comprensión y implementación.
+
+\section{Ridge} 
+%Función Fuertemente Convexa: Regresión Lineal con Regularización L2 (Ridge)}
+\subsection{Contexto}
+En aprendizaje automático, la regresión Ridge busca minimizar el error cuadrático entre las predicciones de un modelo lineal y los datos reales, añadiendo un término de regularización L2 para evitar el sobreajuste.
+
+\subsection{Funcional}
+Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
+$
+J(\mathbf{w}) = \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \|\mathbf{w}\|_2^2
+$
+donde $ \lambda > 0 $ es el parámetro de regularización.
+
+\subsection{Propiedades}
+\begin{itemize}
+    \item \textbf{Fuertemente convexa} si $ \lambda > 0 $.
+    \item Diferenciable, con gradiente:
+    $
+    \nabla J(\mathbf{w}) = \frac{1}{n} \mathbf{X}^T (\mathbf{X}\mathbf{w} - \mathbf{y}) + 2\lambda \mathbf{w}
+    $.
+\end{itemize}
+
+\subsection{Ejemplo}
+Para $ d = 2 $ (dos variables $ w_1, w_2 $) y $ n = 3 $ muestras:
+$$
+\mathbf{X} = \begin{bmatrix} 1 & 2  3 & 4  5 & 6 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} 3  7  11 \end{bmatrix}, \quad \lambda = 0.1.
+$$
+La funcional se escribe como: \scriptsize
+$$
+J(w_1, w_2) = \frac{1}{6} \left( (w_1 + 2w_2 - 3)^2 + (3w_1 + 4w_2 - 7)^2 + (5w_1 + 6w_2 - 11)^2 \right) + 0.1(w_1^2 + w_2^2).
+$$
+\normalsize
+
+
+\section{Energía potencial de un sistema de resortes}
+\subsection{Contexto}
+Minimización de la energía potencial elástica de un sistema de masas conectadas por resortes en 1D. Este es un problema clásico en física de medios continuos.
+
+\subsection{Funcional}
+Consideremos $ N $ masas conectadas por resortes. Sea $ x_i $ la posición de la masa $ i $ (con $ x_0 $ y $ x_{N+1} $ fijas). La energía potencial total es:
+$
+E(\mathbf{x}) = \sum_{i=1}^{N} \frac{k}{2} (x_i - x_{i-1} - L_i)^2
+$
+donde $ k $ es la constante elástica, $ L_i $ es la longitud en reposo del resorte $ i $, y $ \mathbf{x} = [x_1, \dots, x_N] $.
+
+\subsection{Propiedades}
+\begin{itemize}
+    \item \textbf{Convexa} (suma de cuadrados).
+    \item Diferenciable, con gradiente:
+    $
+    \frac{\partial E}{\partial x_i} = k \left( 2x_i - x_{i-1} - x_{i+1} - L_i + L_{i+1} \right)
+    $
+    (con $ x_0 $ y $ x_{N+1} $ fijas).
+\end{itemize}
+
+\subsection{Ejemplo}
+Para $ N = 2 $ masas (2 variables $ x_1, x_2 $):
+$
+k = 1, \quad L_1 = L_2 = 1, \quad x_0 = 0, \quad x_3 = 2
+$
+La funcional se escribe como:
+$
+E(x_1, x_2) = \frac{1}{2}(x_1 - 1)^2 + \frac{1}{2}(x_2 - x_1 - 1)^2 + \frac{1}{2}(2 - x_2 - 1)^2.
+$
+
+\section{Optimización de forma} %: Área de un Triángulo bajo Restricción de Perímetro}
+\subsection{Contexto}
+Encontrar las coordenadas de los vértices de un triángulo que minimice su área, sujetas a una restricción de perímetro fijo. Este es un problema simplificado de optimización de forma.
+
+\subsection{Funcional}
+Para un triángulo con vértices $ \mathbf{p}_1 = (x_1, y_1) $, $ \mathbf{p}_2 = (x_2, y_2) $, $ \mathbf{p}_3 = (x_3, y_3) $, y un perímetro $ P $ fijo:
+\begin{itemize}
+    \item \textbf{Área} (a minimizar):
+    $
+    A(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = \frac{1}{2}  (\mathbf{p}_2 - \mathbf{p}_1) \times (\mathbf{p}_3 - \mathbf{p}_1) 
+    $
+    (producto vectorial en 2D).
+    \item \textbf{Restricción}:
+    $
+    \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 = P.
+    $
+\end{itemize}
+
+\subsection{Penalización}
+Para transformar el problema restringido en uno no restringido, se usa:
+$$
+J(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = A(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) + \mu \left( \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 - P \right)^2
+$$
+donde $ \mu $ es un parámetro de penalización.
+
+\subsection{Ejemplo}
+Para $ P = 6 $, y fijando $ \mathbf{p}_1 = (0, 0) $, $ \mathbf{p}_2 = (a, 0) $, $ \mathbf{p}_3 = (b, c) $:
+\begin{itemize}
+    \item Área:
+    $
+    A(a, b, c) = \frac{1}{2} |a \cdot c|.
+    $
+    \item Restricción:
+    $
+    a + \sqrt{(b - a)^2 + c^2} + \sqrt{b^2 + c^2} = 6.
+    $
+\end{itemize}
+
+\section{Aprendizaje automático} %Log-Verosimilitud para Regresión Logística Binaria}
+\subsection{Contexto}
+Clasificar puntos en 2D en dos clases (0 o 1) aprendiendo los parámetros de un modelo logístico.
+
+\subsection{Funcional}
+Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times 2} $, un vector de etiquetas $ \mathbf{y} \in 0, 1^n $, y parámetros $ \mathbf{w} = (w_1, w_2) $, $ b $ (pesos y sesgo), la log-verosimilitud negativa (a minimizar) es:
+$$
+J(\mathbf{w}, b) = -\sum_{i=1}^n \left[ y_i \log(\sigma(\mathbf{w}^T \mathbf{x}_i + b)) + (1 - y_i) \log(1 - \sigma(\mathbf{w}^T \mathbf{x}_i + b)) \right]
+$$
+donde $ \sigma(z) = \frac{1}{1 + e^{-z}} $ es la función sigmoide.
+
+\subsection{Propiedades}
+\begin{itemize}
+    \item \textbf{Convexa} (la log-verosimilitud negativa es convexa para regresión logística).
+    \item Diferenciable, con gradiente:
+    $$
+    \nabla_{w_j} J = -\sum_{i=1}^n (y_i - \sigma(\mathbf{w}^T \mathbf{x}i + b)) x_{ij}, \quad \nabla_b J = -\sum_{i=1}^n (y_i - \sigma(\mathbf{w}^T \mathbf{x}_i + b)).
+    $$
+\end{itemize}
+
+\subsection{Ejemplo}
+Para $ n = 3 $ muestras:
+$$
+\mathbf{X} = \begin{bmatrix} 1 & 2  2 & 1  3 & 3 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} 1  0  1 \end{bmatrix}.
+$$
+La funcional se escribe como: \scriptsize
+$$
+J(w_1, w_2, b) = -\left[ \log(\sigma(w_1 + 2w_2 + b)) + \log(1 - \sigma(2w_1 + w_2 + b)) + \log(\sigma(3w_1 + 3w_2 + b)) \right].
+$$
+\normalsize
+
+
+
 
 %\addcontentsline{toc}{chapter}{Bibliograf\'ia}
 %\nocite{*}
-{\footnotesize
-\bibliographystyle{siam}
-\bibliography{biblio}
-}
+%{\footnotesize
+%\bibliographystyle{siam}
+%\bibliography{biblio}
+%}
 
 %\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
-{\scriptsize \printindex}
+%{\scriptsize \printindex}
 
-\end{document} 
+%\end{document} 
 
-\chapter{***********************}
-
-\chapter{Desigualdades variacionales}
-
-Las desigualdades variacionales son útiles para modelar numerosos problemas de la física o la ingeniería~\cite{duvaut76,glowinski80,kinderlehrer80}. Sin embargo, rara vez se abordan en los cursos de posgrado de análisis numérico. El objetivo de esta breve nota es presentar el análisis numérico del problema del obstáculo, cuando se discretiza mediante elementos finitos. El problema del obstáculo es, de hecho, el prototipo ideal de una desigualdad variacional y, quizás, el más sencillo de ellos.
-
-Denotamos por \(H^{s}(\cdot)\), \(s\in \mathbb{R}\), a los espacios de Sobolev. Para un subconjunto abierto \(D\) de \(\mathbb{R}^n\), la norma usual de \(H^{s}(D)\) se denota por \(\|\cdot\|_{s,D}\). El espacio \(H^1_0(D)\) es el subespacio de funciones en \(H^1(D)\) con traza nula en \(\partial D\). La letra \(C\) representa una constante genérica, independiente de los parámetros de discretización.
-
-\section{El obstáculo}
-
-\subsection{Formulación fuerte}
-Este enfoque clásico del problema del obstáculo presenta la formulación en términos de ecuaciones diferenciales parciales y condiciones de contorno. 
-
-\subsection{Desigualdad variacional}
-Las desigualdades variacionales proporcionan un marco general para estudiar problemas con restricciones, como el del obstáculo. Este planteamiento permite modelar fenómenos físicos donde las soluciones deben satisfacer condiciones de desigualdad en lugar de igualdades. La teoría de desigualdades variacionales es fundamental para entender la estructura matemática del problema.
-
-\subsection{Existencia y unicidad}
-El estudio de la existencia y unicidad de soluciones es crucial para garantizar la validez de los modelos matemáticos. En el caso del obstáculo, se demuestra que, bajo condiciones adecuadas, existe una solución única que satisface las restricciones físicas del problema. Este análisis sienta las bases para el desarrollo de métodos numéricos confiables.
-
-\subsection{Aproximación de Galerkin}
-La aproximación de Galerkin es un método numérico ampliamente utilizado para resolver problemas descritos por desigualdades variacionales. Este enfoque permite discretizar el problema y transformarlo en un sistema algebraico resoluble. Su simplicidad y eficacia lo convierten en una herramienta estándar en el análisis numérico.
-
-\subsection{Penalización}
-El método de penalización reemplaza las restricciones del problema original por términos en la función objetivo. Este enfoque simplifica la implementación numérica y permite aplicar técnicas estándar de resolución. Sin embargo, la elección del parámetro de penalización es clave para la estabilidad y precisión del método.
-
-\subsection{Newton semi-suave}
-El método de Newton semi-suave es una técnica avanzada para resolver problemas de desigualdades variacionales, combinando ideas de métodos de Newton y subgradientes. Este enfoque aprovecha la estructura diferenciable a trozos de las funciones involucradas, mejorando la convergencia en problemas no lineales. Su aplicación es especialmente relevante en contextos donde la solución puede presentar comportamientos complejos.
-
-\subsection{Implementación en scikit-fem}
-scikit-fem es una biblioteca de Python que facilita la implementación de métodos de elementos finitos para resolver problemas variacionales. Su integración con NumPy y SciPy permite desarrollar soluciones eficientes y modulares. Esta herramienta es ideal para prototipar y validar algoritmos numéricos en entornos académicos y de investigación. Veamos el listado siguiente, escrito por Lucas Curci.
-
-\begin{lstlisting}[caption={Diferenciación automática con scikit-fem}, label={lst:autodiff-skfem}, style=pythonstyle]
-"""Diferenciación automática.
-Utiliza diferenciación automática para derivar el sistema tangente
-para el método de Newton.
-"""
-
-from skfem import *
-from skfem.autodiff import NonlinearForm
-from skfem.autodiff.helpers import grad, dot
-import numpy as np
-import jax.numpy as jnp
-
-m = MeshTri().refined(5)
-
-@NonlinearForm(hessian=True)
-def J(u, _):
-    eps = 1e-2
-    return (1/2 * dot(grad(u), grad(u)) - u
-            + (1 / eps) * ((u - jnp.minimum(u.value, 0.01))**2))
-
-basis = Basis(m, ElementTriP1())
-
-D = m.boundary_nodes()
-x = np.zeros(basis.N)
-
-for itr in range(100):
-    x_prev = x.copy()
-    x += solve(*condense(*J.assemble(basis, x=x), D=D))
-    res = np.linalg.norm(x - x_prev)
-    if res < 1e-8:
-        break
-    if __name__ == "__main__":
-        print(res)
-
-if __name__ == "__main__":
-    from skfem.visuals.matplotlib import plot3, show
-    plot3(m, x)
-    show()
-\end{lstlisting}
-
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\linewidth]{download (1).png}
-    \caption{Solución del obstáculo penalizado con scikit-fem}
-    \label{fig:exemple_image}
-\end{figure}
-
-%\begin{verbatim}
-%    """
-%from skfem import *
-%from skfem.autodiff %import NonlinearForm
-%from skfem.autodiff.helpers import grad, dot, div
-%import numpy as np
-%import jax.numpy as jnp
-
-%m = MeshTri().refined(5)
-
-%@NonlinearForm(hessian=True)
-%def J(u, _):
-%    gamma = 1000
-%    return (1/2 * dot(grad(u), grad(u)) - u
-%            - (1/2) * (1/gamma) * (0 + 1)**2
-%            + (gamma / 2) * (jnp.maximum(u.value - 0.01 - (1/gamma) * (0 + 1),0))**2)
-
-%basis = Basis(m, ElementTriP1())
-
-%D = m.boundary_nodes()
-%x = np.zeros(basis.N)
-
-%for itr in range(100):
-%    x_prev = x.copy()
-%    x += solve(*condense(*J.assemble(basis, x=x), D=D))
-%    res = np.linalg.norm(x - x_prev)
-%    if res < 1e-8:
-%        break
-%    if __name__ == "__main__":
-%        print(res)
-%
-%if __name__ == "__main__":
-%    from skfem.visuals.matplotlib import plot3, show
-%    plot3(m, x)
-%    show()
-%    
-%    ******
-
-\subsection{Comentarios adicionales}
-
-%Aquí unos comentarios para profundizar el tema de las desigualdades variacionales.
-
-%\paragraph{Mas desigualdades variacionales}
-
-% Projets
-
-%\paragraph{Aplicaciones del obstaculo}
-
-%\paragraph{Mas tecnicas de aproximacion}
-
-\begin{itemize}
-    \item 
-    
-    
-    \textbf{Método de Nitsche o multiplicadores}: Estas técnicas alternativas permiten incorporar las restricciones del problema de manera explícita en la formulación débil, mejorando la estabilidad numérica en ciertos casos. El método de Nitsche, en particular, ofrece una forma elegante de manejar las condiciones de desigualdad.
-    \item \textbf{Aplicaciones}: El problema del obstáculo tiene aplicaciones en mecánica de sólidos, fluidos, finanzas y otras áreas de la ciencia e ingeniería. Su versatilidad lo convierte en un modelo fundamental para estudiar fenómenos con restricciones geométricas o físicas.
-\end{itemize}
-
-%\chapter{Generalidades sobre el control óptimo y el principio de Pontryaguin}
-\chapter{Control óptimo}
-
-
-El control óptimo es una rama de las matemáticas aplicadas que se ocupa de determinar la mejor manera de influir sobre la evolución de un sistema dinámico con el fin de optimizar un cierto criterio. Este tipo de problemas aparece de forma natural en numerosos campos, como la ingeniería, la economía, la biología o la física, donde se busca tomar decisiones que conduzcan a un comportamiento deseado del sistema.
-
-En el contexto de las ecuaciones diferenciales, un sistema dinámico se describe mediante una relación que vincula la evolución temporal del estado con ciertas variables de control. Estas variables representan las acciones que pueden ser ajustadas para modificar la trayectoria del sistema. El objetivo consiste entonces en seleccionar dichas variables de control de manera que se minimice o maximice una cantidad de interés, como puede ser un costo, una energía o un rendimiento.
-
-Una característica fundamental de los problemas de control óptimo es la interacción entre la dinámica del sistema y el criterio de optimización. Esta interacción da lugar a una estructura matemática rica y compleja, en la que las soluciones deben satisfacer simultáneamente restricciones dinámicas y condiciones de optimalidad. A diferencia de los problemas de optimización estática, aquí las decisiones se distribuyen a lo largo del tiempo, lo que introduce una dimensión adicional de dificultad.
-
-Entre los resultados más influyentes en este campo se encuentra el principio del máximo de Pontryaguin. Este principio proporciona una caracterización necesaria de las soluciones óptimas y constituye una herramienta central en el análisis teórico del control óptimo. Su importancia radica en que transforma un problema global de optimización en una condición local que debe cumplirse a lo largo de la trayectoria óptima.
-
-De manera conceptual, el principio de Pontryaguin introduce variables auxiliares que permiten evaluar la sensibilidad del criterio de optimización frente a variaciones en el estado del sistema. Estas variables, junto con el estado y el control, forman un conjunto ampliado cuya evolución está gobernada por un sistema acoplado. La condición de optimalidad se expresa entonces mediante un principio de tipo variacional que selecciona, en cada instante, los controles que resultan más favorables.
-
-Este enfoque ha tenido un impacto profundo tanto en el desarrollo teórico como en las aplicaciones del control óptimo. Ha permitido el diseño de métodos numéricos, el análisis de propiedades cualitativas de las soluciones y la formulación de estrategias de control en problemas reales. Además, ha servido como base para desarrollos posteriores, como la programación dinámica y las formulaciones en términos de ecuaciones en derivadas parciales.
-
-En resumen, el control óptimo proporciona un marco matemático poderoso para la toma de decisiones en sistemas dinámicos, y el principio de Pontryaguin constituye una de sus piedras angulares. Su estudio continúa siendo un área activa de investigación, motivada tanto por desafíos teóricos como por aplicaciones cada vez más complejas.
-
-% Ici exemples rigolos du allaire
-% A processer pour ameliorer Espagnol
-\section{Motivacion y ejemplos}
-
-Aqui van unos ejemplos.
-
-\subsection{Commande optimale}
-
-\dots
-
-\chapter{Conclusión y perspectivas}
-\label{ch:conclusion}
-
-Para concluir nuestra breve introducción, damos unas sugerencias que permitirán al lector ir más allá en el tema y/o descubrir otros campos relacionados.
-
-\section{Optimización matemática}
-El análisis convexo es fundamental en la teoría de la optimización, especialmente en problemas de programación matemática. Las funciones convexas y los conjuntos convexos permiten modelar y resolver problemas de minimización o maximización con restricciones, garantizando la existencia de soluciones globales óptimas. Por ejemplo, en \textbf{programación convexa}, se minimiza una función convexa sobre un conjunto convexo, lo que asegura convergencia a soluciones globales.
-\begin{align*}
-    \text{Minimizar } & f(x) \\
-    \text{Sujeto a } & g_i(x) \leq 0, \quad i = 1, \dots, m \\
-                     & h_j(x) = 0, \quad j = 1, \dots, p,
-\end{align*}
-donde \( f \) es convexa y \( g_i \), \( h_j \) son funciones convexas.
-
-\section{Control y sistemas dinámicos}
-En teoría de control, el análisis convexo se aplica para estabilizar sistemas dinámicos y diseñar controladores robustos. Los \textbf{conos tangentes} y las \textbf{funciones de Lyapunov convexas} son herramientas clave para analizar la estabilidad asintótica y diseñar estrategias de control óptimo.
-
-\section{Aprendizaje Automático}
-En aprendizaje automático, el análisis convexo es esencial en algoritmos como \textbf{Support Vector Machines (SVM)} y \textbf{regresión logística}. Las SVM, por ejemplo, buscan el hiperplano que maximice el margen entre clases, lo que se formula como un problema de optimización convexa. La convexidad garantiza que el algoritmo encuentre la solución globalmente óptima.
-\begin{equation*}
-    \min_{w, b} \frac{1}{2} \|w\|^2 \quad \text{sujeto a} \quad y_i (w \cdot x_i + b) \geq 1 \quad \forall i.
-\end{equation*}
-
-\section{Economía y finanzas}
-En economía, el análisis convexo se utiliza para modelar preferencias de agentes económicos, funciones de producción y problemas de equilibrio general. Por ejemplo, las \textbf{funciones de utilidad cuasi-convexas} permiten analizar decisiones bajo incertidumbre, mientras que la convexidad de las funciones de costo es clave en la teoría de la firma.
-
-\section{Teoría de juegos}
-En teoría de juegos, los conceptos de convexidad son centrales para analizar equilibrios de Nash en juegos no cooperativos. Las estrategias mixtas y las funciones de pago convexas permiten demostrar la existencia de equilibrios y estudiar su estabilidad.
-
-\section{Geometría y computación}
-% IVR
-En geometría computacional, el análisis convexo se aplica en algoritmos de \textbf{envueltas convexas} (como el algoritmo de Graham) y en problemas de localización de puntos. La convexidad permite diseñar algoritmos eficientes para encontrar soluciones aproximadas o exactas en conjuntos de datos de alta dimensionalidad.
-
-\section{Procesamiento de señales e imágenes}
-En procesamiento de imágenes, técnicas como la \textbf{reconstrucción convexa} y la \textbf{regularización total variación (TV)} se basan en la convexidad para minimizar artefactos y mejorar la calidad de la imagen. Estas técnicas son fundamentales en tomografía, resonancia magnética y reconstrucción 3D.
-
-\section{Teoría de la Información}
-En teoría de la información, las funciones convexas como la \textbf{entropía relativa} (o divergencia de Kullback-Leibler) son herramientas esenciales para analizar la capacidad de canales de comunicación y diseñar códigos eficientes.
-
-
-%Machin Learning
-%control optimal EDO EDP
-%Troltsch Kunisch
-%Quarteroni Trelat
-%inequations variationnel
-%Glowinski Kikuchi Oden
 
 %\addcontentsline{toc}{chapter}{Bibliograf\'ia}
 %\nocite{*}
