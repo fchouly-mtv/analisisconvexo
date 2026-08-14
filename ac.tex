@@ -1,5 +1,6 @@
 \documentclass[12pt]{book}
 \usepackage{epigraph} 
+\usepackage{mathrsfs}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -238,21 +239,27 @@
 \pagestyle{fancy}
 \tableofcontents
 
-%\chapter*{Agradecimientos}
-%\addcontentsline{toc}{chapter}{Agradecimientos}
-%\markboth{Agradecimientos}{Agradecimientos}
+\chapter*{Agradecimientos}
+\addcontentsline{toc}{chapter}{Agradecimientos}
+\markboth{Agradecimientos}{Agradecimientos}
 
+Agradezco al CMAT. Tambi\'en por sus consejos:
+Dominique Attali,
+Juan Pablo Borthagaray,
+Fran\c{c}oise Dal'Bo,
+Jean-Baptiste Hiriart Urruty,
+Mauricio Velasco.
 %Quiero agradecer, primero \dots
-% CMAT
-% Francoise Soutien
-% Jean-Baptiste HH, collegues
 % Conseils
-% JPB et Mauricio
-% Boyd Vandenberg, Luenberger
+%%%%%%%%%%
+% NON
 % Patrick, Yves, Initiation VI
 % Dalmasso, Le Marechal,
 % Peter Sturm
 % JB Durand
+% Hedy Attouch
+% Mircea Sofonea
+% Control, Cherif and co
 
 %\chapter*{Pr\'ologo}
 %\addcontentsline{toc}{chapter}{Pr\'ologo}
@@ -287,96 +294,145 @@ y D. G. Luenberger~\cite{luenberger1969}.
 % Rockafellar
 %\cite{Rockafellar1970}
 % ETC
-A partir de ahora, utilizaremos la notación $V$ para designar un espacio de Hilbert (espacio vectorial normado completo). Cuando $V$ sea de dimensión finita, lo denotaremos por $V_n$, donde $n$ indica la dimensión de $V$.
+A partir de ahora, utilizaremos la notación $V$ para designar un espacio de Hilbert (espacio vectorial normado completo). 
+Notaremos $(\cdot,\cdot)_V$ el producto interno de $V$ y $\| \cdot \|_V$ la norma asociada.
+Cuando $V$ sea de dimensión finita, y cuando se precisa, lo denotaremos por $V_n$, donde $n$ indica la dimensión de $V$.
 
 \chapter{Descenso de gradiente}
 El descenso de gradiente es un algoritmo iterativo de optimización de primer orden utilizado para minimizar funciones. Su idea central es moverse en la dirección opuesta al gradiente de la función en el punto actual, lo que garantiza una disminución local del valor de la función. Este método es ampliamente aplicado en aprendizaje automático y optimización numérica debido a su simplicidad y eficacia. La elección del tamaño de paso, o tasa de aprendizaje, es crucial para la convergencia del algoritmo. Sin embargo, su rendimiento puede verse afectado por la elección de parámetros y la geometría de la función. Seguimos~\cite{allaire2007}.
 
 \section{Aplicaciones}
 
+Antes de describir el algoritmo y hacer su análisis, presentemos ya algunas aplicaciones donde es relevante.
+
 \subsection{Aprendizaje autom\'atico} 
 %Función Fuertemente Convexa: Regresión Lineal con Regularización L2 (Ridge)}
 %\subsection{Contexto}
-En aprendizaje automático, la regresión Ridge busca minimizar el error cuadrático entre las predicciones de un modelo lineal y los datos reales, añadiendo un término de regularización L2 para evitar el sobreajuste.
+En aprendizaje automático, la regresión Ridge busca minimizar el error cuadrático entre las predicciones de un modelo lineal y los datos reales, añadiendo un término de regularización %L2 
+para evitar el sobreajuste.
 
 %\subsection{Funcional}
 Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
 $$
-J(\mathbf{w}) = \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \|\mathbf{w}\|_2^2
+\mathcal{J}(\mathbf{w}) := \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_V^2 + \varepsilon \|\mathbf{w}\|_V^2
 $$
-donde $ \lambda > 0 $ es el parámetro de regularización.
+donde $ \varepsilon > 0 $ es el parámetro de regularización, y
+\[
+\|  \mathbf{y}\|_V^2 := y_1^2 + \cdots + y_n^2, \quad
+\|\mathbf{w}\|_V^2 := w_1^2 + \cdots + w_d^2. 
+\]
+Aquí tenemos $V = V_d = \mathbb{R}^d$, con la norma Euclidiana. %[introducir antes].
+% VOIR Ridge 
+% Explication et reference biblio chic
+% Pourquoi ne resoud on pas directement le systeme normal ?
+% AI et recherche
+% Commencer a incorporer exos
+% BIBLIO PLUS
+% Ekeland Temam
+% Bertsekas
+% YVES
+% Rockafellar Wets
+
+
 
 \subsection{Optimización de forma} %: Área de un Triángulo bajo Restricción de Perímetro}
 %\subsection{Contexto}
-Encontrar las coordenadas de los vértices de un triángulo que minimice su área, sujetas a una restricción de perímetro fijo. Este es un problema simplificado de optimización de forma.
 
+Ahora presentamos un problema simplificado de optimización de forma.
+Se buscan las coordenadas de los vértices de un triángulo que maximice su área, sujetas a una restricción de perímetro fijo. 
+%
 %\subsection{Funcional}
-Para un triángulo con vértices $ \mathbf{p}_1 = (x_1, y_1) $, $ \mathbf{p}_2 = (x_2, y_2) $, $ \mathbf{p}_3 = (x_3, y_3) $, y un perímetro $ P $ fijo:
+Para un triángulo con vértices 
+\[ \mathbf{p}_1 = (x_1, y_1), \quad \mathbf{p}_2 = (x_2, y_2), \quad \mathbf{p}_3 = (x_3, y_3),\] y un perímetro $ \mathcal{P} $ fijo:
 \begin{itemize}
-    \item \textbf{Área} (a minimizar):
-    $
-    A(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = \frac{1}{2}  (\mathbf{p}_2 - \mathbf{p}_1) \times (\mathbf{p}_3 - \mathbf{p}_1) 
-    $
-    (producto vectorial en 2D).
+    \item \textbf{Área} (a maximizar):
+    \[
+    \mathcal{A}(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) := \frac{1}{2} |  (\mathbf{p}_2 - \mathbf{p}_1) \times (\mathbf{p}_3 - \mathbf{p}_1) |, 
+    \]
+    donde $\times$ es el producto vectorial en dos dimensiones.
     \item \textbf{Restricción}:
-    $
-    \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 = P.
-    $
+    \[
+    \mathcal{R}(
+    \mathbf{p}_1 ,
+    \mathbf{p}_2 ,
+    \mathbf{p}_3 ) = 0
+    \]
+    con 
+    \[
+    \mathcal{R}(
+    \mathbf{p}_1 ,
+    \mathbf{p}_2 ,
+    \mathbf{p}_3 ) = 
+    \| \mathbf{p}_2 - \mathbf{p}_1 \|_{\mathrm{R}^2}
+    + 
+    \|
+    \mathbf{p}_3 - \mathbf{p}_2 
+    \|_{\mathrm{R}^2}
+    + \| \mathbf{p}_1 - \mathbf{p}_3 
+    \|_{\mathrm{R}^2}
+    - \mathcal{P}. \]
 \end{itemize}
 %
 %\subsection{Penalización}
-Para transformar el problema restringido en uno no restringido, se usa:
+Para transformar el problema restringido en uno no restringido, se usa, por ejemplo:
 $$
-J(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = A(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) + \mu \left( \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 - P \right)^2
+\mathcal{J}(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) = -\mathcal{A}(\mathbf{p}_1, \mathbf{p}_2, \mathbf{p}_3) + 
+\frac{1}{\varepsilon} \left (
+    \mathcal{R}(
+    \mathbf{p}_1 ,
+    \mathbf{p}_2 ,
+    \mathbf{p}_3 ) \right )^2
+% \left( \mathbf{p}_2 - \mathbf{p}_1 + \mathbf{p}_3 - \mathbf{p}_2 + \mathbf{p}_1 - \mathbf{p}_3 - P \right)^2
 $$
-donde $ \mu $ es un parámetro de penalización.
+a minimizar en $V_6 = \mathbb{R}^6$, y
+donde $ \varepsilon > 0 $ es un parámetro de penalización.
 
 \section{Gradiente a paso constante}
 
-%\section{Un ejemplo triste}
-Consideremos la función convexa $f(x) = x^2 + 2x + 1$. El objetivo es encontrar el mínimo global de esta función utilizando el método de descenso de gradiente.
+Sea $V = V_n = \mathbb{R}^n$ y
+\[
+\mathcal{J} : V \rightarrow \mathbb{R}
+\]
+una funci\'on $\mathscr{C}^1(V;\mathbb{R})$. Notamos $\nabla \mathcal{J}$ su gradiente:
+\[
+\nabla \mathcal{J} :
+\mathbb{R}^n \rightarrow \mathbb{R}^n.
+\]
+El objetivo es encontrar un mínimo %global 
+de esta función. % utilizando el método de descenso de gradiente.
 
 \subsection{Definición}
-El método de \textbf{descenso de gradiente a paso constante} se define como:
-$$
-\mathbf{x}_{k+1} = \mathbf{x}_k - \alpha \nabla f(\mathbf{x}_k)
-$$
+El método de {descenso de gradiente a paso constante} se define como:
+\begin{equation}
+{x}_{k+1} = {x}_k - \alpha \nabla \mathcal{J}({x}_k)    
+\end{equation}
+con $k\geq0$, a partir de $x_0 \in V$ y
 donde:
 \begin{itemize}
-    \item $\mathbf{x}_k$ es la posición actual en la iteración $k$,
-    \item $\alpha$ es el \textbf{tamaño del paso} (constante),
-    \item $\nabla f(\mathbf{x}_k)$ es el gradiente de la función $f$ evaluado en $\mathbf{x}_k$.
+    \item ${x}_k$ es la posición actual en la iteración $k$,
+    \item $\alpha$ es el {tamaño del paso} (constante),
+    \item $\nabla \mathcal{J}({x}_k)$ es el gradiente de la función $\mathcal{J}$ evaluado en ${x}_k$.
 \end{itemize}
-
-\begin{quotation}
-\textbf{Vínculo con ecuaciones diferenciales:}
-El método de gradiente descendente puede interpretarse como una discretización de la ecuación diferencial ordinaria (EDO) asociada al flujo gradiente:
-\[
-\frac{dx}{dt} = -\nabla f(x(t)).
-\]
-La solución de esta EDO, bajo condiciones adecuadas, converge a un mínimo local de \( f \).
-\end{quotation}
-
 
 \subsection{Python}
 
 \begin{lstlisting}[style=pythonstyle, caption={Gradiente a paso constante.}, label={lst:g1}]
 import numpy as np
 
-def f(x):
-    return x*2 + 2x + 1
+def J(x):
+    return x*2 + 2*x + 1
 
-def df(x):
+def dJ(x):
     return 2*x + 2
 
 def gradient_descent(alpha, x0, max_iter=1000):
     x = x0
     for _ in range(max_iter):
-        grad = df(x)
+        grad = dJ(x)
         x = x - alpha * grad
     return x
 
-Ejemplo de uso
+# Ejemplo de uso
 
 alpha = 0.1
 x0 = 5.0
@@ -384,48 +440,178 @@ x_min = gradient_descent(alpha, x0)
 print(f"Mínimo encontrado en x = {x_min:.4f}")
 \end{lstlisting}
 
+\subsection{Análisis}
 
+Supongamos, para simplificar, que $\mathcal{J}$ cumple las siguientes condiciones:
+\begin{enumerate}
+    \item 
+%1. **Existencia de mínimo global:**
+   Existe un único mínimo estricto global de $\mathcal{J}$.
 
-\section{Gradiente a paso variable}
+\item %2. **Regularidad:**
+   $\mathcal{J}$ es de clase $\mathscr{C}^2(V;\mathbb{R})$ (continuamente diferenciable en $V$).
 
-\subsection{Definición}
-En el método de \textbf{descenso de gradiente a paso variable}, el tamaño del paso $\alpha_k$ puede cambiar en cada iteración. Una estrategia común es usar una \textbf{búsqueda de línea} (line search) para elegir $\alpha_k$ que minimice $f(\mathbf{x}_k - \alpha_k \nabla f(\mathbf{x}_k))$.
+\item
+%3. **Convexidad fuerte:**
+   Existe una constante $c_{\mathcal{J}} > 0$ tal que, para todo $x, y \in V$:
+   \begin{equation}
+       \label{strongconvexity1}
+   ( \nabla \mathcal{J}(x) - \nabla \mathcal{J}(y), \, x - y )_V \geq c_{\mathcal{J}} \|x - y\|_V^2.
+    \end{equation}
+ \end{enumerate}
+De hecho, veremos luego que 2 y 3 implican 1.
+Entonces, tenemos lo siguiente:
+
+\begin{theorem}
+Sea \( \mathcal{J}: V \to \mathbb{R} \) una función de clase %\( \mathscr{C}^2(\mathbb{R}^d;\mathbb{R}) \) 
+que cumple con las condiciones 1, 2 y 3 anteriores.
+Sea \( x^\star \) el único mínimo estricto global de \( \mathbb{R} \). %Sea \( B \) un entorno de \( x^\star \). 
+Entonces, si %\( x_0 \in B \) y 
+\( \alpha > 0 \) es suficientemente pequeño, el método de gradiente descendente:
+\[
+x_{k+1} = x_k - \alpha \nabla \mathcal{J}(x_k),
+\]
+converge hacia \( x^\star \).
+\end{theorem}
+
+\begin{proof}
+Sea $x_0 \in V$ y $B_0 \subset V$ una bola cerrada y acotada que contiene $x^\star$ y $x_0$. Supongamos $x_k \in B_0$.
+Ahora, consideremos la iteración del gradiente descendente:
+\[
+x_{k+1} = x_k - \alpha \nabla \mathcal{J}(x_k).
+\]
+Queremos analizar \( \|x_{k+1} - x^\star\|^2 \). Desarrollamos:
+\[
+\|x_{k+1} - x^\star\|_V^2 = \|x_k - \alpha \nabla \mathcal{J}(x_k) - x^\star\|_V^2 %= \|x_k - x^\star\|^2 - 2\alpha (x_k - x^\star)^T \nabla J(x_k) + \alpha^2 \|\nabla J(x_k)\|^2.
+\]
+y luego
+\[
+\|x_{k+1} - x^\star\|_V^2  %\|x_k - \alpha \nabla J(x_k) - x^\star\|^2 
+= \|x_k - x^\star\|_V^2 - 2\alpha (x_k - x^\star ,  \nabla \mathcal{J}(x_k) )_V + \alpha^2 \|\nabla \mathcal{J}(x_k)\|_V^2.
+\]
+Veamos primero:
+\[
+(x_k - x^\star ,  \nabla \mathcal{J}(x_k) )_V
+=
+(x_k - x^\star ,  \nabla \mathcal{J}(x_k) - \nabla \mathcal{J}(x^\star) )_V
+\geq
+c_{\mathcal{J}}
+\|x_{k+1} - x^\star\|_V^2.
+\]
+Hemos utilizado $\nabla \mathcal{J}(x^\star) = 0$ y \eqref{strongconvexity1}.
+Esto implica
+\[
+- 2 \alpha
+(x_k - x^\star ,  \nabla \mathcal{J}(x_k) )_V
+\leq 
+-2 \alpha
+c_{\mathcal{J}}
+\|x_{k+1} - x^\star\|_V^2.
+\]
+%
+%\medskip
+%
+Además, como 
+$\mathcal{J}$ es de clase $\mathscr{C}^2(B;\mathbb{R}^d)$, en $B_0$, acotada y cerrada, entonces
+\( \nabla \mathcal{J} \) es Lipschitz en \( B_0 \). %(porque \( J \) es \( C^2 \))
+Existe \( L > 0 \) tal que:
+\[
+\|\nabla J(x_k)\|_V \leq L \|x_k - x^\star\|_V.
+\]
+Por lo tanto:
+\[
+\alpha^2 \|\nabla J(x_k)\|^2_V \leq \alpha^2 L^2 \|x_k - x^\star\|^2_V.
+\]
+%
+%\medskip
+%
+Sustituyendo todo en la desigualdad:
+\[
+\|x_{k+1} - x^\star\|_V^2 \leq \|x_k - x^\star\|_V^2 - 2\alpha c_{\mathcal{J}} \|x_k - x^\star\|_V^2 +  \alpha^2 L^2 \|x_k - x^\star\|_V^2.
+\]
+Simplificando:
+\[
+\|x_{k+1} - x^\star\|^2_V \leq \left(1 - 2\alpha 
+c_{\mathcal{J}} + \alpha^2 L^2\right) \|x_k - x^\star\|^2_V.
+\]
+%
+Elegimos \( \alpha \) tal que:
+\[
+1 - 2\alpha c_{\mathcal{J}}  + \alpha^2 L^2 < 1.
+\]
+Esto se cumple si:
+\[
+-2\alpha c_{\mathcal{J}} +  \alpha^2 L^2 < 0 \quad \Rightarrow \quad 2 \alpha  c_{\mathcal{J}} > \alpha^2 L^2.
+\]
+La desigualdad se satisface si:
+\[
+\alpha < \frac{2 c_{\mathcal{J}}}{L^2}.
+\]
+Por lo tanto, para \( \alpha \) suficientemente pequeño, existe \( \rho \in (0,1) \) tal que:
+\[
+\|x_{k+1} - x^\star\|^2_V \leq \rho \|x_k - x^\star\|^2_V.
+\]
+Verificamos que $x_{k+1}$ queda en $B_0$.
+Esto implica que la secuencia \( \{x_k\} \) converge linealmente hacia \( x^\star \).
+\end{proof}
+
+\section{Otros métodos de minimización}
+
+Mencionamos brevemente otros métodos de minimización que se basan únicamente en el cálculo del gradiente, como el \emph{método del gradiente con paso variable} y el \emph{método del gradiente conjugado}. Para m\'as detalles, referirse a \cite{allaire2007,ggk}.
+
+\subsection{Gradiente a paso variable}
+
+En el método de \emph{descenso de gradiente a paso variable}, el tamaño del paso $\alpha_k$ puede cambiar en cada iteración. Una estrategia común es usar una \emph{búsqueda de línea} (line search) para elegir $\alpha_k$ que minimice $\mathcal{J}({x}_k - \alpha_k \nabla \mathcal{J}({x}_k))$.
 %
 La actualización se escribe como:
 %
 $$
-\mathbf{x}_{k+1} = \mathbf{x}_k - \alpha_k \nabla f(\mathbf{x}_k)
+{x}_{k+1} = {x}_k - \alpha_k \nabla \mathcal{J}({x}_k).
 $$
 
-\subsection{Python}
+\subsection{Método del gradiente conjugado}
 
-\begin{lstlisting}[style=pythonstyle, caption={Gradiente a paso variable.}, label={lst:g2}]
-from scipy.optimize import minimize_scalar
+En el método del \emph{gradiente conjugado}, se optimiza la minimización de funciones cuadráticas de la forma
+$
+\mathcal{J}({x}) = \frac{1}{2} {x}^T A {x} - \mathbf{b}^T {x} + c,
+$
+donde $A$ es una matriz simétrica y definida positiva. Este método acelera la convergencia del descenso de gradiente al utilizar direcciones conjugadas con respecto a $A$.
+%
+La actualización se escribe como:
+$$
+{x}_{k+1} = {x}_k + \alpha_k {d}_k,
+$$
+donde ${d}_k$ es la dirección conjugada y $\alpha_k$ se elige mediante una búsqueda de línea o fórmula analítica~\cite[Chapter 11]{ggk}.
 
-def gradient_descent_variable(x0, max_iter=1000):
-    x = x0
-    for _ in range(max_iter):
-        grad = df(x)
-        # Búsqueda de línea para encontrar alpha óptimo
-        res = minimize_scalar(lambda a: f(x - a * grad), bounds=(0, 1), method='bounded')
-        alpha_k = res.x
-        x = x - alpha_k * grad
-    return x
+\subsection{Método BiCG}
 
-Ejemplo de uso
+El método \emph{BiCG} (Biconjugate Gradient) está adaptado para resolver sistemas lineales no simétricos de la forma $A{x} = {b}$~\cite[S. 11.7.8]{ggk}, donde $A$ es una matriz cuadrada no necesariamente simétrica. Es una extensión del gradiente conjugado para matrices no simétricas.
+%
+La actualización se basa en residuos biconjugados y se escribe como:
+$$
+{x}_{k+1} = {x}_k + \alpha_k {p}_k,
+$$
+donde ${p}_k$ es la dirección de búsqueda y $\alpha_k$ se calcula para minimizar el error en un subespacio de Krylov.
 
-x_min_var = gradient_descent_variable(x0)
-print(f"Mínimo encontrado con paso variable en x = {x_min_var:.4f}")
-\end{lstlisting}
+\section{Para profundizar}
 
-\section{Convergencia}
-El método de descenso de gradiente converge a un mínimo local si:
-la función $f$ es \textbf{convexa} y \textbf{diferenciable} y el tamaño del paso $\alpha_k$ cumple ciertas condiciones, como las \textbf{condiciones de Wolfe}:
-    \begin{itemize}
-        \item $f(\mathbf{x}_{k+1}) \leq f(\mathbf{x}_k) + c_1 \alpha_k \nabla f(\mathbf{x}_k)^T \mathbf{d}k$ (condición de Armijo),
-        \item $\nabla f(\mathbf{x}{k+1})^T \mathbf{d}_k \geq c_2 \nabla f(\mathbf{x}_k)^T \mathbf{d}_k$ (condición de curvatura).
-    \end{itemize}
-    donde $0 < c_1 < c_2 < 1$ y $\mathbf{d}_k = -\nabla f(\mathbf{x}_k)$.
+Para un análisis más detallado sobre los métodos de descenso de gradiente y sus variantes, se puede consultar 
+\cite[Capítulo~11]{ggk}
+y
+\cite[Capítulos~8--9]{allaire2007}.
+
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+%{\footnotesize
+%\bibliographystyle{siam}
+%\bibliography{biblio}
+%}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+%{\scriptsize \printindex}
+
+%\end{document} 
+
 
 \chapter{Funciones convexas}
 Las funciones convexas juegan un papel fundamental en optimización, ya que garantizan que cualquier mínimo local es también un mínimo global. Una función $f: V \to \mathbb{R}$ es convexa si el segmento de línea que une cualquier par de puntos en su gráfico siempre queda por encima del gráfico. Esta propiedad simplifica significativamente el análisis y la resolución de problemas de optimización. Además, las funciones convexas tienen derivadas monótonas, lo que facilita la aplicación de métodos numéricos. Su estudio es esencial para entender la eficiencia de algoritmos como el descenso de gradiente. %Seguimos~\cite{allaire2007}.
@@ -681,7 +867,9 @@ if __name__ == "__main__":
 \end{itemize}
 
 \chapter{Dualidad}
-La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones económicas y geométricas profundas.
+La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones geométricas profundas.
+%
+Seguimos~\cite{BoydVandenberghe2004}.
 
 %\textbf{Sugerencia de plan:}
 %\begin{itemize}
@@ -693,7 +881,10 @@ La dualidad en optimización es un concepto fundamental que establece una relaci
 \chapter{Perspectivas}
 \label{ch:conclusion}
 
-Para concluir nuestra breve introducción, damos unas sugerencias que permitirán al lector ir más allá en el tema y/o descubrir otros campos relacionados.
+Para concluir nuestra breve introducción, damos unas sugerencias que permitirán al lector ir más allá en el tema y/o descubrir otros campos relacionados. Se puede referir tambi\'en a \cite{bertsekas1982}.
+% References plus generales
+% ROCKAFELLAR
+% EKELAND et TEMAM
 
 \section{Optimización matemática}
 El análisis convexo es fundamental en la teoría de la optimización, especialmente en problemas de programación matemática. Las funciones convexas y los conjuntos convexos permiten modelar y resolver problemas de minimización o maximización con restricciones, garantizando la existencia de soluciones globales óptimas. Por ejemplo, en \textbf{programación convexa}, se minimiza una función convexa sobre un conjunto convexo, lo que asegura convergencia a soluciones globales.
