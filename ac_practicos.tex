@@ -1,0 +1,134 @@
+\documentclass[11pt]{report}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Prácticos de Análisis Convexo}
+\author{Franz Chouly \and Federico Correa}
+\date{\today}
+
+\newtheorem{ejercicio}{Ejercicio}[chapter]
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Descenso de gradiente}
+
+\section{Para empezar}
+
+\paragraph{Ejercicio 1} Recordamos la formulación de la regresión Ridge. Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
+$$
+\mathcal{J}(\mathbf{w}) := \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_V^2 + \varepsilon \|\mathbf{w}\|_V^2
+$$
+donde $ \varepsilon > 0 $ es el parámetro de regularización, y
+\[
+\|  \mathbf{y}\|_V^2 := y_1^2 + \cdots + y_n^2, \quad
+\|\mathbf{w}\|_V^2 := w_1^2 + \cdots + w_d^2. 
+\]
+Aquí tenemos $V = V_d = \mathbb{R}^d$, con la norma Euclidiana. %[introducir 
+
+\begin{enumerate}
+    \item Mostrar que el problema
+    \[
+    \min_V \mathcal{J}
+    \]
+    se puede reformular como la resolución de un sistema lineal.
+    
+    \item Cual es el tamaño de este sistema ? 
+    
+    \item Mostrar que el sistema es invertible para todo $\varepsilon > 0$.
+    
+    \item Dar explícitamente la única solución.
+    
+    \item Que pasa si $\varepsilon = 0$ ?
+    
+    \item Escribir la iteración de descenso de gradiente para Ridge.
+\end{enumerate}
+
+\footnotesize
+\textbf{Nota cultural:}
+la \emph{regresión Ridge} (o \emph{Ridge Regression}) fue introducida por Arthur E. Hoerl en 1962 como una solución para abordar problemas de \emph{multicolinealidad} e \emph{inestabilidad de los coeficientes} en modelos de regresión lineal clásica.
+%
+En un modelo lineal estándar
+$\mathbf{y} \sim \mathbf{X}\mathbf{w}$, si las variables explicativas $\mathbf{X}$ están fuertemente correlacionadas entre sí, la matriz $\mathbf{X}^T \mathbf{X}$ se vuelve \textbf{mal condicionada} (cercana a la singularidad), lo que hace que la estimación de los coeficientes $\mathbf{w}$ sea {imprecisa y muy sensible} a pequeñas variaciones en los datos.
+
+\medskip
+
+\noindent \textbf{Referencia:}
+Hoerl, A. E., \& Kennard, R. W. (1970). \textit{Ridge Regression: Biased Estimation for Nonorthogonal Problems}.
+
+\normalsize
+
+\paragraph{Ejercicio 2} Existe un valor del parámetro $\alpha $ que permite una convergencia mas rápida para el descenso de gradiente a paso constante ? Cual es la tasa de convergencia en este caso ?
+
+\paragraph{Ejercicio 3} Sean $a > 0$ y $b > 0$ y definimos
+\[
+V = \mathbb{R}^2, \quad \mathcal{J}(x,y) := a x^2 + b y^2.
+\]
+Estudiar la convergencia del descenso de gradiente a paso constante en este caso en función del parámetro $\alpha$.
+
+\begin{enumerate}
+    \item Que valores de $\alpha$ entregan convergencia ?
+    \item Cual es el valor de $\alpha$ que permite una convergencia la mas rápida ?
+\end{enumerate}
+
+\paragraph{Ejercicio 4}
+Sea $\mathcal{J}(x) = x^4 - 4x^3 + 4x^2 + x$, definida en $\mathbb{R}$.
+
+\begin{enumerate}
+    \item Encuentra los puntos críticos de $\mathcal{J}$ (mínimos, máximos y puntos de inflexión).
+    \item  Aplica el algoritmo de descenso de gradiente con paso constante $\alpha = 0,1$ y punto inicial $x_0 = 0,5$. ¿A qué punto converge el algoritmo?
+    
+    \emph{Implementa manualmente las primeras 5 iteraciones.}
+    
+    \item ¿Qué pasa si eliges $x_0 = 2,5$? ¿Y si $\alpha = 1$?
+
+    \item Discute cómo el punto inicial y el tamaño del paso afectan la convergencia en funciones no convexas.
+
+\end{enumerate}
+
+%**Pistas:**
+%- Calcula el gradiente: $\nabla f(x) = 4x^3 - 12x^2 + 8x + 1$.
+%- Implementa manualmente las primeras 5 iteraciones para cada caso.
+
+\paragraph{Ejercicio 5}
+Veamos le descenso de gradiente en regresión lineal (Ridge con $\varepsilon = 0$ \dots). 
+Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
+$$
+\mathcal{J}(\mathbf{w}) := \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_V^2. 
+$$
+%donde 
+%\[
+%\|  \mathbf{y}\|_V^2 := y_1^2 + \cdots + y_n^2, \quad
+%\|\mathbf{w}\|_V^2 := w_1^2 + \cdots + w_d^2. 
+%\]
+%Aquí tenemos $V = V_d = \mathbb{R}^d$, con la norma Euclidiana.
+%Considera el problema de **regresión lineal** sin término de intercepto:
+%$
+%\min_{\beta \in \mathbb{R}^n} \|y - X\beta\|_2^2,
+%$
+%donde $X \in \mathbb{R}^{m \times n}$ es la matriz de diseño, $y \in \mathbb{R}^m$ es el vector de respuestas, y $\beta$ es el vector de coeficientes.
+
+\begin{enumerate}
+    \item Escribe la expresión explícita del gradiente de la función de costo.
+    \item Demuestra que el paso óptimo constante para este problema está dado por:
+   \[
+   \alpha^\star = \frac{2}{\lambda_{\text{máx}}(\mathbf{X}^T \mathbf{X})},
+   \]
+   donde $\lambda_{\text{máx}}(\mathbf{X}^T \mathbf{X})$ es el valor propio máximo de $\mathbf{X}^T \mathbf{X}$.
+\item ¿Qué ocurre si $\alpha > \alpha^\star$? ¿El algoritmo aún converge?
+\end{enumerate}
+
+%**Pistas:**
+%- La función de costo es cuadrática en $\beta$.
+%- Usa el resultado del Ejercicio 2.
+
+\end{document}
