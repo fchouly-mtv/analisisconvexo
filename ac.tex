@@ -333,8 +333,6 @@ Aquí tenemos $V = V_d = \mathbb{R}^d$, con la norma Euclidiana. %[introducir an
 % YVES
 % Rockafellar Wets
 
-
-
 \subsection{Optimización de forma} %: Área de un Triángulo bajo Restricción de Perímetro}
 %\subsection{Contexto}
 
@@ -475,7 +473,7 @@ converge hacia \( x^\star \).
 \end{theorem}
 
 \begin{proof}
-Sea $x_0 \in V$ y $B_0 \subset V$ una bola cerrada y acotada que contiene $x^\star$ y $x_0$. Supongamos $x_k \in B_0$.
+Sea $x_0 \in V$ y $B_0 \subset V$ una bola cerrada y acotada que contiene $x^\star$ y $x_0$, centrada en $x^\star$. Supongamos $x_k \in B_0$.
 Ahora, consideremos la iteración del gradiente descendente:
 \[
 x_{k+1} = x_k - \alpha \nabla \mathcal{J}(x_k).
@@ -614,52 +612,411 @@ y
 
 
 \chapter{Funciones convexas}
-Las funciones convexas juegan un papel fundamental en optimización, ya que garantizan que cualquier mínimo local es también un mínimo global. Una función $f: V \to \mathbb{R}$ es convexa si el segmento de línea que une cualquier par de puntos en su gráfico siempre queda por encima del gráfico. Esta propiedad simplifica significativamente el análisis y la resolución de problemas de optimización. Además, las funciones convexas tienen derivadas monótonas, lo que facilita la aplicación de métodos numéricos. Su estudio es esencial para entender la eficiencia de algoritmos como el descenso de gradiente. %Seguimos~\cite{allaire2007}.
+Las funciones convexas juegan un papel fundamental en optimización, ya que garantizan que cualquier mínimo local es también un mínimo global. Una función $\mathcal{J}: V \to \mathbb{R}$ es convexa si el segmento de línea que une cualquier par de puntos en su gráfico siempre queda por encima del gráfico. Esta propiedad simplifica significativamente el análisis y la resolución de problemas de optimización. Además, las funciones convexas tienen derivadas monótonas, lo que facilita la aplicación de métodos numéricos. Su estudio es esencial para entender la eficiencia de algoritmos como el descenso de gradiente. %Seguimos~\cite{allaire2007}.
+
+%\section{Introducción}
+
+\section{Contexto}
+
+Consideramos el problema de minimización de una función objetivo $\mathcal{J}$ sobre un conjunto $K \subseteq V$, donde $V$ es un espacio de Hilbert. El objetivo es encontrar el \textbf{ínfimo} de $J$ en $K$ y, en caso de existir, un punto donde este ínfimo se alcance.
+%
+El problema se formula como:
+\begin{equation}
+    \label{pb}
+    \inf_{K} \mathcal{J}.
+\end{equation}
+
+\subsection{Definiciones} %Fundamentales}
+
+\begin{definition}[Ínfimo]
+Dado un conjunto $K \subseteq V$ y una función $\mathcal{J}: K \to \mathbb{R}$, el \emph{ínfimo} de $J$ sobre $K$ se define como:
+\[
+\inf_{v \in K} 
+\mathcal{J}(v) 
+= \inf \{ \mathcal{J}(v) 
+\mid v \in K \}.
+\]
+Es el mayor de los cotas inferiores de $\mathcal{J}$ en $K$. No necesariamente existe un punto $v \in K$ tal que $J(v) = \inf_{v \in K} \mathcal{J}(v)$.
+\end{definition}
+
+\begin{definition}[Punto de mínimo local]
+Un punto $u^\star \in K$ es un \emph{mínimo local} de $\mathcal{J}$ en $K$ si existe $\delta > 0$ tal que:
+\[
+\mathcal{J}(u^\star) \leq \mathcal{J}(v) \quad \forall v \in K \text{ con } \|v - u^\star\| < \delta.
+\]
+\end{definition}
+
+\begin{definition}[Punto de mínimo global]
+Un punto $u^\star \in K$ es un \emph{mínimo global} de $\mathcal{J}$ en $K$ si:
+\[
+\mathcal{J}(u^\star) \leq \mathcal{J}(v) \quad \forall v \in K.
+\]
+\end{definition}
+
+\begin{definition}[Sucesión minimizante]
+Una sucesión $\{u_n\}_{n \in \mathbb{N}} \subseteq K$ se dice \textbf{minimizante} para $\mathcal{J}$ si:
+\[
+\lim_{n \to \infty} \mathcal{J}(u_n) = \inf_{u \in K} \mathcal{J}(u).
+\]
+\end{definition}
+
+\subsection{Algunos ejemplos}
+
+\begin{ex}
+Consideremos $V = \mathbb{R}$, $K = \mathbb{R}$, y $\mathcal{J}(v) = v^2$. 
+
+\medskip
+
+Entonces:
+\[
+\inf_{v \in \mathbb{R}} \mathcal{J}(v) = 0,
+\]
+y el mínimo global se alcanza en $u^\star = 0$. La sucesión $u_n = {1}/{n}$ es minimizante, ya que:
+\[
+\mathcal{J}(u_n) = \left(\frac{1}{n}\right)^2 \to 0 = \inf_{v \in \mathbb{R}} J(v).
+\]
+\end{ex}
+
+\begin{ex}
+Sea $K = [0, +\infty)$ y $\mathcal{J}(v) = e^{-v}$.
+
+\medskip
+
+Entonces:
+\[
+\inf_{v \in K} \mathcal{J}(v) = 0,
+\]
+pero no existe $u^\star \in K$ tal que $J(u^\star) = 0$. Sin embargo, la sucesión $u_n = n$ es minimizante, pues:
+\[
+\mathcal{J}(u_n) = e^{-n} \to 0.
+\]
+\end{ex}
+
+\subsection{Existencia %del ínfimo y 
+de sucesiones minimizantes}
+
+La proposición siguiente se establece directamente a partir de la definición del ínfimo.
+
+\begin{proposition}
+Para cualquier función $\mathcal{J}: K \to \mathbb{R}$, %acotada inferiormente, existe el ínfimo $\inf_{u \in K} J(u)$ y 
+siempre existe una {sucesión minimizante} $\{u_n\}_{n \in \mathbb{N}} \subseteq K$ tal que:
+\[
+\lim_{n \to \infty} \mathcal{J}(u_n) = \inf_{v \in K} \mathcal{J}(v).
+\]
+\end{proposition}
+
+\section{Existencia de mínimos globales}
+
+Retomamos este resultado general y simple de \cite{allaire2007}.
+
+\begin{theorem}
+Sea $V$ un espacio vectorial normado de \emph{dimensión finita}, $K \subseteq V$ un conjunto \emph{cerrado y no vacío}, y $\mathcal{J}: K \to \mathbb{R}$ una función \emph{continua} sobre $K$. Supongamos además que:
+\begin{equation}
+\label{eq:coercividad}
+\text{Si } \{u_n\} \subseteq K \text{ es tal que } \|u_n\| \to +\infty, \text{ entonces } \mathcal{J}(u_n) \to +\infty.
+\end{equation}
+Entonces, la función $\mathcal{J}:$ admite al menos un \emph{punto de mínimo global} en $K$.
+\end{theorem}
+
+\begin{proof} Es un baile en cinco pasos.
+
+\medskip
+
+\noindent \emph{Paso 1.} \emph{Existencia del ínfimo.}
+   Como $\mathcal{J}$ está acotada inferiormente (por continuidad y por la condición  %$\|u_n\|_V \to +\infty \implies \mathcal{J}:(u_n) \to +\infty$
+   \eqref{eq:coercividad}), existe:
+   \[
+   m = \inf_{v \in K} \mathcal{J}:(v) \in \mathbb{R}.
+   \]
+
+\medskip
+
+\noindent \emph{Paso 2.}
+\emph{Existencia de una sucesión minimizante.}
+   Por %definición de ínfimo, para 
+   la Proposici\'on anterior, para
+   todo $n \in \mathbb{N}$, existe $u_n \in K$ tal que:
+   %$
+   %J(u_n) \leq m + \frac{1}{n}.
+   %$
+   %Así, $\{u_n\}$ es una sucesión minimizante, ya que:
+   \[
+   \lim_{n \to \infty} \mathcal{J}(u_n) = m.
+   \]
+
+\medskip
+
+\noindent \emph{Paso 3.}
+\emph{Acotación de la sucesión minimizante.}
+   Supongamos que $\{u_n\}$ no estuviera acotada en $V$. Entonces, existiría una subsucesión $\{u_{n_k}\}$ tal que $\|u_{n_k}\|_V \to +\infty$. Por hipótesis~\eqref{eq:coercividad}, esto implicaría que:
+   \[
+   \mathcal{J}(u_{n_k}) \to +\infty,
+   \]
+   lo cual contradice que $\mathcal{J}(u_{n_k}) \to m$. Por lo tanto, $\{u_n\}$ está acotada en $V$.
+
+\medskip
+
+\noindent \emph{Paso 4.}
+\emph{Compacidad en dimensión finita.}
+   En un espacio de dimensión finita, toda sucesión acotada tiene una subsucesión convergente. Sea $\{u_{n_k}\}$ una subsucesión de $\{u_n\}$ tal que $u_{n_k} \to u^\star \in V$. Como $K$ es cerrado, $u^\star \in K$.
+
+\medskip
+
+\noindent \emph{Paso 5.}
+\emph{Continuidad de $\mathcal{J}$.}
+   Por la continuidad de $\mathcal{J}$, se tiene:
+   $
+   \mathcal{J}(u^\star) = \lim_{k \to \infty} \mathcal{J}(u_{n_k}) = m.
+   $
+   Por lo tanto, $u^\mathcal{J}$ es un punto de mínimo global de $J$ en $K$.
+\end{proof}
+
+El teorema anterior no se extiende en dimensión infinita~\cite{allaire2007}. Tampoco asegura unicidad. Esto motiva la introducción de los siguientes conceptos.
+
+%\section{Relación con Funciones Convexas}
+
+%\begin{remark}
+%Si además $J$ es una \textbf{función convexa} y $K$ es un conjunto convexo, entonces:
+%\begin{itemize}
+%    \item Todo punto de mínimo local es también un \textbf{mínimo global}.
+%    \item Si $J$ es estrictamente convexa, el mínimo global es \textbf{único}.
+%\end{itemize}
+%\end{remark}
+
+%---
+%\section{Conclusión}
+%Bajo las hipótesis del teorema, la existencia de mínimos globales está garantizada. Además, las sucesiones minimizantes siempre existen y, en el caso de espacios de dimensión finita con funciones continuas y coercivas, convergen a un mínimo global.
 
 \section{Conjuntos y funciones convexas} %(dimensión infinita, sobre un espacio de Hilbert $V$)}
 
-\subsection{Definiciones}
-Sea $V$ un espacio de Hilbert sobre $\mathbb{R}$. 
+%\subsection{Definiciones}
+%Sea $V$ un espacio de Hilbert sobre $\mathbb{R}$. 
 
-\begin{itemize}
-    \item Un conjunto $C \subset V$ es \textbf{convexo} si para todo $x, y \in C$ y todo $\lambda \in [0, 1]$, se cumple:
-    $$
-    \lambda x + (1 - \lambda) y \in C.
-    $$
-    \item Una función $f: V \to \mathbb{R} \cup {+\infty}$ es \textbf{convexa} si para todo $x, y \in V$ y todo $\lambda \in [0, 1]$, se cumple:
-    $$
-    f(\lambda x + (1 - \lambda) y) \leq \lambda f(x) + (1 - \lambda) f(y).
-    $$
-    \item Funci\'on convexa fuerte:
-%    * Strongly convex function 911 (definition): 
+\begin{definition}
+%\begin{itemize}
+%    \item 
+Un conjunto $K \subset V$ es \emph{convexo} si para todo $v, w \in K$ y todo $\lambda \in [0, 1]$, se cumple:
 \begin{equation}
-    J(\frac12 (u+v)) \leq \frac12 (J(u)+J(v)) - \frac{\alpha}{8} \| u-v \|^2.
+    \label{def:convexo}
+    \lambda v + (1 - \lambda) w \in K.
 \end{equation}
-%(it is convex and strictly convex).
-\end{itemize}
+%    \item 
+\end{definition}
 
-\subsection{Ejemplo}
+%\medskip
+
+\begin{definition}
+Una función $\mathcal{J}: V \to \mathbb{R}$ 
+%\cup {+\infty}$ 
+es \emph{convexa} si para todo $v, w \in V$ y todo $\lambda \in [0, 1]$, se cumple:
+\begin{equation}
+    \label{def:convexa}
+\mathcal{J}(\lambda v + (1 - \lambda) w) \leq \lambda \mathcal{J}(v) + (1 - \lambda) \mathcal{J}(w).
+\end{equation}
+Es convexa estricta, si, cuando
+$\lambda \in (0, 1)$, se cumple:
+\begin{equation}
+    \label{def:convexaestricta}
+\mathcal{J}(\lambda v + (1 - \lambda) w) < \lambda \mathcal{J}(v) + (1 - \lambda) \mathcal{J}(w).
+\end{equation}
+\end{definition}
+
+\begin{definition}
+Una función $\mathcal{J}: V \to \mathbb{R}$ 
+%\cup {+\infty}$ 
+es \emph{convexa} fuerte, si existe $c_\mathcal{J} > 0$ tal que para todo $v,w \in V$, se cumple:
+\begin{equation}
+    \label{def:convexafuerte}
+\mathcal{J}
+\left( \frac12 v + \frac12 w \right) \leq 
+ \frac12 \left (\mathcal{J}(v)+\mathcal{J}(w)\right) - \frac{c_\mathcal{J}}{8} \| v-w \|_V^2.
+\end{equation}
+\end{definition}
+
+\begin{ex}
+%\subsection{Ejemplo}
 Sea $V = L^2([0,1])$ el espacio de Hilbert de funciones cuadrado-integrables en $[0,1]$.
-La función $f(u) = \int_0^1 |u(t)|^2 , dt$ es convexa en $V$.
+La función \[
+\mathcal{J}(v) := \int_0^1 |v(x)|^2  \mathrm{d}x\] es convexa en $V$.
+\end{ex}
 
-
-
-\section{Existencia de mínimos}
-
-\begin{theorem}
-Si $V$ es un espacio de Hilbert y $f: V \to \mathbb{R} \cup {+\infty}$ es una función:
-\begin{itemize}
-    \item \textbf{convexa},
-    \item \textbf{semi-continua inferiormente} (para la topología fuerte de $V$),
-    \item \textbf{coerciva} (es decir, $f(v) \to +\infty$ cuando $|v|_V \to +\infty$),
-\end{itemize}
-entonces $f$ alcanza su mínimo en $V$.
-\end{theorem}
+%
+%
+%\section{Existencia de mínimos}
+%
+%\begin{theorem}
+%Si $V$ es un espacio de Hilbert y $f: V \to \mathbb{R} \cup {+\infty}$ es una función:
+%\begin{itemize}
+%    \item \textbf{convexa},
+%    \item \textbf{semi-continua inferiormente} (para la topología fuerte de $V$),
+%    \item \textbf{coerciva} (es decir, $f(v) \to +\infty$ cuando $|v|_V \to +\infty$),
+%\end{itemize}
+%entonces $f$ alcanza su mínimo en $V$.
+%\end{theorem}
 
 %\subsection{Ejemplo}
-Sea $V = H^1_0(\Omega)$ (espacio de Sobolev) y $f(u) = \frac{1}{2} \int_\Omega |\nabla u|^2 , dx - \int_\Omega fu , dx$, donde $f \in L^2(\Omega)$.
-Bajo ciertas condiciones, $f$ es convexa, continua y coerciva, por lo que tiene un mínimo en $V$.
+%Sea $V = H^1_0(\Omega)$ (espacio de Sobolev) y $f(u) = \frac{1}{2} \int_\Omega |\nabla u|^2 , dx - \int_\Omega fu , dx$, donde $f \in L^2(\Omega)$.
+%Bajo ciertas condiciones, $f$ es convexa, continua y coerciva, por lo que tiene un mínimo en $V$.
 
+%\title{Teoremas sobre Funciones Convexas y Mínimos}
+% Entornos personalizados
+%\newtheorem{theorem}{Teorema}[section]
+%\newtheorem{cor}{Corolario}[section]
+%\newtheorem{lemma}{Lema}[section]
+%\newtheorem{proposition}{Proposición}[section]
+%\newtheorem{definition}{Definición}[section]
+%\newtheorem{remark}{Observación}[section]
+%\newtheorem{ex}{Ejemplo}[section]
+
+\section{Funciones convexas y mínimos}
+
+Los siguientes resultados son adaptados de \cite{allaire2007}.
+
+\begin{theorem}
+Si $\mathcal{J}$ es convexa, entonces todo mínimo local es un mínimo global. Además, el conjunto de mínimos de $\mathcal{J}$ es convexo.
+\end{theorem}
+
+\begin{proof}
+Sea $u^\star$ un mínimo local de $\mathcal{J}$, es decir, existe $\delta > 0$ tal que:
+\[
+\mathcal{J}(u^\star) \leq \mathcal{J}(u) \quad \forall u \in K \text{ con } \|u - u^*\|_V < \delta.
+\]
+Queremos demostrar que $u^\star$ es un mínimo global, es decir, que:
+\[
+\mathcal{J}(u^\star) \leq \mathcal{J}(u) \quad \forall u \in K.
+\]
+%
+Sea $u \in K$ arbitrario. Consideremos la función $f: [0,1] \to \mathbb{R}$ definida por:
+\[
+f(t) = \mathcal{J}((1-t)u^\star + t u).
+\]
+Como $\mathcal{J}$ es convexa, se tiene:
+\[
+f(t) = \mathcal{J}((1-t)u^\star + t u) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u).
+\]
+%
+Supongamos, por contradicción, que existe $u \in K$ tal que $\mathcal{J}(u) < \mathcal{J}(u^\star)$. Entonces, para todo $t \in (0,1)$:
+\[
+f(t) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u) < (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u^\star) = \mathcal{J}(u^\star).
+\]
+Pero como $u^*$ es un mínimo local, existe $\delta > 0$ tal que para todo $t$ suficientemente pequeño (por ejemplo, $t < \delta / \|u - u^*\|_V$), se cumple:
+\[
+f(t) \geq \mathcal{J}(u^\star).
+\]
+Esto es una contradicción, ya que $f(t) < \mathcal{J}(u^\star)$ y $f(t) \geq \mathcal{J}(u^*)$ no pueden ser ciertos simultáneamente. Por lo tanto, $\mathcal{J}(u^\star) \leq \mathcal{J}(u)$ para todo $u \in K$, y $u^\star$ es un mínimo global.
+
+\medskip 
+
+Para demostrar que el conjunto de mínimos es convexo, sean $u_1, u_2$ dos mínimos globales de $\mathcal{J}$ y $t \in [0,1]$. Entonces:
+\[
+\mathcal{J}(t u_1 + (1-t) u_2) \leq t \mathcal{J}(u_1) + (1-t) \mathcal{J}(u_2) %= t \inf_{u \in K} \mathcal{J}(u) + (1-t) \inf_{u \in K} \mathcal{J}(u) = \inf_{u \in K} \mathcal{J}(u).
+\]
+y
+\[
+%\mathcal{J}(t u_1 + (1-t) u_2) \leq 
+t \mathcal{J}(u_1) + (1-t) \mathcal{J}(u_2) = t \inf_{v \in K} \mathcal{J}(v) + (1-t) \inf_{v \in K} \mathcal{J}(v) = \inf_{v \in K} \mathcal{J}(v).
+\]
+Como $\inf_{v \in K} \mathcal{J}(v)$ es el valor mínimo, se tiene:
+\[
+\mathcal{J}(t u_1 + (1-t) u_2) = \inf_{v \in K} \mathcal{J}(v),
+\]
+lo que implica que $t u_1 + (1-t) u_2$ es también un mínimo global. Por lo tanto, el conjunto de mínimos es convexo.
+\end{proof}
+
+\begin{theorem}
+Si $\mathcal{J}$ es estrictamente convexa, entonces existe a lo sumo un mínimo global.
+\end{theorem}
+
+\begin{proof}
+Supongamos, por contradicción, que existen dos mínimos globales distintos $u_1$ y $u_2$ tales que:
+\[
+\mathcal{J}(u_1) = \mathcal{J}(u_2) = \inf_{v \in K} \mathcal{J}(v).
+\]
+Como $\mathcal{J}$ es estrictamente convexa, para todo $t \in (0,1)$ se cumple:
+\[
+\mathcal{J}(t u_1 + (1-t) u_2) < t \mathcal{J}(u_1) + (1-t) \mathcal{J}(u_2) 
+%= t \inf_{u \in K} \mathcal{J}(u) + (1-t) \inf_{u \in K} \mathcal{J}(u) = \inf_{u \in K} \mathcal{J}(u).
+\]
+y
+\[
+%\mathcal{J}(t u_1 + (1-t) u_2) < 
+t \mathcal{J}(u_1) + (1-t) \mathcal{J}(u_2) = t \inf_{v \in K} \mathcal{J}(v) + (1-t) \inf_{v \in K} \mathcal{J}(v) = \inf_{v \in K} \mathcal{J}(v).
+\]
+Esto implica que:
+\[
+\mathcal{J}(t u_1 + (1-t) u_2) < \inf_{v \in K} \mathcal{J}(v),
+\]
+lo cual contradice la definición de ínfimo. Por lo tanto, no pueden existir dos mínimos globales distintos, y el mínimo global, si existe, es único.
+\end{proof}
+
+\begin{proposition}[Proposición (9.2.5, Allaire)]
+Si $\mathcal{J}$ es convexa y continua sobre un conjunto $K$ cerrado, convexo y no vacío, entonces existen $\delta \in \mathbb{R}$ y $L \in V'$ tales que para todo $v \in K$:
+\[
+\mathcal{J}(v) \geq L(v) + \delta.
+\]
+\end{proposition}
+
+\begin{proof}
+Como $\mathcal{J}$ es convexa y continua, su epigrafo:
+\[
+\text{epi}(\mathcal{J}) = \{(v, \mu) \in V \times \mathbb{R} \mid \mathcal{J}(v) \leq \mu\}
+\]
+es un conjunto convexo y cerrado en $V \times \mathbb{R}$. Además, como $K$ es no vacío, existe al menos un punto $(v_0, \mathcal{J}(v_0)) \in \text{epi}(\mathcal{J})$.
+%
+Consideremos el conjunto:
+\[
+C = \left \{(v, \mu) \in V \times \mathbb{R} \mid \mu < \inf_{v \in K} \mathcal{J}(v) \right \}.
+\]
+Este conjunto es convexo y abierto, y no interseca con $\text{epi}(\mathcal{J})$. Por el \emph{teorema de separación de Hahn-Banach}, existen un funcional lineal $F \in (V \times \mathbb{R})'$ y $\alpha \in \mathbb{R}$ tales que:
+\[
+F(v, \mu) \leq \alpha \quad \forall (v, \mu) \in \text{epi}(\mathcal{J}),
+\]
+\[
+F(v, \mu) > \alpha \quad \forall (v, \mu) \in C.
+\]
+%
+Podemos descomponer $F$ como $F(v, \mu) = L(v) + \beta \mu$, donde $L \in V'$ y $\beta \in \mathbb{R}$. De las desigualdades anteriores, se deduce que $\beta > 0$ (de lo contrario, no se cumpliría la segunda desigualdad para $\mu \to -\infty$). Sin pérdida de generalidad, podemos normalizar $F$ para que $\beta = 1$. Entonces:
+\[
+L(v) + \mu \leq \alpha \quad \forall (v, \mu) \in \text{epi}(\mathcal{J}).
+\]
+En particular, para todo $v \in V$ y $\mu = \mathcal{J}(v)$, se tiene:
+\[
+L(v) + \mathcal{J}(v) \leq \alpha.
+\]
+Reordenando, obtenemos:
+\[
+\mathcal{J}(v) \geq -L(v) + \alpha.
+\]
+Definiendo $\delta = -\alpha$ y reemplazando $L$ por $-L$, se obtiene:
+\[
+\mathcal{J}(v) \geq L(v) + \delta.
+\]
+\end{proof}
+
+\begin{remark}
+Además, si $\mathcal{J}$ es fuertemente convexa, entonces existen $\gamma > 0$ y $\delta \in \mathbb{R}$ tales que para todo $v \in V$:
+\[
+\mathcal{J}(v) \geq \gamma \|v\|^2 + \delta.
+\]
+\end{remark}
+
+\begin{proof}
+Como $\mathcal{J}$ es fuertemente convexa, existe $\gamma > 0$ tal que la función $\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2$ es convexa. Aplicando la proposición anterior a esta función, existen $\delta' \in \mathbb{R}$ y $L \in V'$ tales que:
+\[
+\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2 \geq L(v) + \delta'.
+\]
+Reordenando, obtenemos:
+\[
+\mathcal{J}(v) \geq \frac{\gamma}{2} \|v\|^2 + L(v) + \delta'.
+\]
+Como $\frac{\gamma}{2} \|v\|^2 + L(v) \geq \frac{\gamma}{4} \|v\|^2 - \frac{1}{\gamma} \|L\|^2$ (por la desigualdad de Young), podemos ajustar $\gamma$ y $\delta$ para obtener:
+\[
+\mathcal{J}(v) \geq \gamma \|v\|^2 + \delta,
+\]
+donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
+\end{proof}
+
+\newpage
 
 \section{Funciones diferenciables}
 
@@ -869,7 +1226,10 @@ if __name__ == "__main__":
 \chapter{Dualidad}
 La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones geométricas profundas.
 %
-Seguimos~\cite{BoydVandenberghe2004}.
+Seguimos~\cite{allaire2007}(véase también~\cite{BoydVandenberghe2004}).
+
+
+
 
 %\textbf{Sugerencia de plan:}
 %\begin{itemize}
