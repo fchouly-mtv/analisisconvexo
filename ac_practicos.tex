@@ -6,12 +6,38 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{geometry}
 \geometry{margin=2.5cm}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% --- Configuración de entornos ---
+\newtheorem{ex}{Ejercicio}
+\newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
+
+\newtheorem{ejercicio}{Ejercicio}[chapter]
+
+
+% --- Comando para productos internos ---
+\newcommand{\inner}[2]{( #1, #2 )_V}
+
+% --- Comando para normas ---
+\newcommand{\norma}[1]{\Vert #1 \Vert_V}
+
+% --- Comando para el espacio L² ---
+\newcommand{\Ldos}{L^2}
+
+% --- Comando para espacios de Sobolev ---
+\newcommand{\Huno}{H^1}
+\newcommand{\HunoCero}{H^1_0}
+
+% --- Comando para la diferencial de Fréchet ---
+\newcommand{\diff}{\mathrm{d}}
+
 
 \title{Prácticos de Análisis Convexo}
 \author{Franz Chouly \and Federico Correa}
 \date{\today}
 
-\newtheorem{ejercicio}{Ejercicio}[chapter]
 
 \begin{document}
 
@@ -19,6 +45,1079 @@
 \tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Repaso}
+
+\section{Espacios de Hilbert}
+
+\noindent
+Primero, unos ejercicios generales sobre espacios de Hilbert. En lo siguiente, $V$ es un espacio de Hilbert sobre $\mathbb{R}$.
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert. Demostrar que para todo $u, v \in V$, se cumple la desigualdad de Cauchy-Schwarz:
+\begin{equation*}
+|\inner{u}{v}| \leq \norma{u} \norma{v}.
+\end{equation*}
+\end{ex}
+
+%\begin{solution}
+%Para cualquier $t \in \mathbb{R}$, consideremos el vector $u + t v \in V$. Entonces:
+%\begin{equation*}
+%0 \leq \norma{u + t v}^2 = \norma{u}^2 + 2 t \inner{u}{v} + t^2 \norma{v}^2.
+%\end{equation*}
+%Esto define un polinomio cuadrático en $t$ que siempre es no negativo. Por lo tanto, su discriminante debe ser menor o igual a cero:
+%\begin{equation*}
+%(2 \inner{u}{v})^2 - 4 \norma{u}^2 \norma{v}^2 \leq 0.
+%\end{equation*}
+%Simplificando, obtenemos:
+%\begin{equation*}
+%|\inner{u}{v}|^2 \leq \norma{u}^2 \norma{v}^2,
+%\end{equation*}
+%y tomando raíces cuadradas, se sigue la desigualdad de Cauchy-Schwarz.
+%\end{solution}
+
+\begin{ex}
+Demostrar que en un espacio de Hilbert $V$, dos vectores $u, v \in V$ son ortogonales si y solo si:
+\begin{equation*}
+\norma{u + v}^2 = \norma{u}^2 + \norma{v}^2.
+\end{equation*}
+\end{ex}
+
+%\begin{solution}
+%($\Rightarrow$) Si $u$ y $v$ son ortogonales, entonces $\inner{u}{v} = 0$. Por lo tanto:
+% \begin{equation*}
+% \norma{u + v}^2 = \norma{u}^2 + 2 \inner{u}{v} + \norma{v}^2 = \norma{u}^2 + \norma{v}^2.
+% \end{equation*}
+%
+%($\Leftarrow$) Supongamos que $\norma{u + v}^2 = \norma{u}^2 + \norma{v}^2$. Desarrollando el cuadrado de la norma:
+% \begin{equation*}
+% \norma{u}^2 + 2 \inner{u}{v} + \norma{v}^2 = \norma{u}^2 + \norma{v}^2,
+% \end{equation*}
+% lo que implica $2 \inner{u}{v} = 0$, es decir, $\inner{u}{v} = 0$. Por lo tanto, $u$ y $v$ son ortogonales.
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert y sea $W \subset V$ un subespacio vectorial. Demostrar que $W$ es un subespacio de Hilbert si y solo si $W$ es cerrado en $V$.
+\end{ex}
+
+%\begin{solution}
+%($\Rightarrow$) Si $W$ es un subespacio de Hilbert, entonces $W$ es completo con la norma inducida por $V$. Como $W$ es completo y $V$ es un espacio métrico, $W$ es cerrado en $V$.
+
+%($\Leftarrow$) Supongamos que $W$ es cerrado en $V$. Como $W$ es un subespacio vectorial de $V$, la restricción del producto interno de $V$ a $W$ define un producto interno en $W$.
+
+%Además, como $W$ es cerrado en $V$, toda sucesión de Cauchy en $W$ converge a un elemento de $W$ (ya que $V$ es completo). Por lo tanto, $W$ es completo y, en consecuencia, un subespacio de Hilbert.
+
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert y sea $(e_n)_{n \in \mathbb{N}}$ una sucesión ortonormal en $V$. Demostrar que:
+\begin{equation*}
+\sum_{n=1}^\infty \inner{u}{e_n}^2 \leq \norma{u}^2 \quad \forall u \in V.
+\end{equation*}
+\end{ex}
+
+%\begin{solution}
+%Para cualquier $N \in \mathbb{N}$, definimos el vector:
+%\begin{equation*}
+%u_N = \sum_{n=1}^N \inner{u}{e_n} e_n.
+%\end{equation*}
+%Como $(e_n)$ es ortonormal, se tiene:
+%\begin{equation*}
+%\norma{u_N}^2 = \sum_{n=1}^N |\inner{u}{e_n}|^2.
+%\end{equation*}
+%Además, $u - u_N$ es ortogonal a $u_N$, por lo que:
+%\begin{equation*}
+%\norma{u}^2 = \norma{u_N}^2 + \norma{u - u_N}^2 \geq \norma{u_N}^2 = \sum_{n=1}^N |\inner{u}{e_n}|^2.
+%\end{equation*}
+%Tomando límite cuando $N \to \infty$, obtenemos:
+%\begin{equation*}
+%\sum_{n=1}^\infty |\inner{u}{e_n}|^2 \leq \norma{u}^2.
+%\end{equation*}
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert. Demostrar que toda sucesión ortonormal $(e_n)_{n \in \mathbb{N}}$ en $V$ es una base ortonormal si y solo si el subespacio generado por $(e_n)$ es denso en $V$.
+\end{ex}
+
+%\begin{solution}
+
+%($\Rightarrow$) Si $(e_n)$ es una base ortonormal, entonces para todo $u \in V$, se tiene:
+% \begin{equation*}
+%u = \sum_{n=1}^\infty \inner{u}{e_n} e_n.
+% \end{equation*}
+% Esto implica que el subespacio generado por $(e_n)$ es denso en $V$ (de hecho, igual a $V$).
+
+%($\Leftarrow$) Supongamos que el subespacio generado por $(e_n)$ es denso en $V$. Para todo $u \in V$ y $\epsilon > 0$, existe una combinación lineal finita $v = \sum_{n=1}^N \alpha_n e_n$ tal que $\norma{u - v} < \epsilon$.
+
+%Como $(e_n)$ es ortonormal, los coeficientes $\alpha_n$ pueden elegirse como $\alpha_n = \inner{u}{e_n}$ para minimizar $\norma{u - v}$. Por lo tanto, $(e_n)$ es una base ortonormal.
+
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert. Demostrar que si $(u_n)$ es una sucesión en $V$ que converge débilmente a $u \in V$, entonces:
+\begin{equation*}
+\norma{u} \leq \liminf_{n \to \infty} \norma{u_n}.
+\end{equation*}
+\end{ex}
+
+%\begin{solution}
+%Por la convergencia débil, para todo $v \in V$, se tiene $\inner{u_n}{v} \to \inner{u}{v}$. En particular, para $v = u$, se tiene:
+%\begin{equation*}
+%\inner{u_n}{u} \to \inner{u}{u} = \norma{u}^2.
+%\end{equation*}
+%Por otra parte, por la desigualdad de Cauchy-Schwarz:
+%\begin{equation*}
+%|\inner{u_n}{u}| \leq \norma{u_n} \norma{u}.
+%\end{equation*}
+%Tomando límite inferior cuando $n \to \infty$, obtenemos:
+%\begin{equation*}
+%\norma{u}^2 \leq \liminf_{n \to \infty} \norma{u_n} \norma{u}.
+%\end{equation*}
+%Si $u \neq 0$, podemos dividir ambos lados por $\norma{u}$ para obtener:
+%\begin{equation*}
+%\norma{u} \leq \liminf_{n \to \infty} \norma{u_n}.
+%\end{equation*}
+%Si $u = 0$, la desigualdad es trivial.
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert. Demostrar que si $(u_n)$ es una sucesión en $V$ que converge fuertemente a $u \in V$, entonces $(u_n)$ también converge débilmente a $u$.
+\end{ex}
+
+%\begin{solution}
+%Si $(u_n)$ converge fuertemente a $u$, entonces $\norma{u_n - u} \to 0$. Para cualquier $v \in V$, por la desigualdad de Cauchy-Schwarz:
+%\begin{equation*}
+%|\inner{u_n}{v} - \inner{u}{v}| = |\inner{u_n - u}{v}| \leq \norma{u_n - u} \norma{v} \to 0.
+%\end{equation*}
+%Por lo tanto, $\inner{u_n}{v} \to \inner{u}{v}$ para todo $v \in V$, lo que significa que $(u_n)$ converge débilmente a $u$.
+%\end{solution}
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert. Demostrar que el producto interno $\inner{\cdot}{\cdot}: V \times V \to \mathbb{R}$ es una función continua.
+%\end{ex}
+
+%\begin{solution}
+%Para demostrar que $\inner{\cdot}{\cdot}$ es continua, debemos mostrar que para cualquier sucesión $(u_n, v_n) \to (u, v)$ en $V \times V$, se tiene $\inner{u_n}{v_n} \to \inner{u}{v}$. 
+
+%Escribimos:
+%\begin{align*}
+%|\inner{u_n}{v_n} - \inner{u}{v}| &= |\inner{u_n}{v_n} - \inner{u_n}{v} + \inner{u_n}{v} - \inner{u}{v}| \
+%&\leq |\inner{u_n}{v_n - v}| + |\inner{u_n - u}{v}| \
+%&\leq \norma{u_n} \norma{v_n - v} + \norma{u_n - u} \norma{v}.
+%\end{align*}
+%Como $(u_n)$ y $(v_n)$ convergen fuertemente a $u$ y $v$ respectivamente, se tiene que $\norma{u_n}$ está acotada (porque $(u_n)$ converge) y $\norma{v_n - v} \to 0$, $\norma{u_n - u} \to 0$. Por lo tanto, $\inner{u_n}{v_n} \to \inner{u}{v}$.
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert y sea $u \in V$ fijo. Demostrar que la función $f: V \to \mathbb{R}$ definida por $f(v) = \inner{u}{v}$ es un funcional lineal continuo.
+\end{ex}
+
+%\begin{solution}
+%
+%
+%
+%
+%
+%Linealidad: Para todo $v_1, v_2 \in V$ y $\alpha, \beta \in \mathbb{R}$, se tiene:
+% \begin{align*}
+% f(\alpha v_1 + \beta v_2) &= \inner{u}{\alpha v_1 + \beta v_2} \
+% &= \alpha \inner{u}{v_1} + \beta \inner{u}{v_2} \
+% &= \alpha f(v_1) + \beta f(v_2).
+% \end{align*}
+% Por lo tanto, $f$ es lineal.
+
+
+
+%Continuidad: Por la desigualdad de Cauchy-Schwarz:
+% \begin{equation*}
+% |f(v)| = |\inner{u}{v}| \leq \norma{u} \norma{v}.
+% \end{equation*}
+% Por lo tanto, $f$ es continua (de hecho, $f$ es Lipschitz con constante $\norma{u}$).
+%\end{solution}
+
+
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert. Demostrar que toda base ortonormal $(e_i){i \in I}$ de $V$ satisface la igualdad de Parseval:
+%\begin{equation*}
+%\norma{u}^2 = \sum{i \in I} |\inner{u}{e_i}|^2 \quad \forall u \in V.
+%\end{equation*}
+%\end{ex}
+
+%\begin{solution}
+%Sea $u \in V$. Por definición de base ortonormal, se tiene:
+%\begin{equation*}
+%u = \sum_{i \in I} \inner{u}{e_i} e_i.
+%\end{equation*}
+%Tomando el producto interno con $u$ a ambos lados:
+%\begin{equation*}
+%\inner{u}{u} = \sum_{i \in I} |\inner{u}{e_i}|^2 + \inner{u - \sum_{i \in I} \inner{u}{e_i} e_i}{u}.
+%\end{equation*}
+%Como $u - \sum_{i \in I} \inner{u}{e_i} e_i = 0$ (porque $(e_i)$ es una base), se sigue que:
+%\begin{equation*}
+%\norma{u}^2 = \sum_{i \in I} |\inner{u}{e_i}|^2.
+%\end{equation*}
+%\end{solution}
+
+\section{Espacios de Hilbert separables}
+
+\noindent
+Ahora, unos ejercicios sobre espacios de Hilbert separables.
+ $V$
+Recordamos que un espacio $V$
+ es separable si existe un subconjunto numerable $S \subset V$ denso en $V$. 
+
+% --- Configuración de entornos ---
+%\newtheorem{ex}{Ejercicio}
+%\newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
+
+\begin{ex}
+Demostrar que todo espacio de Hilbert de dimensión finita es separable.
+\end{ex}
+
+%\begin{solution}
+%Sea $V$ un espacio de Hilbert de dimensión finita $n$. Entonces, existe una base ortonormal $(e_1, e_2, \ldots, e_n)$ de $V$. 
+
+%El conjunto de todas las combinaciones lineales con coeficientes racionales de los vectores de la base:
+%\begin{equation*}
+%S = \left{ \sum_{i=1}^n q_i e_i : q_i \in \mathbb{Q} \right},
+%\end{equation*}
+%es numerable (porque $\mathbb{Q}^n$ es numerable) y denso en $V$ (porque $\mathbb{Q}$ es denso en $\mathbb{R}$). Por lo tanto, $V$ es separable.
+%\end{solution}
+
+\begin{ex}
+¿Es el espacio $\ell^2(\mathbb{N})$ separable? Justificar la respuesta.
+\end{ex}
+
+%\begin{solution}
+%Sí, $\ell^2(\mathbb{N})$ es separable. 
+%
+%Consideremos el conjunto $S$ de todas las sucesiones $(x_n)_{n \in \mathbb{N}}$ tales que $x_n \in \mathbb{Q}$ para todo $n$ y $x_n = 0$ para todo $n$ suficientemente grande. Este conjunto es numerable (porque es una unión numerable de conjuntos finitos). 
+
+%Además, $S$ es denso en $\ell^2(\mathbb{N})$, ya que para cualquier sucesión $(y_n) \in \ell^2(\mathbb{N})$ y cualquier $\epsilon > 0$, podemos aproximar cada $y_n$ por un número racional $q_n$ de tal manera que $\sum_{n=1}^\infty |y_n - q_n|^2 < \epsilon^2$. 
+
+%Por lo tanto, $\ell^2(\mathbb{N})$ es separable.
+%\end{solution}
+
+
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert separable. Demostrar que toda base ortonormal de $V$ es numerable.
+%\end{ex}
+
+%\begin{solution}
+%Sea $(e_i)_{i \in I}$ una base ortonormal de $V$. Como $V$ es separable, existe un subconjunto numerable $S \subset V$ denso en $V$. 
+
+%Para cada $s \in S$, definimos el conjunto:
+%\begin{equation*}
+%I_s = { i \in I : \inner{s}{e_i} \neq 0 }.
+%\end{equation*}
+%Como $s = \sum_{i \in I} \inner{s}{e_i} e_i$, el conjunto $I_s$ es numerable (porque la suma tiene a lo sumo una cantidad numerable de términos no nulos). 
+
+%Ahora, observamos que:
+%\begin{equation*}
+%I = \bigcup_{s \in S} I_s,
+%\end{equation*}
+%ya que si $i \in I$, entonces $e_i \neq 0$ y existe $s \in S$ tal que $\inner{s}{e_i} \neq 0$ (porque $S$ es denso en $V$). 
+
+%Como $S$ es numerable y cada $I_s$ es numerable, $I$ es numerable.
+%\end{solution}
+
+\begin{ex}
+Demostrar que en un espacio de Hilbert separable, toda sucesión acotada tiene una subsucesión débilmente convergente.
+\end{ex}
+
+%\begin{solution}
+%Sea $(u_n)$ una sucesión acotada en un espacio de Hilbert separable $V$. Como $V$ es separable, existe una base ortonormal numerable $(e_k)_{k \in \mathbb{N}}$. 
+
+%Para cada $k \in \mathbb{N}$, la sucesión $(\inner{u_n}{e_k})$ está acotada en $\mathbb{R}$ (por la desigualdad de Cauchy-Schwarz). Por el teorema de Bolzano-Weierstrass, existe una subsucesión $(u_{n,1})$ tal que $(\inner{u_{n,1}}{e_1})$ converge. 
+
+%Aplicando el mismo argumento a $(u_{n,1})$, obtenemos una subsucesión $(u_{n,2})$ tal que $(\inner{u_{n,2}}{e_2})$ converge. Continuando este proceso inductivamente, obtenemos una subsucesión diagonal $(u_{n,n})$ tal que $(\inner{u_{n,n}}{e_k})$ converge para todo $k \in \mathbb{N}$. 
+
+%Por la Proposición
+%ef{prop:hilbert-separable} (equivalencia entre convergencia débil y convergencia de componentes en una base hilbertiana), $(u_{n,n})$ converge débilmente en $V$.
+%\end{solution}
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert separable. ¿Es el espacio $L^2([0,1])$ separable? Justificar la respuesta.
+%\end{ex}
+
+%\begin{solution}
+%Sí, $L^2([0,1])$ es separable. 
+%
+%El conjunto de las funciones polinómicas con coeficientes racionales es numerable y denso en $L^2([0,1])$ (por el teorema de aproximación de Weierstrass y la densidad de las funciones continuas en $L^2([0,1])$). Por lo tanto, $L^2([0,1])$ es separable.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que si $V$ es un espacio de Hilbert separable, entonces toda base ortonormal de $V$ es completa.
+%\end{ex}
+
+%\begin{solution}
+%Sea $(e_n)_{n \in \mathbb{N}}$ una base ortonormal de $V$. Supongamos que existe $u \in V$ tal que $\inner{u}{e_n} = 0$ para todo $n \in \mathbb{N}$. 
+
+%Como $V$ es separable, existe un subconjunto numerable denso $S \subset V$. Para todo $s \in S$, podemos escribir $s$ como:
+%\begin{equation*}
+%s = \sum_{n=1}^\infty \inner{s}{e_n} e_n.
+%\end{equation*}
+%Si $\inner{u}{s} = 0$ para todo $s \in S$, entonces, por densidad de $S$, $\inner{u}{v} = 0$ para todo $v \in V$. En particular, $\inner{u}{u} = 0$, lo que implica $u = 0$. 
+
+%Por lo tanto, $(e_n)$ es completa.
+%\end{solution}
+
+
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert separable y sea $(e_n){n \in \mathbb{N}}$ una base ortonormal de $V$. Demostrar que para todo $u \in V$ se tiene:
+\begin{equation*}
+\norma{u}^2 = \sum_{n=1}^\infty \inner{u}{e_n}^2.
+\end{equation*}
+\end{ex}
+
+%\begin{solution}
+%Por el teorema de Pitágoras en espacios de Hilbert, para cualquier $N \in \mathbb{N}$, se tiene:
+%\begin{equation*}
+%\norma{\sum_{n=1}^N \inner{u}{e_n} e_n}^2 = \sum_{n=1}^N |\inner{u}{e_n}|^2.
+%\end{equation*}
+%Tomando límite cuando $N \to \infty$, obtenemos:
+%\begin{equation*}
+%\norma{u}^2 = \norma{\sum_{n=1}^\infty \inner{u}{e_n} e_n}^2 = \sum_{n=1}^\infty |\inner{u}{e_n}|^2,
+%\end{equation*}
+%ya que $u = \sum_{n=1}^\infty \inner{u}{e_n} e_n$ (porque $(e_n)$ es una base ortonormal).
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que en un espacio de Hilbert separable, toda sucesión débilmente convergente está acotada.
+%\end{ex}
+
+%\begin{solution}
+%Sea $(u_n)$ una sucesión en $V$ tal que $u_n \rightharpoonup u$. Por la definición de convergencia débil, para todo $v \in V$, la sucesión $(\inner{u_n}{v})$ está acotada. 
+
+%En particular, para $v = u_n$, se tiene:
+%\begin{equation*}
+%|\inner{u_n}{u_n}| = \norma{u_n}^2 \leq M_v,
+%\end{equation*}
+%donde $M_v$ es una constante que depende de $v$. Sin embargo, esto no es suficiente para concluir directamente. 
+
+%En su lugar, usamos el principio de acotación uniforme: si $(u_n)$ no estuviera acotada, existiría una subsucesión $(u_{n_k})$ tal que $\norma{u_{n_k}} \to \infty$. Pero entonces, para $v = u$, tendríamos:
+%\begin{equation*}
+%|\inner{u_{n_k}}{u}| \leq \norma{u_{n_k}} \norma{u} \to \infty,
+%\end{equation*}
+%lo que contradice que $(\inner{u_{n_k}}{u})$ converge. Por lo tanto, $(u_n)$ está acotada.
+%\end{solution}
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert separable y sea $(e_n)_{n \in \mathbb{N}}$ una base ortonormal. Demostrar que el conjunto ${e_n : n \in \mathbb{N}}$ es cerrado en $V$.
+%\end{ex}
+
+%\begin{solution}
+%El conjunto ${e_n : n \in \mathbb{N}}$ no es cerrado en $V$ en general. Por ejemplo, en $\ell^2(\mathbb{N})$, la sucesión $(e_n)$ converge débilmente a $0$, pero $0 \notin {e_n : n \in \mathbb{N}}$. 
+
+%Sin embargo, el conjunto ${e_n : n \in \mathbb{N}}$ es débilmente cerrado en el sentido de que si una sucesión en ${e_n : n \in \mathbb{N}}$ converge débilmente a un punto en $V$, entonces ese punto debe ser uno de los $e_n$. 
+
+%Pero en la topología fuerte, el conjunto no es cerrado. 
+
+%Corrección del enunciado: Si el ejercicio pretendía preguntar por la clausura débil, entonces la respuesta es que el conjunto ${e_n : n \in \mathbb{N}}$ es débilmente cerrado. 
+
+%Para ver esto, supongamos que $(e_{n_k})$ converge débilmente a $u \in V$. Entonces, para todo $m \in \mathbb{N}$:
+%\begin{equation*}
+%\inner{e_{n_k}}{e_m} \to \inner{u}{e_m}.
+%\end{equation*}
+%Como $\inner{e_{n_k}}{e_m} = \delta_{n_k m}$ (donde $\delta_{n_k m}$ es la delta de Kronecker), se tiene que $\inner{u}{e_m} = 1$ si $m$ está en la subsucesión $(n_k)$ y $0$ en caso contrario. Por lo tanto, $u = e_m$ para algún $m$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que si $V$ es un espacio de Hilbert separable, entonces $V$ tiene una base ortonormal numerable.
+%\end{ex}
+
+%\begin{solution}
+%Como $V$ es separable, existe un subconjunto numerable $S = {s_1, s_2, \ldots} \subset V$ denso en $V$. 
+
+%Aplicamos el proceso de ortonormalización de Gram-Schmidt a $S$ para obtener una familia ortonormal $(e_n)_{n \in \mathbb{N}}$. 
+
+
+%Ortonormalidad: Por construcción, $(e_n)$ es ortonormal.
+
+%Base: Para todo $v \in V$ y $\epsilon > 0$, existe $s \in S$ tal que $\norma{v - s} < \epsilon$. Como $s$ es combinación lineal finita de los $e_n$, se tiene que $(e_n)$ es total en $V$.
+
+%Por lo tanto, $(e_n)$ es una base ortonormal numerable de $V$.
+%\end{solution}
+
+\section{Espacio de Lebesgue}
+
+\noindent
+Ahora, algunos ejercicios sobre el espacio $L^2$. % en dimensión 1
+
+\begin{ex}
+Demostrar que el espacio $\Ldos([a, b])$ es un espacio vectorial sobre $\mathbb{R}$.
+\end{ex}
+
+%\begin{solution}
+%Para demostrar que $\Ldos([a, b])$ es un espacio vectorial, debemos verificar las siguientes propiedades para funciones $f, g \in \Ldos([a, b])$ y $\alpha, \beta \in \mathbb{R}$:
+
+%Cierre bajo suma:
+% Por la desigualdad de Minkowski para integrales, se tiene:
+% \begin{equation*}
+% \norm{f + g}^2 = \int_a^b |f(x) + g(x)|^2 , dx \leq \left( \sqrt{\int_a^b |f(x)|^2 , dx} + \sqrt{\int_a^b |g(x)|^2 , dx} \right)^2 < \infty.
+% \end{equation*}
+% Por lo tanto, $f + g \in \Ldos([a, b])$.
+
+%Cierre bajo multiplicación por escalar:
+% \begin{equation*}
+% \norm{\alpha f}^2 = \int_a^b |\alpha f(x)|^2 , dx = |\alpha|^2 \int_a^b |f(x)|^2 , dx < \infty.
+% \end{equation*}
+% Por lo tanto, $\alpha f \in \Ldos([a, b])$.
+
+%Existencia del elemento neutro: La función nula $0(x) = 0$ pertenece a $\Ldos([a, b])$ y satisface $f + 0 = f$ para todo $f \in \Ldos([a, b])$.
+
+%Existencia del opuesto: Para cada $f \in \Ldos([a, b])$, la función $-f$ también pertenece a $\Ldos([a, b])$ y satisface $f + (-f) = 0$.
+
+%Por lo tanto, $\Ldos([a, b])$ es un espacio vectorial.
+%\end{solution}
+
+\begin{ex}
+Demostrar que la función $f(x) = x$ pertenece a $\Ldos([0, 1])$.
+\end{ex}
+
+%\begin{solution}
+%Calculamos la integral de $|f(x)|^2$ en $[0, 1]$:
+%\begin{equation*}
+%\int_0^1 |x|^2 , dx = \int_0^1 x^2 , dx = \left[ \frac{x^3}{3} \right]_0^1 = \frac{1}{3} < \infty.
+%\end{equation*}
+%Por lo tanto, $f \in \Ldos([0, 1])$.
+%\end{solution}
+
+\begin{ex}
+Demostrar que la función $f(x) = {1}/{x}$ no pertenece a $\Ldos([0, 1])$.
+\end{ex}
+
+%\begin{solution}
+%Calculamos la integral de $|f(x)|^2$ en $[0, 1]$:
+%\begin{equation*}
+%\int_0^1 \left| \frac{1}{x} \right|^2 , dx = \int_0^1 \frac{1}{x^2} , dx = \left[ -\frac{1}{x} \right]_0^1 = +\infty.
+%\end{equation*}
+%Por lo tanto, $f \notin \Ldos([0, 1])$.
+%\end{solution}
+
+\begin{ex}
+Sea $f \in \Ldos([a, b])$. Demostrar que para cualquier $\alpha \in \mathbb{R}$, la función $g(x) = f(x + \alpha)$ (traslación) también pertenece a $\Ldos([a - \alpha, b - \alpha])$.
+\end{ex}
+
+%\begin{solution}
+%Hacemos un cambio de variable $y = x + \alpha$. Entonces, $dy = dx$, y los límites de integración cambian a $y \in [a, b]$ cuando $x \in [a - \alpha, b - \alpha]$. Por lo tanto:
+%\begin{align*}
+%\int_{a - \alpha}^{b - \alpha} |g(x)|^2 , dx &= \int_{a - \alpha}^{b - \alpha} |f(x + \alpha)|^2 , dx \
+%&= \int_a^b |f(y)|^2 , dy \
+%&= \norm{f}^2 < \infty.
+%\end{align*}
+%Por lo tanto, $g \in \Ldos([a - \alpha, b - \alpha])$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que el espacio $\Ldos([a, b])$ es completo, es decir, es un espacio de Hilbert.
+%\end{ex}
+
+%\begin{solution}
+%Para demostrar que $\Ldos([a, b])$ es completo, debemos mostrar que toda sucesión de Cauchy en $\Ldos([a, b])$ converge a una función en $\Ldos([a, b])$. 
+
+%Sea $(f_n)$ una sucesión de Cauchy en $\Ldos([a, b])$. Entonces, para todo $\epsilon > 0$, existe $N \in \mathbb{N}$ tal que para todo $m, n \geq N$, se tiene:
+%\begin{equation*}
+%\norm{f_n - f_m} < \epsilon.
+%\end{equation*}
+
+%Por el teorema de Riesz-Fischer, existe una subsucesión $(f_{n_k})$ y una función $f \in \Ldos([a, b])$ tal que $f_{n_k} \to f$ casi todo punto y en la norma de $\Ldos([a, b])$. 
+
+%Como $(f_n)$ es de Cauchy, se puede mostrar que toda la sucesión $(f_n)$ converge a $f$ en la norma de $\Ldos([a, b])$. Por lo tanto, $\Ldos([a, b])$ es completo.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que el conjunto de las funciones continuas en $[a, b]$, denotado por $C([a, b])$, es denso en $\Ldos([a, b])$.
+%\end{ex}
+
+%\begin{solution}
+%Por el teorema de aproximación de Weierstrass, toda función continua en $[a, b]$ puede aproximarse uniformemente por polinomios. Además, toda función en $\Ldos([a, b])$ puede aproximarse por funciones continuas en la norma de $\Ldos([a, b])$. 
+
+%Más precisamente, para cualquier $f \in \Ldos([a, b])$ y $\epsilon > 0$, existe una función continua $g \in C([a, b])$ tal que $\norm{f - g} < \epsilon$. Esto se sigue del hecho de que las funciones escalonadas son densas en $\Ldos([a, b])$ y las funciones continuas pueden aproximar a las funciones escalonadas arbitrariamente bien.
+%\end{solution}
+
+\begin{ex}
+Sea $f \in \Ldos([0, 1])$. Demostrar que la función $g(x) = f(x) \cdot x$ también pertenece a $\Ldos([0, 1])$.
+\end{ex}
+
+%\begin{solution}
+%Calculamos la norma de $g$:
+%\begin{align*}
+%\norm{g}^2 &= \int_0^1 |f(x) x|^2 , dx \
+%&= \int_0^1 |f(x)|^2 x^2 , dx \
+%&\leq \int_0^1 |f(x)|^2 , dx \quad \text{(ya que } x^2 \leq 1 \text{ en } [0, 1]) \
+%&= \norm{f}^2 < \infty.
+%\end{align*}
+%Por lo tanto, $g \in \Ldos([0, 1])$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que el producto interno en $\Ldos([a, b])$ está bien definido y satisface:
+%\begin{equation*}
+%\inner{f}{g} = \int_a^b f(x) g(x) , dx \quad \forall f, g \in \Ldos([a, b]).
+%\end{equation*}
+%\end{ex}
+
+%\begin{solution}
+%Para demostrar que el producto interno está bien definido, debemos mostrar que la integral $\int_a^b f(x) g(x) , dx$ existe y es finita para todo $f, g \in \Ldos([a, b])$. 
+
+%Por la desigualdad de Cauchy-Schwarz para integrales:
+%\begin{equation*}
+%\left| \int_a^b f(x) g(x) , dx \right| \leq \int_a^b |f(x) g(x)| , dx \leq \sqrt{\int_a^b |f(x)|^2 , dx} \sqrt{\int_a^b |g(x)|^2 , dx} = \norm{f} \norm{g} < \infty.
+%\end{equation*}
+%Por lo tanto, el producto interno está bien definido. Además, es claro que satisface las propiedades de un producto interno (linealidad, simetría y definitud positiva).
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que si $f \in \Ldos([a, b])$ y $f(x) \geq 0$ casi todo punto, entonces:
+%\begin{equation*}
+%\norm{f}^2 = \int_a^b f(x)^2 , dx \geq 0.
+%\end{equation*}
+%\end{ex}
+
+%\begin{solution}
+%Como $f(x) \geq 0$ casi todo punto, se tiene que $f(x)^2 \geq 0$ casi todo punto. Por lo tanto, la integral de una función no negativa es no negativa:
+%\begin{equation*}
+%\int_a^b f(x)^2 , dx \geq 0.
+%\end{equation*}
+%Además, $\norm{f}^2 = 0$ si y solo si $f(x) = 0$ casi todo punto, lo que es consistente con la definición de la norma en $\Ldos([a, b])$.
+%\end{solution}
+
+
+%\begin{ex}
+%Demostrar que el conjunto de las funciones polinómicas en $[a, b]$ es denso en $\Ldos([a, b])$.
+%\end{ex}
+
+%\begin{solution}
+%Por el teorema de Weierstrass, toda función continua en $[a, b]$ puede aproximarse uniformemente por polinomios. Además, como las funciones continuas son densas en $\Ldos([a, b])$, se sigue que los polinomios también son densos en $\Ldos([a, b])$. 
+
+%Más formalmente, para cualquier $f \in \Ldos([a, b])$ y $\epsilon > 0$, existe una función continua $g \in C([a, b])$ tal que $\norm{f - g} < \epsilon/2$. Luego, existe un polinomio $p$ tal que $\norm{g - p}_\infty < \epsilon/(2 \sqrt{b - a})$. Por lo tanto:
+%\begin{align*}
+%\norm{f - p} &= \norm{f - g + g - p} \
+%&\leq \norm{f - g} + \norm{g - p} \
+%&< \frac{\epsilon}{2} + \frac{\epsilon}{2 \sqrt{b - a}} \sqrt{b - a} \
+%&= \epsilon.
+%\end{align*}
+%Por lo tanto, los polinomios son densos en $\Ldos([a, b])$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que si $f \in \Ldos([a, b])$ y $g \in \L^\infty([a, b])$, entonces $f \cdot g \in \Ldos([a, b])$.
+%\end{ex}
+
+%\begin{solution}
+%Como $g \in \L^\infty([a, b])$, existe $M > 0$ tal que $|g(x)| \leq M$ casi todo punto. Por lo tanto:
+%\begin{align*}
+%\norm{f \cdot g}^2 &= \int_a^b |f(x) g(x)|^2 , dx \
+%&= \int_a^b |f(x)|^2 |g(x)|^2 , dx \
+%&\leq M^2 \int_a^b |f(x)|^2 , dx \
+%&= M^2 \norm{f}^2 < \infty.
+%\end{align*}
+%Por lo tanto, $f \cdot g \in \Ldos([a, b])$.
+%\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Espacios de Sobolev}
+
+\noindent % ---
+En lo siguiente, varios ejercicios sobre espacios de Sobolev.
+% ---
+
+\begin{ex}
+Dar la definición del espacio de Sobolev $\Huno((a, b))$ en dimensión 1.
+\end{ex}
+
+%\begin{solution}
+%El espacio de Sobolev $\Huno((a, b))$ se define como:
+%\begin{equation*}
+%\Huno((a, b)) = \left{ u \in \Ldos((a, b)) : u' \in \Ldos((a, b)) \right},
+%\end{equation*}
+%donde $u'$ es la derivada débil de $u$. 
+
+%La norma en $\Huno((a, b))$ está dada por:
+%\begin{equation*}
+%\norm{u}_{\Huno((a, b))} = \left( \int_a^b |u(x)|^2 , dx + \int_a^b |u'(x)|^2 , dx \right)^{1/2}.
+%\end{equation*}
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que $\Huno((a, b))$ es un espacio de Hilbert.
+%\end{ex}
+
+%\begin{solution}
+%Para demostrar que $\Huno((a, b))$ es un espacio de Hilbert, debemos mostrar que es un espacio vectorial con un producto interno que lo hace completo.
+
+
+%Espacio vectorial:
+
+
+%Suma: Si $u, v \in \Huno((a, b))$, entonces $u + v \in \Ldos((a, b))$ y $(u + v)' = u' + v' \in \Ldos((a, b))$, por lo que $u + v \in \Huno((a, b))$.
+
+%Multiplicación por escalar: Si $u \in \Huno((a, b))$ y $\alpha \in \mathbb{R}$, entonces $\alpha u \in \Ldos((a, b))$ y $(\alpha u)' = \alpha u' \in \Ldos((a, b))$, por lo que $\alpha u \in \Huno((a, b))$.
+
+
+%Producto interno: Definimos el producto interno en $\Huno((a, b))$ como:
+% \begin{equation*}
+% \inner{u}{v}{\Huno} = \int_a^b u(x) v(x) , dx + \int_a^b u'(x) v'(x) , dx.
+% \end{equation*}
+% Este producto interno induce la norma $\norm{u}{\Huno} = \sqrt{\inner{u}{u}_{\Huno}}$.
+
+
+%Completitud:
+% Sea $(u_n)$ una sucesión de Cauchy en $\Huno((a, b))$. Entonces, $(u_n)$ y $(u_n')$ son sucesiones de Cauchy en $\Ldos((a, b))$. Como $\Ldos((a, b))$ es completo, existen $u, v \in \Ldos((a, b))$ tales que $u_n \to u$ y $u_n' \to v$ en $\Ldos((a, b))$.
+
+%Además, como la derivada débil es cerrada, se tiene que $v = u'$. Por lo tanto, $u \in \Huno((a, b))$ y $u_n \to u$ en $\Huno((a, b))$. 
+
+% En consecuencia, $\Huno((a, b))$ es completo y, por lo tanto, un espacio de Hilbert.
+
+%\end{solution}
+
+
+
+\begin{ex}
+Demostrar que toda función en $\Huno((a, b))$ es continua en $[a, b]$.
+\end{ex}
+
+%\begin{solution}
+%Sea $u \in \Huno((a, b))$. Por definición, $u \in \Ldos((a, b))$ y $u' \in \Ldos((a, b))$. 
+
+%Para cualquier $x, y \in [a, b]$, se tiene:
+%\begin{equation*}
+%u(x) - u(y) = \int_y^x u'(t) , dt.
+%\end{equation*}
+%Por la desigualdad de Cauchy-Schwarz:
+%\begin{align*}
+%|u(x) - u(y)| &= \left| \int_y^x u'(t) , dt \right| \
+%&\leq \int_y^x |u'(t)| , dt \
+%&\leq |x - y|^{1/2} \left( \int_y^x |u'(t)|^2 , dt \right)^{1/2} \
+%&\leq |x - y|^{1/2} \norm{u'}_{\Ldos((a, b))}.
+%\end{align*}
+%Esto muestra que $u$ es Hölder-continua con exponente $1/2$. En particular, $u$ es continua en $[a, b]$.
+%\end{solution}
+
+\begin{ex}
+Demostrar que el espacio $C^1([a, b])$ (funciones continuamente diferenciables en $[a, b]$) está contenido en $\Huno((a, b))$.
+\end{ex}
+
+%\begin{solution}
+%Sea $u \in C^1([a, b])$. Entonces, $u$ es continua en $[a, b]$ y su derivada $u'$ también es continua en $[a, b]$. 
+
+%Como $[a, b]$ es un intervalo acotado, $u$ y $u'$ están acotadas en $[a, b]$. Por lo tanto:
+%\begin{align*}
+%\int_a^b |u(x)|^2 , dx &\leq (b - a) \max_{x \in [a, b]} |u(x)|^2 < \infty, \
+%\int_a^b |u'(x)|^2 , dx &\leq (b - a) \max_{x \in [a, b]} |u'(x)|^2 < \infty.
+%\end{align*}
+%Por lo tanto, $u \in \Ldos((a, b))$ y $u' \in \Ldos((a, b))$, lo que implica que $u \in \Huno((a, b))$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que el espacio $C^\infty_0((a, b))$ (funciones infinitamente diferenciables con soporte compacto en $(a, b)$) es denso en $\Huno_0((a, b))$.
+%\end{ex}
+
+%\begin{solution}
+%El espacio $\Huno_0((a, b))$ se define como el cierre de $C^\infty_0((a, b))$ en $\Huno((a, b))$. 
+
+%Para demostrar que $C^\infty_0((a, b))$ es denso en $\Huno_0((a, b))$, consideramos una función $u \in \Huno_0((a, b))$. Por definición, existe una sucesión $(u_n) \subset C^\infty_0((a, b))$ tal que $u_n \to u$ en $\Huno((a, b))$. 
+
+%Esto significa que:
+%\begin{equation*}
+%\norm{u_n - u}_{\Huno} = \left( \int_a^b |u_n(x) - u(x)|^2 , dx + \int_a^b |u_n'(x) - u'(x)|^2 , dx \right)^{1/2} \to 0.
+%\end{equation*}
+%Por lo tanto, $C^\infty_0((a, b))$ es denso en $\Huno_0((a, b))$.
+%\end{solution}
+
+\begin{ex}
+Demostrar que en $\Huno_0((a, b))$, la norma de $u$ en ${\Huno}$ es equivalente a la norma de $u'$ en ${\Ldos}$.
+\end{ex}
+
+%\begin{solution}
+%Para demostrar la equivalencia de las normas, debemos mostrar que existen constantes $C_1, C_2 > 0$ tales que:
+%\begin{equation*}
+%C_1 \norm{u'}{\Ldos} \leq \norm{u}{\Huno} \leq C_2 \norm{u'}_{\Ldos} \quad \forall u \in \Huno_0((a, b)).
+%\end{equation*}
+
+%Primera desigualdad:
+% Es claro que $\norm{u'}{\Ldos} \leq \norm{u}{\Huno}$, por lo que podemos tomar $C_1 = 1$.
+
+%Segunda desigualdad (Desigualdad de Poincaré en dimensión 1):
+% Sea $u \in \Huno_0((a, b))$. Como $u(a) = u(b) = 0$ (porque $u \in \Huno_0((a, b))$), para cualquier $x \in [a, b]$, se tiene:
+% \begin{equation*}
+%u(x) = \int_a^x u'(t) , dt.
+% \end{equation*}
+% Por la desigualdad de Cauchy-Schwarz:
+% \begin{align*}
+% |u(x)|^2 &= \left| \int_a^x u'(t) , dt \right|^2 \
+% &\leq (x - a) \int_a^x |u'(t)|^2 , dt \
+% &\leq (b - a) \int_a^b |u'(t)|^2 , dt \
+% &= (b - a) \norm{u'}^2_{\Ldos}.
+% \end{align*}
+% Integrando sobre $[a, b]$:
+% \begin{align*}
+% \int_a^b |u(x)|^2 , dx &\leq (b - a)^2 \int_a^b |u'(x)|^2 , dx \
+% &= (b - a)^2 \norm{u'}^2_{\Ldos}.
+% \end{align*}
+% Por lo tanto:
+% \begin{equation*}
+% \norm{u}^2_{\Huno} = \norm{u}^2_{\Ldos} + \norm{u'}^2_{\Ldos} \leq (1 + (b - a)^2) \norm{u'}^2_{\Ldos}.
+% \end{equation*}
+% Tomando $C_2 = \sqrt{1 + (b - a)^2}$, obtenemos la desigualdad deseada.
+%\end{solution}
+
+
+
+\begin{ex}
+Demostrar que si $u \in \Huno((a, b))$, entonces $u$ es absolutamente continua en $[a, b]$. \emph{[Una función $u$ es absolutamente continua en $[a, b]$ si para todo $\epsilon > 0$, existe $\delta > 0$ tal que para cualquier colección finita de intervalos disjuntos $(x_i, y_i) \subset [a, b]$ con $\sum_i |y_i - x_i| < \delta$, se tiene $\sum_i |u(y_i) - u(x_i)| < \epsilon$.]}
+\end{ex}
+
+%\begin{solution}
+%
+%Como $u \in \Huno((a, b))$, su derivada débil $u' \in \Ldos((a, b))$. Por el teorema fundamental del cálculo para funciones absolutamente continuas, si $u'$ existe casi todo punto y es integrable, entonces $u$ es absolutamente continua. 
+%
+%En particular, para cualquier $x, y \in [a, b]$, se tiene:
+%\begin{equation*}
+%u(y) - u(x) = \int_x^y u'(t) , dt,
+%\end{equation*}
+%y por la desigualdad de Hölder:
+%\begin{equation*}
+%|u(y) - u(x)| \leq \int_x^y |u'(t)| , dt \leq |y - x|^{1/2} \left( \int_x^y |u'(t)|^2 , dt \right)^{1/2} \leq |y - x|^{1/2} \norm{u'}_{\Ldos}.
+%\end{equation*}
+%Esto muestra que $u$ es Hölder-continua con exponente $1/2$, y por lo tanto, absolutamente continua.
+%\end{solution}
+
+
+\begin{ex}
+Demostrar que el espacio $\Huno((a, b))$ está contenido en $C([a, b])$ y que la inclusión es continua.
+\end{ex}
+
+%\begin{solution}
+
+%Inclusión en $C([a, b])$:
+% Como se demostró en el Ejercicio 3, toda función en $\Huno((a, b))$ es continua en $[a, b]$. Por lo tanto, $\Huno((a, b)) \subset C([a, b])$.
+
+%Continuidad de la inclusión:
+% Debemos mostrar que existe una constante $C > 0$ tal que:
+% \begin{equation*}
+% \norm{u}{C([a, b])} \leq C \norm{u}{\Huno} \quad \forall u \in \Huno((a, b)).
+% \end{equation*}
+% Para cualquier $x \in [a, b]$, se tiene:
+% \begin{align*}
+% |u(x)| &= \left| u(a) + \int_a^x u'(t) , dt \right| \
+% &\leq |u(a)| + \int_a^x |u'(t)| , dt \
+% &\leq |u(a)| + |x - a|^{1/2} \left( \int_a^x |u'(t)|^2 , dt \right)^{1/2} \
+% &\leq |u(a)| + (b - a)^{1/2} \norm{u'}{\Ldos}.
+% \end{align*}
+% Además, por la desigualdad de Cauchy-Schwarz:
+% \begin{equation*}
+% |u(a)| \leq \frac{1}{b - a} \int_a^b |u(x)| , dx \leq \frac{1}{\sqrt{b - a}} \norm{u}{\Ldos}.
+% \end{equation*}
+% Por lo tanto:
+% \begin{align*}
+% \norm{u}{C([a, b])} &= \max{x \in [a, b]} |u(x)| \
+% &\leq \frac{1}{\sqrt{b - a}} \norm{u}{\Ldos} + (b - a)^{1/2} \norm{u'}{\Ldos} \
+% &\leq C \left( \norm{u}{\Ldos} + \norm{u'}{\Ldos} \right) \
+% &\leq C \norm{u}_{\Huno},
+% \end{align*}
+% donde $C = \max \left{ \frac{1}{\sqrt{b - a}}, (b - a)^{1/2} \right}$.
+
+%Por lo tanto, la inclusión es continua.
+
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que si $u \in \Huno((a, b))$ y $u' = 0$ casi todo punto, entonces $u$ es constante en $[a, b]$.
+%\end{ex}
+
+%\begin{solution}
+%Como $u \in \Huno((a, b))$, $u$ es continua en $[a, b]$ (Ejercicio 3). Además, $u' = 0$ casi todo punto. 
+
+%Para cualquier $x, y \in [a, b]$, se tiene:
+%\begin{equation*}
+%u(y) - u(x) = \int_x^y u'(t) , dt = 0,
+%\end{equation*}
+%ya que $u' = 0$ casi todo punto. Por lo tanto, $u(y) = u(x)$ para todo $x, y \in [a, b]$, lo que implica que $u$ es constante en $[a, b]$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que el espacio $\Huno((a, b))$ es separable.
+%\end{ex}
+
+%\begin{solution}
+%Para demostrar que $\Huno((a, b))$ es separable, utilizamos el hecho de que $\Ldos((a, b))$ es separable y que $C^\infty_0((a, b))$ es denso en $\Huno((a, b))$.
+
+%Separabilidad de $\Ldos((a, b))$:
+% Como se vio en los ejercicios anteriores, $\Ldos((a, b))$ es separable.
+
+%Densidad de $C^\infty_0((a, b))$ en $\Huno((a, b))$:
+% El espacio $C^\infty_0((a, b))$ es numerable y denso en $\Huno((a, b))$ (Ejercicio 4).
+
+%Separabilidad de $\Huno((a, b))$:
+% Como $\Huno((a, b))$ contiene un subconjunto numerable denso ($C^\infty_0((a, b))$), es separable.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que si $u \in \Huno((a, b))$ y $u \geq 0$ casi todo punto, entonces $u$ es no negativa en todo $[a, b]$.
+%\end{ex}
+
+%\begin{solution}
+%Como $u \in \Huno((a, b))$, $u$ es continua en $[a, b]$ (Ejercicio 3). Además, $u \geq 0$ casi todo punto. 
+
+%Supongamos por contradicción que existe $x_0 \in [a, b]$ tal que $u(x_0) < 0$. Como $u$ es continua, existe un intervalo $(x_0 - \delta, x_0 + \delta) \subset [a, b]$ tal que $u(x) < 0$ para todo $x \in (x_0 - \delta, x_0 + \delta)$. 
+
+%Sin embargo, esto contradice que $u \geq 0$ casi todo punto, ya que $(x_0 - \delta, x_0 + \delta)$ tiene medida positiva. Por lo tanto, $u(x) \geq 0$ para todo $x \in [a, b]$.
+%\end{solution}
+
+%\begin{ex}
+%Demostrar que el espacio $\Huno_0((a, b))$ es un subespacio cerrado de $\Huno((a, b))$.
+%\end{ex}
+
+%\begin{solution}
+%El espacio $\Huno_0((a, b))$ se define como el cierre de $C^\infty_0((a, b))$ en $\Huno((a, b))$. Para demostrar que es un subespacio cerrado, debemos mostrar que si $(u_n) \subset \Huno_0((a, b))$ y $u_n \to u$ en $\Huno((a, b))$, entonces $u \in \Huno_0((a, b))$. 
+
+%Como $u_n \in \Huno_0((a, b))$, se tiene que $u_n(a) = u_n(b) = 0$ para todo $n$. Además, por la continuidad de la inclusión de $\Huno((a, b))$ en $C([a, b])$ (Ejercicio 6), se tiene que $u_n \to u$ uniformemente en $[a, b]$. 
+
+%Por lo tanto:
+%\begin{equation*}
+%u(a) = \lim_{n \to \infty} u_n(a) = 0, \quad u(b) = \lim_{n \to \infty} u_n(b) = 0.
+%\end{equation*}
+%Esto implica que $u \in \Huno_0((a, b))$, y por lo tanto, $\Huno_0((a, b))$ es un subespacio cerrado de $\Huno((a, b))$.
+%\end{solution}
+
+\section{Calculo diferencial}
+
+% ---
+% Ejercicios sobre cálculo diferencial en espacios de Hilbert (Diferencial de Fréchet)
+% ---
+
+\noindent
+Finalmente una serie sobre cálculo diferencial en espacios de Hilbert (diferencial de Fréchet).
+
+\begin{ex}
+Dar la definición de diferencial de Fréchet para una función $F: U \subset V \to W$, donde $V$ y $W$ son espacios de Hilbert.
+\end{ex}
+
+%\begin{solution}
+%Sea $F: U \subset V \to W$ una función definida en un abierto $U$ de un espacio de Hilbert $V$, con valores en otro espacio de Hilbert $W$. Decimos que $F$ es diferenciable en el sentido de Fréchet en un punto $u \in U$ si existe una aplicación lineal y continua $DF(u): V \to W$ tal que:
+%\begin{equation*}
+%\lim_{\norma{h}_V \to 0} \frac{\norma{F(u + h) - F(u) - DF(u) h}_W}{\norma{h}_V} = 0.
+%\end{equation*}
+%La aplicación lineal $DF(u)$ se conoce como la diferencial de Fréchet de $F$ en $u$.
+%\end{solution}
+
+\begin{ex}
+Demostrar que si $F: V \to W$ es una aplicación lineal y continua entre espacios de Hilbert, entonces $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$, y su diferencial es $DF(u) = F$ para todo $u \in V$.
+\end{ex}
+
+%\begin{solution}
+%Para cualquier $u, h \in V$, se tiene:
+%\begin{align*}
+%F(u + h) - F(u) - F(h) &= F(u) + F(h) - F(u) - F(h) = 0.
+%\end{align*}
+%Por lo tanto:
+%\begin{equation*}
+%\lim_{\norma{h}_V \to 0} \frac{\norma{F(u + h) - F(u) - F(h)}_W}{\norma{h}V} = \lim{\norma{h}_V \to 0} \frac{\norma{0}_W}{\norma{h}_V} = 0.
+%\end{equation*}
+%Esto muestra que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$, y su diferencial es $DF(u) = F$.
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert y consideremos la función $F: V \to \mathbb{R}$ definida por:
+\begin{equation*}
+F(u) = \norma{u}^2 = \inner{u}{u}.
+\end{equation*}
+Demostrar que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$ y encontrar su diferencial.
+\end{ex}
+
+%\begin{solution}
+%Calculamos la diferencia:
+%\begin{align*}
+%F(u + h) - F(u) &= \norma{u + h}^2 - \norma{u}^2 \
+%&= \inner{u + h}{u + h} - \inner{u}{u} \
+%&= \inner{u}{u} + 2 \inner{u}{h} + \inner{h}{h} - \inner{u}{u} \
+%&= 2 \inner{u}{h} + \norma{h}^2.
+%\end{align*}
+%Por lo tanto:
+%\begin{align*}
+%F(u + h) - F(u) - 2 \inner{u}{h} &= \norma{h}^2.
+%\end{align*}
+%Dividiendo por $\norma{h}$:
+%\begin{equation*}
+%\frac{\norma{F(u + h) - F(u) - 2 \inner{u}{h}}}{\norma{h}} = \frac{\norma{h}^2}{\norma{h}} = \norma{h} \to 0 \quad \text{cuando } \norma{h} \to 0.
+%\end{equation*}
+%Esto muestra que $F$ es diferenciable en el sentido de Fréchet en $u$, y su diferencial es:
+%\begin{equation*}
+%DF(u) h = 2 \inner{u}{h}.
+%\end{equation*}
+%\end{solution}
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert y consideremos la función $F: V \to \mathbb{R}$ definida por:
+%\begin{equation*}
+%F(u) = \inner{u}{v},
+%\end{equation*}
+%para algún $v \in V$ fijo. Demostrar que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$ y encontrar su diferencial.
+%\end{ex}
+
+%\begin{solution}
+%Como $F$ es un funcional lineal y continuo (por la desigualdad de Cauchy-Schwarz), por el Ejercicio 3, su diferencial de Fréchet en cualquier punto $u \in V$ es $DF(u) = F$. 
+
+%Es decir:
+%\begin{equation*}
+%DF(u) h = \inner{h}{v} \quad \forall h \in V.
+%\end{equation*}
+%\end{solution}
+
+
+
+%\begin{ex}
+%Sea $V$ un espacio de Hilbert y consideremos la función $F: V \to V$ definida por:
+%\begin{equation*}
+%F(u) = u^2,
+%\end{equation*}
+%donde $u^2$ se interpreta como el producto de $u$ consigo mismo en el sentido del producto interno, es decir, $F(u) = \inner{u}{u} u$. 
+
+%Demostrar que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$ y encontrar su diferencial.
+%\end{ex}
+
+%\begin{solution}
+%Calculamos la diferencia:
+%\begin{align*}
+%F(u + h) - F(u) &= \inner{u + h}{u + h} (u + h) - \inner{u}{u} u \
+%&= \left( \inner{u}{u} + 2 \inner{u}{h} + \inner{h}{h} \right) (u + h) - \inner{u}{u} u \
+%&= \inner{u}{u} u + \inner{u}{u} h + 2 \inner{u}{h} u + 2 \inner{u}{h} h + \inner{h}{h} u + \inner{h}{h} h - \inner{u}{u} u \
+%&= \inner{u}{u} h + 2 \inner{u}{h} u + \text{términos de orden superior}.
+%\end{align*}
+%Ignorando los términos de orden superior (aquellos que son $o(\norma{h})$), obtenemos:
+%\begin{align*}
+%F(u + h) - F(u) &= \inner{u}{u} h + 2 \inner{u}{h} u + o(\norma{h}).
+%\end{align*}
+%Por lo tanto, la diferencial de Fréchet de $F$ en $u$ es:
+%\begin{equation*}
+%DF(u) h = \inner{u}{u} h + 2 \inner{u}{h} u.
+%\end{equation*}
+%\end{solution}
+
+
+
+%\begin{ex}
+%Sea $F: V \to W$ una función diferenciable en el sentido de Fréchet en un punto $u \in V$, donde $V$ y $W$ son espacios de Hilbert. Demostrar que la diferencial de Fréchet $DF(u)$ es única.
+%\end{ex}
+
+%\begin{solution}
+%Supongamos que existen dos aplicaciones lineales y continuas $L_1, L_2: V \to W$ tales que:
+%\begin{align*}
+%\lim_{\norma{h}_V \to 0} \frac{\norma{F(u + h) - F(u) - L_1 h}_W}{\norma{h}V} &= 0, \
+%\lim{\norma{h}_V \to 0} \frac{\norma{F(u + h) - F(u) - L_2 h}_W}{\norma{h}_V} &= 0.
+%\end{align*}
+%Entonces, para cualquier $h \in V$:
+%\begin{align*}
+%\norma{L_1 h - L_2 h}_W &= \norma{(F(u + h) - F(u) - L_2 h) - (F(u + h) - F(u) - L_1 h)}_W \
+%&\leq \norma{F(u + h) - F(u) - L_2 h}_W + \norma{F(u + h) - F(u) - L_1 h}_W.
+%\end{align*}
+%Dividiendo por $\norma{h}_V$ y tomando límite cuando $\norma{h}V \to 0$, obtenemos:
+%\begin{equation*}
+%\lim{\norma{h}_V \to 0} \frac{\norma{L_1 h - L_2 h}_W}{\norma{h}_V} = 0.
+%\end{equation*}
+%Como $L_1$ y $L_2$ son lineales y continuas, esto implica que $L_1 = L_2$.
+%\end{solution}
+
+\begin{ex}
+Sea $F: V \to W$ una función constante, es decir, $F(u) = c$ para todo $u \in V$, donde $c \in W$ es fijo. Demostrar que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$ y encontrar su diferencial.
+\end{ex}
+
+%\begin{solution}
+%Para cualquier $u, h \in V$, se tiene:
+%\begin{equation*}
+%F(u + h) - F(u) = c - c = 0.
+%\end{equation*}
+%Por lo tanto:
+%\begin{equation*}
+%\lim_{\norma{h}_V \to 0} \frac{\norma{F(u + h) - F(u) - 0}_W}{\norma{h}V} = \lim{\norma{h}_V \to 0} \frac{\norma{0}_W}{\norma{h}_V} = 0.
+%\end{equation*}
+%Esto muestra que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \in V$, y su diferencial es la aplicación nula:
+%\begin{equation*}
+%DF(u) h = 0 \quad \forall h \in V.
+%\end{equation*}
+%\end{solution}
+
+\begin{ex}
+Sea $F: V \to W$ una función diferenciable en el sentido de Fréchet en un punto $u \in V$, y sea $G: W \to Z$ una función diferenciable en el sentido de Fréchet en $F(u)$, donde $V$, $W$ y $Z$ son espacios de Hilbert. Demostrar que la composición $G \circ F: V \to Z$ es diferenciable en el sentido de Fréchet en $u$ y encontrar su diferencial (regla de la cadena).
+\end{ex}
+
+%\begin{solution}
+%Para demostrar la diferenciabilidad de $G \circ F$ en $u$, escribimos:
+%\begin{align*}
+%(G \circ F)(u + h) - (G \circ F)(u) &= G(F(u + h)) - G(F(u)) \
+%&= G(F(u)) + DG(F(u)) (F(u + h) - F(u)) + o(\norma{F(u + h) - F(u)}_W) - G(F(u)) \
+%&= DG(F(u)) (F(u + h) - F(u)) + o(\norma{F(u + h) - F(u)}_W) \
+%&= DG(F(u)) (DF(u) h + o(\norma{h}_V)) + o(\norma{DF(u) h + o(\norma{h}_V)}_W) \
+%&= DG(F(u)) DF(u) h + o(\norma{h}_V).
+%\end{align*}
+%Por lo tanto, la diferencial de Fréchet de $G \circ F$ en $u$ es:
+%\begin{equation*}
+%D(G \circ F)(u) = DG(F(u)) \circ DF(u).
+%\end{equation*}
+%\end{solution}
+
+\begin{ex}
+Sea $V$ un espacio de Hilbert y consideremos la función $F: V \to \mathbb{R}$ definida por:
+\begin{equation*}
+F(u) = \norma{u}.
+\end{equation*}
+Demostrar que $F$ es diferenciable en el sentido de Fréchet en todo punto $u \neq 0$ y encontrar su diferencial.
+\end{ex}
+
+%\begin{solution}
+%Para $u \neq 0$, calculamos la diferencia:
+%\begin{align*}
+%F(u + h) - F(u) &= \norma{u + h} - \norma{u} \
+%&= \sqrt{\inner{u + h}{u + h}} - \sqrt{\inner{u}{u}} \
+%&= \sqrt{\norma{u}^2 + 2 \inner{u}{h} + \norma{h}^2} - \norma{u} \
+%&= \norma{u} \sqrt{1 + \frac{2 \inner{u}{h}}{\norma{u}^2} + \frac{\norma{h}^2}{\norma{u}^2}} - \norma{u} \
+%&= \norma{u} \left( 1 + \frac{\inner{u}{h}}{\norma{u}^2} + o(\norma{h}) - 1 \right) \
+%&= \frac{\inner{u}{h}}{\norma{u}} + o(\norma{h}).
+%\end{align*}
+%Por lo tanto, la diferencial de Fréchet de $F$ en $u \neq 0$ es:
+%\begin{equation*}
+%DF(u) h = \frac{\inner{u}{h}}{\norma{u}}.
+%\end{equation*}
+%\end{solution}
+
+\begin{ex}
+Sea $F: V \to \mathbb{R}$ un funcional diferenciable en el sentido de Fréchet en un punto $u \in V$, donde $V$ es un espacio de Hilbert. Demostrar que si $F$ tiene un mínimo local en $u$, entonces $DF(u) = 0$.
+\end{ex}
+
+%\begin{solution}
+%Supongamos que $F$ tiene un mínimo local en $u$. Entonces, existe $\delta > 0$ tal que para todo $h \in V$ con $\norma{h} < \delta$, se tiene:
+%\begin{equation*}
+%F(u + h) \geq F(u).
+%\end{equation*}
+%Como $F$ es diferenciable en $u$, podemos escribir:
+%\begin{equation*}
+%F(u + h) = F(u) + DF(u) h + o(\norma{h}).
+%\end{equation*}
+%Por lo tanto:
+%\begin{equation*}
+%F(u) + DF(u) h + o(\norma{h}) \geq F(u) \quad \Rightarrow \quad DF(u) h + o(\norma{h}) \geq 0.
+%\end{equation*}
+%Dividiendo por $\norma{h} > 0$ y tomando límite cuando $\norma{h} \to 0$, obtenemos:
+%\begin{equation*}
+%\lim_{\norma{h} \to 0} \left( \frac{DF(u) h}{\norma{h}} + \frac{o(\norma{h})}{\norma{h}} \right) \geq 0.
+%\end{equation*}
+%Como $\frac{o(\norma{h})}{\norma{h}} \to 0$, esto implica que:
+%\begin{equation*}
+%\frac{DF(u) h}{\norma{h}} \geq 0 \quad \forall h \in V.
+%\end{equation*}
+%Tomando $h = -\lambda v$ para $\lambda > 0$ y $v \in V$ arbitrario, obtenemos:
+%\begin{equation*}
+
+%\lambda \frac{DF(u) v}{\lambda \norma{v}} \geq 0 \quad \Rightarrow \quad -\frac{DF(u) v}{\norma{v}} \geq 0 \quad \forall v \in V.
+%\end{equation*}
+%Esto implica que $DF(u) v = 0$ para todo $v \in V$, es decir, $DF(u) = 0$.
+%\end{solution}
 
 \chapter{Descenso de gradiente}
 
@@ -130,5 +1229,178 @@ $$
 %**Pistas:**
 %- La función de costo es cuadrática en $\beta$.
 %- Usa el resultado del Ejercicio 2.
+
+\end{document}
+
+\newpage 
+
+\section{Descenso de gradiente con paso variable}
+
+En el método de \emph{descenso de gradiente a paso variable}, el tamaño del paso $\alpha_k$ puede cambiar en cada iteración. Una estrategia común es usar una \emph{búsqueda de línea} (line search) para elegir $\alpha_k$ que minimice $\mathcal{J}({x}_k - \alpha_k \nabla \mathcal{J}({x}_k))$.
+%
+La actualización se escribe como:
+%
+$$
+{x}_{k+1} = {x}_k - \alpha_k \nabla \mathcal{J}({x}_k).
+$$
+
+
+*****
+
+\paragraph{Ejercicio 1}
+\emph{Elección del paso variable y condición de Armijo}.
+%\subsection{Pregunta}
+En el {descenso de gradiente con paso variable}, una estrategia común es utilizar la {búsqueda lineal} (\textit{line search}) con la {condición de Armijo} (también llamada \textit{backtracking line search}).
+
+La condición de Armijo exige que el paso \(\alpha_k\) satisfaga:
+\[
+\mathcal{J}(x_k - \alpha_k \nabla \mathcal{J}(x_k)) \leq \mathcal{J}(x_k) - c_1 \alpha_k \|\nabla \mathcal{J}(x_k)\|^2,
+\]
+donde \(0 < c_1 < 1\) es una constante (por ejemplo, \(c_1 = 10^{-4}\)).
+
+%\subsection{Objetivos}
+\begin{itemize}
+    \item Demostrar que si \(\alpha_k\) cumple la condición de Armijo, entonces el algoritmo garantiza un {decremento} en la función de costo en cada iteración.
+    \item Explicar por qué es necesario que \(c_1\) sea estrictamente menor que 1.
+\end{itemize}
+
+%\subsection{Pista}
+\emph{Pista.}
+Usar la aproximación de Taylor de primer orden para \(\mathcal{J}(x_k - \alpha_k \nabla \mathcal{J}(x_k))\) y analizar cómo la condición de Armijo asegura que el paso no sea demasiado grande.
+
+\paragraph{Ejercicio 2}
+\emph{Condición de curvatura (Wolfe)}.
+%\paragraph{Condición de Wolfe}
+La condición de Wolfe para el paso $\alpha_k$ en el descenso de gradiente con paso variable se expresa como:
+\begin{align*}
+    %\mathcal{J}(x_k + \alpha_k d_k) &\leq \mathcal{J}(x_k) + c_1 \alpha_k \nabla \mathcal{J}(x_k)^T d_k, \quad \text{(Condición de Armijo)} \\
+    \nabla \mathcal{J}(x_k + \alpha_k d_k)^T d_k &\geq c_2 \nabla \mathcal{J}(x_k)^T d_k, \quad %\text{(Segunda condición de Wolfe)}
+\end{align*}
+****
+donde $d_k = -\nabla \mathcal{J}(x_k)$, $0 < c_1 < c_2 < 1$ y $\eta_k > 0$.
+
+\begin{itemize}
+    \item *Explica* por qué la *condición de Wolfe* evita que el paso $\eta_k$ sea demasiado pequeño.
+    \item *Demuestra* que si $\eta_k$ cumple ambas condiciones (*Armijo* y *Wolfe*), entonces el algoritmo de *descenso de gradiente con paso variable* converge a un *punto crítico* (es decir, $\nabla \mathcal{J}(x) = 0$).
+\end{itemize}
+
+*Pistas:*
+\begin{itemize}
+    \item La *condición de Wolfe* asegura que la dirección de descenso no se *"estanca"* cerca de $x_k$.
+    \item Usa la *desigualdad de Lipschitz* para el gradiente y analiza la evolución de $\|\nabla \mathcal{J}(x_k)\|$.
+\end{itemize}
+
+---
+
+---
+
+\paragraph{Ejercicio 2}
+*Convergencia global con paso variable*
+
+Supón que $\mathcal{J}$ es una función *convexa*, *diferenciable* y *acotada inferiormente*, y que el gradiente $\nabla \mathcal{J}$ es *Lipschitz continuo* con constante $L > 0$.
+
+\begin{itemize}
+    \item *Demuestra* que el algoritmo de *descenso de gradiente con paso variable* (que cumple las condiciones de *Armijo* y *Wolfe*) genera una sucesión $\{x_k\}$ tal que:
+    \[
+    \lim_{k \to \infty} \|\nabla \mathcal{J}(x_k)\| = 0.
+    \]
+    \item ¿Qué pasa si $\mathcal{J}$ no es convexa? ¿Puede garantizarse la *convergencia a un mínimo global*?
+\end{itemize}
+
+*Pistas:*
+\begin{itemize}
+    \item Usa el hecho de que la función $\mathcal{J}$ es *acotada inferiormente* y que $\sum_{k=0}^\infty \|\nabla \mathcal{J}(x_k)\|^2 < \infty$.
+    \item Aplica el *lema de Zoutendijk* (o *lemma de la suma de los cuadrados de los gradientes*).
+\end{itemize}
+
+---
+
+---
+
+\paragraph{Ejercicio 3}
+*Paso de Barzilai-Borwein*
+
+El *método de Barzilai-Borwein* es una estrategia de *paso variable* que aproxima la *matriz Hessiana* usando información de los gradientes en dos iteraciones consecutivas. El paso se calcula como:
+\[
+\eta_k = \frac{(x_k - x_{k-1})^T (y_k - \nabla \mathcal{J}(x_k))}{(y_k - \nabla \mathcal{J}(x_k))^T (y_k - \nabla \mathcal{J}(x_k))},
+\]
+donde $y_k = \nabla \mathcal{J}(x_k) - \nabla \mathcal{J}(x_{k-1})$.
+
+\begin{itemize}
+    \item *Demuestra* que este paso es una aproximación a la inversa del *valor propio de la matriz Hessiana* en la dirección $x_k - x_{k-1}$.
+    \item ¿Bajo qué condiciones este método garantiza *convergencia superlineal*?
+\end{itemize}
+
+*Pistas:*
+\begin{itemize}
+    \item Usa la aproximación de la *segunda derivada* mediante *diferencias finitas*.
+    \item Relaciona $y_k$ con la *matriz Hessiana* $H_k$ mediante el *teorema del valor medio para vectores*.
+\end{itemize}
+
+---
+
+---
+
+\paragraph{Ejercicio 4}
+*Convergencia en funciones fuertemente convexas*
+
+Sea $\mathcal{J}$ una función *fuertemente convexa* con constante $\mu > 0$, es decir:
+\[
+\mathcal{J}(y) \geq \mathcal{J}(x) + \nabla \mathcal{J}(x)^T (y - x) + \frac{\mu}{2} \|y - x\|^2 \quad \forall x, y.
+\]
+
+\begin{itemize}
+    \item *Demuestra* que el algoritmo de *descenso de gradiente con paso variable* (que cumple las condiciones de *Armijo* y *Wolfe*) converge *linealmente* a la solución $x^*$, es decir, existe una constante $0 < \rho < 1$ tal que:
+    \[
+    \|x_{k+1} - x^*\| \leq \rho \|x_k - x^*\|.
+    \]
+    \item ¿Cómo depende $\rho$ de $\mu$ y $L$ (*constante de Lipschitz* del gradiente)?
+\end{itemize}
+
+*Pistas:*
+\begin{itemize}
+    \item Usa la *desigualdad de la función fuertemente convexa* para relacionar $\|x_{k+1} - x^*\|$ con $\|x_k - x^*\|$.
+    \item Combina esto con la *condición de Armijo* para obtener la *tasa de convergencia*.
+\end{itemize}
+
+---
+---
+\paragraph{Ejercicio 5}
+*Paso variable y convergencia en funciones no convexas*
+
+Considera una función $\mathcal{J}$ *no convexa* pero con gradiente *Lipschitz continuo*.
+
+\begin{itemize}
+    \item *Demuestra* que el algoritmo de *descenso de gradiente con paso variable* (que cumple las condiciones de *Armijo* y *Wolfe*) converge a un *punto crítico* (es decir, un punto donde $\nabla \mathcal{J}(x) = 0$).
+    \item ¿Puede garantizarse que el *punto crítico* sea un *mínimo local*? ¿Por qué sí o por qué no?
+\end{itemize}
+
+*Pistas:*
+\begin{itemize}
+    \item Usa el hecho de que la sucesión $\{\mathcal{J}(x_k)\}$ es *monótona decreciente* y *acotada inferiormente*.
+    \item Aplica el *teorema de Bolzano-Weierstrass* para garantizar la existencia de un *punto límite*.
+\end{itemize}
+
+---
+---
+\paragraph{Ejercicio 6}
+*Comparación entre paso constante y paso variable*
+
+\begin{itemize}
+    \item *Explica* por qué el *descenso de gradiente con paso constante* puede fallar en converger para funciones *no convexas* o con *curvas de nivel muy "estiradas"* (por ejemplo, $\mathcal{J}(x) = x_1^2 + 100 x_2^2$).
+    \item *Demuestra* que el *descenso de gradiente con paso variable* (usando *búsqueda lineal*) siempre converge a un *punto crítico* para funciones con gradiente *Lipschitz*, incluso si la función no es convexa.
+\end{itemize}
+
+*Pistas:*
+\begin{itemize}
+    \item Para el *paso constante*, analiza el comportamiento del algoritmo en la dirección de los *valores propios de la matriz Hessiana*.
+    \item Para el *paso variable*, usa las condiciones de *Armijo* y *Wolfe* para garantizar un *decremento suficiente* en cada iteración.
+\end{itemize}
+
+\newpage 
+
+\section{BiCG}
+
+
 
 \end{document}
