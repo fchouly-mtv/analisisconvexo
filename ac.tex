@@ -227,6 +227,13 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\dist}{\text{dist}}
 
+% --- Comando para productos internos ---
+\DeclareMathOperator{\inner}{\langle \cdot, \cdot \rangle}
+
+% --- Comando para normas ---
+\DeclareMathOperator{\norma}{\Vert \cdot \Vert}
+
+
 \begin{document}
 
 \maketitle
@@ -246,6 +253,7 @@
 Agradezco al CMAT. Tambi\'en por sus consejos:
 Dominique Attali,
 Juan Pablo Borthagaray,
+Lucas Curci,
 Fran\c{c}oise Dal'Bo,
 Jean-Baptiste Hiriart Urruty,
 Mauricio Velasco.
@@ -840,6 +848,122 @@ La función \[
 \mathcal{J}(v) := \int_0^1 |v(x)|^2  \mathrm{d}x\] es convexa en $V$.
 \end{ex}
 
+\subsection{Obstáculo}
+Recordamos aquí la formulación del problema de obstáculo, 
+descrito con mayor detalle en, por ejemplo, %\cite{ciarlet2002,glowinski-84,gustafsson2024adaptive}.
+\cite{gustafsson2024adaptive}.
+%---
+%### Configuración general
+%
+Sea \(\Omega \subset \mathbb{R}^{n}\), con \(n \geq 1\), un dominio abierto, acotado, poliedro, simplemente conexo y con frontera de Lipschitz. Sea \(\kappa\) un parámetro físico (por ejemplo, la rigidez de una membrana).
+
+%---
+%### 
+%Formas bilineal y lineal
+Sea $H^1_0(\Omega)$ el espacio de Sobolev usual~\cite{allaire2007}.
+Definimos la forma bilineal:
+\[
+a : H^1_0 (\Omega) \times H^1_0 (\Omega) \to \mathbb{R}
+\]
+dada por:
+\[
+a(u,v) := \int_{\Omega} \kappa \, \nabla u(x) \cdot \nabla v(x) \, \mathrm{d}x, \quad \forall \, u,v \in H^1_0 (\Omega).
+\]
+%
+Asimismo, definimos la forma lineal:
+\[
+L(v) := \int_{\Omega} f \, v \, dx, \quad \forall \, v \in H^1_0 (\Omega),
+\]
+donde \(f \in L^2(\Omega)\) es un término fuente.
+
+%### Función de obstáculo
+
+Consideramos una función de obstáculo dada \(\Psi : \Omega \to \mathbb{R}\), que cumple \(\Psi \in H^2(\Omega)\) y \(\Psi \geq 0\) en \(\partial \Omega\). %, como en \cite{ciarlet2002}.
+%*Observación: La regularidad del término fuente y de la función de obstáculo puede relajarse con mayor tecnicismo.*
+%### Problema de minimización
+
+El problema de minimización asociado consiste en encontrar \(u \in K\) tal que:
+$
+\min_{v \in K} \mathcal{J}(v),
+$
+donde \(\mathcal{J}\) es la funcional cuadrática definida como:
+\[
+\mathcal{J}(v) := \frac{1}{2} a(v,v) - L(v),
+\]
+y el conjunto convexo \(K\) se define como:
+\[
+K := \{ v \in H^1_0(\Omega) \mid v \geq \Psi \text{ c.p.p. en } \Omega \}.
+\]
+
+Ahora sea la funcional (general) cuadrática:
+$
+\mathcal{J}(v) = \frac{1}{2} a(v,v) - L(v),
+$
+donde \(a\) es una forma bilineal elíptica (es decir, existe \(c_J > 0\) tal que \(a(v,v) \geq c_J \|v\|_V^2\) para todo \(v \in V(=H^1_0(\Omega))\)).
+%
+%---
+%### 
+%**Demostración de la fuerte convexidad**
+
+Para demostrar que \(\mathcal{J}\) es fuertemente convexa, verificamos la siguiente desigualdad para todo \(u, v \in H^1_0(\Omega)\):
+
+\[
+\mathcal{J}\left(\frac{u+v}{2}\right) + \frac{c_J}{8} \| u - v \|^2 \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v).
+\]
+%
+%---
+%%#### **Cálculo paso a paso**
+%
+%1. **
+Desarrollo de \(\mathcal{J}\left(\frac{u+v}{2}\right)\)**:
+   \[
+   \mathcal{J}\left(\frac{u+v}{2}\right) = \frac{1}{2} a\left(\frac{u+v}{2}, \frac{u+v}{2}\right) - L\left(\frac{u+v}{2}\right).
+   \]
+   Usando la bilinealidad y la simetría de \(a\):
+   \[
+   a\left(\frac{u+v}{2}, \frac{u+v}{2}\right) = \frac{1}{4} a(u+v, u+v) = \frac{1}{4} \left( a(u,u) + 2a(u,v) + a(v,v) \right).
+   \]
+   Por lo tanto:
+   \[
+   \mathcal{J}\left(\frac{u+v}{2}\right) = \frac{1}{8} \left( a(u,u) + 2a(u,v) + a(v,v) \right) - \frac{1}{2} L(u+v).
+   \]
+Combinación convexa de \(\mathcal{J}(u)\) y \(\mathcal{J}(v)\):
+   \[
+   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) = \frac{1}{2} \left( \frac{1}{2} a(u,u) - L(u) \right) + \frac{1}{2} \left( \frac{1}{2} a(v,v) - L(v) \right) %= \frac{1}{4} \left( a(u,u) + a(v,v) \right) - \frac{1}{2} L(u+v).
+   \]
+  y luego
+     \[
+   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) %= \frac{1}{2} \left( \frac{1}{2} a(u,u) - L(u) \right) + \frac{1}{2} \left( \frac{1}{2} a(v,v) - L(v) \right) 
+   = \frac{1}{4} \left( a(u,u) + a(v,v) \right) - \frac{1}{2} L(u+v).
+   \]
+%
+%3. **
+Diferencia entre la combinación convexa y \(\mathcal{J}\left(\frac{u+v}{2}\right)\):
+   \[
+   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \mathcal{J}\left(\frac{u+v}{2}\right) = \frac{1}{8} \left( a(u,u) - 2a(u,v) + a(v,v) \right) %= \frac{1}{8} a(u-v, u-v).
+   \]
+ y
+    \[
+   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \mathcal{J}\left(\frac{u+v}{2}\right) %= \frac{1}{8} \left( a(u,u) - 2a(u,v) + a(v,v) \right) 
+   = \frac{1}{8} a(u-v, u-v).
+   \]
+   Por la elipticidad de \(a\), sabemos que:
+   \[
+   a(u-v, u-v) \geq c_J \|u-v\|^2_V.
+   \]
+   Por lo tanto:
+   \[
+   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \mathcal{J}\left(\frac{u+v}{2}\right) \geq \frac{c_J}{8} \|u-v\|^2.
+   \]
+   Reordenando:
+   \[
+   \mathcal{J}\left(\frac{u+v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \|u-v\|^2.
+   \]
+%#### **Conclusión**
+La funcional \(\mathcal{J}\) es fuertemente convexa con constante \({c_J}\), ya que cumple:
+\[
+\mathcal{J}\left(\frac{u+v}{2}\right) + \frac{c_J}{8} \|u-v\|^2 \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v).
+\]
 %
 %
 %\section{Existencia de mínimos}
@@ -871,6 +995,8 @@ La función \[
 \section{Funciones convexas y mínimos}
 
 Los siguientes resultados son adaptados de \cite{allaire2007}.
+
+\subsection{Mínimos globales}
 
 \begin{theorem}
 Si $\mathcal{J}$ es convexa, entonces todo mínimo local es un mínimo global. Además, el conjunto de mínimos de $\mathcal{J}$ es convexo.
@@ -949,6 +1075,193 @@ Esto implica que:
 lo cual contradice la definición de ínfimo. Por lo tanto, no pueden existir dos mínimos globales distintos, y el mínimo global, si existe, es único.
 \end{proof}
 
+\subsection{Caso fuertemente convexo}
+
+Tenemos lo siguiente.
+
+\begin{theorem}
+    Sea \(K\) un conjunto no vacío, cerrado y convexo en un espacio de Hilbert \(V\) y sea \(\mathcal{J}\) una función continua y fuertemente convexa en \(V\). Entonces \(\mathcal{J}\) admite un único minimizador global \(u\) en \(K\). Además, para todo \(v \in K\), se cumple:
+    \[
+    \| v - u \|_V^2 \leq \frac{4}{c_J} \left( \mathcal{J}(v) - \mathcal{J}(u) \right),
+    \]
+    y toda subsucesión minimizante de \(\mathcal{J}\) converge hacia \(u\).
+\end{theorem}
+
+\begin{proof}
+    %Sea \(\{u_n\}\) una sucesión minimizante para \(\mathcal{J}\) en \(K\) (existe por definición del ínfimo y dado que \(K\) es no vacío). Como \(\mathcal{J}\) es continua y \(K\) es cerrado, el ínfimo \(I = \inf_{v \in K} \mathcal{J}(v)\) es finito.
+    
+    \emph{Paso 1: Existencia de una sucesión minimizante y acotación.}
+    Dado que \(\mathcal{J}\) está acotada inferiormente, por la Proposición~\ref{convexafhahnbanach}, existe \(I = \inf_{v \in K} \mathcal{J}(v) > -\infty\). 
+    Sea \(\{u_n\}\) una sucesión minimizante para \(\mathcal{J}\) en \(K\) (existe por definición del ínfimo y dado que \(K\) es no vacío).
+    Por definición de sucesión minimizante, se tiene \[\lim_{n \to \infty} \mathcal{J}(u_n) = I.\]
+
+    \emph{Paso 2: Uso de la fuerte convexidad.}
+    Aplicamos la propiedad de fuerte convexidad de \(\mathcal{J}\) con constante \(c_J > 0\). Para \(n, m \in \mathbb{N}\) arbitrarios, se cumple:
+    \[
+    \mathcal{J}\left(\frac{u_n + u_m}{2}\right) \leq \frac{1}{2} \mathcal{J}(u_n) + \frac{1}{2} \mathcal{J}(u_m) - \frac{c_J}{8} \| u_n - u_m \|^2.
+    \]
+    Restando \(I\) a ambos lados y usando que \(\mathcal{J}\left(\frac{u_n + u_m}{2}\right) \geq I\) (pues \(I\) es el ínfimo), obtenemos:
+    \[
+    \frac{c_J}{8} \| u_n - u_m \|^2 \leq \frac{1}{2} \mathcal{J}(u_n) + \frac{1}{2} \mathcal{J}(u_m) - I.
+    \]
+    Como \(\mathcal{J}(u_n) \to I\) y \(\mathcal{J}(u_m) \to I\), el lado derecho tiende a cero cuando \(n, m \to \infty\). Por lo tanto, \(\{u_n\}\) es una sucesión de Cauchy en \(K\).
+
+\medskip
+
+    \emph{Paso 3: Convergencia y minimizador global.}
+    Dado que \(K\) es cerrado y \(V\) es completo, \(\{u_n\}\) converge a un elemento \(u \in K\). Por la continuidad de \(\mathcal{J}\):
+    \[
+    \mathcal{J}(u) = \lim_{n \to \infty} \mathcal{J}(u_n) = I.
+    \]
+    Así, \(u\) es un minimizador global de \(\mathcal{J}\) en \(K\).
+
+\medskip
+
+    \emph{Paso 4: Unicidad del minimizador.}
+    Supongamos que existe otro minimizador \(\tilde{u} \in K\). Aplicando la fuerte convexidad:
+    \[
+    I = \mathcal{J}(u) \leq \mathcal{J}\left(\frac{u + \tilde{u}}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(\tilde{u}) - \frac{c_J}{8} \| u - \tilde{u} \|^2.
+    \]
+    Como \(\mathcal{J}(u) = \mathcal{J}(\tilde{u}) = I\), esto implica:
+    \[
+    0 \leq -\frac{c_J}{8} \| u - \tilde{u} \|^2.
+    \]
+    Dado que \(c_J > 0\), se deduce que \(\| u - \tilde{u} \|^2 = 0\), es decir, \(u = \tilde{u}\). Por lo tanto, el minimizador es único.
+
+\medskip
+
+    \emph{Paso 5: Desigualdad para el minimizador.}
+    Sea \(v \in K\). Como \(K\) es convexo, \({(u + v)}/{2} \in K\). Aplicando la fuerte convexidad:
+    \[
+    \mathcal{J}\left(\frac{u + v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2.
+    \]
+    Dado que \(u\) es minimizador, \(\mathcal{J}\left(\frac{u + v}{2}\right) \geq \mathcal{J}(u)\). Sustituyendo:
+    \[
+    \mathcal{J}(u) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2.
+    \]
+    Simplificando:
+    \[
+    \frac{c_J}{8} \| u - v \|^2 \leq \frac{1}{2} \left( \mathcal{J}(v) - \mathcal{J}(u) \right).
+    \]
+    Multiplicando por 4:
+    \[
+    \| u - v \|^2 \leq \frac{4}{c_J} \left( \mathcal{J}(v) - \mathcal{J}(u) \right),
+    \]
+    lo que concluye la demostración.
+\end{proof}
+
+Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación de un convexo cerrado por un hiperplano) en un espacio de Hilbert, junto con una prueba simplificada que utiliza el teorema de proyección en un convexo cerrado. 
+
+\begin{theorem}[Teorema de Hahn-Banach (Separación)]
+    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto no vacío, cerrado y convexo. Si \[v_0 \in V \setminus K,\] entonces existe un hiperplano cerrado que separa estrictamente \(v_0\) de \(K\). Es decir, existen \(z \in V\) y \(\beta \in \mathbb{R}\) tales que:
+    \[
+    (z,v_0)_V
+    < \beta < 
+    (z,w)_V, \quad \forall w \in K.
+    \]
+\end{theorem}
+
+\begin{proof} Es una valse en tres pasos.
+
+\medskip
+
+    \emph{Paso 1: Proyección sobre el convexo cerrado.}
+    Dado que \(K\) es cerrado y convexo, por el teorema de proyección en un convexo cerrado, existe un único \(w_0 \in K\) tal que, para todo \(w \in K\):
+    \[ ( v_0 - w_0 , w - w_0 )_V \leq 0.
+%    \[
+%    \|v_0 - u\| = \min_{v \in K} \|v_0 - u\|.
+    \]
+    Este \(w_0\) es la proyección ortogonal de \(v_0\) sobre \(K\).
+
+\medskip
+
+    \emph{Paso 2: Construcción del hiperplano separador}.
+    Definimos 
+    \[
+    m := \frac{w_0 + v_0}{2}, \quad
+    %\]
+    %y 
+    %\[
+    z := w_0 - m = \frac{w_0 - v_0}{2}.
+    \]
+    Como $v_0 \notin K$, $z$ es no nulo.
+    Ahora,
+    consideramos el hiperplano:
+    \[
+    \mathcal{H} := \{ v \in V \mid ( z , v )_V = \beta \},
+    \]
+    donde \(\beta = ( z , m )_V\).
+
+\medskip
+
+    \emph{Paso 3: Separación estricta.}
+    %
+    Primero tenemos
+    \[
+    (z, m - v_0)_V 
+    = \frac14( w_0 - v_0 , w_0 - v_0 )
+    > 0
+    \]
+    y luego
+    \[
+    (z , v_0 ) < ( z , m )_V = \beta.
+    \]
+    Tambi\'en ******
+    \[
+    (z,w)_V 
+    =
+    \frac12(w_0 - v_0, w )_V
+    =
+    \frac12
+    \left (
+    (w_0 - v_0, w - w_0 )_V
+    + ( w_0 - v_0 , w_0 )_V \right ).
+    \]
+    y, como para todo \(w \in K\):
+    \[ ( v_0 - w_0 , w - w_0 )_V \leq 0,\]
+    entonces
+    \[
+    (z,w)_V \geq
+    \frac12
+    ( w_0 - v_0 , w_0 )_V.
+    \]
+    Acotamos
+    \[
+    (z,w)_V - \beta 
+    \geq
+        \frac12
+    ( w_0 - v_0 , w_0 )_V
+    -(z,m)_V
+    =
+        \frac12
+    ( w_0 - v_0 , w_0 )_V
+    - \frac14 ( w_0 - v_0 , w_0 + v_0 )_V.
+    \]
+    y
+    \[
+    (z,w)_V - \beta 
+    \geq
+        \frac12
+    ( w_0 - v_0 , w_0 )_V
+    -(z,m)_V
+    =
+        \frac12
+    ( w_0 - v_0 , w_0 )_V
+    - \frac14 ( w_0 - v_0 , w_0 + v_0 )_V.
+    \]
+    \[
+    (z,w)_V - \beta 
+    \geq
+    =
+    ( w_0 - v_0 ,\frac12 w_0 
+    - \frac14w_0 - \frac14v_0)_V > 0.
+    \]
+\end{proof}
+
+---
+
+---
+
 \begin{proposition}[Proposición (9.2.5, Allaire)]
 Si $\mathcal{J}$ es convexa y continua sobre un conjunto $K$ cerrado, convexo y no vacío, entonces existen $\delta \in \mathbb{R}$ y $L \in V'$ tales que para todo $v \in K$:
 \[
@@ -993,12 +1306,12 @@ Definiendo $\delta = -\alpha$ y reemplazando $L$ por $-L$, se obtiene:
 \]
 \end{proof}
 
-\begin{remark}
+\begin{proposition} \label{convexafhahnbanach}
 Además, si $\mathcal{J}$ es fuertemente convexa, entonces existen $\gamma > 0$ y $\delta \in \mathbb{R}$ tales que para todo $v \in V$:
 \[
 \mathcal{J}(v) \geq \gamma \|v\|^2 + \delta.
 \]
-\end{remark}
+\end{proposition}
 
 \begin{proof}
 Como $\mathcal{J}$ es fuertemente convexa, existe $\gamma > 0$ tal que la función $\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2$ es convexa. Aplicando la proposición anterior a esta función, existen $\delta' \in \mathbb{R}$ y $L \in V'$ tales que:
@@ -1016,39 +1329,370 @@ Como $\frac{\gamma}{2} \|v\|^2 + L(v) \geq \frac{\gamma}{4} \|v\|^2 - \frac{1}{\
 donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
 \end{proof}
 
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+%{\footnotesize
+%\bibliographystyle{siam}
+%\bibliography{biblio}
+%}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+%{\scriptsize \printindex}
+
+%\end{document} 
+
 \newpage
 
-\section{Funciones diferenciables}
+\subsection{Caso estrictamente convexo}
 
-\subsection{Definición}
-Sea $f: V \to \mathbb{R}$ una función. Decimos que $f$ es \textbf{diferenciable en el sentido de Fréchet} en $x \in V$ si existe un funcional lineal continuo $f'(x) \in V'$ (el dual de $V$) tal que:
+%### **Ejemplos en dimensión finita**
+
+1. **Función cuadrática degenerada**
+   Consideremos la función \(f: \mathbb{R}^2 \to \mathbb{R}\) definida por:
+   \[
+   f(x, y) = x^2 + y^4.
+   \]
+   - **Estrictamente convexa**: Su matriz hessiana es
+     \[
+     H_f(x, y) = \begin{pmatrix} 2 & 0 \\ 0 & 12y^2 \end{pmatrix},
+     \]
+     que es positiva definida para todo \((x, y) \neq (0, 0)\) (pues \(12y^2 > 0\) si \(y \neq 0\) y \(2 > 0\)).
+     Además, \(f\) cumple la desigualdad de convexidad estricta:
+     \[
+     f(\lambda x + (1-\lambda) y) < \lambda f(x) + (1-\lambda) f(y), \quad \forall \lambda \in (0, 1), \, x \neq y.
+     \]
+   - **No fuertemente convexa**: No existe \(\alpha > 0\) tal que \(f(x, y) - \frac{\alpha}{2} \| (x, y) \|^2\) sea convexa. En particular, la segunda derivada en la dirección \(y\) tiende a \(0\) cuando \(y \to 0\), lo que impide la existencia de una constante global \(\alpha > 0\) que acote inferiormente el hessiano.
+
+---
+
+2. **Función exponencial**
+   Consideremos la función \(g: \mathbb{R} \to \mathbb{R}\) definida por:
+   \[
+   g(x) = e^x.
+   \]
+   - **Estrictamente convexa**: Su segunda derivada es \(g''(x) = e^x > 0\) para todo \(x \in \mathbb{R}\), lo que garantiza convexidad estricta.
+   - **No fuertemente convexa**: No existe \(\alpha > 0\) tal que \(g''(x) \geq \alpha\) para todo \(x \in \mathbb{R}\), ya que \(g''(x) = e^x \to 0\) cuando \(x \to -\infty\).
+
+---
+
+---
+---
+
+%### **Ejemplos en dimensión infinita (vinculados a EDP elípticas)**
+
+1. **Funcional asociado al \(p\)-Laplaciano con \(1 < p < 2\)**
+   Sea \(\Omega \subset \mathbb{R}^n\) un dominio acotado y consideremos el funcional \(J: W_0^{1,p}(\Omega) \to \mathbb{R}\) definido por:
+   \[
+   J(u) = \frac{1}{p} \int_\Omega |\nabla u|^p \, dx.
+   \]
+   - **Estrictamente convexo**: El operador \(p\)-Laplaciano \(-\Delta_p u = -\text{div}(|\nabla u|^{p-2} \nabla u)\) es estrictamente monótono para \(1 < p < \infty\), lo que implica que \(J\) es estrictamente convexo.
+   - **No fuertemente convexo**: Para \(1 < p < 2\), el funcional \(J\) **no es fuertemente convexo** en \(W_0^{1,p}(\Omega)\). Esto se debe a que la derivada de \(|\nabla u|^p\) no está acotada inferiormente por una constante positiva uniforme en todo el espacio. En particular, la "fuerte convexidad" falla porque la segunda derivada del término \(|\nabla u|^p\) no es uniformemente elíptica.
+
+---
+
+2. **Funcional de energía asociado a una EDP elíptica no lineal**
+   Consideremos el funcional \(E: H_0^1(\Omega) \to \mathbb{R}\) definido por:
+   \[
+   E(u) = \int_\Omega \left( \sqrt{1 + |\nabla u|^2} - 1 \right) dx - \int_\Omega f u \, dx,
+   \]
+   donde \(f \in L^2(\Omega)\).
+   - **Estrictamente convexo**: El integrando \(\sqrt{1 + |\nabla u|^2}\) es estrictamente convexo en \(\nabla u\), ya que su hessiana (con respecto a \(\nabla u\)) es positiva definida. Esto garantiza que \(E\) es estrictamente convexo.
+   - **No fuertemente convexo**: La segunda derivada del término \(\sqrt{1 + |\nabla u|^2}\) es:
+     \[
+     \frac{\partial^2}{\partial (\nabla u)^2} \sqrt{1 + |\nabla u|^2} = \frac{I}{1 + |\nabla u|^2} - \frac{\nabla u \otimes \nabla u}{(1 + |\nabla u|^2)^{3/2}},
+     \]
+     que no está acotada inferiormente por una constante positiva uniforme (por ejemplo, cuando \(|\nabla u| \to \infty\), la norma de esta matriz tiende a \(0\)). Por lo tanto, \(E\) no es fuertemente convexo.
+
+---
+
+\newpage
+
+\section{El caso convexo}
+
+**1. Ejemplos de funciones convexas pero no estrictamente convexas (relativos a EDP elípticas)**
+
+**Ejemplo 1: Funcional asociado al operador \(p\)-Laplaciano con \(p = 1\)**
+Consideremos el funcional \(J: BV(\Omega) \to \mathbb{R}\) definido por:
+\[
+J(u) = \int_\Omega |\nabla u| \, dx,
+\]
+donde \(BV(\Omega)\) es el espacio de funciones de variación acotada.
+- **Convexo**: El funcional \(J\) es convexo porque \(|\nabla u|\) es una norma (y las normas son convexas).
+- **No estrictamente convexo**: No cumple la desigualdad estricta de convexidad. Por ejemplo, si \(u\) y \(v\) son funciones con \(\nabla u = -\nabla v\), entonces:
+  \[
+  J\left(\frac{u + v}{2}\right) = \int_\Omega \left|\nabla \left(\frac{u + v}{2}\right)\right| \, dx = \int_\Omega \left|\frac{\nabla u + \nabla v}{2}\right| \, dx = \int_\Omega \left|\frac{\nabla u - \nabla u}{2}\right| \, dx = 0,
+  \]
+  mientras que:
+  \[
+  \frac{1}{2} J(u) + \frac{1}{2} J(v) = \int_\Omega |\nabla u| \, dx > 0.
+  \]
+  Por lo tanto, \(J\left(\frac{u + v}{2}\right) = \frac{1}{2} J(u) + \frac{1}{2} J(v)\) (no hay desigualdad estricta).
+
+---
+**Ejemplo 2: Funcional de energía con término lineal**
+Consideremos el funcional \(E: H_0^1(\Omega) \to \mathbb{R}\) definido por:
+\[
+E(u) = \int_\Omega |\Delta u| \, dx - \int_\Omega f u \, dx,
+\]
+donde \(f \in L^2(\Omega)\).
+- **Convexo**: El término \(\int_\Omega |\Delta u| \, dx\) es convexo (porque es una norma), y el término lineal \(-\int_\Omega f u \, dx\) es convexo (y cóncavo a la vez).
+- **No estrictamente convexo**: El término \(\int_\Omega |\Delta u| \, dx\) no es estrictamente convexo, ya que su derivada segunda es nula en casi todo punto (no hay fuerte convexidad).
+
+---
+
+---
+
+---
+
+---
+
+**2. Definición: Convergencia débil en un espacio de Hilbert**
+
+Sea \(V\) un espacio de Hilbert. Una secuencia \(\{u_n\} \subset V\) **converge débilmente** a \(u \in V\) si:
+\[
+\lim_{n \to \infty} \langle u_n, v \rangle_V = \langle u, v \rangle_V, \quad \forall v \in V.
+\]
+Se denota \(u_n \rightharpoonup u\).
+
+---
+
+---
+
+---
+
+**3. Proposición: Convergencia débil en Hilbert separable**
+
+\begin{proposition}
+    Sea \(V\) un espacio de Hilbert **separable**. Entonces, una secuencia \(\{u_n\} \subset V\) converge débilmente a \(u \in V\) si y solo si:
+    \[
+    \lim_{n \to \infty} \langle u_n, e_i \rangle_V = \langle u, e_i \rangle_V, \quad \forall i \in \mathbb{N},
+    \]
+    donde \(\{e_i\}_{i \in \mathbb{N}}\) es una **base hilbertiana** (base ortonormal completa) de \(V\).
+\end{proposition}
+
+---
+**Demostración:**
+
+- **Implicación directa (\(\Rightarrow\)):**
+  Si \(u_n \rightharpoonup u\), entonces por definición de convergencia débil:
+  \[
+  \lim_{n \to \infty} \langle u_n, v \rangle_V = \langle u, v \rangle_V, \quad \forall v \in V.
+  \]
+  En particular, esto vale para \(v = e_i\) (pues \(e_i \in V\)).
+
+- **Implicación inversa (\(\Leftarrow\)):**
+  Supongamos que \(\lim_{n \to \infty} \langle u_n, e_i \rangle_V = \langle u, e_i \rangle_V\) para todo \(i \in \mathbb{N}\). Sea \(v \in V\). Como \(\{e_i\}\) es una base hilbertiana, podemos escribir:
+  \[
+  v = \sum_{i=1}^\infty \langle v, e_i \rangle_V e_i,
+  \]
+  con convergencia en la norma de \(V\). Entonces:
+  \[
+  \langle u_n, v \rangle_V = \left\langle u_n, \sum_{i=1}^\infty \langle v, e_i \rangle_V e_i \right\rangle_V = \sum_{i=1}^\infty \langle v, e_i \rangle_V \langle u_n, e_i \rangle_V.
+  \]
+  Por hipótesis, \(\langle u_n, e_i \rangle_V \to \langle u, e_i \rangle_V\) para cada \(i\). Además, como \(\{u_n\}\) es acotada (pues converge débilmente), por el **Teorema de Lebesgue dominado**, podemos intercambiar el límite y la suma:
+  \[
+  \lim_{n \to \infty} \langle u_n, v \rangle_V = \sum_{i=1}^\infty \langle v, e_i \rangle_V \langle u, e_i \rangle_V = \langle u, v \rangle_V.
+  \]
+  Por lo tanto, \(u_n \rightharpoonup u\).
+
+---
+
+---
+
+---
+
+---
+
+    **Ejemplo:**
+    En \(\ell^2\), la secuencia \(u_n = (1, 0, 0, \dots)\) (con \(1\) en la posición \(n\) y \(0\) en las demás) satisface:
+    - \(u_n \rightharpoonup 0\) (pues \(\langle u_n, v \rangle = v_n \to 0\) para todo \(v \in \ell^2\)).
+    - \(\|u_n\| = 1\) para todo \(n\), por lo que **no converge fuertemente** a \(0\).
+
+
+\noindent Bressan: ejemplo con sen al cuadrado y un medio.
+---
+
+ **5. Lema: De toda secuencia acotada se puede extraer una subsucesión que converge débilmente**
+
+\begin{lemma}
+    Sea \(V\) un espacio de Hilbert y \(\{u_n\} \subset V\) una secuencia **acotada** (es decir, \(\|u_n\| \leq M\) para todo \(n\) y algún \(M > 0\)). Entonces existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\).
+\end{lemma}
+
+---
+**Demostración:**
+
+- **Base hilbertiana:** Como \(V\) es separable, existe una base hilbertiana \(\{e_i\}_{i \in \mathbb{N}}\).
+- **Acotación de las componentes:** Para cada \(i \in \mathbb{N}\), la secuencia \(\{\langle u_n, e_i \rangle\}\) está acotada en \(\mathbb{R}\) (pues \(|\langle u_n, e_i \rangle| \leq \|u_n\| \|e_i\| \leq M\)).
+- **Subsucesión diagonal:** Por el **Teorema de Bolzano-Weierstrass**, para cada \(i\), existe una subsucesión \(\{u_n^{(i)}\}\) tal que \(\{\langle u_n^{(i)}, e_i \rangle\}\) converge. Usando un argumento de **subsucesión diagonal**, podemos construir una subsucesión \(\{u_{n_k}\}\) tal que:
+  \[
+  \lim_{k \to \infty} \langle u_{n_k}, e_i \rangle \text{ existe para todo } i \in \mathbb{N}.
+  \]
+- **Convergencia débil:** Por la **Proposición 3**, esto implica que \(\{u_{n_k}\}\) converge débilmente a algún \(u \in V\).
+
+---
+
+---
+
+---
+
+ **6. Lema: Un convexo cerrado \(K\) es exactamente la intersección de los semiplanos cerrados que lo contienen**
+
+\begin{lemma}
+    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto **cerrado y convexo**. Entonces:
+    \[
+    K = \bigcap_{\substack{H \supset K \\ H \text{ semiplano cerrado}}} H.
+    \]
+\end{lemma}
+
+---
+**Demostración (por contradicción usando Hahn-Banach):**
+
+- **Inclusión trivial:** Claramente, \(K \subset \bigcap_{\substack{H \supset K \\ H \text{ semiplano cerrado}}} H\), ya que todo semiplano cerrado que contiene a \(K\) incluye a \(K\).
+- **Inclusión inversa:** Supongamos que existe \(x \in \bigcap_{\substack{H \supset K \\ H \text{ semiplano cerrado}}} H\) pero \(x \notin K\). Como \(K\) es cerrado y convexo, por el **Teorema de Hahn-Banach** (versión geométrica), existe un hiperplano cerrado que separa estrictamente \(x\) de \(K\). Es decir, existen \(a \in V\) y \(\beta \in \mathbb{R}\) tales que:
+  \[
+  \langle y, a \rangle \leq \beta < \langle x, a \rangle, \quad \forall y \in K.
+  \]
+  Esto implica que el semiplano cerrado \(H = \{ y \in V \mid \langle y, a \rangle \leq \beta \}\) contiene a \(K\) pero **no contiene a \(x\)**, lo que contradice la hipótesis de que \(x\) está en la intersección de todos los semiplanos cerrados que contienen a \(K\). Por lo tanto, \(x \in K\).
+
+---
+
+---
+
+---
+
+ **7. Lema: Un convexo cerrado \(K\) es cerrado para la convergencia débil**
+
+\begin{lemma}
+    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto **cerrado y convexo**. Entonces \(K\) es **cerrado para la convergencia débil**, es decir:
+    Si \(\{u_n\} \subset K\) y \(u_n \rightharpoonup u\), entonces \(u \in K\).
+\end{lemma}
+
+---
+**Demostración:**
+
+- Por el **Lema 6**, \(K\) es la intersección de todos los semiplanos cerrados que lo contienen. Sea \(H = \{ y \in V \mid \langle y, a \rangle \leq \beta \}\) uno de estos semiplanos. Como \(u_n \in K \subset H\) para todo \(n\), se tiene:
+  \[
+  \langle u_n, a \rangle \leq \beta.
+  \]
+  Tomando límite cuando \(n \to \infty\) (por la convergencia débil):
+  \[
+  \langle u, a \rangle \leq \beta.
+  \]
+  Por lo tanto, \(u \in H\) para todo semiplano cerrado \(H\) que contiene a \(K\). Por el **Lema 6**, esto implica que \(u \in K\).
+
+---
+
+---
+
+---
+---
+
+ **8. Lema: Si \(J\) es convexa y semi-continua inferiormente (s.c.i.) sobre \(K\), entonces \(J\) es s.c.i. para la convergencia débil**
+
+\begin{lemma}
+    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto **cerrado y convexo**, y \(J: K \to \mathbb{R}\) una función **convexa y semi-continua inferiormente (s.c.i.)** para la convergencia fuerte. Entonces \(J\) es también **s.c.i. para la convergencia débil**.
+\end{lemma}
+
+---
+**Demostración:**
+
+- Sea \(\{u_n\} \subset K\) una secuencia que converge débilmente a \(u \in K\) (por el **Lema 7**, \(u \in K\)).
+- Como \(J\) es convexa y s.c.i. para la convergencia fuerte, por el **Teorema de Mazur**, existe una combinación convexa de los \(u_n\) que converge **fuertemente** a \(u\). Es decir, para cada \(k \in \mathbb{N}\), existen \(\lambda_i^{(k)} \geq 0\) con \(\sum_{i=1}^{N_k} \lambda_i^{(k)} = 1\) tales que:
+  \[
+  v_k = \sum_{i=1}^{N_k} \lambda_i^{(k)} u_i \quad \text{y} \quad v_k \to u \text{ fuertemente}.
+  \]
+- Por la convexidad de \(J\):
+  \[
+  J(v_k) \leq \sum_{i=1}^{N_k} \lambda_i^{(k)} J(u_i).
+  \]
+- Tomando límite inferior cuando \(k \to \infty\) y usando que \(J\) es s.c.i. para la convergencia fuerte:
+  \[
+  J(u) \leq \liminf_{k \to \infty} J(v_k) \leq \liminf_{k \to \infty} \sum_{i=1}^{N_k} \lambda_i^{(k)} J(u_i).
+  \]
+  Como \(\{u_n\}\) converge débilmente a \(u\), y \(J\) es convexa, se puede mostrar que:
+  \[
+  J(u) \leq \liminf_{n \to \infty} J(u_n).
+  \]
+  Por lo tanto, \(J\) es s.c.i. para la convergencia débil.
+
+---
+
+---
+---
+---
+
+---
+ **9. Existencia de un mínimo: Caso convexo, \(J\) continua, coerciva y convexa sobre \(K\)**
+
+\begin{theorem}
+    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto **cerrado, convexo y no vacío**, y \(J: K \to \mathbb{R}\) una función **continua, coerciva** (es decir, \(\lim_{\|u\| \to \infty} J(u) = +\infty\)) y **convexa**. Entonces \(J\) admite un **mínimo global** en \(K\).
+\end{theorem}
+
+---
+**Prueba (pasos detallados):**
+
+1. **Existencia de una secuencia minimizante:**
+   Sea \(I = \inf_{u \in K} J(u)\). Por definición del ínfimo, existe una secuencia \(\{u_n\} \subset K\) tal que:
+   \[
+   J(u_n) \to I.
+   \]
+
+2. **La secuencia minimizante es acotada (por contradicción):**
+   Supongamos que \(\{u_n\}\) no es acotada. Entonces existe una subsucesión \(\{u_{n_k}\}\) tal que \(\|u_{n_k}\| \to \infty\). Como \(J\) es coerciva:
+   \[
+   J(u_{n_k}) \to +\infty,
+   \]
+   lo que contradice que \(J(u_{n_k}) \to I\). Por lo tanto, \(\{u_n\}\) es acotada.
+
+3. **Existencia de una subsucesión que converge débilmente:**
+   Por el **Lema 5**, existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\). Además, por el **Lema 7**, como \(K\) es cerrado y convexo, \(u \in K\).
+
+4. **\(J(u)\) es el mínimo:**
+   Por el **Lema 8**, \(J\) es s.c.i. para la convergencia débil. Por lo tanto:
+   \[
+   J(u) \leq \liminf_{k \to \infty} J(u_{n_k}) = I.
+   \]
+   Como \(I\) es el ínfimo, se tiene \(J(u) \geq I\). Por lo tanto, \(J(u) = I\), y \(u\) es un **minimizador global** de \(J\) en \(K\).
+
+---
+
+\newpage
+
+%\section{Funciones diferenciables}
+
+%\subsection{Definición} 
+%Sea $f: V \to \mathbb{R}$ una función. Decimos que $f$ es \textbf{diferenciable en el sentido de Fréchet} en $x \in V$ si existe un funcional lineal continuo $f'(x) \in V'$ (el dual de $V$) tal que:
 %
-$$
-\lim_{h \to 0} \frac{|f(x + h) - f(x) - \langle f'(x), h \rangle|}{|h|_V} = 0.
-$$
+%$$
+%\lim_{h \to 0} \frac{|f(x + h) - f(x) - \langle f'(x), h \rangle|}{|h|_V} = 0.
+%$$
 %
-Si $f$ es diferenciable en todo $V$, decimos que $f$ es \textbf{diferenciable en $V$}.
+%Si $f$ es diferenciable en todo $V$, decimos que $f$ es \textbf{diferenciable en $V$}.
+%
+%\subsection{Ejemplo}
+%Sea $V = H^1_0(\Omega)$ y $f(u) = \frac{1}{2} \int_\Omega |\nabla u|^2 , dx$.
+%La derivada de Fréchet de $f$ en $u$ es el funcional lineal:
 
-\subsection{Ejemplo}
-Sea $V = H^1_0(\Omega)$ y $f(u) = \frac{1}{2} \int_\Omega |\nabla u|^2 , dx$.
-La derivada de Fréchet de $f$ en $u$ es el funcional lineal:
+%$$
+%\langle f'(u), v \rangle = \int_\Omega \nabla u \cdot \nabla v , dx, \quad \forall v \in V.
+%$$
 
-$$
-\langle f'(u), v \rangle = \int_\Omega \nabla u \cdot \nabla v , dx, \quad \forall v \in V.
-$$
+\section{Criterios de convexidad con diferencial}
+
+Aquí los criterios con derivada de $\mathcal{J}$ y derivada segunda.
 
 \section{Criterios de optimalidad} %bajo restricciones de desigualdad (Euler-Lagrange)}
 
-\subsection{Condiciones de optimalidad}
-Sea $K \subset V$ un conjunto convexo y cerrado, y $f: V \to \mathbb{R}$ una función convexa y diferenciable.
-Un punto $u \in K$ es mínimo de $f$ en $K$ si y solo si:
+%\subsection{Condiciones de optimalidad}
+Sea $K \subset V$ un conjunto convexo y cerrado, y $\mathcal{J}: V \to \mathbb{R}$ una función convexa y diferenciable.
+Un punto $u \in K$ es mínimo de $\mathcal{J}$ en $K$ si y solo si:
 %
 $$
-\langle f'(u), v - u \rangle \geq 0, \quad \forall v \in K.
+\langle \mathcal{J}'(u), v - u \rangle \geq 0, \quad \forall v \in K.
 $$
 %
 Esta es la \textbf{desigualdad variacional de Euler-Lagrange}.
-
+%papi te quiero
 %\subsection{Multiplicadores de Lagrange}
 %Si las restricciones son de la forma $g_i(u) \leq 0$ para $i = 1, \dots, m$, donde $g_i: V \to \mathbb{R}$ son funciones convexas y diferenciables,
 %las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) afirman que existe $u \in V$ y multiplicadores $\lambda_i \geq 0$ tales que:
@@ -1073,11 +1717,16 @@ El método de Newton es un algoritmo de optimización de segundo orden que utili
 
 %\section{Método de Newton / Newton semi-suave}
 
-El \textbf{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
+
+\section{Idea del método}
+
+Seguimos los libros de Suli y Allaire.
+%
+El \emph{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
 \[
 x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
 \]
-donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales.
+donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales (Teorema de Kantorovich).
 %
 %\begin{quotation}
 %\textbf{Vínculo con ecuaciones diferenciales:}
@@ -1088,6 +1737,273 @@ El método de Newton puede verse como una aproximación de la dinámica de segun
 donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
 %\end{quotation}
 
+
+\section{Mas sobre funciones convexas}
+
+\begin{definition}[Función convexa en dimensión finita]
+Una función \[f: \mathbb{R}^n \to (-\infty, +\infty] \] es \textbf{convexa} si su \textbf{dominio extendido} \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es un conjunto convexo y, para todo \( x, y \in \text{dom}(f) \) y todo \( \lambda \in [0,1] \), se cumple:
+\[
+f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y).
+\]
+\end{definition}
+
+%\subsubsection{Explicación del dominio extendido}
+El \textbf{dominio extendido} \( \text{dom}(f) \) incluye todos los puntos donde \( f \) no toma el valor \( +\infty \). Este concepto es crucial porque:
+\begin{itemize}
+    \item Permite manejar funciones definidas solo en subconjuntos específicos de \( \mathbb{R}^n \) (por ejemplo, restricciones en optimización).
+    \item Garantiza que la desigualdad de convexidad se aplique \textbf{solo} a pares de puntos donde \( f \) está bien definida.
+\end{itemize}
+
+\subsubsection{Ejemplos ilustrativos}
+
+\begin{ex}[Función valor absoluto: \( f(x) = |x| \)] Tiene las c\'aracteristicas siguientes.
+\begin{itemize}
+    \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
+    \item \textbf{Convexidad:} Cumple la desigualdad de convexidad (por desigualdad triangular):
+    \[
+    |\lambda x + (1-\lambda)y| \leq \lambda |x| + (1-\lambda)|y|.
+    \]
+    \item \textbf{Visualización:}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.99, domain=-2:2]
+    \draw[-] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[-] (0,-0.5) -- (0,2.5) node[above] {$f(x)$};
+    \draw[blue, thick] plot (\x, {abs(\x)});
+    \node[below] at (2,0) {$f(x) = |x|$};
+\end{tikzpicture}
+\end{center}
+\end{ex}
+
+\begin{ex}[Función parte positiva: \( f(x) = \max(x, 0) \)] Tiene las c\'aracteristicas siguientes.
+\begin{itemize}
+    \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
+    \item \textbf{Convexidad:} %Es lineal por tramos, por lo que es convexa.
+    se verifica directamente con la d\'efinici\'on.
+    \item \textbf{Visualización:}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.99, domain=-2:2]
+    \draw[-] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[-] (0,-0.5) -- (0,2.5) node[above] {$f(x)$};
+    \draw[blue, thick] plot (\x, {max(\x,0)});
+    \node[below] at (2,0) {$f(x) = \max(x, 0)$};
+\end{tikzpicture}
+\end{center}
+\end{ex}
+
+\begin{ex}[Función indicatriz de un conjunto convexo \( C \)]
+% \textbf{Función indicatriz de un conjunto convexo \( C \):}
+Se define as\'i:
+    \[
+    f(x) = \begin{cases}
+    0 & \text{si } x \in C, \\
+    +\infty & \text{si } x \notin C.
+    \end{cases}
+    \]
+    \begin{itemize}
+        \item \textbf{Dominio extendido:} \( \text{dom}(f) = C \), que es convexo por definición.
+        \item \textbf{Convexidad:} La desigualdad se cumple trivialmente (ambos lados son \( +\infty \) o \( 0 \)).
+    \end{itemize}
+\end{ex}
+
+\begin{ex}
+[Función norma euclidiana]  
+
+  \textbf{Función norma euclidiana:} Se define por \( f(x) = \|x\|_2 \).
+    \begin{itemize}
+        \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R}^n \).
+        \item \textbf{Convexidad:} Desigualdad triangular:
+        \[
+        \|\lambda x + (1-\lambda)y\|_2 \leq \lambda \|x\|_2 + (1-\lambda)\|y\|_2.
+        \]
+    \end{itemize}
+\end{ex}
+
+%\subsection{Función convexa propia: definición y propiedades}
+%\label{subsec:funcion_convexa_propia}
+
+Las funciones convexas propias son un caso especialmente importante en optimización y análisis convexo, ya que combinan la convexidad con condiciones naturales sobre su dominio y valores. A continuación, presentamos su definición formal. % y sus implicaciones clave.
+
+\begin{definition}[Función convexa propia]
+Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{convexa propia} si cumple las siguientes condiciones:
+\begin{enumerate}
+    \item \textbf{Convexidad:} \( f \) es convexa en el sentido usual:
+    \[
+    f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \quad \forall x, y \in \mathbb{R}^n, \forall \lambda \in [0,1].
+    \]
+    \item \textbf{Condición de no trivialidad:} \( f(x) < +\infty \) para al menos un \( x \in \mathbb{R}^n \) (es decir, \( \text{dom}(f) \neq \emptyset \)).
+    %\item %\textbf{Condición de no infinitud global:} \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \) (no existen puntos donde \( f \) tome el valor \( -\infty \)).
+\end{enumerate}
+\end{definition}
+
+\subsection{Subdiferencial de funciones convexas}
+
+La noción de subdiferencial generaliza el concepto de gradiente a funciones convexas que no son necesariamente diferenciables. Esta herramienta es fundamental en optimización convexa, ya que permite caracterizar óptimos incluso en presencia de no diferenciabilidad.
+
+\begin{definition}[Subgradiente]
+Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un vector \( g \in \mathbb{R}^n \) es un \textbf{subgradiente} de \( f \) en \( x \) si
+\[
+f(y) \geq f(x) + g^T (y - x) \quad \forall y \in \mathbb{R}^n.
+\]
+El conjunto de todos los subgradientes de \( f \) en \( x \) se denota \( \partial f(x) \) y se llama \textbf{subdiferencial} de \( f \) en \( x \).
+\end{definition}
+
+Intuitivamente, un subgradiente define un hiperplano de soporte al epígrafo de la función en el punto considerado. Cuando la función es diferenciable, el subdiferencial se reduce a un singleton que contiene el gradiente clásico.
+
+A continuación, resumimos algunas propiedades fundamentales del subdiferencial en dimensión finita.
+
+\paragraph{Propiedades clave.}
+Sea \( f: \mathbb{R}^n \to (-\infty,+\infty] \) convexa y \( x \in \mathrm{dom}(f) \). Entonces:
+\begin{itemize}
+    \item El conjunto \( \partial f(x) \) es convexo y cerrado.
+    \item Si \( f \) es diferenciable en \( x \), entonces
+    \[
+    \partial f(x) = \{ \nabla f(x) \}.
+    \]
+    \item La condición de optimalidad de primer orden se escribe:
+    \[
+    0 \in \partial f(x) \quad \Longleftrightarrow \quad x \text{ es un minimizador global de } f.
+    \]
+    \item La aplicación \( x \mapsto \partial f(x) \) es monótona en el sentido de operadores:
+    \[
+    (g_1 - g_2)^T (x_1 - x_2) \geq 0
+    \quad \text{para todo } g_i \in \partial f(x_i).
+    \]
+\end{itemize}
+
+Para ilustrar esta noción, presentamos ahora algunos ejemplos clásicos de cálculo de subdiferenciales.
+
+\paragraph{Ejemplos.}
+
+\begin{itemize}
+    \item \textbf{Valor absoluto.} Sea \( f(x) = |x| \) con \( x \in \mathbb{R} \). Entonces:
+    \[
+    \partial f(x) =
+    \begin{cases}
+        \{1\} & \text{si } x > 0, \\
+        \{-1\} & \text{si } x < 0, \\
+        [-1,1] & \text{si } x = 0.
+    \end{cases}
+    \]
+
+    \item \textbf{Parte positiva.} Sea \( f(x) = \max(0,x) \). Entonces:
+    \[
+    \partial f(x) =
+    \begin{cases}
+        \{1\} & \text{si } x > 0, \\
+        \{0\} & \text{si } x < 0, \\
+        [0,1] & \text{si } x = 0.
+    \end{cases}
+    \]
+
+    \item \textbf{Función indicatriz.} Sea \( C \subset \mathbb{R}^n \) un conjunto convexo cerrado y
+    \[
+    \iota_C(x) =
+    \begin{cases}
+        0 & \text{si } x \in C, \\
+        +\infty & \text{si } x \notin C.
+    \end{cases}
+    \]
+    Entonces, para \( x \in C \), el subdiferencial está dado por el cono normal:
+    \[
+    \partial \iota_C(x) = N_C(x) = \{ g \in \mathbb{R}^n \mid g^T (y - x) \leq 0, \ \forall y \in C \}.
+    \]
+\end{itemize}
+
+Estos ejemplos muestran cómo el subdiferencial captura la falta de diferenciabilidad mediante conjuntos de pendientes admisibles, lo cual resulta esencial en el análisis y la resolución de problemas de optimización convexa no suave.
+
+\subsection{Caracterización de mínimos} % mediante el subdiferencial}
+
+Una de las principales ventajas del subdiferencial es que permite formular condiciones de optimalidad de primer orden sin requerir diferenciabilidad. En el contexto de funciones convexas, esta caracterización es particularmente simple y poderosa.
+%
+El siguiente resultado establece una condición necesaria y suficiente de optimalidad global.
+
+\begin{theorem}[Caracterización de mínimos]
+Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un punto \( x^* \in \mathrm{dom}(f) \) es un mínimo global de \( f \) si y solo si
+\[
+0 \in \partial f(x^*).
+\]
+\end{theorem}
+
+Este resultado generaliza la condición clásica \( \nabla f(x^*) = 0 \) del caso diferenciable. En efecto, cuando \( f \) es diferenciable en \( x^* \), se tiene \( \partial f(x^*) = \{\nabla f(x^*)\} \), y la condición anterior se reduce a la conocida anulación del gradiente.
+
+\paragraph{Idea de la demostración.}
+La demostración se basa directamente en la definición de subgradiente.
+\begin{itemize}
+    \item (\emph{Suficiencia}) Si \( 0 \in \partial f(x^*) \), entonces por definición:
+    \[
+    f(y) \geq f(x^*) \quad \forall y \in \mathbb{R}^n,
+    \]
+    lo que implica que \( x^* \) es un mínimo global.
+    \item (\emph{Necesidad}) Si \( x^* \) es un mínimo global, entonces
+    \[
+    f(y) \geq f(x^*) \quad \forall y,
+    \]
+    lo que corresponde exactamente a la desigualdad de subgradiente con \( g = 0 \).
+\end{itemize}
+
+Para una demostración más detallada y en un marco más general (espacios vectoriales normados), se puede consultar textos clásicos de optimización convexa como \cite{hiriart2001}. %Rockafellar o Hiriart-Urruty y Lemaréchal.
+
+\paragraph{Interpretación geométrica.}
+La condición \( 0 \in \partial f(x^*) \) significa que existe un hiperplano de soporte horizontal al epígrafo de \( f \) en \( x^* \). Intuitivamente, esto indica que no existe ninguna dirección de descenso, lo que caracteriza un mínimo global en el caso convexo.
+
+A continuación, ilustramos esta caracterización con ejemplos clásicos.
+
+\paragraph{Ejemplos.}
+
+\begin{itemize}
+    \item \textbf{Valor absoluto.} Sea \( f(x) = |x| \). Entonces:
+    \[
+    \partial f(0) = [-1,1].
+    \]
+    Como \( 0 \in [-1,1] \), se concluye que \( x^* = 0 \) es un mínimo global. En cambio, si \( x \neq 0 \), entonces \( \partial f(x) \) no contiene al cero, lo que confirma que no son minimizadores.
+
+    \item \textbf{Parte positiva.} Sea \( f(x) = \max(0,x) \). Se tiene:
+    \[
+    \partial f(0) = [0,1].
+    \]
+    Dado que \( 0 \in \partial f(0) \), el punto \( x^* = 0 \) es un mínimo global (de hecho, \( f(x) \geq 0 \) para todo \( x \)).
+
+    \item \textbf{Función indicatriz.} Sea \( C \subset \mathbb{R}^n \) convexo cerrado y \( f = \iota_C \). Entonces:
+    \[
+    \partial f(x) = N_C(x).
+    \]
+    La condición de optimalidad se escribe:
+    \[
+    0 \in N_C(x^*),
+    \]
+    lo cual equivale a decir que
+    \[
+    0^T (y - x^*) \leq 0 \quad \forall y \in C,
+    \]
+    condición que es siempre verdadera. Esto refleja el hecho de que todo punto de \( C \) es minimizador de \( \iota_C \).
+\end{itemize}
+
+\paragraph{Comentario.}
+Este criterio es fundamental en optimización convexa y sirve como base para numerosos algoritmos (métodos de subgradiente, métodos proximales, etc.). Su simplicidad contrasta con su gran generalidad, ya que sigue siendo válido incluso en ausencia de diferenciabilidad.
+
+\section{Newton semi-suave}
+
+Aquí describimos el algoritmo de Newton semi-suave.
+
+\section{Restricciones}
+
+Para problemas con restricciones, podemos aplicar además las siguiente técnicas.
+
+\subsection{Penalización}
+
+Ver \cite{glowinski80}.
+
+\subsection{Lagrangiano}
+
+Ver \cite{glowinski80} y \cite{allaire2007}.
+\subsection{Lagrangiano aumentado}
+
+Ver \cite{glowinski80} y trabajos recientes de Erik Burman.
+
 \chapter{Desigualdades variacionales}
 
 Las desigualdades variacionales son útiles para modelar numerosos problemas de la física o la ingeniería~\cite{duvaut76,glowinski80,kinderlehrer80}. Sin embargo, rara vez se abordan en los cursos de posgrado de análisis numérico. El objetivo es presentar el análisis numérico del problema del obstáculo, cuando se discretiza mediante elementos finitos. El problema del obstáculo es, de hecho, el prototipo ideal de una desigualdad variacional y, quizás, el más sencillo de ellos.
@@ -1096,16 +2012,115 @@ Denotamos por \(H^{s}(\cdot)\), \(s\in \mathbb{R}\), a los espacios de Sobolev. 
 
 %\section{El obstáculo}
 
-\section{Formulación fuerte}
-Este enfoque clásico del problema del obstáculo presenta la formulación en términos de ecuaciones diferenciales parciales y condiciones de contorno. 
+\section{Ejemplos}
 
-\section{Desigualdad variacional}
+Seguimos~\cite{glowinski80}.
+%\section{Desigualdades variacionales}
 Las desigualdades variacionales proporcionan un marco general para estudiar problemas con restricciones, como el del obstáculo. Este planteamiento permite modelar fenómenos físicos donde las soluciones deben satisfacer condiciones de desigualdad en lugar de igualdades. La teoría de desigualdades variacionales es fundamental para entender la estructura matemática del problema.
 
-\section{Existencia y unicidad}
+%\section{Formulaciones débiles de problemas variacionales}
+
+%---
+\subsection{Problema de Signorini (contacto unilateral sin fricción)}
+Sea \( \Omega \subseteq \mathbb{R}^d \) un dominio acotado con frontera \( \Gamma = \Gamma_D \cup \Gamma_C \cup \Gamma_N \) (donde \( \Gamma_D \) es la parte de la frontera con desplazamiento prescrito, \( \Gamma_C \) es la zona de contacto potencial y \( \Gamma_N \) es la parte con carga aplicada).
+El problema de Signorini consiste en encontrar \( u \in K \), donde:
+\[
+K = \{ v \in H^1(\Omega) \colon v = 0 \text{ en } \Gamma_D, \, v \geq 0 \text{ en } \Gamma_C \},
+\]
+tal que:
+\[
+a(u, v - u) + j(v) - j(u) \geq \langle f, v - u \rangle \quad \forall v \in K.
+\]
+Aquí:
+\begin{itemize}
+    \item \( a(u, v) = \int_\Omega \sigma_{ij}(u) \varepsilon_{ij}(v) \, dx \) es la forma bilineal simétrica asociada al tensor de deformaciones \( \varepsilon \) y tensiones \( \sigma \).
+    \item \( j(v) = 0 \) (en este caso, sin fricción).
+    \item \( \langle f, v \rangle = \int_\Omega f v \, dx + \int_{\Gamma_N} g v \, ds \) es el funcional lineal de cargas.
+    \item \( \sigma_{ij}(u) \) son las componentes del tensor de tensiones, y \( \varepsilon_{ij}(v) \) las del tensor de deformaciones.
+\end{itemize}
+
+\subsection{Problema de torsión (Saint-Venant)}
+Sea \( \Omega \subseteq \mathbb{R}^2 \) una sección transversal de una barra. El problema de torsión consiste en encontrar \( \phi \in H^1_0(\Omega) \) tal que:
+\[
+a(\phi, v) = \langle f, v \rangle \quad \forall v \in H^1_0(\Omega),
+\]
+donde:
+\begin{itemize}
+    \item \( a(\phi, v) = \int_\Omega \nabla \phi \cdot \nabla v \, dx \) (forma bilineal simétrica).
+    \item \( \langle f, v \rangle = \int_\Omega G \theta v \, dx \), con \( G \) el módulo de corte, \( \theta \) el ángulo de torsión por unidad de longitud, y \( f = 2G\theta \) (constante).
+    \item El convexo $K$ es relacionado a $|\nabla u| \leq c$.
+\end{itemize}
+
+%---
+\subsection{Problema de Tresca (fricción)}
+Sea \( \Omega \) un dominio con frontera \( \Gamma = \Gamma_D \cup \Gamma_C \cup \Gamma_N \). El problema de Tresca con fricción en \( \Gamma_C \) consiste en encontrar \( u \in K \) tal que:
+\[
+a(u, v - u) + j(v) - j(u) \geq \langle f, v - u \rangle \quad \forall v \in K,
+\]
+donde:
+\begin{itemize}
+    \item \( K = \{ v \in H^1(\Omega) \colon v = 0 \text{ en } \Gamma_D \} \).
+    \item \( j(v) = \int_{\Gamma_C} g |v_t| \, ds \), con \( g \) el coeficiente de fricción y \( v_t \) la componente tangencial de \( v \) en \( \Gamma_C \).
+    \item \( a(u, v) \) es la forma bilineal simétrica asociada al problema elástico.
+\end{itemize}
+
+\subsection{Problema de Bingham (fluido visco-plástico)}
+El fluido de Bingham se modela mediante la siguiente desigualdad variacional:
+Encontrar \( u \in K \) tal que:
+\[
+a(u, v - u) + j(v) - j(u) \geq \langle f, v - u \rangle \quad \forall v \in K,
+\]
+donde:
+\begin{itemize}
+    \item \( K = \{ v \in H^1_0(\Omega)^d \colon \text{div } v = 0 \} \) (campo de velocidades incompresible).
+    \item \( a(u, v) = \int_\Omega 2\mu \varepsilon_{ij}(u) \varepsilon_{ij}(v) \, dx \), con \( \mu \) la viscosidad plástica.
+    \item \( j(v) = \int_\Omega \tau_0 \sqrt{2} |\varepsilon(v)| \, dx \), con \( \tau_0 \) el límite de fluencia.
+    \item \( \langle f, v \rangle = \int_\Omega f \cdot v \, dx \).
+\end{itemize}
+
+\subsection{Formulación con forma bilineal no simétrica}
+Consideremos un problema variacional con una forma bilineal no simétrica. Por ejemplo, sea \( \Omega \subseteq \mathbb{R}^d \) y el problema:
+Encontrar \( u \in H^1_0(\Omega) \) tal que:
+\[
+a(u, v) = \langle f, v \rangle \quad \forall v \in H^1_0(\Omega),
+\]
+donde la forma bilineal \( a(u, v) \) se define como:
+\[
+a(u, v) = \int_\Omega \nabla u \cdot \nabla v \, dx + \int_\Omega \mathbf{b} \cdot \nabla u \, v \, dx,
+\]
+con \( \mathbf{b} \in L^\infty(\Omega)^d \) un campo vectorial dado.
+Aquí, el término \( \int_\Omega \mathbf{b} \cdot \nabla u \, v \, dx \) introduce la asimetría en la forma bilineal.
+
+\section{Teoría general}
+
+Veamos ahora resultados sobre desigualdades de tipo I y de tipo II.
+%papa
+%\section{Existencia y unicidad}
 El estudio de la existencia y unicidad de soluciones es crucial para garantizar la validez de los modelos matemáticos. En el caso del obstáculo, se demuestra que, bajo condiciones adecuadas, existe una solución única que satisface las restricciones físicas del problema. Este análisis sienta las bases para el desarrollo de métodos numéricos confiables.
 
-\section{Aproximación de Galerkin}
+
+%Teoria general. Glowinski.
+
+\subsection{Teorema de Stampacchia}
+
+Aquí detallamos el Teorema de Stampacchia, para tipo I.
+
+\subsection{Teorema de Lions-Stampacchia}
+
+Aquí detallamos del Teorema de Lions-Stampacchia, para tipo II.
+
+\section{Galerkin y elementos finitos}
+
+Aproximaciones de tipo elementos finitos. Convergencia y estimaciones a priori, ver \cite{glowinski80}.
+
+%Ver nota.
+
+%\section{Formulación fuerte}
+%Este enfoque clásico del problema del obstáculo presenta la formulación en términos de ecuaciones diferenciales parciales y condiciones de contorno. 
+%
+%
+%
+%\section{Aproximación de Galerkin}
 La aproximación de Galerkin es un método numérico ampliamente utilizado para resolver problemas descritos por desigualdades variacionales. Este enfoque permite discretizar el problema y transformarlo en un sistema algebraico resoluble. Su simplicidad y eficacia lo convierten en una herramienta estándar en el análisis numérico.
 
 \subsection{Penalización}
@@ -1223,20 +2238,64 @@ if __name__ == "__main__":
     \item \textbf{Aplicaciones}: El problema del obstáculo tiene aplicaciones en mecánica de sólidos, fluidos, finanzas y otras áreas de la ciencia e ingeniería. Su versatilidad lo convierte en un modelo fundamental para estudiar fenómenos con restricciones geométricas o físicas.
 \end{itemize}
 
+%\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+%\nocite{*}
+%{\footnotesize
+%\bibliographystyle{siam}
+%\bibliography{biblio}
+%}
+
+%\addcontentsline{toc}{chapter}{\'Indice alfab\'etico}
+%{\scriptsize \printindex}
+
+%\end{document} 
+
+
 \chapter{Dualidad}
 La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones geométricas profundas.
 %
-Seguimos~\cite{allaire2007}(véase también~\cite{BoydVandenberghe2004}).
+Seguimos~\cite{allaire2007} (véase también~\cite{BoydVandenberghe2004} y \cite{luenberger1969}).
 
+\section{Problema primal y problema dual}
 
+%Seguimos Allaire.
+%%%
+% ALLAIRE PAGE 320
+%%%
 
+\subsection{Definiciones}
 
-%\textbf{Sugerencia de plan:}
-%\begin{itemize}
-%    \item Formulación del problema dual.
-%    \item Relación entre soluciones primales y duales.
-%    \item Aplicaciones en optimización convexa.
-%\end{itemize}
+\begin{definition}
+Sean \( V \) y \( Q \) dos espacios de Hilbert sobre el cuerpo \( \mathbb{K} \) (donde \( \mathbb{K} = \mathbb{R} \) o \( \mathbb{C} \)), y sea \( \mathcal{L} \colon U \times P \subseteq V \times Q \to \mathbb{K} \) un \emph{Lagrangiano} definido sobre un subconjunto \( U \times P \) de \( V \times Q \).
+
+Un \emph{punto silla} de \( \mathcal{L} \) es un par \( (v^*, q^*) \in U \times P \) tal que:
+\[
+\mathcal{L}(v^*, q) \leq \mathcal{L}(v^*, q^*) \leq \mathcal{L}(v, q^*) \quad \forall (v, q) \in U \times P.
+\]
+Es decir, \( v^* \) minimiza \( \mathcal{L}(\cdot, q^*) \) en \( U \) y \( q^* \) maximiza \( \mathcal{L}(v^*, \cdot) \) en \( P \).
+\end{definition}
+
+---
+\begin{definition}
+Dado el Lagrangiano \( \mathcal{L} \), definimos las \emph{funciones primal y dual} como:
+\[
+P(v) = \sup_{q \in P} \mathcal{L}(v, q) \quad \text{(función primal)},
+\]
+\[
+D(q) = \inf_{v \in U} \mathcal{L}(v, q) \quad \text{(función dual)}.
+\]
+\end{definition}
+
+---
+\begin{definition}
+Los \emph{problemas primal y dual} asociados a \( \mathcal{L} \) son:
+\[
+\text{Problema primal:} \quad \inf_{v \in U} P(v) = \inf_{v \in U} \sup_{q \in P} \mathcal{L}(v, q),
+\]
+\[
+\text{Problema dual:} \quad \sup_{q \in P} D(q) = \sup_{q \in P} \inf_{v \in U} \mathcal{L}(v, q).
+\]
+\end{definition}
 
 \chapter{Perspectivas}
 \label{ch:conclusion}
