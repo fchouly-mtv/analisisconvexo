@@ -713,7 +713,7 @@ siempre existe una {sucesión minimizante} $\{u_n\}_{n \in \mathbb{N}} \subseteq
 \]
 \end{proposition}
 
-\section{Existencia de mínimos globales}
+\subsection{Existencia de mínimos globales}
 
 Retomamos este resultado general y simple de \cite{allaire2007}.
 
@@ -799,6 +799,8 @@ El teorema anterior no se extiende en dimensión infinita~\cite{allaire2007}. Ta
 
 %\subsection{Definiciones}
 %Sea $V$ un espacio de Hilbert sobre $\mathbb{R}$. 
+
+\subsection{Definiciones}
 
 \begin{definition}
 %\begin{itemize}
@@ -915,7 +917,7 @@ Para demostrar que \(\mathcal{J}\) es fuertemente convexa, verificamos la siguie
 %%#### **Cálculo paso a paso**
 %
 %1. **
-Desarrollo de \(\mathcal{J}\left(\frac{u+v}{2}\right)\)**:
+Desarrollo de \(\mathcal{J}\left(\frac{u+v}{2}\right)\):
    \[
    \mathcal{J}\left(\frac{u+v}{2}\right) = \frac{1}{2} a\left(\frac{u+v}{2}, \frac{u+v}{2}\right) - L\left(\frac{u+v}{2}\right).
    \]
@@ -992,11 +994,11 @@ La funcional \(\mathcal{J}\) es fuertemente convexa con constante \({c_J}\), ya 
 %\newtheorem{remark}{Observación}[section]
 %\newtheorem{ex}{Ejemplo}[section]
 
-\section{Funciones convexas y mínimos}
+\subsection{Funciones convexas y mínimos}
 
 Los siguientes resultados son adaptados de \cite{allaire2007}.
 
-\subsection{Mínimos globales}
+%\subsection{Mínimos globales}
 
 \begin{theorem}
 Si $\mathcal{J}$ es convexa, entonces todo mínimo local es un mínimo global. Además, el conjunto de mínimos de $\mathcal{J}$ es convexo.
@@ -1075,7 +1077,7 @@ Esto implica que:
 lo cual contradice la definición de ínfimo. Por lo tanto, no pueden existir dos mínimos globales distintos, y el mínimo global, si existe, es único.
 \end{proof}
 
-\subsection{Caso fuertemente convexo}
+\section{Caso fuertemente convexo}
 
 Tenemos lo siguiente.
 
@@ -1206,7 +1208,7 @@ Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación
     \[
     (z , v_0 ) < ( z , m )_V = \beta.
     \]
-    Tambi\'en ******
+    Tambi\'en para todo \(w \in K\):
     \[
     (z,w)_V 
     =
@@ -1217,7 +1219,7 @@ Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación
     (w_0 - v_0, w - w_0 )_V
     + ( w_0 - v_0 , w_0 )_V \right ).
     \]
-    y, como para todo \(w \in K\):
+    y como 
     \[ ( v_0 - w_0 , w - w_0 )_V \leq 0,\]
     entonces
     \[
@@ -1225,36 +1227,44 @@ Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación
     \frac12
     ( w_0 - v_0 , w_0 )_V.
     \]
-    Acotamos
+    Acotamos ahora
     \[
     (z,w)_V - \beta 
     \geq
         \frac12
     ( w_0 - v_0 , w_0 )_V
     -(z,m)_V
-    =
+    %=
+    %    \frac12
+    %( w_0 - v_0 , w_0 )_V
+    %- \frac14 ( w_0 - v_0 , w_0 + v_0 %)_V.
+    \]
+    y luego
+    \[
+    (z,w)_V - \beta 
+    \geq
+    %    \frac12
+    %( w_0 - v_0 , w_0 )_V
+    %-(z,m)_V
+    %=
         \frac12
     ( w_0 - v_0 , w_0 )_V
     - \frac14 ( w_0 - v_0 , w_0 + v_0 )_V.
     \]
-    y
+    Agrupamos los términos:
     \[
     (z,w)_V - \beta 
     \geq
-        \frac12
-    ( w_0 - v_0 , w_0 )_V
-    -(z,m)_V
-    =
-        \frac12
-    ( w_0 - v_0 , w_0 )_V
-    - \frac14 ( w_0 - v_0 , w_0 + v_0 )_V.
-    \]
-    \[
-    (z,w)_V - \beta 
-    \geq
-    =
     ( w_0 - v_0 ,\frac12 w_0 
     - \frac14w_0 - \frac14v_0)_V > 0.
+    \]
+    Concluimos:
+    \[
+    (z,w)_V - \beta 
+    \geq
+    \frac14
+    ( w_0 - v_0 , w_0 
+    - v_0)_V > 0.
     \]
 \end{proof}
 
@@ -1275,35 +1285,48 @@ Como $\mathcal{J}$ es convexa y continua, su epigrafo:
 \text{epi}(\mathcal{J}) = \{(v, \mu) \in V \times \mathbb{R} \mid \mathcal{J}(v) \leq \mu\}
 \]
 es un conjunto convexo y cerrado en $V \times \mathbb{R}$. Además, como $K$ es no vacío, existe al menos un punto $(v_0, \mathcal{J}(v_0)) \in \text{epi}(\mathcal{J})$.
+%%
+%Consideremos el conjunto:
+%\[
+%C = \left \{(v, \mu) \in V \times \mathbb{R} \mid \mu < \inf_{v \in K} \mathcal{J}(v) \right \}.
+%\]
+%Este conjunto es convexo y abierto, y no interseca con $\text{epi}(\mathcal{J})$. 
+Sea $\mu_0 < \mathcal{J}(v_0)$.
+Por el {teorema anterior de separación de Hahn-Banach}, existen %un funcional lineal %$F \in (V \times \mathbb{R})'$ y $\alpha \in \mathbb{R}$ tales que:
+%\[
+%F(v, \mu) \leq \alpha \quad \forall (v, \mu) \in \text{epi}(\mathcal{J}),
+%\]
+%\[
+%F(v, \mu) > \alpha \quad \forall (v, \mu) \in C.
+%\]
 %
-Consideremos el conjunto:
+$z\in V$ y $\zeta, \beta \in \mathbb{R}$ que verifican
 \[
-C = \left \{(v, \mu) \in V \times \mathbb{R} \mid \mu < \inf_{v \in K} \mathcal{J}(v) \right \}.
+(z,v_0)_V + \zeta \mu_0 < \beta
+< (z,v)_V + \zeta \mu 
 \]
-Este conjunto es convexo y abierto, y no interseca con $\text{epi}(\mathcal{J})$. Por el \emph{teorema de separación de Hahn-Banach}, existen un funcional lineal $F \in (V \times \mathbb{R})'$ y $\alpha \in \mathbb{R}$ tales que:
+para todo $(v, \mu) \in \text{epi}(\mathcal{J})$. Fijamos $v=v_0$. Tomando $\mu$ suficientemente grande, deducimos $\zeta \geq 0$. Además, $\zeta = 0$ llevaría a una contradicción. Entonces $\zeta > 0$. Luego, para $v \in K$, $(v, \mathcal{J}(v)) \in \text{epi}(\mathcal{J})$ y
 \[
-F(v, \mu) \leq \alpha \quad \forall (v, \mu) \in \text{epi}(\mathcal{J}),
+\zeta \mathcal{J}(v) + (z,v)_V \geq \beta. 
 \]
-\[
-F(v, \mu) > \alpha \quad \forall (v, \mu) \in C.
-\]
+Esto termina la demostración. 
 %
-Podemos descomponer $F$ como $F(v, \mu) = L(v) + \beta \mu$, donde $L \in V'$ y $\beta \in \mathbb{R}$. De las desigualdades anteriores, se deduce que $\beta > 0$ (de lo contrario, no se cumpliría la segunda desigualdad para $\mu \to -\infty$). Sin pérdida de generalidad, podemos normalizar $F$ para que $\beta = 1$. Entonces:
-\[
-L(v) + \mu \leq \alpha \quad \forall (v, \mu) \in \text{epi}(\mathcal{J}).
-\]
-En particular, para todo $v \in V$ y $\mu = \mathcal{J}(v)$, se tiene:
-\[
-L(v) + \mathcal{J}(v) \leq \alpha.
-\]
-Reordenando, obtenemos:
-\[
-\mathcal{J}(v) \geq -L(v) + \alpha.
-\]
-Definiendo $\delta = -\alpha$ y reemplazando $L$ por $-L$, se obtiene:
-\[
-\mathcal{J}(v) \geq L(v) + \delta.
-\]
+%Podemos descomponer $F$ como $F(v, \mu) = L(v) + \beta \mu$, donde $L \in V'$ y $\beta \in \mathbb{R}$. De las desigualdades anteriores, se deduce que $\beta > 0$ (de lo contrario, no se cumpliría la segunda desigualdad para $\mu \to -\infty$). Sin pérdida de generalidad, podemos normalizar $F$ para que $\beta = 1$. Entonces:
+%\[
+%L(v) + \mu \leq \alpha \quad \forall (v, \mu) \in \text{epi}(\mathcal{J}).
+%\]
+%En particular, para todo $v \in V$ y $\mu = \mathcal{J}(v)$, se tiene:
+%\[
+%L(v) + \mathcal{J}(v) \leq \alpha.
+%\]
+%Reordenando, obtenemos:
+%\[
+%\mathcal{J}(v) \geq -L(v) + \alpha.
+%\]
+%Definiendo $\delta = -\alpha$ y reemplazando $L$ por $-L$, se obtiene:
+%\[
+%\mathcal{J}(v) \geq L(v) + \delta.
+%\]
 \end{proof}
 
 \begin{proposition} \label{convexafhahnbanach}
@@ -1341,18 +1364,21 @@ donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
 
 %\end{document} 
 
-\newpage
+%\newpage
 
-\subsection{Caso estrictamente convexo}
+\section{Caso estrictamente convexo}
+
+Unos ejemplos de funciones estrictamente convexa, pero no fuertemente convexas.
 
 %### **Ejemplos en dimensión finita**
 
-1. **Función cuadrática degenerada**
+\begin{ex}
+Función cuadrática degenerada.
    Consideremos la función \(f: \mathbb{R}^2 \to \mathbb{R}\) definida por:
    \[
    f(x, y) = x^2 + y^4.
    \]
-   - **Estrictamente convexa**: Su matriz hessiana es
+Es estrictamente convexa: su matriz hessiana es
      \[
      H_f(x, y) = \begin{pmatrix} 2 & 0 \\ 0 & 12y^2 \end{pmatrix},
      \]
@@ -1361,302 +1387,407 @@ donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
      \[
      f(\lambda x + (1-\lambda) y) < \lambda f(x) + (1-\lambda) f(y), \quad \forall \lambda \in (0, 1), \, x \neq y.
      \]
-   - **No fuertemente convexa**: No existe \(\alpha > 0\) tal que \(f(x, y) - \frac{\alpha}{2} \| (x, y) \|^2\) sea convexa. En particular, la segunda derivada en la dirección \(y\) tiende a \(0\) cuando \(y \to 0\), lo que impide la existencia de una constante global \(\alpha > 0\) que acote inferiormente el hessiano.
+No es fuertemente convexa. No existe \(\alpha > 0\) tal que \(f(x, y) - \frac{\alpha}{2} \| (x, y) \|^2\) sea convexa. En particular, la segunda derivada en la dirección \(y\) tiende a \(0\) cuando \(y \to 0\), lo que impide la existencia de una constante global \(\alpha > 0\) que acote inferiormente el hessiano.
+\end{ex}
 
----
-
-2. **Función exponencial**
+\begin{ex}
+Función exponencial.
    Consideremos la función \(g: \mathbb{R} \to \mathbb{R}\) definida por:
    \[
    g(x) = e^x.
    \]
-   - **Estrictamente convexa**: Su segunda derivada es \(g''(x) = e^x > 0\) para todo \(x \in \mathbb{R}\), lo que garantiza convexidad estricta.
-   - **No fuertemente convexa**: No existe \(\alpha > 0\) tal que \(g''(x) \geq \alpha\) para todo \(x \in \mathbb{R}\), ya que \(g''(x) = e^x \to 0\) cuando \(x \to -\infty\).
-
----
-
----
----
+Es estrictamente convexa: su segunda derivada es \(g''(x) = e^x > 0\) para todo \(x \in \mathbb{R}\), lo que garantiza convexidad estricta.
+No es fuertemente convexa: no existe \(\alpha > 0\) tal que \(g''(x) \geq \alpha\) para todo \(x \in \mathbb{R}\), ya que \(g''(x) = e^x \to 0\) cuando \(x \to -\infty\).
+\end{ex}
 
 %### **Ejemplos en dimensión infinita (vinculados a EDP elípticas)**
 
-1. **Funcional asociado al \(p\)-Laplaciano con \(1 < p < 2\)**
-   Sea \(\Omega \subset \mathbb{R}^n\) un dominio acotado y consideremos el funcional \(J: W_0^{1,p}(\Omega) \to \mathbb{R}\) definido por:
+\begin{ex}
+Funcional asociado al \(p\)-Laplaciano con \(1 < p < 2\).
+   Sea \(\Omega \subset \mathbb{R}^d\) un dominio acotado y consideremos el funcional \[\mathcal{J}: W_0^{1,p}(\Omega) \to \mathbb{R}\] definido por:
    \[
-   J(u) = \frac{1}{p} \int_\Omega |\nabla u|^p \, dx.
+   \mathcal{J}(v) = \frac{1}{p} \int_\Omega |\nabla v|^p. %\, dx.
    \]
-   - **Estrictamente convexo**: El operador \(p\)-Laplaciano \(-\Delta_p u = -\text{div}(|\nabla u|^{p-2} \nabla u)\) es estrictamente monótono para \(1 < p < \infty\), lo que implica que \(J\) es estrictamente convexo.
-   - **No fuertemente convexo**: Para \(1 < p < 2\), el funcional \(J\) **no es fuertemente convexo** en \(W_0^{1,p}(\Omega)\). Esto se debe a que la derivada de \(|\nabla u|^p\) no está acotada inferiormente por una constante positiva uniforme en todo el espacio. En particular, la "fuerte convexidad" falla porque la segunda derivada del término \(|\nabla u|^p\) no es uniformemente elíptica.
+Es estrictamente convexo: el operador \(p\)-Laplaciano \[-\Delta_p u = -\mathrm{div}\ (|\nabla u|^{p-2} \nabla u)\] es estrictamente monótono para \(1 < p < \infty\), lo que implica que \(\mathcal{J}\) es estrictamente convexo.
+No es fuertemente convexo: para \(1 < p < 2\), el funcional \(\mathcal{J}\) no es fuertemente convexo en \(W_0^{1,p}(\Omega)\). Esto se debe a que la derivada de \(|\nabla v|^p\) no está acotada inferiormente por una constante positiva uniforme en todo el espacio. En particular, la fuerte convexidad falla porque la segunda derivada del término \(|\nabla v|^p\) no es uniformemente elíptica.
+\end{ex}
 
----
-
-2. **Funcional de energía asociado a una EDP elíptica no lineal**
-   Consideremos el funcional \(E: H_0^1(\Omega) \to \mathbb{R}\) definido por:
+\begin{ex}
+Funcional de energía asociado a una EDP elíptica no lineal (superficie mínima). 
+   Consideremos el funcional \(\mathcal{J}: H_0^1(\Omega) \to \mathbb{R}\) definido por:
    \[
-   E(u) = \int_\Omega \left( \sqrt{1 + |\nabla u|^2} - 1 \right) dx - \int_\Omega f u \, dx,
+   \mathcal{J}(v) = \int_\Omega \left( \sqrt{1 + |\nabla v|^2} - 1 \right) - \int_\Omega f v,
    \]
    donde \(f \in L^2(\Omega)\).
-   - **Estrictamente convexo**: El integrando \(\sqrt{1 + |\nabla u|^2}\) es estrictamente convexo en \(\nabla u\), ya que su hessiana (con respecto a \(\nabla u\)) es positiva definida. Esto garantiza que \(E\) es estrictamente convexo.
-   - **No fuertemente convexo**: La segunda derivada del término \(\sqrt{1 + |\nabla u|^2}\) es:
+Es estrictamente convexo: el integrando \(\sqrt{1 + |\nabla v|^2}\) es estrictamente convexo en \(\nabla v\), ya que su hessiana (con respecto a \(\nabla v\)) es positiva definida. Esto garantiza que \(\mathcal{J}\) es estrictamente convexo.
+No es fuertemente convexo: la segunda derivada del término \(\sqrt{1 + |\nabla u|^2}\) es:
      \[
      \frac{\partial^2}{\partial (\nabla u)^2} \sqrt{1 + |\nabla u|^2} = \frac{I}{1 + |\nabla u|^2} - \frac{\nabla u \otimes \nabla u}{(1 + |\nabla u|^2)^{3/2}},
      \]
-     que no está acotada inferiormente por una constante positiva uniforme (por ejemplo, cuando \(|\nabla u| \to \infty\), la norma de esta matriz tiende a \(0\)). Por lo tanto, \(E\) no es fuertemente convexo.
+     que no está acotada inferiormente por una constante positiva uniforme (por ejemplo, cuando \(|\nabla u| \to \infty\), la norma de esta matriz tiende a \(0\)). Por lo tanto, \(\mathcal{J}\) no es fuertemente convexo.
+\end{ex}
 
----
+\section{Caso convexo}
 
-\newpage
+Veamos ahora un resultado sobre existencia de mínimos en el caso convexo.
 
-\section{El caso convexo}
+\subsection{Un ejemplo} % de funciones convexas pero no estrictamente convexas}
 
-**1. Ejemplos de funciones convexas pero no estrictamente convexas (relativos a EDP elípticas)**
-
-**Ejemplo 1: Funcional asociado al operador \(p\)-Laplaciano con \(p = 1\)**
-Consideremos el funcional \(J: BV(\Omega) \to \mathbb{R}\) definido por:
+\begin{ex}
+Funcional asociado al operador \(p\)-Laplaciano con \(p = 1\).
+Consideremos el funcional \(\mathcal{J}: BV(\Omega) \to \mathbb{R}\) definido por:
 \[
-J(u) = \int_\Omega |\nabla u| \, dx,
+\mathcal{J}(v) = \int_\Omega |\nabla v|,
 \]
 donde \(BV(\Omega)\) es el espacio de funciones de variación acotada.
-- **Convexo**: El funcional \(J\) es convexo porque \(|\nabla u|\) es una norma (y las normas son convexas).
-- **No estrictamente convexo**: No cumple la desigualdad estricta de convexidad. Por ejemplo, si \(u\) y \(v\) son funciones con \(\nabla u = -\nabla v\), entonces:
+El funcional \(\mathcal{J}\) es convexo porque \(|\nabla v|\) es una norma (y las normas son convexas).
+No estrictamente convexo porque no cumple la desigualdad estricta de convexidad. Por ejemplo, si \(u\) y \(v\) son funciones con \(\nabla u = \nabla v\), entonces:
+  %\[
+  %\mathcal{J}\left(\frac{u + v}{2}\right) = \int_\Omega \left|\nabla \left(\frac{u + v}{2}\right)\right| = \int_\Omega \left|\frac{\nabla u + \nabla v}{2}\right| \, dx = \int_\Omega \left|\frac{\nabla u - \nabla u}{2}\right|  = 0,
+  %\]
+  %mientras que:
+  %\[
+  %\frac{1}{2} J(u) + \frac{1}{2} J(v) = \int_\Omega |\nabla v|  > 0.
+  %\]
+  %Por lo tanto, 
   \[
-  J\left(\frac{u + v}{2}\right) = \int_\Omega \left|\nabla \left(\frac{u + v}{2}\right)\right| \, dx = \int_\Omega \left|\frac{\nabla u + \nabla v}{2}\right| \, dx = \int_\Omega \left|\frac{\nabla u - \nabla u}{2}\right| \, dx = 0,
-  \]
-  mientras que:
-  \[
-  \frac{1}{2} J(u) + \frac{1}{2} J(v) = \int_\Omega |\nabla u| \, dx > 0.
-  \]
-  Por lo tanto, \(J\left(\frac{u + v}{2}\right) = \frac{1}{2} J(u) + \frac{1}{2} J(v)\) (no hay desigualdad estricta).
+  \mathcal{J}\left(\frac{u + v}{2}\right) = \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v)\] (no hay desigualdad estricta).
+\end{ex}
 
----
-**Ejemplo 2: Funcional de energía con término lineal**
-Consideremos el funcional \(E: H_0^1(\Omega) \to \mathbb{R}\) definido por:
+\subsection{Convergencia débil}
+
+Veamos ahora la convergencia débil en un espacio de Hilbert.
+
+\begin{definition}
+Sea \(V\) un espacio de Hilbert. Una secuencia \(\{u_n\} \subset V\) converge débilmente a \(u \in V\) si:
 \[
-E(u) = \int_\Omega |\Delta u| \, dx - \int_\Omega f u \, dx,
-\]
-donde \(f \in L^2(\Omega)\).
-- **Convexo**: El término \(\int_\Omega |\Delta u| \, dx\) es convexo (porque es una norma), y el término lineal \(-\int_\Omega f u \, dx\) es convexo (y cóncavo a la vez).
-- **No estrictamente convexo**: El término \(\int_\Omega |\Delta u| \, dx\) no es estrictamente convexo, ya que su derivada segunda es nula en casi todo punto (no hay fuerte convexidad).
-
----
-
----
-
----
-
----
-
-**2. Definición: Convergencia débil en un espacio de Hilbert**
-
-Sea \(V\) un espacio de Hilbert. Una secuencia \(\{u_n\} \subset V\) **converge débilmente** a \(u \in V\) si:
-\[
-\lim_{n \to \infty} \langle u_n, v \rangle_V = \langle u, v \rangle_V, \quad \forall v \in V.
+\lim_{n \to \infty} ( u_n, v )_V = ( u, v )_V, \quad \forall v \in V.
 \]
 Se denota \(u_n \rightharpoonup u\).
+\end{definition}
 
----
-
----
-
----
-
-**3. Proposición: Convergencia débil en Hilbert separable**
+La siguiente proposición caracteriza la convergencia débil en un espacio de Hilbert separable.
 
 \begin{proposition}
-    Sea \(V\) un espacio de Hilbert **separable**. Entonces, una secuencia \(\{u_n\} \subset V\) converge débilmente a \(u \in V\) si y solo si:
+    Sea \(V\) un espacio de Hilbert separable. Entonces, una secuencia \(\{u_n\} \subset V\) converge débilmente a \(u \in V\) si y solo si:
     \[
-    \lim_{n \to \infty} \langle u_n, e_i \rangle_V = \langle u, e_i \rangle_V, \quad \forall i \in \mathbb{N},
+    \lim_{n \to \infty} ( u_n, e_i )_V = ( u, e_i )_V, \quad \forall i \in \mathbb{N},
     \]
-    donde \(\{e_i\}_{i \in \mathbb{N}}\) es una **base hilbertiana** (base ortonormal completa) de \(V\).
+    donde \(\{e_i\}_{i \in \mathbb{N}}\) es una base hilbertiana (base ortonormal completa) de \(V\).
 \end{proposition}
 
----
-**Demostración:**
-
-- **Implicación directa (\(\Rightarrow\)):**
+\begin{proof}
+\emph{Implicación directa (\(\Rightarrow\))}:
   Si \(u_n \rightharpoonup u\), entonces por definición de convergencia débil:
   \[
-  \lim_{n \to \infty} \langle u_n, v \rangle_V = \langle u, v \rangle_V, \quad \forall v \in V.
+  \lim_{n \to \infty} ( u_n, v )_V = ( u, v )_V, \quad \forall v \in V.
   \]
   En particular, esto vale para \(v = e_i\) (pues \(e_i \in V\)).
 
-- **Implicación inversa (\(\Leftarrow\)):**
-  Supongamos que \(\lim_{n \to \infty} \langle u_n, e_i \rangle_V = \langle u, e_i \rangle_V\) para todo \(i \in \mathbb{N}\). Sea \(v \in V\). Como \(\{e_i\}\) es una base hilbertiana, podemos escribir:
+\medskip
+
+\emph{Implicación inversa (\(\Leftarrow\)):}
+  Supongamos que \[\lim_{n \to \infty} ( u_n, e_i )_V = ( u, e_i )_V\] para todo \(i \in \mathbb{N}\). Sea \(v \in V\). Como \(\{e_i\}\) es una base hilbertiana, podemos escribir:
   \[
-  v = \sum_{i=1}^\infty \langle v, e_i \rangle_V e_i,
+  v = \sum_{i=1}^\infty ( v, e_i )_V e_i,
   \]
   con convergencia en la norma de \(V\). Entonces:
   \[
-  \langle u_n, v \rangle_V = \left\langle u_n, \sum_{i=1}^\infty \langle v, e_i \rangle_V e_i \right\rangle_V = \sum_{i=1}^\infty \langle v, e_i \rangle_V \langle u_n, e_i \rangle_V.
+  ( u_n, v )_V = \left( u_n, \sum_{i=1}^\infty ( v, e_i )_V e_i \right)_V = \sum_{i=1}^\infty ( v, e_i )_V ( u_n, e_i )_V.
   \]
-  Por hipótesis, \(\langle u_n, e_i \rangle_V \to \langle u, e_i \rangle_V\) para cada \(i\). Además, como \(\{u_n\}\) es acotada (pues converge débilmente), por el **Teorema de Lebesgue dominado**, podemos intercambiar el límite y la suma:
+  Por hipótesis, \(\langle u_n, e_i \rangle_V \to \langle u, e_i \rangle_V\) para cada \(i\). Además, por el Teorema de Banach-Steinhaus~\cite{brezis2011}, \(\{u_n\}\) es acotada (pues converge débilmente). Entonces, por el Teorema de Lebesgue dominado, podemos intercambiar el límite y la suma:
   \[
-  \lim_{n \to \infty} \langle u_n, v \rangle_V = \sum_{i=1}^\infty \langle v, e_i \rangle_V \langle u, e_i \rangle_V = \langle u, v \rangle_V.
+  \lim_{n \to \infty} ( u_n, v )_V = \sum_{i=1}^\infty ( v, e_i )_V ( u, e_i )_V = ( u, v )_V.
   \]
   Por lo tanto, \(u_n \rightharpoonup u\).
+\end{proof}
 
----
+\begin{ex}
+    En \(\ell^2\), la secuencia \(u_n = (0, 0, \dots, 1, 0, 0, \dots)\) (con \(1\) en la posición \(n\) y \(0\) en las demás) satisface:
+    \[u_n \rightharpoonup 0\] (pues \( (u_n, v )_V = v_n \to 0\) para todo \(v \in \ell^2\)).
+    Por otro lado, \(\|u_n\|_V = 1\) para todo \(n\), por lo que no converge fuertemente a \(0\).
+\end{ex}
 
----
+\begin{ex}
+En $L^2(0;\pi)$, la secuencia de funciones $\{f_n\}$ definidas por
+\[
+f_n(x)=\sen^2(n x)
+\]
+verifica
+\[f_n \rightharpoonup \frac12\]
+pero no converge fuertemente, ver los detalles en 
+\cite{bressan2014}.
+\end{ex}
 
----
+\subsection{Compacidad para la topología débil}
 
----
-
-    **Ejemplo:**
-    En \(\ell^2\), la secuencia \(u_n = (1, 0, 0, \dots)\) (con \(1\) en la posición \(n\) y \(0\) en las demás) satisface:
-    - \(u_n \rightharpoonup 0\) (pues \(\langle u_n, v \rangle = v_n \to 0\) para todo \(v \in \ell^2\)).
-    - \(\|u_n\| = 1\) para todo \(n\), por lo que **no converge fuertemente** a \(0\).
-
-
-\noindent Bressan: ejemplo con sen al cuadrado y un medio.
----
-
- **5. Lema: De toda secuencia acotada se puede extraer una subsucesión que converge débilmente**
+De toda secuencia acotada se puede extraer una subsucesión que converge débilmente (versi\'on simplificada del Teorema de Banach-Alaoglu~\cite{brezis2011}, ver tambi\'en \cite{allaire2007}).
 
 \begin{lemma}
-    Sea \(V\) un espacio de Hilbert y \(\{u_n\} \subset V\) una secuencia **acotada** (es decir, \(\|u_n\| \leq M\) para todo \(n\) y algún \(M > 0\)). Entonces existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\).
+    Sea \(V\) un espacio de Hilbert separable y \(\{u_n\} \subset V\) una secuencia acotada (es decir, \(\|u_n\| \leq M\) para todo \(n\) y algún \(M > 0\)). Entonces existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\).
 \end{lemma}
 
----
-**Demostración:**
+\begin{proof}
+%
+%\subsubsection*{Convergencia débil en espacios de Hilbert separables}
+%
+Sea \( V \) un {espacio de Hilbert separable} y sea \( \{e_i\}_{i \in \mathbb{N}} \) una {base ortonormal} de \( V \). Consideremos una {sucesión acotada} \( \{u_n\} \subseteq V \), es decir, existe \( M > 0 \) tal que \( \|u_n\|_V \leq M \) para todo \( n \in \mathbb{N} \).
 
-- **Base hilbertiana:** Como \(V\) es separable, existe una base hilbertiana \(\{e_i\}_{i \in \mathbb{N}}\).
-- **Acotación de las componentes:** Para cada \(i \in \mathbb{N}\), la secuencia \(\{\langle u_n, e_i \rangle\}\) está acotada en \(\mathbb{R}\) (pues \(|\langle u_n, e_i \rangle| \leq \|u_n\| \|e_i\| \leq M\)).
-- **Subsucesión diagonal:** Por el **Teorema de Bolzano-Weierstrass**, para cada \(i\), existe una subsucesión \(\{u_n^{(i)}\}\) tal que \(\{\langle u_n^{(i)}, e_i \rangle\}\) converge. Usando un argumento de **subsucesión diagonal**, podemos construir una subsucesión \(\{u_{n_k}\}\) tal que:
-  \[
-  \lim_{k \to \infty} \langle u_{n_k}, e_i \rangle \text{ existe para todo } i \in \mathbb{N}.
-  \]
-- **Convergencia débil:** Por la **Proposición 3**, esto implica que \(\{u_{n_k}\}\) converge débilmente a algún \(u \in V\).
+\medskip
 
----
+\noindent \emph{Paso 1: Acotación de las proyecciones.}
+Para cada \( i \in \mathbb{N} \), la sucesión \( \{\langle u_n, e_i \rangle_V\} \) está acotada en \( \mathbb{R} \), ya que:
+\[
+|( u_n, e_i )_V| \leq \|u_n\|_V \|e_i\|_V \leq M \cdot 1 = M.
+\]
 
----
+\medskip
 
----
+\noindent \emph{Paso 2: Construcción de la subsucesión diagonal.}
 
- **6. Lema: Un convexo cerrado \(K\) es exactamente la intersección de los semiplanos cerrados que lo contienen**
+\begin{itemize}
+    \item \textbf{Para \( i = 1 \):}
+    Por el {Teorema de Bolzano-Weierstrass}, existe una subsucesión \( \{u_n^{(1)}\} \subseteq \{u_n\} \) tal que:
+    \[
+    \lim_{k \to \infty} ( u_{n_k}^{(1)}, e_1 )_V \text{ existe.}
+    \]
+
+    \item \textbf{Para \( i = 2 \):}
+    Aplicamos nuevamente Bolzano-Weierstrass a la sucesión \( \{( u_n^{(1)}, e_2 )_V\} \). Existe una subsucesión \( \{u_n^{(2)}\} \subseteq \{u_n^{(1)}\} \) tal que:
+    \[
+    \lim_{k \to \infty} ( u_{n_k}^{(2)}, e_2 )_V \text{ existe.}
+    \]
+    Además, como \( \{u_n^{(2)}\} \subseteq \{u_n^{(1)}\} \), se cumple que:
+    \[
+    \lim_{k \to \infty} ( u_{n_k}^{(2)}, e_1 )_V \text{ también existe.}
+    \]
+
+    \item \textbf{Iteración para todo \( i \in \mathbb{N} \):}
+    Supongamos que para algún \( i \geq 2 \), hemos construido una subsucesión \( \{u_n^{(i)}\} \subseteq \{u_n^{(i-1)}\} \) tal que:
+    \[
+    \lim_{k \to \infty} ( u_{n_k}^{(i)}, e_j )_V \text{ existe para todo } j = 1, 2, \dots, i.
+    \]
+    Aplicamos Bolzano-Weierstrass a \( \{\langle u_n^{(i)}, e_{i+1} \rangle_V\} \) para obtener \[ \{u_n^{(i+1)}\} \subseteq \{u_n^{(i)}\} \] tal que:
+    \[
+    \lim_{k \to \infty} ( u_{n_k}^{(i+1)}, e_{i+1} )_V \text{ existe,}
+    \]
+    y por construcción, los límites para \( e_1, e_2, \dots, e_i \) también existen.
+\end{itemize}
+
+\medskip
+
+\noindent \emph{Paso 3: Definición de la subsucesión diagonal.}
+Definimos la {subsucesión diagonal} \( \{u_{n_k}\} \) como:
+\[
+u_{n_k} := u_k^{(k)}.
+\]
+Es decir:
+\[
+u_{n_1} = u_1^{(1)}, \quad u_{n_2} = u_2^{(2)}, \quad u_{n_3} = u_3^{(3)}, \quad \dots
+\]
+
+\medskip
+
+\noindent \emph{Paso 4: Convergencia de las proyecciones.}
+Fijamos \( i \in \mathbb{N} \). Para todo \( k \geq i \), se tiene que \( u_{n_k} = u_k^{(k)} \in \{u_n^{(i)}\} \), ya que \( \{u_n^{(k)}\} \subseteq \{u_n^{(i)}\} \) para \( k \geq i \). Por lo tanto:
+\[
+\lim_{k \to \infty} ( u_{n_k}, e_i )_V = \lim_{k \to \infty} ( u_k^{(k)}, e_i )_V = a_i,
+\]
+donde \( a_i \) es el límite asociado a la subsucesión \( \{u_n^{(i)}\} \).
+
+\medskip
+
+\noindent \emph{Paso 5: Existencia del límite \( u \in V \).}
+Definimos el candidato a límite como:
+\[
+u := \sum_{i=1}^\infty a_i e_i.
+\]
+Para verificar que \( u \in V \), observamos que:
+\[
+\sum_{i=1}^\infty |a_i|^2 \leq M^2.
+\]
+En efecto, por el {Teorema de Bessel}, para cada \( k \):
+\[
+\sum_{i=1}^\infty |( u_{n_k}, e_i )_V|^2 \leq \|u_{n_k}\|_V^2 \leq M^2.
+\]
+Tomando límite en \( k \), obtenemos:
+\[
+\sum_{i=1}^\infty |a_i|^2 \leq M^2 < \infty,
+\]
+lo que garantiza que \( u \in V \).
+
+\medskip
+
+\noindent \emph{Paso 6: Convergencia débil de \( \{u_{n_k}\} \) a \( u \).}
+Para mostrar que \( u_{n_k} \rightharpoonup u \), sea \( v \in V \) arbitrario. Como \( \{e_i\} \) es una base ortonormal, podemos escribir:
+\[
+v = \sum_{i=1}^\infty b_i e_i, \quad \text{con } \sum_{i=1}^\infty |b_i|^2 < \infty.
+\]
+Entonces, por la linealidad y continuidad del producto interno:
+\[
+( u_{n_k}, v )_V = \sum_{i=1}^\infty b_i ( u_{n_k}, e_i )_V \to \sum_{i=1}^\infty b_i a_i = ( u, v )_V.
+\]
+La convergencia de la serie está justificada por la {desigualdad de Cauchy-Schwarz}:
+\[
+\left| \sum_{i=1}^\infty b_i ( u_{n_k}, e_i )_V \right| \leq \left( \sum_{i=1}^\infty |b_i|^2 \right)^{1/2} \left( \sum_{i=1}^\infty |( u_{n_k}, e_i )_V|^2 \right)^{1/2} \leq \|v\|_V \cdot M.
+\]
+Por lo tanto, \( \{u_{n_k}\} \) converge débilmente a \( u \in V \).
+\end{proof}
+
+%\begin{proof}
+%- **Base hilbertiana:** 
+%Como \(V\) es separable, existe una base hilbertiana \(\{e_i\}_{i \in \mathbb{N}}\).
+%- **Acotación de las componentes:** 
+%Para cada \(i \in \mathbb{N}\), la secuencia \(\{( u_n, e_i )_V\}\) está acotada en \(\mathbb{R}\) (pues \(|( u_n, e_i )_V| \leq \|u_n\|_V \|e_i\|_V \leq M\)).
+
+%\medskip
+
+%- **Subsucesión diagonal:** 
+%Por el Teorema de Bolzano-Weierstrass, para cada \(i\), existe una subsucesión \(\{u_n^{(i)}\}\) tal que \(\{\langle u_n^{(i)}, e_i \rangle\}\) converge. Usando un argumento de subsucesión diagonal, podemos construir una subsucesión \(\{u_{n_k}\}\) tal que:
+%  \[
+%  \lim_{k \to \infty} ( u_{n_k}, e_i )_V \text{ existe para todo } i \in \mathbb{N}.
+%  \]
+%- **Convergencia débil:** 
+%Por la Proposición anterior, esto implica que \(\{u_{n_k}\}\) converge débilmente a algún \(u \in V\).
+%\end{proof}
+
+\subsection{Convexos cerrados}
 
 \begin{lemma}
-    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto **cerrado y convexo**. Entonces:
+    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto cerrado y convexo. Entonces:
     \[
-    K = \bigcap_{\substack{H \supset K \\ H \text{ semiplano cerrado}}} H.
+    K = \bigcap_{\substack{\mathcal{H} \supset K \\ \mathcal{H} \text{ semiplano cerrado}}} \mathcal{H}.
     \]
 \end{lemma}
 
----
-**Demostración (por contradicción usando Hahn-Banach):**
+\begin{proof}
+Por contradicción usando Hahn-Banach.
 
-- **Inclusión trivial:** Claramente, \(K \subset \bigcap_{\substack{H \supset K \\ H \text{ semiplano cerrado}}} H\), ya que todo semiplano cerrado que contiene a \(K\) incluye a \(K\).
-- **Inclusión inversa:** Supongamos que existe \(x \in \bigcap_{\substack{H \supset K \\ H \text{ semiplano cerrado}}} H\) pero \(x \notin K\). Como \(K\) es cerrado y convexo, por el **Teorema de Hahn-Banach** (versión geométrica), existe un hiperplano cerrado que separa estrictamente \(x\) de \(K\). Es decir, existen \(a \in V\) y \(\beta \in \mathbb{R}\) tales que:
+\medskip
+
+\noindent %Inclusión trivial:** 
+Claramente, \(K \subset \bigcap_{\substack{\mathcal{H} \supset K \\ \mathcal{H} \text{ semiplano cerrado}}} \mathcal{H}\), ya que todo semiplano cerrado que contiene a \(K\) incluye a \(K\).
+
+\medskip
+
+%- **Inclusión inversa:** 
+Supongamos que existe \(v_0 \in \bigcap_{\substack{\mathcal{H} \supset K \\ \mathcal{H} \text{ semiplano cerrado}}} \mathcal{H}\) pero \(v_0 \notin K\). Como \(K\) es cerrado y convexo, por el Teorema de Hahn-Banach (versión geométrica), existe un hiperplano cerrado que separa estrictamente \(v_0\) de \(K\). Es decir, existen \(z \in V\) y \(\beta \in \mathbb{R}\) tales que:
   \[
-  \langle y, a \rangle \leq \beta < \langle x, a \rangle, \quad \forall y \in K.
+  ( z, w )_V  \leq \beta < ( z , v_0 )_V, \quad \forall w \in K.
   \]
-  Esto implica que el semiplano cerrado \(H = \{ y \in V \mid \langle y, a \rangle \leq \beta \}\) contiene a \(K\) pero **no contiene a \(x\)**, lo que contradice la hipótesis de que \(x\) está en la intersección de todos los semiplanos cerrados que contienen a \(K\). Por lo tanto, \(x \in K\).
+  Esto implica que el semiplano cerrado \(\mathcal{H} = \{ w \in V \mid ( z , w )_V \leq \beta \}\) contiene a \(K\) pero no contiene a \(v_0\), lo que contradice la hipótesis de que \(v_0\) está en la intersección de todos los semiplanos cerrados que contienen a \(K\). Por lo tanto, \(v_0 \in K\).
+\end{proof}
 
----
-
----
-
----
-
- **7. Lema: Un convexo cerrado \(K\) es cerrado para la convergencia débil**
+%
+% **7. Lema: Un convexo cerrado \(K\) es cerrado para la convergencia débil**
 
 \begin{lemma}
-    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto **cerrado y convexo**. Entonces \(K\) es **cerrado para la convergencia débil**, es decir:
-    Si \(\{u_n\} \subset K\) y \(u_n \rightharpoonup u\), entonces \(u \in K\).
+    Sea \(V\) un espacio de Hilbert y \(K \subset V\) un conjunto cerrado y convexo. Entonces \(K\) es cerrado para la convergencia débil, es decir:
+    si \(\{v_n\} \subset K\) y \(v_n \rightharpoonup v\), entonces \(v \in K\).
 \end{lemma}
 
----
-**Demostración:**
-
-- Por el **Lema 6**, \(K\) es la intersección de todos los semiplanos cerrados que lo contienen. Sea \(H = \{ y \in V \mid \langle y, a \rangle \leq \beta \}\) uno de estos semiplanos. Como \(u_n \in K \subset H\) para todo \(n\), se tiene:
+\begin{proof}
+Por el Lema anterior, \(K\) es la intersección de todos los semiplanos cerrados que lo contienen. Sea \(\mathcal{H} = \{ w \in V \mid (z,w) \leq \beta \}\) uno de estos semiplanos. Como \(v_n \in K \subset \mathcal{H}\) para todo \(n\), se tiene:
   \[
-  \langle u_n, a \rangle \leq \beta.
+  ( z , v_n )_V \leq \beta.
   \]
   Tomando límite cuando \(n \to \infty\) (por la convergencia débil):
   \[
-  \langle u, a \rangle \leq \beta.
+    ( z , v )_V
+ \leq \beta.
   \]
-  Por lo tanto, \(u \in H\) para todo semiplano cerrado \(H\) que contiene a \(K\). Por el **Lema 6**, esto implica que \(u \in K\).
+  Por lo tanto, \(v \in \mathcal{H}\) para todo semiplano cerrado \(\mathcal{H}\) que contiene a \(K\). Por el Lema anterior, esto implica que \(v \in K\).
+\end{proof}
 
----
+\begin{remark}
+Si el conjunto no es convexo, puede ser cerrado para la topología fuerte sin ser cerrado por la topología débil, tomar por ejemplo $\mathcal{S} := \{ v\ \in V \,;\, \| v \|_V = 1\}$ (ver \cite{brezis2011}).
+\end{remark}
 
----
+%Def sci y epigrafo cerrado
 
----
----
+%Ejemplo de funcion sci no continua
 
- **8. Lema: Si \(J\) es convexa y semi-continua inferiormente (s.c.i.) sobre \(K\), entonces \(J\) es s.c.i. para la convergencia débil**
+%Ejemplo de funcion no sci
+
+%Funcion convexa continua
+
+
+
+%---
+
+%---
+
+%---
+%---
+
+% **8. Lema: Si \(J\) es convexa y semi-continua inferiormente (s.c.i.) sobre \(K\), entonces \(J\) es s.c.i. para la convergencia débil**
 
 \begin{lemma}
-    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto **cerrado y convexo**, y \(J: K \to \mathbb{R}\) una función **convexa y semi-continua inferiormente (s.c.i.)** para la convergencia fuerte. Entonces \(J\) es también **s.c.i. para la convergencia débil**.
+    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto cerrado y convexo, y \(J: K \to \mathbb{R}\) una función convexa y semi-continua inferiormente (s.c.i.) para la convergencia fuerte. Entonces \(J\) es también **s.c.i. para la convergencia débil**.
 \end{lemma}
 
----
-**Demostración:**
+\begin{proof}
+Viene directamente de la definición de s.c.i.
+\end{proof}
 
-- Sea \(\{u_n\} \subset K\) una secuencia que converge débilmente a \(u \in K\) (por el **Lema 7**, \(u \in K\)).
-- Como \(J\) es convexa y s.c.i. para la convergencia fuerte, por el **Teorema de Mazur**, existe una combinación convexa de los \(u_n\) que converge **fuertemente** a \(u\). Es decir, para cada \(k \in \mathbb{N}\), existen \(\lambda_i^{(k)} \geq 0\) con \(\sum_{i=1}^{N_k} \lambda_i^{(k)} = 1\) tales que:
-  \[
-  v_k = \sum_{i=1}^{N_k} \lambda_i^{(k)} u_i \quad \text{y} \quad v_k \to u \text{ fuertemente}.
-  \]
-- Por la convexidad de \(J\):
-  \[
-  J(v_k) \leq \sum_{i=1}^{N_k} \lambda_i^{(k)} J(u_i).
-  \]
-- Tomando límite inferior cuando \(k \to \infty\) y usando que \(J\) es s.c.i. para la convergencia fuerte:
-  \[
-  J(u) \leq \liminf_{k \to \infty} J(v_k) \leq \liminf_{k \to \infty} \sum_{i=1}^{N_k} \lambda_i^{(k)} J(u_i).
-  \]
-  Como \(\{u_n\}\) converge débilmente a \(u\), y \(J\) es convexa, se puede mostrar que:
-  \[
-  J(u) \leq \liminf_{n \to \infty} J(u_n).
-  \]
-  Por lo tanto, \(J\) es s.c.i. para la convergencia débil.
+%---
+%**Demostración:**
+%
+%- Sea \(\{u_n\} \subset K\) una secuencia que converge débilmente a \(u \in K\) (por el **Lema 7**, \(u \in K\)).
+%- Como \(J\) es convexa y s.c.i. para la convergencia fuerte, por el **Teorema de Mazur**, existe una combinación convexa de los \(u_n\) que converge **fuertemente** a \(u\). Es decir, para cada \(k \in \mathbb{N}\), existen \(\lambda_i^{(k)} \geq 0\) con \(\sum_{i=1}^{N_k} \lambda_i^{(k)} = 1\) tales que:
+%  \[
+%  v_k = \sum_{i=1}^{N_k} \lambda_i^{(k)} u_i \quad \text{y} \quad v_k \to u \text{ fuertemente}.
+%  \]
+%- Por la convexidad de \(J\):
+%  \[
+%  J(v_k) \leq \sum_{i=1}^{N_k} \lambda_i^{(k)} J(u_i).
+%  \]
+%- Tomando límite inferior cuando \(k \to \infty\) y usando que \(J\) es s.c.i. para la convergencia fuerte:
+%  \[
+%  J(u) \leq \liminf_{k \to \infty} J(v_k) \leq \liminf_{k \to \infty} \sum_{i=1}^{N_k} \lambda_i^{(k)} J(u_i).
+%  \]
+%  Como \(\{u_n\}\) converge débilmente a \(u\), y \(J\) es convexa, se puede mostrar que:
+%  \[
+%  J(u) \leq \liminf_{n \to \infty} J(u_n).
+%  \]
+%  Por lo tanto, \(J\) es s.c.i. para la convergencia débil.
+%
+%---
 
----
-
----
----
----
-
----
- **9. Existencia de un mínimo: Caso convexo, \(J\) continua, coerciva y convexa sobre \(K\)**
+% **9. Existencia de un mínimo: Caso convexo, \(J\) continua, coerciva y convexa sobre \(K\)**
 
 \begin{theorem}
-    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto **cerrado, convexo y no vacío**, y \(J: K \to \mathbb{R}\) una función **continua, coerciva** (es decir, \(\lim_{\|u\| \to \infty} J(u) = +\infty\)) y **convexa**. Entonces \(J\) admite un **mínimo global** en \(K\).
+    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto cerrado, convexo y no vacío, y \(J: K \to \mathbb{R}\) una función continua, coerciva (es decir, \(\lim_{\|u\| \to \infty} J(u) = +\infty\)) y convexa. Entonces \(J\) admite un mínimo global en \(K\).
 \end{theorem}
 
----
-**Prueba (pasos detallados):**
+\begin{proof}
+%---
+%**Prueba (pasos detallados):**
 
-1. **Existencia de una secuencia minimizante:**
+1. Existencia de una secuencia minimizante:
    Sea \(I = \inf_{u \in K} J(u)\). Por definición del ínfimo, existe una secuencia \(\{u_n\} \subset K\) tal que:
    \[
    J(u_n) \to I.
    \]
 
-2. **La secuencia minimizante es acotada (por contradicción):**
+2. La secuencia minimizante es acotada (por contradicción):
    Supongamos que \(\{u_n\}\) no es acotada. Entonces existe una subsucesión \(\{u_{n_k}\}\) tal que \(\|u_{n_k}\| \to \infty\). Como \(J\) es coerciva:
    \[
    J(u_{n_k}) \to +\infty,
    \]
    lo que contradice que \(J(u_{n_k}) \to I\). Por lo tanto, \(\{u_n\}\) es acotada.
 
-3. **Existencia de una subsucesión que converge débilmente:**
-   Por el **Lema 5**, existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\). Además, por el **Lema 7**, como \(K\) es cerrado y convexo, \(u \in K\).
+3. Existencia de una subsucesión que converge débilmente:
+   Por el Lema anterior, existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\). Además, por el Lema anterior, como \(K\) es cerrado y convexo, \(u \in K\).
 
-4. **\(J(u)\) es el mínimo:**
-   Por el **Lema 8**, \(J\) es s.c.i. para la convergencia débil. Por lo tanto:
+4. \(J(u)\) es el mínimo:
+   Por el Lema  anterior, \(J\) es s.c.i. para la convergencia débil. Por lo tanto:
    \[
    J(u) \leq \liminf_{k \to \infty} J(u_{n_k}) = I.
    \]
-   Como \(I\) es el ínfimo, se tiene \(J(u) \geq I\). Por lo tanto, \(J(u) = I\), y \(u\) es un **minimizador global** de \(J\) en \(K\).
+   Como \(I\) es el ínfimo, se tiene \(J(u) \geq I\). Por lo tanto, \(J(u) = I\), y \(u\) es un minimizador global de \(J\) en \(K\).
 
----
-
-\newpage
+\end{proof}
 
 %\section{Funciones diferenciables}
 
@@ -1677,7 +1808,7 @@ Se denota \(u_n \rightharpoonup u\).
 %\langle f'(u), v \rangle = \int_\Omega \nabla u \cdot \nabla v , dx, \quad \forall v \in V.
 %$$
 
-\section{Criterios de convexidad con diferencial}
+\section{Convexidad con diferencial}
 
 Aquí los criterios con derivada de $\mathcal{J}$ y derivada segunda.
 
@@ -1739,6 +1870,8 @@ donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el
 
 
 \section{Mas sobre funciones convexas}
+
+Tambien, semi continuidad inferior y continuidad de las funciones convexas.
 
 \begin{definition}[Función convexa en dimensión finita]
 Una función \[f: \mathbb{R}^n \to (-\infty, +\infty] \] es \textbf{convexa} si su \textbf{dominio extendido} \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es un conjunto convexo y, para todo \( x, y \in \text{dom}(f) \) y todo \( \lambda \in [0,1] \), se cumple:
