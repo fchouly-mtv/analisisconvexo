@@ -15,6 +15,7 @@
 \newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
 
 \newtheorem{ejercicio}{Ejercicio}[chapter]
+\newenvironment{solucion}{\color{blue}\textbf{Solución:}}{}
 
 
 % --- Comando para productos internos ---
@@ -33,6 +34,7 @@
 % --- Comando para la diferencial de Fréchet ---
 \newcommand{\diff}{\mathrm{d}}
 
+\newcommand{\R}{\mathbb{R}}
 
 \title{Prácticos de Análisis Convexo}
 \author{Franz Chouly \and Federico Correa}
@@ -1121,9 +1123,11 @@ Sea $F: V \to \mathbb{R}$ un funcional diferenciable en el sentido de Fréchet e
 
 \chapter{Descenso de gradiente}
 
-\section{Para empezar}
+\section{Paso constante}
 
-\paragraph{Ejercicio 1} Recordamos la formulación de la regresión Ridge. Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
+\begin{ex}
+%\paragraph{Ejercicio 1} 
+Recordamos la formulación de la regresión Ridge. Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
 $$
 \mathcal{J}(\mathbf{w}) := \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_V^2 + \varepsilon \|\mathbf{w}\|_V^2
 $$
@@ -1151,6 +1155,7 @@ Aquí tenemos $V = V_d = \mathbb{R}^d$, con la norma Euclidiana. %[introducir
     
     \item Escribir la iteración de descenso de gradiente para Ridge.
 \end{enumerate}
+\end{ex}
 
 \footnotesize
 \textbf{Nota cultural:}
@@ -1166,9 +1171,15 @@ Hoerl, A. E., \& Kennard, R. W. (1970). \textit{Ridge Regression: Biased Estimat
 
 \normalsize
 
-\paragraph{Ejercicio 2} Existe un valor del parámetro $\alpha $ que permite una convergencia mas rápida para el descenso de gradiente a paso constante ? Cual es la tasa de convergencia en este caso ?
+%\paragraph{Ejercicio 2} 
+\begin{ex}
+Existe un valor del parámetro $\alpha $ que permite una convergencia mas rápida para el descenso de gradiente a paso constante ? Cual es la tasa de convergencia en este caso ?
+\end{ex}
 
-\paragraph{Ejercicio 3} Sean $a > 0$ y $b > 0$ y definimos
+
+%\paragraph{Ejercicio 3} 
+\begin{ex}
+Sean $a > 0$ y $b > 0$ y definimos
 \[
 V = \mathbb{R}^2, \quad \mathcal{J}(x,y) := a x^2 + b y^2.
 \]
@@ -1178,8 +1189,10 @@ Estudiar la convergencia del descenso de gradiente a paso constante en este caso
     \item Que valores de $\alpha$ entregan convergencia ?
     \item Cual es el valor de $\alpha$ que permite una convergencia la mas rápida ?
 \end{enumerate}
+\end{ex}
 
-\paragraph{Ejercicio 4}
+%\paragraph{Ejercicio 4}
+\begin{ex}
 Sea $\mathcal{J}(x) = x^4 - 4x^3 + 4x^2 + x$, definida en $\mathbb{R}$.
 
 \begin{enumerate}
@@ -1193,12 +1206,14 @@ Sea $\mathcal{J}(x) = x^4 - 4x^3 + 4x^2 + x$, definida en $\mathbb{R}$.
     \item Discute cómo el punto inicial y el tamaño del paso afectan la convergencia en funciones no convexas.
 
 \end{enumerate}
+\end{ex}
 
 %**Pistas:**
 %- Calcula el gradiente: $\nabla f(x) = 4x^3 - 12x^2 + 8x + 1$.
 %- Implementa manualmente las primeras 5 iteraciones para cada caso.
 
-\paragraph{Ejercicio 5}
+%\paragraph{Ejercicio 5}
+\begin{ex}
 Veamos le descenso de gradiente en regresión lineal (Ridge con $\varepsilon = 0$ \dots). 
 Dada una matriz de datos $ \mathbf{X} \in \mathbb{R}^{n \times d} $, un vector de etiquetas $ \mathbf{y} \in \mathbb{R}^n $, y un vector de pesos $ \mathbf{w} \in \mathbb{R}^d $, la funcional a minimizar es:
 $$
@@ -1225,182 +1240,356 @@ $$
    donde $\lambda_{\text{máx}}(\mathbf{X}^T \mathbf{X})$ es el valor propio máximo de $\mathbf{X}^T \mathbf{X}$.
 \item ¿Qué ocurre si $\alpha > \alpha^\star$? ¿El algoritmo aún converge?
 \end{enumerate}
+\end{ex}
 
 %**Pistas:**
 %- La función de costo es cuadrática en $\beta$.
 %- Usa el resultado del Ejercicio 2.
 
+%\end{document}
+
+%\newpage 
+
+\section{Paso variable}
+
+Consideramos $A \in \R^{n \times n}$ una matriz cuadrada de tamaño $n \geq 1$, simétrica, definida positiva, así como $b \in \R^n$ un vector columna de tamaño $n$. Nos interesamos por la resolución del siguiente sistema lineal:
+\begin{equation}
+A x = b,
+\label{eq:systlin}
+\end{equation}
+donde $x \in \R^n$ es la incógnita.
+
+\medskip
+
+Recordamos que la forma cuadrática asociada a \eqref{eq:systlin} es
+\begin{equation}
+\R^n \ni x \mapsto \mathcal{J}(x) := \frac{1}{2} \langle A x, x \rangle - \langle b, x \rangle \in \R,
+\label{eq:quadratique}
+\end{equation}
+con $\langle \cdot, \cdot \rangle$ la notación que designa el producto escalar en $\R^n$.
+
+\medskip
+
+\noindent
+Denotaremos $I \in \R^{n \times n}$ la matriz identidad de tamaño $n$.
+
+\subsection*{Parte 1}
+
+Nos interesamos por una familia de métodos iterativos de paso variable para la resolución de \eqref{eq:systlin}: buscamos una sucesión $(x_k)_{k \in \mathbb{N}}$ que aproxime la solución $x$ de \eqref{eq:systlin} para $k \to +\infty$, y que está dada por la siguiente relación:
+\begin{equation}
+x_{k+1} := x_k - \alpha_k \nabla \mathcal{J}(x_k),
+\label{eq:iteration}
+\end{equation}
+para $k \geq 0$, con $x_0$ dado en $\R^n$ y $(\alpha_k)_{k \in \mathbb{N}}$ una sucesión de reales de la cual buscaremos precisar la expresión. Aquí $\nabla$ designa el operador gradiente.
+
+\medskip
+
+Definimos, para $k \in \mathbb{N}$, la sucesión de residuos asociados
+\begin{equation}
+r_k := b - A x_k,
+\label{eq:residus}
+\end{equation}
+así como la sucesión de errores asociados
+\begin{equation}
+e_k := x - x_k.
+\label{eq:erreurs}
+\end{equation}
+Recordamos que para una matriz simétrica $A \in \R^{n \times n}$ de tamaño $n \geq 1$, existen $n$ valores propios reales $\lambda_1, \ldots, \lambda_n$ y una matriz ortogonal $Q$ tales que
+\[
+A = Q \, \mathrm{diag}(\lambda_1, \ldots, \lambda_n) \, Q^T,
+\]
+donde $\mathrm{diag}(\lambda_1, \ldots, \lambda_n)$ es la matriz diagonal, cuya diagonal contiene los valores propios $\lambda_1, \ldots, \lambda_n$ y donde $Q^T$ designa la transpuesta de $Q$.
+
+Introducimos un parámetro arbitrario $\mu \in \mathbb{R}$ y definimos también para todo $\mu$ una norma particular sobre $\R^n$, como sigue:
+\begin{equation}
+\R^n \ni x \mapsto \| x \|_{\mu} := \sqrt{\langle x, A^{-\mu} x \rangle} \in \R,
+\label{eq:normeAmu}
+\end{equation}
+donde
+\[
+A^{-\mu} = Q \, \mathrm{diag}(\lambda_1^{-\mu}, \ldots, \lambda_n^{-\mu}) \, Q^T.
+\]
+
+
+\begin{ex}
+Recordar brevemente por qué la resolución del problema \eqref{eq:systlin} es equivalente a la minimización sobre $\R^n$ de la funcional $\mathcal{J}$ definida en \eqref{eq:quadratique}, y por qué este problema admite una única solución.
+\end{ex}
+
+\begin{ex}
+Recordar la expresión de $\nabla \mathcal{J}$ y transformar en consecuencia la expresión \eqref{eq:iteration}.
+\end{ex}
+
+\begin{ex}
+Verificar que para todo $\mu \in \R$, la expresión dada en \eqref{eq:normeAmu} está bien definida, y mostrar que $\| \cdot \|_{\mu}$ es efectivamente una norma sobre $\R^n$.
+\end{ex}
+
+Sea $k \geq 0$ fijo, y supongamos que estamos en la iteración $k$.
+El procedimiento que seguiremos para encontrar el valor de $\alpha_k$ es minimizar el residuo $r_{k+1}$ para la norma $\| \cdot \|_{\mu}$ definida en \eqref{eq:normeAmu}. Para ello, introducimos la función $Q : \R \to \R$, que a todo $\alpha_k$ asocia $Q(\alpha_k)$ dado por la siguiente expresión:
+\begin{equation}
+Q(\alpha_k) := \| r_{k+1} (\alpha_k) \|^2_{\mu}.
+\label{eq:fonctionQ}
+\end{equation}
+Para entender bien esta expresión, hay que ver que $r_{k+1}$ es una función de $\alpha_k$.
+
+\begin{ex}
+Demostrar que para todo $k \in \mathbb{N}$, se tiene la siguiente relación entre los residuos en la iteración $k$ y en la iteración $k+1$:
+\begin{equation}
+r_{k+1} = (I - \alpha_k A) r_k.
+\label{eq:relation_residus}
+\end{equation}
+\end{ex}
+
+\begin{ex}
+Utilizando \eqref{eq:fonctionQ} y \eqref{eq:relation_residus}, dar la expresión de $Q'$, la derivada de $Q$ con respecto a $\alpha_k$. Deducir que el valor de $\alpha_k$ que minimiza la función $Q$ dada en \eqref{eq:fonctionQ} es
+\begin{equation}
+\alpha_k = \frac{\langle r_k, A^{1-\mu} r_k \rangle}{\langle r_k, A^{2-\mu} r_k \rangle}.
+\label{eq:alphakopt}
+\end{equation}
+\end{ex}
+
+\begin{ex}
+Nos interesamos ahora en el caso particular $\mu = 0$.
+\begin{enumerate}
+\item Dar la expresión simplificada de $\alpha_k$ a partir de \eqref{eq:alphakopt} en este caso.
+
+\item Mostrar que, para $k \geq 0$ fijo, $\alpha_k$ minimiza la cantidad $\|A e_{k+1}\|^2$.
+
+\item Mostrar que, para todo $k \geq 0$, se tiene la relación siguiente:
+\[
+\langle r_{k+1}, A r_k \rangle = 0.
+\]
+\end{enumerate}
+\end{ex}
+
+\begin{ex}
+Nos interesamos luego en el caso particular $\mu = 1$.
+\begin{enumerate}
+\item ¿Qué método conocido se recupera?
+
+\item ¿Qué se puede decir sobre las propiedades de convergencia de este método?
+\end{enumerate}
+\end{ex}
+
+\begin{ex}
+¿Parece interesante estudiar valores de $\mu$ distintos de $0$ y $1$?
+\end{ex}
+
+\subsection*{Parte 2}
+
+Consideramos ahora un ejemplo, y para $n=2$, elegimos
+\begin{equation}
+A = \left[ \begin{array}{cc} 5 & 1 \\ 1 & 5 \end{array} \right], \qquad
+b = \left[ \begin{array}{c} 1 \\ 0 \end{array} \right].
+\label{eq:exemple}
+\end{equation}
+
+\begin{ex}
+¿Cuál es la solución $x$ del sistema lineal $A x = b$?
+\end{ex}
+
+\begin{ex}
+Resolver de manera aproximada el sistema lineal $A x = b$, con las expresiones dadas en \eqref{eq:exemple}, utilizando el método iterativo de la primera parte dado por las ecuaciones \eqref{eq:iteration} y \eqref{eq:alphakopt}, para $\mu = 0$, luego para $\mu = 1$. Nos detendremos, por ejemplo, después de 5 iteraciones.
+\end{ex}
+
+\begin{ex}
+Comparar la precisión de los resultados obtenidos con las dos variantes $\mu=0$ y $\mu=1$.
+\end{ex}
+
+%\begin{ex}
+%Resolver ahora este mismo sistema utilizando el método del gradiente conjugado. Detallar las etapas de la resolución.
+%\end{ex}
+
+%\begin{ex}
+%¿Qué se observa durante la resolución por gradiente conjugado? Justificar el comportamiento observado.
+%\end{ex}
+
+%\begin{ex}
+%Comparar los resultados obtenidos en las preguntas 2 y 3.
+%\end{ex}
+
+\chapter{Funciones convexas}
+
+\section{Dimension finita}
+
+%\newtheorem{ex}{Ejercicio}
+%\newenvironment{solucion}{\color{blue}\textbf{Solución:}}{}
+
+%\begin{document}
+
+%\section*{Ejercicios sobre funciones convexas}
+
+% ========== Ejercicios en dimensión finita (R^n) ==========
+\begin{ex}[Normas convexas en $\mathbb{R}^n$]
+    Sea $\|\cdot\|$ una norma en $\mathbb{R}^n$. Demuestra que la función $f: \mathbb{R}^n \to \mathbb{R}$ definida por $f(x) = \|x\|^2$ es convexa.
+\end{ex}
+
+%\begin{solucion}
+%    Para cualquier $x, y \in \mathbb{R}^n$ y $\lambda \in [0, 1]$, se tiene:
+%    \[
+%    f(\lambda x + (1-\lambda)y) = \|\lambda x + (1-\lambda)y\|^2 \leq (\lambda \|x\| + (1-\lambda)\|y\|)^2 \leq \lambda \|x\|^2 + (1-\lambda)\|y\|^2 = \lambda f(x) + (1-\lambda)f(y),
+%    \]
+%    donde la primera desigualdad sigue de la desigualdad triangular de la norma, y la segunda de la convexidad de la función $t \mapsto t^2$ en $\mathbb{R}_+$. Por lo tanto, $f$ es convexa.
+%\end{solucion}
+
+\begin{ex}[Función exponencial de una matriz]
+    Sea $A \in \mathbb{R}^{n \times n}$ una matriz simétrica. Define $f: \mathbb{R} \to \mathbb{R}^{n \times n}$ como $f(t) = e^{tA}$, donde $e^{tA}$ es la exponencial de la matriz. Demuestra que la función $g(t) = \text{tr}(e^{tA})$ es convexa en $\mathbb{R}$
+    (se podrá utilizar la caracterización con $g"\geq0$).
+\end{ex}
+
+%\begin{solucion}
+%    La función $g(t)$ es convexa si su segunda derivada es no negativa. Calculamos:
+%    \[
+%    g'(t) = \text{tr}(A e^{tA}), \quad g''(t) = \text{tr}(A^2 e^{tA}).
+%    \]
+%    Como $A$ es simétrica, existe una matriz ortogonal $P$ tal que $A = P D P^T$, donde $D$ es diagonal con entradas $\lambda_1, \dots, \lambda_n$. Entonces:
+%    \[
+%    g''(t) = \text{tr}(P D^2 P^T e^{tA}) = \text{tr}(D^2 P^T e^{tA} P) = \sum_{i=1}^n \lambda_i^2 e^{t \lambda_i} \geq 0,
+%    \]
+%    ya que $\lambda_i^2 \geq 0$ y $e^{t \lambda_i} > 0$ para todo $t \in \mathbb{R}$. Por lo tanto, $g''(t) \geq 0$ y $g$ es convexa.
+%\end{solucion}
+
+%---
+
+\begin{ex}[Convexidad de la función log-det]
+    Sea $S^n_+$ el conjunto de matrices simétricas definidas positivas de tamaño $n \times n$. Demuestra que la función $f: S^n_+ \to \mathbb{R}$ definida por $f(X) = -\log \det(X)$ es convexa.
+\end{ex}
+
+%\begin{solucion}
+%    Para demostrar la convexidad de $f$, usamos el hecho de que la función $-\log$ es convexa y decreciente en $\mathbb{R}_+$, y que $\det(X)$ es cóncava en $S^n_+$ (por el determinante de Minkowski). Sin embargo, una forma más directa es usar la desigualdad de Jensen para la función $-\log \det$.
+
+%    Sea $X, Y \in S^n_+$ y $\lambda \in [0, 1]$. Entonces:
+%    \[
+%    f(\lambda X + (1-\lambda)Y) = -\log \det(\lambda X + (1-\lambda)Y) \leq -\lambda \log \det(X) - (1-\lambda) \log \det(Y) = \lambda f(X) + (1-\lambda) f(Y),
+%    \]
+%    donde la desigualdad sigue de la desigualdad de Minkowski para determinantes: $\det(\lambda X + (1-\lambda)Y) \geq \det(X)^\lambda \det(Y)^{1-\lambda}$. Por lo tanto, $f$ es convexa.
+%\end{solucion}
+
+\begin{ex}[Función de distancia a un conjunto convexo]
+    Sea $C \subseteq \mathbb{R}^n$ un conjunto convexo y cerrado. Demuestra que la función $f: \mathbb{R}^n \to \mathbb{R}$ definida por $f(x) = \inf_{y \in C} \|x - y\|$ es convexa.
+\end{ex}
+
+%\begin{solucion}
+%    Para cualquier $x, y \in \mathbb{R}^n$ y $\lambda \in [0, 1]$, sea $z_\lambda = \lambda x + (1-\lambda)y$. Entonces, para cualquier $\epsilon > 0$, existen $y_x, y_y \in C$ tales que:
+%    \[
+%    \|x - y_x\| \leq f(x) + \epsilon, \quad \|y - y_y\| \leq f(y) + \epsilon.
+%    \]
+%    Como $C$ es convexo, $\lambda y_x + (1-\lambda) y_y \in C$. Por lo tanto:
+%    \[
+%    f(z_\lambda) \leq \|z_\lambda - (\lambda y_x + (1-\lambda) y_y)\| = \|\lambda (x - y_x) + (1-\lambda)(y - y_y)\| \leq \lambda \|x - y_x\| + (1-\lambda)\|y - y_y\| \leq \lambda f(x) + (1-\lambda) f(y) + \epsilon.
+%    \]
+%    Como $\epsilon > 0$ es arbitrario, se sigue que $f(z_\lambda) \leq \lambda f(x) + (1-\lambda) f(y)$, lo que demuestra que $f$ es convexa.
+%\end{solucion}
+
+%---
+
+\begin{ex}[Función de valor máximo]
+    Sea $f_1, \dots, f_m: \mathbb{R}^n \to \mathbb{R}$ funciones convexas. Demuestra que la función $f: \mathbb{R}^n \to \mathbb{R}$ definida por $f(x) = \max\{f_1(x), \dots, f_m(x)\}$ es convexa.
+\end{ex}
+
+%\begin{solucion}
+%    Para cualquier $x, y \in \mathbb{R}^n$ y $\lambda \in [0, 1]$, se tiene:
+%    \[
+%    f(\lambda x + (1-\lambda)y) = \max\{f_1(\lambda x + (1-\lambda)y), \dots, f_m(\lambda x + (1-\lambda)y)\} \leq \max\{\lambda f_1(x) + (1-\lambda) f_1(y), \dots, \lambda f_m(x) + (1-\lambda) f_m(y)\}.
+%    \]
+%    Como el máximo de funciones lineales en $\lambda$ es una función convexa, se sigue que:
+%    \[
+%    f(\lambda x + (1-\lambda)y) \leq \lambda \max\{f_1(x), \dots, f_m(x)\} + (1-\lambda) \max\{f_1(y), \dots, f_m(y)\} = \lambda f(x) + (1-\lambda) f(y).
+%    \]
+%    Por lo tanto, $f$ es convexa.
+%\end{solucion}
+
+
+% ========== Ejercicios en 
+\section{Dimensión infinita} \begin{ex}[Norma en espacio de Hilbert]
+    Sea $V$ un espacio de Hilbert y sea $\mathcal{J}: V \to \mathbb{R}$ definida por $\mathcal{J}(v) = \|v\|_V^2$. Demuestra que $\mathcal{J}$ es convexa y diferenciable en todo $V$, y calcula su diferencial.
+\end{ex}
+
+%\begin{solucion}
+%    La convexidad se demuestra de manera análoga al caso finito:
+%    \[
+%    f(\lambda x + (1-\lambda)y) = \|\lambda x + (1-\lambda)y\|^2 \leq (\lambda \|x\| + (1-\lambda)\|y\|)^2 \leq \lambda \|x\|^2 + (1-\lambda)\|y\|^2 = \lambda f(x) + (1-\lambda) f(y).
+%    \]
+%    Para el gradiente, usamos la identidad de polarización en espacios de Hilbert:
+%    \[
+%    \langle \nabla f(x), h \rangle = \lim_{t \to 0} \frac{f(x + th) - f(x)}{t} = \lim_{t \to 0} \frac{\|x + th\|^2 - \|x\|^2}{t} = 2 \langle x, h \rangle.
+%    \]
+%    Por lo tanto, $\nabla f(x) = 2x$.
+%\end{solucion}
+
+\begin{ex}%[Función exponencial en $L^2[0,1]$]
+    Sea $V = L^2[0,1]$ y define $\mathcal{J}: V \to \mathbb{R}$ como $\mathcal{J}(v) = \int_0^1 e^{v(x)} \, \mathrm{d}x$. Demuestra que $\mathcal{J}$ es convexa en $V$.
+\end{ex}
+
 \end{document}
 
-\newpage 
-
-\section{Descenso de gradiente con paso variable}
-
-En el método de \emph{descenso de gradiente a paso variable}, el tamaño del paso $\alpha_k$ puede cambiar en cada iteración. Una estrategia común es usar una \emph{búsqueda de línea} (line search) para elegir $\alpha_k$ que minimice $\mathcal{J}({x}_k - \alpha_k \nabla \mathcal{J}({x}_k))$.
-%
-La actualización se escribe como:
-%
-$$
-{x}_{k+1} = {x}_k - \alpha_k \nabla \mathcal{J}({x}_k).
-$$
-
-
-*****
-
-\paragraph{Ejercicio 1}
-\emph{Elección del paso variable y condición de Armijo}.
-%\subsection{Pregunta}
-En el {descenso de gradiente con paso variable}, una estrategia común es utilizar la {búsqueda lineal} (\textit{line search}) con la {condición de Armijo} (también llamada \textit{backtracking line search}).
-
-La condición de Armijo exige que el paso \(\alpha_k\) satisfaga:
-\[
-\mathcal{J}(x_k - \alpha_k \nabla \mathcal{J}(x_k)) \leq \mathcal{J}(x_k) - c_1 \alpha_k \|\nabla \mathcal{J}(x_k)\|^2,
-\]
-donde \(0 < c_1 < 1\) es una constante (por ejemplo, \(c_1 = 10^{-4}\)).
-
-%\subsection{Objetivos}
-\begin{itemize}
-    \item Demostrar que si \(\alpha_k\) cumple la condición de Armijo, entonces el algoritmo garantiza un {decremento} en la función de costo en cada iteración.
-    \item Explicar por qué es necesario que \(c_1\) sea estrictamente menor que 1.
-\end{itemize}
-
-%\subsection{Pista}
-\emph{Pista.}
-Usar la aproximación de Taylor de primer orden para \(\mathcal{J}(x_k - \alpha_k \nabla \mathcal{J}(x_k))\) y analizar cómo la condición de Armijo asegura que el paso no sea demasiado grande.
-
-\paragraph{Ejercicio 2}
-\emph{Condición de curvatura (Wolfe)}.
-%\paragraph{Condición de Wolfe}
-La condición de Wolfe para el paso $\alpha_k$ en el descenso de gradiente con paso variable se expresa como:
-\begin{align*}
-    %\mathcal{J}(x_k + \alpha_k d_k) &\leq \mathcal{J}(x_k) + c_1 \alpha_k \nabla \mathcal{J}(x_k)^T d_k, \quad \text{(Condición de Armijo)} \\
-    \nabla \mathcal{J}(x_k + \alpha_k d_k)^T d_k &\geq c_2 \nabla \mathcal{J}(x_k)^T d_k, \quad %\text{(Segunda condición de Wolfe)}
-\end{align*}
-****
-donde $d_k = -\nabla \mathcal{J}(x_k)$, $0 < c_1 < c_2 < 1$ y $\eta_k > 0$.
-
-\begin{itemize}
-    \item *Explica* por qué la *condición de Wolfe* evita que el paso $\eta_k$ sea demasiado pequeño.
-    \item *Demuestra* que si $\eta_k$ cumple ambas condiciones (*Armijo* y *Wolfe*), entonces el algoritmo de *descenso de gradiente con paso variable* converge a un *punto crítico* (es decir, $\nabla \mathcal{J}(x) = 0$).
-\end{itemize}
-
-*Pistas:*
-\begin{itemize}
-    \item La *condición de Wolfe* asegura que la dirección de descenso no se *"estanca"* cerca de $x_k$.
-    \item Usa la *desigualdad de Lipschitz* para el gradiente y analiza la evolución de $\|\nabla \mathcal{J}(x_k)\|$.
-\end{itemize}
-
----
-
----
-
-\paragraph{Ejercicio 2}
-*Convergencia global con paso variable*
-
-Supón que $\mathcal{J}$ es una función *convexa*, *diferenciable* y *acotada inferiormente*, y que el gradiente $\nabla \mathcal{J}$ es *Lipschitz continuo* con constante $L > 0$.
-
-\begin{itemize}
-    \item *Demuestra* que el algoritmo de *descenso de gradiente con paso variable* (que cumple las condiciones de *Armijo* y *Wolfe*) genera una sucesión $\{x_k\}$ tal que:
+\begin{solucion}
+    Para cualquier $u, v \in H$ y $\lambda \in [0, 1]$, se tiene:
     \[
-    \lim_{k \to \infty} \|\nabla \mathcal{J}(x_k)\| = 0.
+    f(\lambda u + (1-\lambda)v) = \int_0^1 e^{\lambda u(x) + (1-\lambda)v(x)} \, dx \leq \int_0^1 \left( \lambda e^{u(x)} + (1-\lambda) e^{v(x)} \right) \, dx = \lambda f(u) + (1-\lambda) f(v),
     \]
-    \item ¿Qué pasa si $\mathcal{J}$ no es convexa? ¿Puede garantizarse la *convergencia a un mínimo global*?
-\end{itemize}
-
-*Pistas:*
-\begin{itemize}
-    \item Usa el hecho de que la función $\mathcal{J}$ es *acotada inferiormente* y que $\sum_{k=0}^\infty \|\nabla \mathcal{J}(x_k)\|^2 < \infty$.
-    \item Aplica el *lema de Zoutendijk* (o *lemma de la suma de los cuadrados de los gradientes*).
-\end{itemize}
+    donde la desigualdad sigue de la convexidad de la función exponencial $e^t$ en $\mathbb{R}$. Por lo tanto, $f$ es convexa.
+\end{solucion}
 
 ---
 
----
-
-\paragraph{Ejercicio 3}
-*Paso de Barzilai-Borwein*
-
-El *método de Barzilai-Borwein* es una estrategia de *paso variable* que aproxima la *matriz Hessiana* usando información de los gradientes en dos iteraciones consecutivas. El paso se calcula como:
-\[
-\eta_k = \frac{(x_k - x_{k-1})^T (y_k - \nabla \mathcal{J}(x_k))}{(y_k - \nabla \mathcal{J}(x_k))^T (y_k - \nabla \mathcal{J}(x_k))},
-\]
-donde $y_k = \nabla \mathcal{J}(x_k) - \nabla \mathcal{J}(x_{k-1})$.
-
-\begin{itemize}
-    \item *Demuestra* que este paso es una aproximación a la inversa del *valor propio de la matriz Hessiana* en la dirección $x_k - x_{k-1}$.
-    \item ¿Bajo qué condiciones este método garantiza *convergencia superlineal*?
-\end{itemize}
-
-*Pistas:*
-\begin{itemize}
-    \item Usa la aproximación de la *segunda derivada* mediante *diferencias finitas*.
-    \item Relaciona $y_k$ con la *matriz Hessiana* $H_k$ mediante el *teorema del valor medio para vectores*.
-\end{itemize}
-
----
-
----
-
-\paragraph{Ejercicio 4}
-*Convergencia en funciones fuertemente convexas*
-
-Sea $\mathcal{J}$ una función *fuertemente convexa* con constante $\mu > 0$, es decir:
-\[
-\mathcal{J}(y) \geq \mathcal{J}(x) + \nabla \mathcal{J}(x)^T (y - x) + \frac{\mu}{2} \|y - x\|^2 \quad \forall x, y.
-\]
-
-\begin{itemize}
-    \item *Demuestra* que el algoritmo de *descenso de gradiente con paso variable* (que cumple las condiciones de *Armijo* y *Wolfe*) converge *linealmente* a la solución $x^*$, es decir, existe una constante $0 < \rho < 1$ tal que:
+\begin{ex}[Función de energía en $H^1_0(\Omega)$]
+    Sea $\Omega \subseteq \mathbb{R}^n$ un dominio acotado y $H = H^1_0(\Omega)$ el espacio de Sobolev de funciones con traza nula. Define $f: H \to \mathbb{R}$ como:
     \[
-    \|x_{k+1} - x^*\| \leq \rho \|x_k - x^*\|.
+    f(u) = \frac{1}{2} \int_\Omega |\nabla u(x)|^2 \, dx.
     \]
-    \item ¿Cómo depende $\rho$ de $\mu$ y $L$ (*constante de Lipschitz* del gradiente)?
-\end{itemize}
+    Demuestra que $f$ es convexa y diferenciable, y calcula su gradiente.
+\end{ex}
 
-*Pistas:*
-\begin{itemize}
-    \item Usa la *desigualdad de la función fuertemente convexa* para relacionar $\|x_{k+1} - x^*\|$ con $\|x_k - x^*\|$.
-    \item Combina esto con la *condición de Armijo* para obtener la *tasa de convergencia*.
-\end{itemize}
-
----
----
-\paragraph{Ejercicio 5}
-*Paso variable y convergencia en funciones no convexas*
-
-Considera una función $\mathcal{J}$ *no convexa* pero con gradiente *Lipschitz continuo*.
-
-\begin{itemize}
-    \item *Demuestra* que el algoritmo de *descenso de gradiente con paso variable* (que cumple las condiciones de *Armijo* y *Wolfe*) converge a un *punto crítico* (es decir, un punto donde $\nabla \mathcal{J}(x) = 0$).
-    \item ¿Puede garantizarse que el *punto crítico* sea un *mínimo local*? ¿Por qué sí o por qué no?
-\end{itemize}
-
-*Pistas:*
-\begin{itemize}
-    \item Usa el hecho de que la sucesión $\{\mathcal{J}(x_k)\}$ es *monótona decreciente* y *acotada inferiormente*.
-    \item Aplica el *teorema de Bolzano-Weierstrass* para garantizar la existencia de un *punto límite*.
-\end{itemize}
+\begin{solucion}
+    La convexidad sigue de la linealidad del operador gradiente y la convexidad de la función $t \mapsto t^2$:
+    \[
+    f(\lambda u + (1-\lambda)v) = \frac{1}{2} \int_\Omega |\nabla (\lambda u + (1-\lambda)v)|^2 \, dx = \frac{1}{2} \int_\Omega |\lambda \nabla u + (1-\lambda) \nabla v|^2 \, dx \leq \frac{\lambda}{2} \int_\Omega |\nabla u|^2 \, dx + \frac{1-\lambda}{2} \int_\Omega |\nabla v|^2 \, dx = \lambda f(u) + (1-\lambda) f(v).
+    \]
+    Para el gradiente, calculamos la derivada direccional:
+    \[
+    \langle \nabla f(u), h \rangle = \lim_{t \to 0} \frac{f(u + th) - f(u)}{t} = \int_\Omega \nabla u \cdot \nabla h \, dx = \langle -\Delta u, h \rangle_{L^2},
+    \]
+    donde $-\Delta u$ es el Laplaciano de $u$ con condiciones de Dirichlet. Por lo tanto, $\nabla f(u) = -\Delta u$.
+\end{solucion}
 
 ---
+
+\begin{ex}[Función de entropía en $L^1$]
+    Sea $(\Omega, \mathcal{F}, \mu)$ un espacio de medida con $\mu(\Omega) = 1$, y sea $L^1_+(\Omega)$ el conjunto de funciones no negativas en $L^1(\Omega)$. Define $f: L^1_+(\Omega) \to \mathbb{R}$ como:
+    \[
+    f(u) = \int_\Omega u(x) \log u(x) \, d\mu(x),
+    \]
+    donde $0 \log 0 = 0$. Demuestra que $f$ es convexa.
+\end{ex}
+
+\begin{solucion}
+    La función $t \mapsto t \log t$ es convexa en $\mathbb{R}_+$ (su segunda derivada es $1/t \geq 0$). Por el teorema de Jensen para integrales, para cualquier $u, v \in L^1_+(\Omega)$ y $\lambda \in [0, 1]$, se tiene:
+    \[
+    f(\lambda u + (1-\lambda)v) = \int_\Omega [\lambda u(x) + (1-\lambda)v(x)] \log [\lambda u(x) + (1-\lambda)v(x)] \, d\mu(x) \leq \lambda \int_\Omega u(x) \log u(x) \, d\mu(x) + (1-\lambda) \int_\Omega v(x) \log v(x) \, d\mu(x) = \lambda f(u) + (1-\lambda) f(v),
+    \]
+    donde la desigualdad sigue de la convexidad de $t \log t$. Por lo tanto, $f$ es convexa.
+\end{solucion}
+
 ---
-\paragraph{Ejercicio 6}
-*Comparación entre paso constante y paso variable*
 
-\begin{itemize}
-    \item *Explica* por qué el *descenso de gradiente con paso constante* puede fallar en converger para funciones *no convexas* o con *curvas de nivel muy "estiradas"* (por ejemplo, $\mathcal{J}(x) = x_1^2 + 100 x_2^2$).
-    \item *Demuestra* que el *descenso de gradiente con paso variable* (usando *búsqueda lineal*) siempre converge a un *punto crítico* para funciones con gradiente *Lipschitz*, incluso si la función no es convexa.
-\end{itemize}
+\begin{ex} %[Función de norma en $L^p[0,1]$]
+    Sea $1 < p < \infty$ y $X = L^p[0,1]$. Demuestra que la función $f: X \to \mathbb{R}$ definida por $f(u) = \|u\|_p^p$ es estrictamente convexa.
+\end{ex}
 
-*Pistas:*
-\begin{itemize}
-    \item Para el *paso constante*, analiza el comportamiento del algoritmo en la dirección de los *valores propios de la matriz Hessiana*.
-    \item Para el *paso variable*, usa las condiciones de *Armijo* y *Wolfe* para garantizar un *decremento suficiente* en cada iteración.
-\end{itemize}
-
-\newpage 
-
-\section{BiCG}
-
-
+\begin{solucion}
+    Para cualquier $u, v \in X$ con $u \neq v$ y $\lambda \in (0, 1)$, se tiene:
+    \[
+    f(\lambda u + (1-\lambda)v) = \|\lambda u + (1-\lambda)v\|_p^p = \int_0^1 |\lambda u(x) + (1-\lambda)v(x)|^p \, dx.
+    \]
+    Por la desigualdad estricta de Jensen para la función $t \mapsto |t|^p$ (que es estrictamente convexa en $\mathbb{R}$), tenemos:
+    \[
+    |\lambda u(x) + (1-\lambda)v(x)|^p < \lambda |u(x)|^p + (1-\lambda)|v(x)|^p \quad \text{c.s. en } [0,1],
+    \]
+    donde la desigualdad es estricta en un conjunto de medida positiva (ya que $u \neq v$). Integrando, obtenemos:
+    \[
+    f(\lambda u + (1-\lambda)v) < \lambda f(u) + (1-\lambda) f(v),
+    \]
+    lo que demuestra que $f$ es estrictamente convexa.
+\end{solucion}
 
 \end{document}
