@@ -212,7 +212,11 @@
 % Cambiar el título de la bibliografía
 \addto\captionsspanish{\renewcommand{\bibname}{Referencias bibliográficas}}
 
-\title{Análisis convexo}
+\title{Análisis convexo y métodos numéricos}
+
+%\subtitle{}
+% A voir
+
 %ODEs and PDEs}
 \author{Franz Chouly}
 \date{En Construcci\'on (\today)}
@@ -250,7 +254,7 @@
 \addcontentsline{toc}{chapter}{Agradecimientos}
 \markboth{Agradecimientos}{Agradecimientos}
 
-Agradezco al CMAT. Tambi\'en por sus consejos:
+Agradezco al CMAT, a FCIEN, a Pedeciba y al IFUMI. Tambi\'en por sus consejos y apoyo:
 Dominique Attali,
 Juan Pablo Borthagaray,
 Lucas Curci,
@@ -314,6 +318,8 @@ El descenso de gradiente es un algoritmo iterativo de optimización de primer or
 Antes de describir el algoritmo y hacer su análisis, presentemos ya algunas aplicaciones donde es relevante.
 
 \subsection{Aprendizaje autom\'atico} 
+\label{sub:aa}
+
 %Función Fuertemente Convexa: Regresión Lineal con Regularización L2 (Ridge)}
 %\subsection{Contexto}
 En aprendizaje automático, la regresión Ridge busca minimizar el error cuadrático entre las predicciones de un modelo lineal y los datos reales, añadiendo un término de regularización %L2 
@@ -776,10 +782,22 @@ Entonces, la función $\mathcal{J}:$ admite al menos un \emph{punto de mínimo g
    $
    \mathcal{J}(u^\star) = \lim_{k \to \infty} \mathcal{J}(u_{n_k}) = m.
    $
-   Por lo tanto, $u^\mathcal{J}$ es un punto de mínimo global de $J$ en $K$.
+   Por lo tanto, $u^\mathcal{J}$ es un punto de mínimo global de $\mathcal{J}$ en $K$.
 \end{proof}
 
+\subsection{Aplicación}
+
+Volvemos a \ref{sub:aa} 
+y a la
+regresión Ridge, con funcional:
+$$
+\mathcal{J}(\mathbf{w}) = \frac{1}{2n} \| \mathbf{X}\mathbf{w} - \mathbf{y}\|_V^2 + \varepsilon \|\mathbf{w}\|_V^2
+$$
+Veamos que $K(=V=\mathbb{R}^d)$ y $\mathcal{J}$ cumplen con las condiciones del teorema anterior, y entonces $\mathcal{J}$ admite por lo menos un punto de mínimo global en $V$.
+
+\begin{remark}
 El teorema anterior no se extiende en dimensión infinita~\cite{allaire2007}. Tampoco asegura unicidad. Esto motiva la introducción de los siguientes conceptos.
+\end{remark}
 
 %\section{Relación con Funciones Convexas}
 
@@ -823,12 +841,17 @@ es \emph{convexa} si para todo $v, w \in V$ y todo $\lambda \in [0, 1]$, se cump
     \label{def:convexa}
 \mathcal{J}(\lambda v + (1 - \lambda) w) \leq \lambda \mathcal{J}(v) + (1 - \lambda) \mathcal{J}(w).
 \end{equation}
-Es convexa estricta, si, cuando
-$\lambda \in (0, 1)$, se cumple:
+Es convexa estricta si cumple \eqref{def:convexa} y, si, además, 
 \begin{equation}
     \label{def:convexaestricta}
-\mathcal{J}(\lambda v + (1 - \lambda) w) < \lambda \mathcal{J}(v) + (1 - \lambda) \mathcal{J}(w).
+\mathcal{J}(\lambda v + (1 - \lambda) w) = \lambda \mathcal{J}(v) + (1 - \lambda) \mathcal{J}(w) \textrm{ implica } (\lambda \in \{0,1\}) \textrm{ o } (v=w).
 \end{equation}
+%cuando
+%$\lambda \in (0, 1)$, se cumple:
+%\begin{equation}
+%    \label{def:convexaestricta}
+%\mathcal{J}(\lambda v + (1 - \lambda) w) < \lambda \mathcal{J}(v) + (1 - \lambda) \mathcal{J}(w).
+%\end{equation}
 \end{definition}
 
 \begin{definition}
@@ -847,7 +870,7 @@ es \emph{convexa} fuerte, si existe $c_\mathcal{J} > 0$ tal que para todo $v,w \
 %\subsection{Ejemplo}
 Sea $V = L^2([0,1])$ el espacio de Hilbert de funciones cuadrado-integrables en $[0,1]$.
 La función \[
-\mathcal{J}(v) := \int_0^1 |v(x)|^2  \mathrm{d}x\] es convexa en $V$.
+\mathcal{J}(v) := \int_0^1 |v(x)|^2  \mathrm{d}x\] es fuertemente convexa en $V$.
 \end{ex}
 
 \subsection{Obstáculo}
@@ -862,7 +885,7 @@ Sea \(\Omega \subset \mathbb{R}^{n}\), con \(n \geq 1\), un dominio abierto, aco
 %---
 %### 
 %Formas bilineal y lineal
-Sea $H^1_0(\Omega)$ el espacio de Sobolev usual~\cite{allaire2007}.
+Sea $V=H^1_0(\Omega)$ el espacio de Sobolev usual~\cite{allaire2007}.
 Definimos la forma bilineal:
 \[
 a : H^1_0 (\Omega) \times H^1_0 (\Omega) \to \mathbb{R}
@@ -910,7 +933,7 @@ donde \(a\) es una forma bilineal elíptica (es decir, existe \(c_J > 0\) tal qu
 Para demostrar que \(\mathcal{J}\) es fuertemente convexa, verificamos la siguiente desigualdad para todo \(u, v \in H^1_0(\Omega)\):
 
 \[
-\mathcal{J}\left(\frac{u+v}{2}\right) + \frac{c_J}{8} \| u - v \|^2 \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v).
+\mathcal{J}\left(\frac{u+v}{2}\right) + \frac{c_J}{8} \| u - v \|^2_V \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v).
 \]
 %
 %---
@@ -955,16 +978,16 @@ Diferencia entre la combinación convexa y \(\mathcal{J}\left(\frac{u+v}{2}\righ
    \]
    Por lo tanto:
    \[
-   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \mathcal{J}\left(\frac{u+v}{2}\right) \geq \frac{c_J}{8} \|u-v\|^2.
+   \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \mathcal{J}\left(\frac{u+v}{2}\right) \geq \frac{c_J}{8} \|u-v\|_V^2.
    \]
    Reordenando:
    \[
-   \mathcal{J}\left(\frac{u+v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \|u-v\|^2.
+   \mathcal{J}\left(\frac{u+v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \|u-v\|_V^2.
    \]
 %#### **Conclusión**
 La funcional \(\mathcal{J}\) es fuertemente convexa con constante \({c_J}\), ya que cumple:
 \[
-\mathcal{J}\left(\frac{u+v}{2}\right) + \frac{c_J}{8} \|u-v\|^2 \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v).
+\mathcal{J}\left(\frac{u+v}{2}\right) + \frac{c_J}{8} \|u-v\|_V^2 \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v).
 \]
 %
 %
@@ -1007,31 +1030,62 @@ Si $\mathcal{J}$ es convexa, entonces todo mínimo local es un mínimo global. A
 \begin{proof}
 Sea $u^\star$ un mínimo local de $\mathcal{J}$, es decir, existe $\delta > 0$ tal que:
 \[
-\mathcal{J}(u^\star) \leq \mathcal{J}(u) \quad \forall u \in K \text{ con } \|u - u^*\|_V < \delta.
+\mathcal{J}(u^\star) \leq \mathcal{J}(u) \quad \forall u \in K \text{ con } \|u - u^*\|_V \leq \delta.
 \]
-Queremos demostrar que $u^\star$ es un mínimo global, es decir, que:
-\[
-\mathcal{J}(u^\star) \leq \mathcal{J}(u) \quad \forall u \in K.
-\]
+Queremos demostrar que $u^\star$ es un mínimo global. %es decir, que:
+%\[
+%\mathcal{J}(u^\star) \leq \mathcal{J}(u) \quad \forall u \in K.
+%\]
 %
-Sea $u \in K$ arbitrario. Consideremos la función $f: [0,1] \to \mathbb{R}$ definida por:
+Sea $u \in K$ arbitrario. 
+Tomamos
 \[
-f(t) = \mathcal{J}((1-t)u^\star + t u).
+0 < t \leq \frac{\delta}{\|u - u^*\|_V}
 \]
-Como $\mathcal{J}$ es convexa, se tiene:
+entonces 
+$\| t (u -u^\star) \| \leq \delta$
+ y
 \[
-f(t) = \mathcal{J}((1-t)u^\star + t u) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u).
+\mathcal{J}(u^\star)
+\leq
+\mathcal{J}((1-t)u^\star + t u).
 \]
+Ahora, como $\mathcal{J}$ es convexa, se tiene:
+\[
+\mathcal{J}(u^\star)
+\leq
+\mathcal{J}((1-t)u^\star + t u) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u).
+\]
+Despejamos
+\[
+\mathcal{J}(u^\star)
+\leq
+%\mathcal{J}((1-t)u^\star + t u) \leq (1-t)\mathcal{J}(u^\star) + t 
+\mathcal{J}(u).
+\]
+%Consideremos la función $f: [0,1] \to \mathbb{R}$ definida por:
+%\[
+%f(t) :=
+%\mathcal{J}((1-t)u^\star + t u)
+%=
+%\mathcal{J}(u^\star + t (u -u^\star)).
+%\]
+%Como $\mathcal{J}$ es convexa, se tiene:
+%\[
+%f(t) = \mathcal{J}((1-t)u^\star + t u) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u).
+%\]
 %
-Supongamos, por contradicción, que existe $u \in K$ tal que $\mathcal{J}(u) < \mathcal{J}(u^\star)$. Entonces, para todo $t \in (0,1)$:
-\[
-f(t) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u) < (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u^\star) = \mathcal{J}(u^\star).
-\]
-Pero como $u^*$ es un mínimo local, existe $\delta > 0$ tal que para todo $t$ suficientemente pequeño (por ejemplo, $t < \delta / \|u - u^*\|_V$), se cumple:
-\[
-f(t) \geq \mathcal{J}(u^\star).
-\]
-Esto es una contradicción, ya que $f(t) < \mathcal{J}(u^\star)$ y $f(t) \geq \mathcal{J}(u^*)$ no pueden ser ciertos simultáneamente. Por lo tanto, $\mathcal{J}(u^\star) \leq \mathcal{J}(u)$ para todo $u \in K$, y $u^\star$ es un mínimo global.
+%Supongamos, por contradicción, que existe $u \in K$ tal que $\mathcal{J}(u) < \mathcal{J}(u^\star)$. Entonces, para todo $t \in (0,1)$:
+%\[
+%f(t) \leq (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u) < (1-t)\mathcal{J}(u^\star) + t \mathcal{J}(u^\star) = \mathcal{J}(u^\star).
+%\]
+%Pero como $u^*$ es un mínimo local, existe $\delta > 0$ tal que para todo $t$ suficientemente pequeño (por ejemplo, $t < \delta / \|u - u^*\|_V$), se cumple:
+%\[
+%f(t) \geq \mathcal{J}(u^\star).
+%\]
+%Esto es una contradicción, ya que $f(t) < \mathcal{J}(u^\star)$ y $f(t) \geq \mathcal{J}(u^*)$ no pueden ser ciertos simultáneamente. 
+Por lo tanto, %$\mathcal{J}(u^\star) \leq \mathcal{J}(u)$ para todo $u \in K$, y 
+$u^\star$ es un mínimo global.
 
 \medskip 
 
@@ -1052,32 +1106,43 @@ lo que implica que $t u_1 + (1-t) u_2$ es también un mínimo global. Por lo tan
 \end{proof}
 
 \begin{theorem}
-Si $\mathcal{J}$ es estrictamente convexa, entonces existe a lo sumo un mínimo global.
+Si $\mathcal{J}$ es estrictamente convexa, entonces existe a lo sumo un punto mínimo global.
 \end{theorem}
 
 \begin{proof}
-Supongamos, por contradicción, que existen dos mínimos globales distintos $u_1$ y $u_2$ tales que:
+%Supongamos, por contradicción, que existen dos mínimos globales distintos 
+Sean $u_1$ y $u_2$ tales que:
 \[
 \mathcal{J}(u_1) = \mathcal{J}(u_2) = \inf_{v \in K} \mathcal{J}(v).
 \]
-Como $\mathcal{J}$ es estrictamente convexa, para todo $t \in (0,1)$ se cumple:
+Como $\mathcal{J}$ es estrictamente convexa, para todo $\lambda \in [0,1]$ se cumple:
 \[
-\mathcal{J}(t u_1 + (1-t) u_2) < t \mathcal{J}(u_1) + (1-t) \mathcal{J}(u_2) 
+\mathcal{J}(\lambda u_1 + (1-\lambda) u_2) \leq \lambda \mathcal{J}(u_1) + (1-\lambda) \mathcal{J}(u_2) 
 %= t \inf_{u \in K} \mathcal{J}(u) + (1-t) \inf_{u \in K} \mathcal{J}(u) = \inf_{u \in K} \mathcal{J}(u).
 \]
 y
 \[
 %\mathcal{J}(t u_1 + (1-t) u_2) < 
-t \mathcal{J}(u_1) + (1-t) \mathcal{J}(u_2) = t \inf_{v \in K} \mathcal{J}(v) + (1-t) \inf_{v \in K} \mathcal{J}(v) = \inf_{v \in K} \mathcal{J}(v).
+\lambda \mathcal{J}(u_1) + (1-\lambda) \mathcal{J}(u_2) = \lambda \inf_{v \in K} \mathcal{J}(v) + (1-\lambda) \inf_{v \in K} \mathcal{J}(v) = \inf_{v \in K} \mathcal{J}(v).
 \]
-Esto implica que:
+Esto implica que, para cualquier $0 \leq \lambda \leq 1$:
 \[
-\mathcal{J}(t u_1 + (1-t) u_2) < \inf_{v \in K} \mathcal{J}(v),
+\mathcal{J}(\lambda u_1 + (1-\lambda) u_2) = 
+\mathcal{J}(u_1) = \mathcal{J}(u_2) (=
+\inf_{v \in K} \mathcal{J}(v)),
 \]
-lo cual contradice la definición de ínfimo. Por lo tanto, no pueden existir dos mínimos globales distintos, y el mínimo global, si existe, es único.
+Deducimos de \eqref{def:convexaestricta} que
+$u_1=u_2$.
+%*** y entonces $\lambda = 0$ o $\lambda=1$ o $u_1=u_2$ \dots [ver definicion]
+%\[
+%\mathcal{J}(t u_1 + (1-t) u_2) < \inf_{v \in K} \mathcal{J}(v),
+%\]
+%lo cual contradice la definición de ínfimo. Por lo tanto, no pueden existir dos mínimos globales distintos, y el mínimo global, si existe, es único.
 \end{proof}
 
-\section{Caso fuertemente convexo}
+\section{Mínimos con convexidad fuerte}
+
+\subsection{Resultado general}
 
 Tenemos lo siguiente.
 
@@ -1100,11 +1165,11 @@ Tenemos lo siguiente.
     \emph{Paso 2: Uso de la fuerte convexidad.}
     Aplicamos la propiedad de fuerte convexidad de \(\mathcal{J}\) con constante \(c_J > 0\). Para \(n, m \in \mathbb{N}\) arbitrarios, se cumple:
     \[
-    \mathcal{J}\left(\frac{u_n + u_m}{2}\right) \leq \frac{1}{2} \mathcal{J}(u_n) + \frac{1}{2} \mathcal{J}(u_m) - \frac{c_J}{8} \| u_n - u_m \|^2.
+    \mathcal{J}\left(\frac{u_n + u_m}{2}\right) \leq \frac{1}{2} \mathcal{J}(u_n) + \frac{1}{2} \mathcal{J}(u_m) - \frac{c_J}{8} \| u_n - u_m \|_V^2.
     \]
     Restando \(I\) a ambos lados y usando que \(\mathcal{J}\left(\frac{u_n + u_m}{2}\right) \geq I\) (pues \(I\) es el ínfimo), obtenemos:
     \[
-    \frac{c_J}{8} \| u_n - u_m \|^2 \leq \frac{1}{2} \mathcal{J}(u_n) + \frac{1}{2} \mathcal{J}(u_m) - I.
+    \frac{c_J}{8} \| u_n - u_m \|^2_V \leq \frac{1}{2} \mathcal{J}(u_n) + \frac{1}{2} \mathcal{J}(u_m) - I.
     \]
     Como \(\mathcal{J}(u_n) \to I\) y \(\mathcal{J}(u_m) \to I\), el lado derecho tiende a cero cuando \(n, m \to \infty\). Por lo tanto, \(\{u_n\}\) es una sucesión de Cauchy en \(K\).
 
@@ -1122,34 +1187,37 @@ Tenemos lo siguiente.
     \emph{Paso 4: Unicidad del minimizador.}
     Supongamos que existe otro minimizador \(\tilde{u} \in K\). Aplicando la fuerte convexidad:
     \[
-    I = \mathcal{J}(u) \leq \mathcal{J}\left(\frac{u + \tilde{u}}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(\tilde{u}) - \frac{c_J}{8} \| u - \tilde{u} \|^2.
+    I = \mathcal{J}(u) \leq \mathcal{J}\left(\frac{u + \tilde{u}}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(\tilde{u}) - \frac{c_J}{8} \| u - \tilde{u} \|^2_V.
     \]
     Como \(\mathcal{J}(u) = \mathcal{J}(\tilde{u}) = I\), esto implica:
     \[
-    0 \leq -\frac{c_J}{8} \| u - \tilde{u} \|^2.
+    0 \leq -\frac{c_J}{8} \| u - \tilde{u} \|^2_V.
     \]
-    Dado que \(c_J > 0\), se deduce que \(\| u - \tilde{u} \|^2 = 0\), es decir, \(u = \tilde{u}\). Por lo tanto, el minimizador es único.
+    Dado que \(c_J > 0\), se deduce que \(\| u - \tilde{u} \|^2_V = 0\), es decir, \(u = \tilde{u}\). Por lo tanto, el minimizador es único.
 
 \medskip
 
     \emph{Paso 5: Desigualdad para el minimizador.}
     Sea \(v \in K\). Como \(K\) es convexo, \({(u + v)}/{2} \in K\). Aplicando la fuerte convexidad:
     \[
-    \mathcal{J}\left(\frac{u + v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2.
+    \mathcal{J}\left(\frac{u + v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2_V.
     \]
     Dado que \(u\) es minimizador, \(\mathcal{J}\left(\frac{u + v}{2}\right) \geq \mathcal{J}(u)\). Sustituyendo:
     \[
-    \mathcal{J}(u) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2.
+    \mathcal{J}(u) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2_V.
     \]
     Simplificando:
     \[
-    \frac{c_J}{8} \| u - v \|^2 \leq \frac{1}{2} \left( \mathcal{J}(v) - \mathcal{J}(u) \right).
+    \frac{c_J}{8} \| u - v \|_V^2 \leq \frac{1}{2} \left( \mathcal{J}(v) - \mathcal{J}(u) \right).
     \]
     Multiplicando por 4:
     \[
-    \| u - v \|^2 \leq \frac{4}{c_J} \left( \mathcal{J}(v) - \mathcal{J}(u) \right),
+    \| u - v \|^2_V \leq \frac{4}{c_J} \left( \mathcal{J}(v) - \mathcal{J}(u) \right).
     \]
-    lo que concluye la demostración.
+%
+Se deduce finalmente de lo anterior toda subsucesión minimizante de \(\mathcal{J}\) converge hacia \(u\).
+%
+    Esto concluye la demostración. 
 \end{proof}
 
 Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación de un convexo cerrado por un hiperplano) en un espacio de Hilbert, junto con una prueba simplificada que utiliza el teorema de proyección en un convexo cerrado. 
@@ -1268,10 +1336,6 @@ Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación
     \]
 \end{proof}
 
----
-
----
-
 \begin{proposition}[Proposición (9.2.5, Allaire)]
 Si $\mathcal{J}$ es convexa y continua sobre un conjunto $K$ cerrado, convexo y no vacío, entonces existen $\delta \in \mathbb{R}$ y $L \in V'$ tales que para todo $v \in K$:
 \[
@@ -1337,19 +1401,32 @@ Además, si $\mathcal{J}$ es fuertemente convexa, entonces existen $\gamma > 0$ 
 \end{proposition}
 
 \begin{proof}
-Como $\mathcal{J}$ es fuertemente convexa, existe $\gamma > 0$ tal que la función $\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2$ es convexa. Aplicando la proposición anterior a esta función, existen $\delta' \in \mathbb{R}$ y $L \in V'$ tales que:
-\[
-\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2 \geq L(v) + \delta'.
-\]
-Reordenando, obtenemos:
-\[
-\mathcal{J}(v) \geq \frac{\gamma}{2} \|v\|^2 + L(v) + \delta'.
-\]
-Como $\frac{\gamma}{2} \|v\|^2 + L(v) \geq \frac{\gamma}{4} \|v\|^2 - \frac{1}{\gamma} \|L\|^2$ (por la desigualdad de Young), podemos ajustar $\gamma$ y $\delta$ para obtener:
-\[
-\mathcal{J}(v) \geq \gamma \|v\|^2 + \delta,
-\]
-donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
+Ver \cite{allaire2007}. % o alternativamente lo siguiente.
+%Sea $\gamma > 0$, la función $\widetilde{\mathcal{J}}(v):=\mathcal{J}(v) - \frac{\gamma}{2} \|v\|_V^2$, y $t\in [0;1]$.
+%Como $\mathcal{J}$ es fuertemente convexa:
+%\[
+%\widetilde{\mathcal{J}}(tv+ (1-t)w)
+%\leq
+%\dots
+%\]
+% \[
+%    \mathcal{J}\left(\frac{u + v}{2}\right) \leq \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v) - \frac{c_J}{8} \| u - v \|^2.
+%    \]
+%es convexa.
+
+%Como $\mathcal{J}$ es fuertemente convexa, existe $\gamma > 0$ tal que la función $\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2$ es convexa. Aplicando la proposición anterior a esta función, existen $\delta' \in \mathbb{R}$ y $L \in V'$ tales que:
+%\[
+%\mathcal{J}(v) - \frac{\gamma}{2} \|v\|^2 \geq L(v) + \delta'.
+%\]
+%Reordenando, obtenemos:
+%\[
+%\mathcal{J}(v) \geq \frac{\gamma}{2} \|v\|^2 + L(v) + \delta'.
+%\]
+%Como $\frac{\gamma}{2} \|v\|^2 + L(v) \geq \frac{\gamma}{4} \|v\|^2 - \frac{1}{\gamma} \|L\|^2$ (por la desigualdad de Young), podemos ajustar $\gamma$ y $\delta$ para obtener:
+%\[
+%\mathcal{J}(v) \geq \gamma \|v\|^2 + \delta,
+%\]
+%donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
 \end{proof}
 
 %\addcontentsline{toc}{chapter}{Bibliograf\'ia}
@@ -1366,7 +1443,7 @@ donde $\delta = \delta' - \frac{1}{\gamma} \|L\|^2$.
 
 %\newpage
 
-\section{Caso estrictamente convexo}
+\subsection{Caso estrictamente convexo}
 
 Unos ejemplos de funciones estrictamente convexa, pero no fuertemente convexas.
 
@@ -1412,22 +1489,93 @@ Es estrictamente convexo: el operador \(p\)-Laplaciano \[-\Delta_p u = -\mathrm{
 No es fuertemente convexo: para \(1 < p < 2\), el funcional \(\mathcal{J}\) no es fuertemente convexo en \(W_0^{1,p}(\Omega)\). Esto se debe a que la derivada de \(|\nabla v|^p\) no está acotada inferiormente por una constante positiva uniforme en todo el espacio. En particular, la fuerte convexidad falla porque la segunda derivada del término \(|\nabla v|^p\) no es uniformemente elíptica.
 \end{ex}
 
-\begin{ex}
-Funcional de energía asociado a una EDP elíptica no lineal (superficie mínima). 
-   Consideremos el funcional \(\mathcal{J}: H_0^1(\Omega) \to \mathbb{R}\) definido por:
+\begin{ex}[superficie mínima]
+%Funcional de energía asociado a una EDP elíptica no lineal (superficie mínima). 
+Consideremos el funcional \(\mathcal{J}: H^1(\Omega) \to \mathbb{R}\) definido por:
    \[
-   \mathcal{J}(v) = \int_\Omega \left( \sqrt{1 + |\nabla v|^2} - 1 \right) - \int_\Omega f v,
-   \]
-   donde \(f \in L^2(\Omega)\).
-Es estrictamente convexo: el integrando \(\sqrt{1 + |\nabla v|^2}\) es estrictamente convexo en \(\nabla v\), ya que su hessiana (con respecto a \(\nabla v\)) es positiva definida. Esto garantiza que \(\mathcal{J}\) es estrictamente convexo.
-No es fuertemente convexo: la segunda derivada del término \(\sqrt{1 + |\nabla u|^2}\) es:
-     \[
-     \frac{\partial^2}{\partial (\nabla u)^2} \sqrt{1 + |\nabla u|^2} = \frac{I}{1 + |\nabla u|^2} - \frac{\nabla u \otimes \nabla u}{(1 + |\nabla u|^2)^{3/2}},
-     \]
-     que no está acotada inferiormente por una constante positiva uniforme (por ejemplo, cuando \(|\nabla u| \to \infty\), la norma de esta matriz tiende a \(0\)). Por lo tanto, \(\mathcal{J}\) no es fuertemente convexo.
+   \mathcal{J}(v) = \int_\Omega \sqrt{1 + |\nabla v|^2},\]
+Sea $\Phi : \partial \Omega \rightarrow \mathbb{R}$ una función $\mathscr{C}^1$.
+El problema de minimización de $\mathcal{J}$ en el subespacio afín 
+\[
+V = \{ v \in H^1(\Omega) \,|\, v|_{\partial \Omega}=\Phi \}
+\]
+es un problema de superficie mínima ~\cite{ciarlet2002,johnson1975}. 
+Sea 
+$$ f(x) = \sqrt{1+x^2}. $$
+La primera derivada de la función es:
+$$ f'(x) = \frac{x}{\sqrt{1+x^2}}.$$
+La segunda derivada de la función es:
+$$ f''(x) = -\frac{x^2}{(x^2+1)^{3/2}} + \frac{1}{\sqrt{x^2+1}}. $$
+Después de simplificar, se obtiene:
+$$ f''(x) = \frac{1}{(x^2+1)^{3/2}}. $$
+Como $f''(x)>0$ para todo $x$, $f$ es estrictamente convexa, y entonces $\mathcal{J}$ es estrictamente convexa. Como no existe $\alpha > 0$ que verifica $f''(x)\geq \alpha$ para todo $x$, $f$ no es fuertemente convexa, y $\mathcal{J}$ tampoco.
+Este problema de superficie mínima se puede aproximar mediante elementos finitos, ver\footnote{\url{https://scikit-fem.readthedocs.io/en/latest/listofexamples.html\#example-10-nonlinear-minimal-surface-problem}} y \footnote{\url{https://github.com/kinnala/scikit-fem/blob/master/docs/examples/ex45.py}}.
+\begin{lstlisting}[style=pythonstyle, caption={Superficie m\'inima.}, label={lst:g1}]
+...
+@NonlinearForm(hessian=True)
+def energy(u, _):
+    return jnp.sqrt(1. + dot(grad(u), grad(u)))
+
+D = m.boundary_nodes()
+x = np.sin(np.pi * m.p[0])
+
+for itr in range(100):
+    x_prev = x.copy()
+    x += solve(*condense(*energy.assemble(basis, x=x), D=D))
+...
+\end{lstlisting}
+
+%r"""Automatic differentiation.
+%
+%Warning: This example requires an optional dependency JAX.
+%
+%This example solves the minimal surface problem from example 10 using automatic
+%differentation in order to derive the tangent system for Newton's method.
+%
+%"""
+%from skfem import *
+%from skfem.autodiff import NonlinearForm
+%from skfem.autodiff.helpers import grad, dot
+%import numpy as np
+%import jax.numpy as jnp
+%
+%m = MeshTri().refined(5)
+%
+%
+%@NonlinearForm(hessian=True)
+%def energy(u, _):
+%    return jnp.sqrt(1. + dot(grad(u), grad(u)))
+%
+%
+%basis = Basis(m, ElementTriP1())
+%
+%D = m.boundary_nodes()
+%x = np.sin(np.pi * m.p[0])
+%
+%for itr in range(100):
+%    x_prev = x.copy()
+%    x += solve(*condense(*energy.assemble(basis, x=x), D=D))
+%    res = np.linalg.norm(x - x_prev)
+%    if res < 1e-8:
+%        break
+%    if __name__ == "__main__":
+%        print(res)
+%
+%if __name__ == "__main__":
+%    from skfem.visuals.matplotlib import plot3, show
+%    plot3(m, x)
+%    show()
+% 
+% \dots
+%Es estrictamente convexo: el integrando \(\sqrt{1 + |\nabla v|^2}\) es estrictamente convexo en \(\nabla v\), ya que su hessiana (con respecto a \(\nabla v\)) es positiva definida. Esto garantiza que \(\mathcal{J}\) es estrictamente convexo.
+%No es fuertemente convexo: la segunda derivada del término \(\sqrt{1 + |\nabla u|^2}\) es:
+%     \[
+%     \frac{\partial^2}{\partial (\nabla u)^2} \sqrt{1 + |\nabla u|^2} = \frac{I}{1 + |\nabla u|^2} - \frac{\nabla u \otimes \nabla u}{(1 + |\nabla u|^2)^{3/2}},
+%     \]
+%     que no está acotada inferiormente por una constante positiva uniforme (por ejemplo, cuando \(|\nabla u| \to \infty\), la norma de esta matriz tiende a \(0\)). Por lo tanto, \(\mathcal{J}\) no es fuertemente convexo.
 \end{ex}
 
-\section{Caso convexo}
+\section{Mínimos en el caso convexo}
 
 Veamos ahora un resultado sobre existencia de mínimos en el caso convexo.
 
@@ -1453,6 +1601,44 @@ No estrictamente convexo porque no cumple la desigualdad estricta de convexidad.
   \[
   \mathcal{J}\left(\frac{u + v}{2}\right) = \frac{1}{2} \mathcal{J}(u) + \frac{1}{2} \mathcal{J}(v)\] (no hay desigualdad estricta).
 \end{ex}
+
+\subsection{Espacio de Hilbert separable}
+
+Sea \( V \) un espacio de Hilbert separable con producto interno \( (\cdot, \cdot)_V \) y norma inducida \( \|\cdot\|_V \), y sea \( \{e_i\}_{i \in \mathbb{N}} \) una {base hilbertiana} (ortonormal) de \( V \). Entonces:
+
+\begin{enumerate}
+    \item \textbf{Descomposición ortonormal:}
+    Todo \( v \in V \) admite una representación única:
+    \[
+    v = \sum_{i=1}^\infty (v, e_i)_V e_i,
+    \]
+    con convergencia en la norma de \( V \).
+
+    \item \textbf{Desigualdad de Cauchy-Schwarz:}
+    Para todo \( u, v \in V \):
+    \[
+    |(u, v)_V| \leq \|u\|_V \|v\|_V.
+    \]
+    En particular, para la base \( \{e_i\} \):
+    \[
+    \left| (u, e_i)_V \right| \leq \|u\|_V \|e_i\|_V = \|u\|_V,
+    \]
+    ya que \( \|e_i\|_V = 1 \).
+
+    \item \textbf{Identidad de Parseval:}
+    Para todo \( u, v \in V \):
+    \[
+    (u, v)_V = \sum_{i=1}^\infty (u, e_i)_V {(v, e_i)_V},
+    \]
+    y en particular, para \( u = v \):
+    \[
+    \|u\|_V^2 = \sum_{i=1}^\infty |(u, e_i)_V|^2.
+    \]
+%    Esta última igualdad también se conoce como \textbf{ley de Parseval} o \textbf{teorema de Pitágoras generalizado}.
+
+%    \item \textbf{Convergencia de series:}
+%    Si \( \sum_{i=1}^\infty \|u_i\|_V^2 < \infty \), entonces la serie \( \sum_{i=1}^\infty u_i \) converge en \( V \).
+\end{enumerate}
 
 \subsection{Convergencia débil}
 
@@ -1486,20 +1672,88 @@ La siguiente proposición caracteriza la convergencia débil en un espacio de Hi
 
 \medskip
 
-\emph{Implicación inversa (\(\Leftarrow\)):}
+\noindent \emph{Implicación inversa (\(\Leftarrow\)):}
   Supongamos que \[\lim_{n \to \infty} ( u_n, e_i )_V = ( u, e_i )_V\] para todo \(i \in \mathbb{N}\). Sea \(v \in V\). Como \(\{e_i\}\) es una base hilbertiana, podemos escribir:
   \[
   v = \sum_{i=1}^\infty ( v, e_i )_V e_i,
   \]
-  con convergencia en la norma de \(V\). Entonces:
-  \[
-  ( u_n, v )_V = \left( u_n, \sum_{i=1}^\infty ( v, e_i )_V e_i \right)_V = \sum_{i=1}^\infty ( v, e_i )_V ( u_n, e_i )_V.
-  \]
-  Por hipótesis, \(\langle u_n, e_i \rangle_V \to \langle u, e_i \rangle_V\) para cada \(i\). Además, por el Teorema de Banach-Steinhaus~\cite{brezis2011}, \(\{u_n\}\) es acotada (pues converge débilmente). Entonces, por el Teorema de Lebesgue dominado, podemos intercambiar el límite y la suma:
-  \[
-  \lim_{n \to \infty} ( u_n, v )_V = \sum_{i=1}^\infty ( v, e_i )_V ( u, e_i )_V = ( u, v )_V.
-  \]
-  Por lo tanto, \(u_n \rightharpoonup u\).
+  con convergencia en la norma de \(V\).
+%
+%*****
+%Supongamos que \(\lim_{n \to \infty} (u_n, e_i)_V = (u, e_i)_V\) para todo \(i \in \mathbb{N}\), donde \(V\) es un espacio de Hilbert y \(\{e_i\}_{i \in \mathbb{N}}\) es una base hilbertiana (ortonormal) de \(V\).
+
+%Sea \(v \in V\). Como \(\{e_i\}\) es una base hilbertiana, podemos escribir:
+%\[
+%v = \sum_{i=1}^\infty (v, e_i)_V e_i,
+%\]
+%donde la serie converge en la norma de \(V\).
+
+Queremos demostrar que \(\lim_{n \to \infty} (u_n, v)_V = (u, v)_V\). Para ello, consideremos:
+\[
+|(u_n, v)_V - (u, v)_V| = \left| \sum_{i=1}^\infty (u_n - u, e_i)_V (v, e_i)_V \right|.
+\]
+%
+Dado \(\varepsilon > 0\), elegimos \(I \in \mathbb{N}\) tal que:
+\[
+\left| \sum_{i > I} (u_n - u, e_i)_V (v, e_i)_V \right| \leq \frac{\varepsilon}{2},
+\]
+lo cual es posible gracias a la convergencia de la serie y a  Parseval.
+
+Por otro lado, como \(I\) es finito y \(\lim_{n \to \infty} (u_n - u, e_i)_V = 0\) para cada \(i\), existe \(N \in \mathbb{N}\) tal que para todo \(n \geq N\):
+\[
+\left| \sum_{i = 1}^I (u_n - u, e_i)_V (v, e_i)_V \right| \leq \frac{\varepsilon}{2}.
+\]
+%
+Combinando ambas desigualdades, obtenemos:
+\[
+|(u_n, v)_V - (u, v)_V| \leq \left| \sum_{i > I} (u_n - u, e_i)_V (v, e_i)_V \right| + \left| \sum_{i = 1}^I (u_n - u, e_i)_V (v, e_i)_V \right| %\leq \varepsilon.
+\]
+y
+\[
+|(u_n, v)_V - (u, v)_V| %\leq \left| \sum_{i > I} (u_n - u, e_i)_V (v, e_i)_V \right| + \left| \sum_{i = 1}^I (u_n - u, e_i)_V (v, e_i)_V \right| 
+\leq \frac{\varepsilon}{2}
++
+\frac{\varepsilon}{2}
+= \varepsilon.
+\]
+%
+%Por lo tanto, \(\lim_{n \to \infty} (u_n, v)_V = (u, v)_V\), como queríamos demostrar.
+%
+%*****
+%
+%\emph{Implicación inversa (\(\Leftarrow\)):}
+%  Supongamos que \[\lim_{n \to \infty} ( u_n, e_i )_V = ( u, e_i )_V\] para todo \(i \in \mathbb{N}\). Sea \(v \in V\). Como \(\{e_i\}\) es una base hilbertiana, podemos escribir:
+%  \[
+%  v = \sum_{i=1}^\infty ( v, e_i )_V e_i,
+%  \]
+%  con convergencia en la norma de \(V\). Entonces:
+%\[
+%|(u_n , v) - (u,v)| 
+%= |\sum_i (u_n - u , e_i) v_i)|
+%\]
+%Y ahora sea $\varepsilon > 0$. Tomamos $I$ tal que para $i>I$:
+%\[
+% |\sum_{i>I} (u_n - u , e_i) v_i)|
+%\leq \varepsilon/2
+%\]
+%(se puede por Cauchy-Schwarz y Parseval) y luego existe N tal que para todo n mas grande que N
+%\[
+% |\sum_{i\leq I} (u_n - u , e_i) v_i)|
+%\leq \varepsilon/2
+% \]
+% (la suma es finita y cada un tiende hacia u). Se puede concluir
+% \[
+%   \lim_{n \to \infty} ( u_n, v )_V  = ( u, v )_V.
+%   \]
+% ****
+%   \[
+%   ( u_n, v )_V = \left( u_n, \sum_{i=1}^\infty ( v, e_i )_V e_i \right)_V = \sum_{i=1}^\infty ( v, e_i )_V ( u_n, e_i )_V.
+%   \]
+%   Por hipótesis, \(\langle u_n, e_i \rangle_V \to \langle u, e_i \rangle_V\) para cada \(i\). Además, por el Teorema de Banach-Steinhaus~\cite{brezis2011}, \(\{u_n\}\) es acotada. Entonces, por el Teorema de Lebesgue dominado, podemos intercambiar el límite y la suma:
+%   \[
+%   \lim_{n \to \infty} ( u_n, v )_V = \sum_{i=1}^\infty ( v, e_i )_V ( u, e_i )_V = ( u, v )_V.
+%   \]
+%   Por lo tanto, \(u_n \rightharpoonup u\).
 \end{proof}
 
 \begin{ex}
@@ -1509,15 +1763,167 @@ La siguiente proposición caracteriza la convergencia débil en un espacio de Hi
 \end{ex}
 
 \begin{ex}
-En $L^2(0;\pi)$, la secuencia de funciones $\{f_n\}$ definidas por
+En $L^2(0;\pi)$, la secuencia de funciones $\{u_n\}$ definidas por
 \[
-f_n(x)=\sen^2(n x)
+u_n(x)=\sen^2(n x)
 \]
 verifica
-\[f_n \rightharpoonup \frac12\]
-pero no converge fuertemente, ver los detalles en 
-\cite{bressan2014}.
+\[u_n \rightharpoonup \frac12\]
+pero no converge fuertemente, ver 
+\cite{bressan2014}. 
+%
+%{Primitiva de \(\sin^2(nx)\)}
+
+\medskip
+
+Para calcular la primitiva de \(\sin^2(nx)\), utilizamos la identidad trigonométrica:
+\[
+\sin^2 \theta = \frac{1 - \cos(2\theta)}{2}.
+\]
+Aplicando esta identidad a \(\sin^2(nx)\):
+\[
+\sin^2(nx) = \frac{1 - \cos(2nx)}{2}.
+\]
+La primitiva se calcula como sigue:
+\[
+\int \sin^2(nx) \, dx = \int \frac{1 - \cos(2nx)}{2} \, dx = \frac{1}{2} \int 1 \, dx - \frac{1}{2} \int \cos(2nx) \, dx.
+\]
+Resolviendo cada término:
+\[
+\frac{1}{2} \int 1 \, dx = \frac{x}{2} + C_1,
+\]
+\[
+-\frac{1}{2} \int \cos(2nx) \, dx = -\frac{\sin(2nx)}{4n} + C_2.
+\]
+Por lo tanto, la primitiva es:
+\[
+\boxed{\int \sin^2(nx) \, dx = \frac{x}{2} - \frac{\sin(2nx)}{4n} + C.}
+\]
+Entonces para una función $v$ constante a trozos (1 en $(0,a)$ y 0 en $(a,\pi)$:
+\[
+\int_0^\pi v(x) \sin^2(nx) \, dx 
+\rightarrow 
+\frac{a}{2} =
+\int_0^\pi \frac{v(x)}{2} \, dx
+\]
+y se concluye con un argumento de densidad en $L^2$.
+%
+%{Integral definida de \(\left(\sin^2(nx) - \frac{1}{2}\right)^2\) entre \(0\) y \(\pi\)}
+Ahora,
+queremos calcular:
+\[
+\int_0^\pi \left(\sin^2(nx) - \frac{1}{2}\right)^2 \, dx.
+\]
+{Expandimos la expresión}
+\[
+\left(\sin^2(nx) - \frac{1}{2}\right)^2 = \sin^4(nx) - \sin^2(nx) + \frac{1}{4}.
+\]
+Sustituyendo en la expresión expandida:
+\[
+\sin^4(nx) - \sin^2(nx) + \frac{1}{4} = \frac{3 - 4\cos(2nx) + \cos(4nx)}{8} - \frac{1 - \cos(2nx)}{2} + \frac{1}{4}.
+\]
+Simplificando:
+\[
+= \frac{1 + \cos(4nx)}{8}.
+\]
+{Integrar la expresión simplificada}
+\[
+\int_0^\pi \frac{1 + \cos(4nx)}{8} \, dx = \frac{1}{8} \int_0^\pi 1 \, dx + \frac{1}{8} \int_0^\pi \cos(4nx) \, dx.
+\]
+Por lo tanto, el resultado es:
+\[
+\boxed{\int_0^\pi \left(\sin^2(nx) - \frac{1}{2}\right)^2 \, dx = \frac{\pi}{8}.}
+\]
 \end{ex}
+
+\subsection{Propiedades de la convergencia débil}
+
+\subsubsection{Convergencia fuerte implica convergencia débil}
+
+\textbf{Teorema.} Si $(v_n)$ converge fuertemente hacia $v$ en un espacio normado $(V, \|\cdot\|)$, entonces $(v_n)$ converge débilmente hacia $v$.
+
+\medskip
+
+\textbf{Demostración.} Por hipótesis, $v_n \to v$ fuertemente, es decir, $$\lim_{n \to \infty} \|v_n - v\| = 0.$$ Sea $f \in V^*$ (el dual de $V$). Como $f$ es continua (por ser lineal y acotada), se tiene:
+\[
+|f(v_n) - f(v)| = |f(v_n - v)| \leq \|f\| \cdot \|v_n - v\| \xrightarrow[n \to \infty]{} 0.
+\]
+Por lo tanto, $f(v_n) \to f(v)$ para todo $f \in V^*$, lo que significa que $v_n \rightharpoonup v$ débilmente.
+
+---
+
+\subsubsection{2La convergencia débil implica acotación}
+
+\textbf{Teorema.} Si $(v_n)$ converge débilmente hacia $v$ en un espacio normado $V$, entonces $(v_n)$ está acotada.
+
+\medskip
+
+\textbf{Demostración.} Por el {Principio de acotación uniforme} (o Teorema de Banach-Steinhaus), si $(v_n)$ converge débilmente, entonces el conjunto $\{v_n : n \in \mathbb{N}\}$ es puntualmente acotado en $V^*$. Es decir, para todo $f \in V^*$, existe $M_f > 0$ tal que:
+\[
+|f(v_n)| \leq M_f \quad \forall n \in \mathbb{N}.
+\]
+Por el {Teorema de Banach-Steinhaus}, esto implica que $\{v_n\}$ está acotado en norma:
+\[
+\exists M > 0 \text{ tal que } \|v_n\| \leq M \quad \forall n \in \mathbb{N}.
+\]
+
+---
+\subsubsection{Desigualdad para el límite inferior de las normas}
+
+\textbf{Teorema.} Si $(v_n)$ converge débilmente hacia $v$ en un espacio normado $V$, entonces:
+\[
+\|v\| \leq \liminf_{n \to \infty} \|v_n\|.
+\]
+
+\medskip
+
+\textbf{Demostración.} Sea $f \in V^*$ tal que $\|f\| = 1$ y $f(v) = \|v\|$ (existe por el {Teorema de Hahn-Banach}). 
+Por la convergencia débil, $f(v_n) \to f(v) = \|v\|$. Como $|f(v_n)| \leq \|f\| \cdot \|v_n\| = \|v_n\|$, se tiene:
+\[
+\|v\| = \lim_{n \to \infty} f(v_n) \leq \liminf_{n \to \infty} \|v_n\|.
+\]
+Alternativa:
+\[
+(v_n,v) \rightarrow (v,v)_V
+\]
+Y luego
+\[
+\| v \|_V =
+\frac{(v,v)_V}{\| v \|_V}
+= \lim_n \frac{(v_n,v)_V}{\| v \|_V}
+\]
+y luego
+\[
+\frac{(v_n,v)_V}{\| v \|_V} \leq \|v_n\|_V
+\]
+y finalmente
+\[
+\liminf \frac{(v_n,v)_V}{\| v \|_V} \leq \liminf \|v_n\|_V
+\]
+%\[
+%\| v \|_V =
+%\sup_V \frac{(v,w)_V}{\| w \|_V}
+%\]
+
+---
+%\subsection*{4. Convergencia del producto interno}
+
+%\textbf{Teorema.} Si $(v_n)$ converge débilmente hacia $v$ y $(w_n)$ converge fuertemente hacia $w$ en un espacio de Hilbert $H$, entonces:
+%\[
+%\langle v_n, w_n \rangle \to \langle v, w \rangle.
+%\]
+
+%\textbf{Demostración.} Descompongamos el producto interno:
+%\[
+%\langle v_n, w_n \rangle - \langle v, w \rangle = \langle v_n, w_n - w \rangle + \langle v_n - v, w \rangle.
+%\]
+%\begin{itemize}
+%    \item \textbf{Primer término:} $|\langle v_n, w_n - w \rangle| \leq \|v_n\| \cdot \|w_n - w\| \leq M \|w_n - w\| \to 0$ (pues $w_n \to w$ fuertemente y $\|v_n\| \leq M$ por el Teorema 2).
+%    \item \textbf{Segundo término:} $|\langle v_n - v, w \rangle| \to 0$ porque $v_n \rightharpoonup v$ débilmente y $w \in H$.
+%\end{itemize}
+%Por lo tanto, $\langle v_n, w_n \rangle \to \langle v, w \rangle$.
+
+%Compacidad
 
 \subsection{Compacidad para la topología débil}
 
@@ -1723,11 +2129,11 @@ Si el conjunto no es convexo, puede ser cerrado para la topología fuerte sin se
 % **8. Lema: Si \(J\) es convexa y semi-continua inferiormente (s.c.i.) sobre \(K\), entonces \(J\) es s.c.i. para la convergencia débil**
 
 \begin{lemma}
-    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto cerrado y convexo, y \(J: K \to \mathbb{R}\) una función convexa y semi-continua inferiormente (s.c.i.) para la convergencia fuerte. Entonces \(J\) es también **s.c.i. para la convergencia débil**.
+    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto cerrado y convexo, y \(\mathcal{J}: K \to \mathbb{R}\) una función convexa y semi-continua inferiormente (s.c.i.) para la convergencia fuerte. Entonces \(\mathcal{J}\) es también s.c.i. para la convergencia débil.
 \end{lemma}
 
 \begin{proof}
-Viene directamente de la definición de s.c.i.
+Viene directamente de la definición de s.c.i. (epigrafo cerrado) y del resultado anterior. 
 \end{proof}
 
 %---
@@ -1810,38 +2216,65 @@ Viene directamente de la definición de s.c.i.
 
 \section{Convexidad con diferencial}
 
-Aquí los criterios con derivada de $\mathcal{J}$ y derivada segunda.
+%Aquí los criterios con derivada de $\mathcal{J}$ y derivada segunda.
 
-\section{Criterios de optimalidad} %bajo restricciones de desigualdad (Euler-Lagrange)}
+\noindent Ahora necesitamos los siguientes resultados para caracterizar el mínimo con la diferencial de $J$. Primero adaptamos la Proposición 10.1.4 de Allaire.
+%Caracterización con la diferencial.
 
-%\subsection{Condiciones de optimalidad}
-Sea $K \subset V$ un conjunto convexo y cerrado, y $\mathcal{J}: V \to \mathbb{R}$ una función convexa y diferenciable.
-Un punto $u \in K$ es mínimo de $\mathcal{J}$ en $K$ si y solo si:
-%
-$$
-\langle \mathcal{J}'(u), v - u \rangle \geq 0, \quad \forall v \in K.
-$$
-%
-Esta es la \textbf{desigualdad variacional de Euler-Lagrange}.
-%papi te quiero
-%\subsection{Multiplicadores de Lagrange}
-%Si las restricciones son de la forma $g_i(u) \leq 0$ para $i = 1, \dots, m$, donde $g_i: V \to \mathbb{R}$ son funciones convexas y diferenciables,
-%las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) afirman que existe $u \in V$ y multiplicadores $\lambda_i \geq 0$ tales que:
+\begin{proposition}
+    Si $\mathcal{J} : V \rightarrow \mathbb{R}$ es convexa y derivable, entonces se cumple para todo $u$ y $v$ en $V$:
+    \[
+    \mathcal{J}(v) \geq \mathcal{J}(u) + \mathcal{J}'(u;v-u).
+    \]
+\end{proposition}
 
-%\begin{align*}
-%\langle f'(u) + \sum_{i=1}^m \lambda_i g_i'(u), v - u \rangle &\geq 0, \quad \forall v \in V, \
-%\lambda_i g_i(u) &= 0, \quad \forall i = 1, \dots, m.
-%\end{align*}
+\begin{proof}
+Sean $u, v \in V$. Sea $t \in (0,1)$. La convexidad de $\mathcal{J}$ da:
+\[
+\mathcal{J}((1-t) u + t v) \leq (1-t) \mathcal{J}(u) + t \mathcal{J}(v).
+\]
+Por lo tanto
+\[
+\frac{\mathcal{J}((1-t) u + t v) - \mathcal{J}(u)}{t} \leq \mathcal{J}(v) - \mathcal{J}(u).
+\]
+O equivalentemente
+\[
+\frac{\mathcal{J}(u + t (v - u)) - \mathcal{J}(u)}{t} \leq \mathcal{J}(v) - \mathcal{J}(u).
+\]
+Haciendo $t \to 0$, se obtiene el resultado.
+\end{proof}
 
-%\chapter{Condiciones de optimalidad}
-%Las condiciones de optimalidad son criterios matemáticos que permiten identificar si un punto es un mínimo local o global de una función. En optimización sin restricciones, un punto $x^*$ es un mínimo local si el gradiente $\nabla f(x^*) = 0$ y la matriz hessiana $\nabla^2 f(x^*)$ es definida positiva. Estas condiciones son fundamentales para desarrollar algoritmos de optimización y analizar su convergencia. Además, en problemas con restricciones, se utilizan condiciones como las de Karush-Kuhn-Tucker (KKT). Su comprensión es clave para resolver problemas prácticos de manera eficiente.
+\medskip
 
-%\textbf{Sugerencia de plan:}
-%\begin{itemize}
-%    \item Condiciones necesarias y suficientes para óptimos locales y globales.
-%    \item Aplicación en problemas con y sin restricciones.
-%    \item Ejemplos prácticos.
-%\end{itemize}
+\noindent Adaptamos luego el Teorema 10.2.1 (desigualdad de Euler):
+
+\begin{theorem}
+    Si $K$ es un subconjunto convexo cerrado no vacío de $V$ y $\mathcal{J}$ es convexa y derivable en $V$, entonces $u$ es un minimizador global de $\mathcal{J}$ en $K$ si y solo si
+    \[
+    \mathcal{J}'(u;v-u) \geq 0.
+    \]
+\end{theorem}
+
+\begin{proof}
+Primero suponemos que $u$ es un minimizador global de $\mathcal{J}$ en $K$, entonces para $\varepsilon > 0$, se tiene, para $v \in K$:
+\[
+\frac{\mathcal{J}(u+\varepsilon (v-u)) - \mathcal{J}(u)}{\varepsilon} \geq 0
+\]
+ya que $u+\varepsilon (v-u) \in K$ por convexidad de $K$ y tomamos el límite en $\varepsilon$.
+
+Supongamos ahora que se cumple la DV. Usamos la Proposición anterior en $u$: para todo $v \in K$:
+\[
+\mathcal{J}(v) \geq \mathcal{J}(u) + \mathcal{J}'(u;v-u) \geq \mathcal{J}(u)
+\]
+y por lo tanto $u$ es un minimizador global.
+\end{proof}
+
+\begin{ex}
+Obstaculo:
+\[
+a(u,v-u) \geq L(v-u)
+\]
+\end{ex}
 
 \chapter{Método de Newton}
 El método de Newton es un algoritmo de optimización de segundo orden que utiliza información de la segunda derivada para acelerar la convergencia. A diferencia del descenso de gradiente, este método aproxima la función objetivo localmente por una función cuadrática y encuentra su mínimo en una sola iteración. Aunque requiere el cálculo de la matriz hessiana, su convergencia es típicamente más rápida, especialmente cerca del óptimo. Es ampliamente utilizado en problemas donde la precisión y la velocidad son críticas. Sin embargo, su implementación puede ser costosa en términos computacionales.
@@ -2258,6 +2691,10 @@ La aproximación de Galerkin es un método numérico ampliamente utilizado para 
 
 \subsection{Penalización}
 El método de penalización reemplaza las restricciones del problema original por términos en la función objetivo. Este enfoque simplifica la implementación numérica y permite aplicar técnicas estándar de resolución. Sin embargo, la elección del parámetro de penalización es clave para la estabilidad y precisión del método.
+
+\subsection{Nitsche y Lagrangiano}
+
+Alternativamente a la penalizaci\'on, se pueden formular las restricciones con Nitsche.
 
 \subsection{Newton semi-suave}
 El método de Newton semi-suave es una técnica avanzada para resolver problemas de desigualdades variacionales, combinando ideas de métodos de Newton y subgradientes. Este enfoque aprovecha la estructura diferenciable a trozos de las funciones involucradas, mejorando la convergencia en problemas no lineales. Su aplicación es especialmente relevante en contextos donde la solución puede presentar comportamientos complejos.
