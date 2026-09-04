@@ -237,6 +237,73 @@
 % --- Comando para normas ---
 \DeclareMathOperator{\norma}{\Vert \cdot \Vert}
 
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+%\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+
+% -------- Notacion ----------
+%\newcommand{\R}{\mathbb{R}}
+\newcommand{\barr}{\overline}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\epi}{\operatorname{epi}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ri}{\operatorname{int}}
+\newcommand{\subdiff}{\partial}
+\newcommand{\indic}{\delta}
+\newcommand{\supp}{\sigma}
+\newcommand{\prox}{\operatorname{prox}}
+\newcommand{\envm}{\operatorname{env}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\Moreau}{Me}
+
+% \newcommand{\R}{\mathbb{R}}
+ %\newcommand{\barr}{\overline}
+ %\newcommand{\dom}{\operatorname{dom}}
+ %\newcommand{\epi}{\operatorname{epi}}
+ %\newcommand{\cl}{\operatorname{cl}}
+ \newcommand{\co}{\operatorname{co}}
+ \newcommand{\inter}{\operatorname{int}}
+ %\newcommand{\subdiff}{\partial}
+ %\newcommand{\indic}{\delta}
+ %\newcommand{\prox}{\operatorname{prox}}
+ \newcommand{\Id}{\mathrm{Id}}
+ \newcommand{\Lip}{\operatorname{Lip}}
+ \newcommand{\rank}{\operatorname{rank}}
+ %\DeclareMathOperator*{\argmin}{arg\,min}
+ %\DeclareMathOperator*{\argmax}{arg\,max}
+ \DeclareMathOperator{\sign}{sgn}
+ %\DeclareMathOperator{\dist}{dist}
+
+% \newcommand{\R}{\mathbb{R}}
+% \newcommand{\dom}{\operatorname{dom}}
+% \newcommand{\subdiff}{\partial}
+ \newcommand{\subdiffC}{\partial_C}
+ \newcommand{\subdiffL}{\partial_L}
+ \newcommand{\subdiffR}{\partial}
+% \newcommand{\indic}{\delta}
+% \newcommand{\prox}{\operatorname{prox}}
+% \newcommand{\Id}{\mathrm{Id}}
+% \newcommand{\sign}{\operatorname{sgn}}
+% \DeclareMathOperator*{\argmin}{arg\,min}
+
+
+% -------- Entornos de teoremas ----------
+\theoremstyle{definition}
+\newtheorem{definicion}{Definición}[section]
+\newtheorem{ejemplo}{Ejemplo}[section]
+\theoremstyle{plain}
+\newtheorem{proposicion}{Proposición}[section]
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{lema}{Lema}[section]
+\theoremstyle{remark}
+\newtheorem{observacion}{Observación}[section]
+
+\newtheorem{algoritmo}{Algoritmo}[section]
 
 \begin{document}
 
@@ -1604,28 +1671,28 @@ No estrictamente convexo porque no cumple la desigualdad estricta de convexidad.
 
 \subsection{Espacio de Hilbert separable}
 
-Sea \( V \) un espacio de Hilbert separable con producto interno \( (\cdot, \cdot)_V \) y norma inducida \( \|\cdot\|_V \), y sea \( \{e_i\}_{i \in \mathbb{N}} \) una {base hilbertiana} (ortonormal) de \( V \). Entonces:
+Sea \( V \) un espacio de Hilbert separable con producto interno \( (\cdot, \cdot)_V \) y norma inducida \( \|\cdot\|_V \), y sea \( \{e_i\}_{i \in \mathbb{N}} \) una {base hilbertiana} (ortonormal) de \( V \). Entonces tenemos:
 
 \begin{enumerate}
-    \item \textbf{Descomposición ortonormal:}
+    \item \emph{Descomposición ortonormal:}
     Todo \( v \in V \) admite una representación única:
     \[
     v = \sum_{i=1}^\infty (v, e_i)_V e_i,
     \]
     con convergencia en la norma de \( V \).
 
-    \item \textbf{Desigualdad de Cauchy-Schwarz:}
+    \item \emph{Desigualdad de Cauchy-Schwarz:}
     Para todo \( u, v \in V \):
     \[
     |(u, v)_V| \leq \|u\|_V \|v\|_V.
     \]
-    En particular, para la base \( \{e_i\} \):
-    \[
-    \left| (u, e_i)_V \right| \leq \|u\|_V \|e_i\|_V = \|u\|_V,
-    \]
-    ya que \( \|e_i\|_V = 1 \).
+    %En particular, para la base \( \{e_i\} \):
+    %\[
+    %\left| (u, e_i)_V \right| \leq \|u\|_V \|e_i\|_V = \|u\|_V,
+    %\]
+    %ya que \( \|e_i\|_V = 1 \).
 
-    \item \textbf{Identidad de Parseval:}
+    \item \emph{Identidad de Parseval:}
     Para todo \( u, v \in V \):
     \[
     (u, v)_V = \sum_{i=1}^\infty (u, e_i)_V {(v, e_i)_V},
@@ -1840,24 +1907,42 @@ Por lo tanto, el resultado es:
 
 \subsubsection{Convergencia fuerte implica convergencia débil}
 
-\textbf{Teorema.} Si $(v_n)$ converge fuertemente hacia $v$ en un espacio normado $(V, \|\cdot\|)$, entonces $(v_n)$ converge débilmente hacia $v$.
+\begin{theorem}
+%\textbf{Teorema.} 
+Si $\{(u_n\}$ converge fuertemente hacia $u \in V$ %en un espacio normado $(V, \|\cdot\|)$, 
+entonces $\{u_n\}$ converge débilmente hacia $u$.
+\end{theorem}
 
-\medskip
-
-\textbf{Demostración.} Por hipótesis, $v_n \to v$ fuertemente, es decir, $$\lim_{n \to \infty} \|v_n - v\| = 0.$$ Sea $f \in V^*$ (el dual de $V$). Como $f$ es continua (por ser lineal y acotada), se tiene:
+\begin{proof}
+%\textbf{Demostración.} 
+Por hipótesis, $u_n \to u$ fuertemente, es decir, $$\lim_{n \to \infty} \|u_n - u\|_V = 0.$$ Sea $v \in V$. Por Cauchy-Schwarz
 \[
-|f(v_n) - f(v)| = |f(v_n - v)| \leq \|f\| \cdot \|v_n - v\| \xrightarrow[n \to \infty]{} 0.
+|(u_n,v)_V - (u,v)_V| 
+%= |f(v_n - v)| 
+\leq \|u_n - u\|_V \cdot \|v \|_V \xrightarrow[n \to \infty]{} 0.
 \]
-Por lo tanto, $f(v_n) \to f(v)$ para todo $f \in V^*$, lo que significa que $v_n \rightharpoonup v$ débilmente.
+%$f \in V^*$ (el dual de $V$). Como $f$ es continua (por ser lineal y acotada), se tiene:
+%\[
+%|f(v_n) - f(v)| = |f(v_n - v)| \leq \|f\| \cdot \|v_n - v\| \xrightarrow[n \to \infty]{} 0.
+%\]
+Por lo tanto, %$f(v_n) \to f(v)$ para todo $f \in V^*$, lo que significa que 
+$v_n \rightharpoonup v$ débilmente.
+\end{proof}
 
----
+\subsubsection{La convergencia débil implica acotación}
 
-\subsubsection{2La convergencia débil implica acotación}
+\begin{theorem}
+%\textbf{Teorema.} 
+Si $\{u_n\}$ converge débilmente hacia $u$ en un espacio normado $V$, entonces $\{u_n\}$ está acotada.
+\end{theorem}
 
-\textbf{Teorema.} Si $(v_n)$ converge débilmente hacia $v$ en un espacio normado $V$, entonces $(v_n)$ está acotada.
+\begin{proof}
+
+\end{proof}
 
 \medskip
 
+Mejorar aqui con Banach-Steinhaus +++
 \textbf{Demostración.} Por el {Principio de acotación uniforme} (o Teorema de Banach-Steinhaus), si $(v_n)$ converge débilmente, entonces el conjunto $\{v_n : n \in \mathbb{N}\}$ es puntualmente acotado en $V^*$. Es decir, para todo $f \in V^*$, existe $M_f > 0$ tal que:
 \[
 |f(v_n)| \leq M_f \quad \forall n \in \mathbb{N}.
@@ -1866,6 +1951,23 @@ Por el {Teorema de Banach-Steinhaus}, esto implica que $\{v_n\}$ está acotado e
 \[
 \exists M > 0 \text{ tal que } \|v_n\| \leq M \quad \forall n \in \mathbb{N}.
 \]
+
+Banach-Steinhaus
+
+\begin{teorema}[Teorema de Banach-Steinhaus para funcionales lineales]
+Sea \( V \) un espacio de Banach sobre \( \mathbb{R} \), y sea \( \mathcal{F} = \{ f_\alpha \}_{\alpha \in A} \subseteq V^* \) una familia de funcionales lineales continuas.
+
+Si \( \mathcal{F} \) está puntualmente acotada, es decir,
+\[
+\forall \, x \in V, \quad \sup_{\alpha \in A} |f_\alpha(x)| < \infty,
+\]
+entonces \( \mathcal{F} \) está uniformemente acotada:
+\[
+\sup_{\alpha \in A} \|f_\alpha\|_{V^*} < \infty.
+\]
+\end{teorema}
+
+Baire Appendice
 
 ---
 \subsubsection{Desigualdad para el límite inferior de las normas}
@@ -2276,13 +2378,13 @@ a(u,v-u) \geq L(v-u)
 \]
 \end{ex}
 
-\chapter{Método de Newton}
+\chapter{Newton semi-suave}
 El método de Newton es un algoritmo de optimización de segundo orden que utiliza información de la segunda derivada para acelerar la convergencia. A diferencia del descenso de gradiente, este método aproxima la función objetivo localmente por una función cuadrática y encuentra su mínimo en una sola iteración. Aunque requiere el cálculo de la matriz hessiana, su convergencia es típicamente más rápida, especialmente cerca del óptimo. Es ampliamente utilizado en problemas donde la precisión y la velocidad son críticas. Sin embargo, su implementación puede ser costosa en términos computacionales.
 
 %\section{Método de Newton / Newton semi-suave}
 
 
-\section{Idea del método}
+\section{Recuerdo de Newton suave}
 
 Seguimos los libros de Suli y Allaire.
 %
@@ -2301,6 +2403,9 @@ El método de Newton puede verse como una aproximación de la dinámica de segun
 donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
 %\end{quotation}
 
+\section{Hacia Newton semi-suave}
+
+\dots
 
 \section{Mas sobre funciones convexas}
 
@@ -2790,9 +2895,11 @@ if __name__ == "__main__":
 
 \subsection{Comentarios adicionales}
 
-%Aquí unos comentarios para profundizar el tema de las desigualdades variacionales.
+Aquí unos comentarios para profundizar el tema de las desigualdades variacionales.
 
-%\paragraph{Mas desigualdades variacionales}
+\paragraph{Mas desigualdades variacionales}
+
+Ver \cite{duvaut72}, \cite{glowinski80,glowinski81} o \cite{tarzia1981}.
 
 % Projets
 
@@ -2820,52 +2927,500 @@ if __name__ == "__main__":
 
 %\end{document} 
 
+% =====================================================================
+%  Funciones conjugadas de Fenchel--Rockafellar
+%  Notas precisas: definiciones, ejemplos en R, propiedades,
+%  derivacion del Lagrangiano y del Lagrangiano aumentado, y contexto.
+%  Compilar con pdflatex (o lualatex/xelatex).
+% =====================================================================
+%\documentclass[11pt,a4paper]{article}
 
 \chapter{Dualidad}
-La dualidad en optimización es un concepto fundamental que establece una relación entre un problema de optimización primal y su problema dual asociado. El problema dual proporciona una cota inferior para el valor óptimo del problema primal, lo que permite analizar la solidez de las soluciones encontradas. Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) conectan las soluciones primales y duales. Este enfoque es especialmente útil en problemas con restricciones complejas, donde el análisis directo puede ser difícil. La dualidad también tiene interpretaciones geométricas profundas.
-%
-Seguimos~\cite{allaire2007} (véase también~\cite{BoydVandenberghe2004} y \cite{luenberger1969}).
+%\textbf{Funciones conjugadas de Fenchel--Rockafellar}\\[2pt]
+%\large Definiciones, propiedades y derivación del Lagrangiano\\
+%y del Lagrangiano aumentado}
+%\author{Notas técnicas}
+%\date{}
 
-\section{Problema primal y problema dual}
+\section{Preliminares y notación}\label{sec:prelim}
 
-%Seguimos Allaire.
-%%%
-% ALLAIRE PAGE 320
-%%%
+Trabajamos en $\R^n$ con el producto interno canónico
+$\langle x,y\rangle = x^{\!\top} y$.  Una función
+$f:\R^n \to \R\cup\{+\infty\}$ se dice \emph{propia} si
+$\dom f := \{x\in\R^n : f(x)<+\infty\}\neq\varnothing$ y $f$ nunca
+toma el valor $-\infty$.  Es \emph{convexa} si su epígrafo
+$\epi f = \{(x,\alpha)\in\R^n\times\R : \alpha\ge f(x)\}$ es un
+conjunto convexo, y \emph{cerrada (inferiormente semicontinua, i.s.c.)}
+si $\epi f$ es cerrado, equivalente a $f=\cl f$ (su cerradura inferior).
 
-\subsection{Definiciones}
+Recordamos dos funciones clave que se usan reiteradamente:
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+  \item \textbf{Indicador} de un conjunto $C\subseteq\R^n$:
+        \[
+          \indic_C(x) =
+          \begin{cases}
+            0,   & x\in C,\\
+            +\infty, & x\notin C.
+          \end{cases}
+        \]
+        Es convexa cerrada sii $C$ es convexo cerrado.
+  \item \textbf{Función de soporte} de $C$:
+        $\supp_C(y)=\sup_{x\in C}\langle y,x\rangle$.
+\end{itemize}
 
-\begin{definition}
-Sean \( V \) y \( Q \) dos espacios de Hilbert sobre el cuerpo \( \mathbb{K} \) (donde \( \mathbb{K} = \mathbb{R} \) o \( \mathbb{C} \)), y sea \( \mathcal{L} \colon U \times P \subseteq V \times Q \to \mathbb{K} \) un \emph{Lagrangiano} definido sobre un subconjunto \( U \times P \) de \( V \times Q \).
-
-Un \emph{punto silla} de \( \mathcal{L} \) es un par \( (v^*, q^*) \in U \times P \) tal que:
+El \emph{subdiferencial} de una función convexa propia en $x\in\dom f$ es
 \[
-\mathcal{L}(v^*, q) \leq \mathcal{L}(v^*, q^*) \leq \mathcal{L}(v, q^*) \quad \forall (v, q) \in U \times P.
+  \subdiff f(x) = \{\, s\in\R^n : \langle s,\, y-x\rangle \le f(y)-f(x)
+  \quad\forall\, y\in\R^n \,\},
 \]
-Es decir, \( v^* \) minimiza \( \mathcal{L}(\cdot, q^*) \) en \( U \) y \( q^* \) maximiza \( \mathcal{L}(v^*, \cdot) \) en \( P \).
-\end{definition}
+y $\subdiff f(x)=\varnothing$ si $x\notin\dom f$.
 
----
-\begin{definition}
-Dado el Lagrangiano \( \mathcal{L} \), definimos las \emph{funciones primal y dual} como:
-\[
-P(v) = \sup_{q \in P} \mathcal{L}(v, q) \quad \text{(función primal)},
-\]
-\[
-D(q) = \inf_{v \in U} \mathcal{L}(v, q) \quad \text{(función dual)}.
-\]
-\end{definition}
+\section{La función conjugada de Fenchel}\label{sec:conj}
 
----
-\begin{definition}
-Los \emph{problemas primal y dual} asociados a \( \mathcal{L} \) son:
+\begin{definicion}[Conjugada de Fenchel]
+  Sea $f:\R^n\to\R\cup\{+\infty\}$ una función propia.  Su
+  \emph{función conjugada de Fenchel} es
+  \[
+    \boxed{\;
+    f^*(y) \;=\; \sup_{x\in\R^n}\bigl\{\,\langle y,x\rangle - f(x)\,\bigr\},
+    \qquad y\in\R^n.
+    \;}
+  \]
+\end{definicion}
+
+Algunas consecuencias inmediatas:
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item $f^*$ es (siempre) convexa, como supremo de funciones
+        afines en $y$ (a saber, $y\mapsto \langle y,x\rangle - f(x)$).
+  \item $f^*$ es propia sii $f$ no es la función idénticamente $-\infty$.
+  \item Si $f\le g$ entonces $f^*\ge g^*$ (el conjugado es
+        antítono).
+\end{enumerate}
+
+\begin{teorema}[desigualdad de Fenchel--Young]
+  Para toda $f:\R^n\to\R\cup\{+\infty\}$ propia y todo
+  $x,y\in\R^n$,
+  \[
+    \boxed{\; f(x) + f^*(y) \;\ge\; \langle x,y\rangle. \;}
+  \]
+  Más aún, si $f$ es convexa propia, entonces
+  \[
+    y\in\subdiff f(x)
+    \quad\Longleftrightarrow\quad
+    f(x)+f^*(y)=\langle x,y\rangle.
+  \]
+\end{teorema}
+
+\begin{proof}
+  Por definición $f^*(y)\ge \langle y,x\rangle - f(x)$ para todo
+  $x$, de donde $f(x)+f^*(y)\ge\langle x,y\rangle$.  Para la
+  caracterización: $y\in\subdiff f(x)$ significa
+  $\langle y,z-x\rangle \le f(z)-f(x)$ para todo $z$, es decir
+  $f^*(y)=\sup_z\{\langle y,z\rangle-f(z)\}\le \langle y,x\rangle-f(x)$,
+  lo que combinado con Fenchel--Young da la igualdad. \end{proof}
+
+\section{Ejemplos en una dimensión}\label{sec:ejemplos}
+
+Ejemplo paradigmático de cálculo en $\R$.
+
+\begin{ejemplo}[Cuadrática $f(x)=\tfrac12 x^2$]
+  \[
+    f^*(y)=\sup_{x\in\R}\Bigl\{ yx - \tfrac12 x^2 \Bigr\}.
+  \]
+  El supremando es estrictamente cóncavo; anulando la derivada,
+  $y-x=0$ da $x=y$.  Por tanto
+  \[
+    f^*(y)=\tfrac12 y^2.
+  \]
+  La cuadrática euclídea es \emph{autodual}: $(\tfrac12\|\cdot\|^2)^*
+  = \tfrac12\|\cdot\|^2$ (también en $\R^n$).
+\end{ejemplo}
+
+\begin{ejemplo}[Valor absoluto $f(x)=|x|$]
+  \[
+    f^*(y)=\sup_{x\in\R}\{yx-|x|\}.
+  \]
+  \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
+    \item Si $|y|\le 1$, entonces $yx\le |y|\,|x|\le |x|$, de modo que
+          $yx-|x|\le 0$ con igualdad en $x=0$; el supremo es $0$.
+    \item Si $|y|>1$, tomando $x\to +\infty$ (si $y>1$) o
+          $x\to-\infty$ (si $y<-1$) el supremando crece sin cota.
+  \end{itemize}
+  Luego $f^*(y)=\indic_{[-1,1]}(y)$, el indicador del intervalo
+  $[-1,1]$.  El conjugado de una función de valor finito puede ser un
+  indicador, y recíprocamente: el conjugado del indicador
+  $\indic_{[-1,1]}$ es $\supp_{[-1,1]}(y)=|y|$.
+\end{ejemplo}
+
+\begin{ejemplo}[Exponencial $f(x)=e^x$]
+  \[
+    f^*(y)=\sup_{x\in\R}\{yx-e^x\}.
+  \]
+  \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
+    \item Si $y>0$, el supremando es cóncavo; $y-e^x=0$ da $x=\ln y$ y
+          $f^*(y)=y\ln y-y$.
+    \item Si $y=0$, $f^*(0)=\sup_x\{-e^x\}=0$ (límite cuando $x\to-\infty$).
+    \item Si $y<0$, al hacer $x\to-\infty$ se tiene $yx\to+\infty$ y
+          $e^x\to0$, luego el supremo es $+\infty$.
+  \end{itemize}
+  Por tanto
+  \[
+    f^*(y)=
+    \begin{cases}
+      y\ln y - y, & y>0,\\
+      0,          & y=0,\\
+      +\infty,     & y<0.
+    \end{cases}
+  \]
+  Esta es la \emph{entropía de Gibbs} (a menos de signo y constante).
+  Obsérvese que $f$ es convexa y cerrada pero su dominio
+  $\dom f^*=[0,+\infty)$ no es abierto.
+\end{ejemplo}
+
+\section{Propiedades principales}\label{sec:props}
+
+Concentramos las reglas de cálculo y los grandes teoremas.
+
+\begin{proposicion}[reglas de cálculo]
+  Sea $f,g:\R^n\to\R\cup\{+\infty\}$ propias, $A:\R^n\to\R^m$ lineal,
+  $a\in\R^n$, $b\in\R$ y $\lambda>0$.
+  \begin{enumerate}[label=\textup{(\alph*)},leftmargin=1.8em,itemsep=2pt]
+    \item \textbf{Conjugada de una función afín.}
+          Si $\ell(x)=\langle a,x\rangle+b$, entonces
+          $\ell^*(y)=\indic_{\{a\}}(y)-b$.
+    \item \textbf{Postcomposición lineal.}
+          $(f\circ A)^*(y)=f^*(y)$ si $A$ es sobreyectiva, evaluada en
+          la imagen; en general
+          $(f\circ A)^*(y)=\inf\{f^*(z):A^{\!\top} z=y\}$,
+          con $+\infty$ si el conjunto es vacío.
+    \item \textbf{Suma con término afín.}
+          $(f+\langle a,\cdot\rangle+b)^*(y)=f^*(y-a)-b$.
+    \item \textbf{Reescalado positivo.}
+          $(\lambda f)^*(y)=\lambda\, f^*\!\bigl(\tfrac{y}{\lambda}\bigr)$.
+    \item \textbf{Conjugado del indicador.}
+          $\indic_C^* = \supp_C$.
+    \item \textbf{Convolución infimal.}
+          $(f\square g)(x):=\inf_{z}\{f(z)+g(x-z)\}$
+          satisface $(f\square g)^*=f^*+g^*$.
+  \end{enumerate}
+\end{proposicion}
+
+El resultado central, que justifica llamar a $f^*$ una
+\emph{dualidad involutiva} en el mundo convexo cerrado:
+
+\begin{teorema}[biconjugación de Fenchel--Moreau]
+  Sea $f:\R^n\to\R\cup\{+\infty\}$ propia.  Entonces
+  $f^{**}=\cl\operatorname{conv} f$, la cerradura de la envoltura
+  convexa de $f$.  En particular,
+  \[
+    \boxed{\; f^{**}=f \;\Longleftrightarrow\; f \text{ es convexa, propia y cerrada.} \;}
+  \]
+\end{teorema}
+
+Así, la operación $f\mapsto f^*$ es una \emph{involución} sobre el
+cono de las funciones convexas propias cerradas.
+
+\begin{teorema}[caracterización del subdiferencial]
+  Para $f$ convexa propia cerrada,
+  \[
+    \subdiff f(x)=\{\, y : f(x)+f^*(y)=\langle x,y\rangle\,\}.
+  \]
+  Además $y\in\subdiff f(x)\Leftrightarrow x\in\subdiff f^*(y)$:
+  el subdiferencial de $f$ y de $f^*$ son inversos (gráficas inversas).
+\end{teorema}
+
+\section{La dualidad de Fenchel--Rockafellar}\label{sec:dual}
+
+Consideremos dos funciones convexas propias y una aplicación lineal
+$A:\R^n\to\R^m$.  El \emph{problema primal} es
 \[
-\text{Problema primal:} \quad \inf_{v \in U} P(v) = \inf_{v \in U} \sup_{q \in P} \mathcal{L}(v, q),
+  \text{(P)}\qquad p^* \;=\; \inf_{x\in\R^n}\,\bigl\{\, f(x) + g(Ax)\,\bigr\}.
 \]
+Su \emph{problema dual de Fenchel--Rockafellar} es
 \[
-\text{Problema dual:} \quad \sup_{q \in P} D(q) = \sup_{q \in P} \inf_{v \in U} \mathcal{L}(v, q).
+  \text{(D)}\qquad d^* \;=\; \sup_{y\in\R^m}\,\bigl\{\, -f^*(-A^{\!\top} y) - g^*(y)\,\bigr\}.
 \]
-\end{definition}
+
+\begin{teorema}[dualidad débil]
+  Siempre $p^*\ge d^*$.  Si $p^*=-\infty$ entonces $d^*=-\infty$, y si
+  $d^*=+\infty$ entonces $p^*=+\infty$ (el primal es infactible).
+\end{teorema}
+
+\begin{teorema}[dualidad fuerte de Fenchel--Rockafellar]
+  Supongamos que se cumple una \emph{condición de calificación}, por
+  ejemplo
+  \[
+    0\in\ri(\dom g - A\,\dom f),
+  \]
+  donde $\ri$ denota el interior relativo.  Entonces
+  \[
+    \boxed{\;
+    \inf_{x}\,\{f(x)+g(Ax)\}
+    \;=\;
+    \sup_{y}\,\{-f^*(-A^{\!\top} y)-g^*(y)\},
+    \;}
+  \]
+  y el supremo dual se alcanza cuando es finito.  Además, si $y^*$ es
+  un optimizador dual, cualquier $x^*$ que verifique
+  $-A^{\!\top}y^*\in\subdiff f(x^*)$ y $y^*\in\subdiff g(Ax^*)$
+  es óptimo del primal.
+\end{teorema}
+
+La descomposición $f+g\circ A$ es \emph{universal}: cualquier
+problema convexo se escribe así tomando
+$g=\indic_C$ (restricción $Ax\in C$), $g=\indic_{\{0\}}$ (restricción
+$Ax=b$), etcétera.  De ahí que la fórmula dual anterior cubra
+toda la programación convexa.
+
+\section{Del conjugado al Lagrangiano}\label{sec:lagr}
+
+Mostramos cómo el \emph{Lagrangiano} ordinario emerge naturalmente
+de la conjugación a partir de una \emph{función de perturbación}.
+
+\begin{definicion}[función de perturbación]
+  Dada (P) con $\inf_x\{f(x)+g(Ax)\}$, definimos
+  \[
+    F(x,u)=f(x)+g(Ax-u),\qquad (x,u)\in\R^n\times\R^m,
+  \]
+  de modo que $F(x,0)=f(x)+g(Ax)$ es el objetivo primal.
+\end{definicion}
+
+La idea de Rockafellar es tratar $u$ como una \emph{perturbación}
+de la restricción $Ax-u=0$ y \emph{Lagrangianizar} esa perturbación.
+
+\begin{definicion}[Lagrangiano de Rockafellar]
+  El \emph{Lagrangiano} asociado a la perturbación $F$ es
+  \[
+    \boxed{\;
+    L(x,y)=\inf_{u\in\R^m}\bigl\{\, F(x,u)+\langle y,u\rangle\,\bigr\}.
+    \;}
+  \]
+\end{definicion}
+
+\begin{proposicion}[expresión explícita del Lagrangiano]
+  Para $F(x,u)=f(x)+g(Ax-u)$,
+  \[
+    L(x,y)=f(x)+\langle A^{\!\top}y,\,x\rangle - g^*(-y).
+  \]
+\end{proposicion}
+
+\begin{proof}
+  Sustituyendo y haciendo el cambio $z=Ax-u$ (i.e.\ $u=Ax-z$):
+  \begin{align*}
+    L(x,y)
+    &= f(x)+\inf_{z}\bigl\{ g(z) + \langle y,\, Ax-z\rangle \bigr\}\\
+    &= f(x)+\langle A^{\!\top}y,x\rangle
+       +\inf_{z}\bigl\{ g(z)-\langle y,z\rangle \bigr\}\\
+    &= f(x)+\langle A^{\!\top}y,x\rangle - g^*(-y),
+  \end{align*}
+  pues $\inf_z\{g(z)-\langle y,z\rangle\}=-\sup_z\{\langle y,z\rangle-g(z)\}
+  =-g^*(-y)$.
+\end{proof}
+
+\begin{observacion}[caso de restricción explícita]
+  Si $g=\indic_C$, entonces $g^*=\supp_C$ y
+  \[
+    L(x,y)=f(x)+\langle A^{\!\top}y,x\rangle-\supp_C(-y),
+    \qquad y\in\text{dualidad de }C.
+  \]
+  En particular, con $C=\{b\}$ (restricción $Ax=b$) se tiene
+  $\supp_{\{b\}}(-y)=-\langle y,b\rangle$ y se recupera el
+  Lagrangiano clásico
+  \[
+    L(x,y)=f(x)+\langle y,\, Ax-b\rangle.
+  \]
+\end{observacion}
+
+\begin{proposicion}[recuperación del dual de Fenchel--Rockafellar]
+  La función objetivo dual $\varphi(y)=\inf_x L(x,y)$ verifica
+  \[
+    \varphi(y)= -f^*(-A^{\!\top}y)-g^*(-y),
+  \]
+  de modo que el problema dual
+  $\sup_y\varphi(y)$ es \emph{exactamente} el problema (D) de la
+  Sección~\ref{sec:dual} (con el cambio $y\mapsto -y$).  Así el
+  Lagrangiano \emph{genera} la dualidad de Fenchel--Rockafellar.
+\end{proposicion}
+
+\begin{proof}
+  $\inf_x L(x,y)
+  =\inf_x\{f(x)+\langle A^{\!\top}y,x\rangle\}-g^*(-y)
+  =-f^*(-A^{\!\top}y)-g^*(-y)$,
+  usando
+  $\inf_x\{f(x)+\langle A^{\!\top}y,x\rangle\}
+  =-\sup_x\{\langle -A^{\!\top}y,x\rangle-f(x)\}
+  =-f^*(-A^{\!\top}y)$.
+\end{proof}
+
+El papel del conjugado es, pues, sustituir una \emph{restricción}
+($Ax\in C$) por una \emph{variable de precio} $y$ y un
+\emph{término de holgura} $\langle y,Ax\rangle-\supp_C(-y)$: el
+Lagrangiano es la formulación suavizada (dual) del problema.
+
+\section{Lagrangiano aumentado}\label{sec:aug}
+
+El Lagrangiano ordinario puede fallar en tener buenas propiedades de
+diferenciabilidad en el dual (el dual $\varphi(y)$ es, en general,
+sólo cóncavo y no suave).  La \emph{augmentación} consiste en añadir a
+la perturbación un \emph{término proximal cuadrático} en $u$.
+
+\begin{definicion}[Lagrangiano aumentado]
+  Con parámetro de penalización $\rho>0$, el \emph{Lagrangiano
+  aumentado} asociado a $F$ es
+  \[
+    \boxed{\;
+    L_\rho(x,y)
+    \;=\;
+    \inf_{u\in\R^m}\Bigl\{\,
+      F(x,u)+\langle y,u\rangle+\tfrac{\rho}{2}\|u\|^2
+    \,\Bigr\}.
+    \;}
+  \]
+\end{definicion}
+
+Para $\rho\to 0^+$ se recupera el Lagrangiano ordinario: la cuota
+$\tfrac{\rho}{2}\|u\|^2$ sólo penaliza las grandes perturbaciones
+$u\neq0$, pero al evaluar en $u=0$ (restricción satisfecha) no
+modifica el objetivo primal.
+
+\begin{proposicion}[caso de restricción de igualdad]
+  Sea $g=\indic_{\{0\}}$ (restricción $Ax=0$, i.e.\ $Ax=b$ tras
+  trasladar).  Entonces $F(x,u)=f(x)+\indic_{\{0\}}(Ax-u)$ obliga a
+  $u=Ax$ y
+  \[
+    \boxed{\;
+    L_\rho(x,y)=f(x)+\langle y,\, Ax-b\rangle
+               +\tfrac{\rho}{2}\,\|Ax-b\|^2.
+    \;}
+  \]
+  Éste es el \emph{Lagrangiano aumentado de Hestenes--Powell}:
+  un Lagrangiano ordinario más un \emph{término de penalización
+  cuadrática} sobre la violación de la restricción.
+\end{proposicion}
+
+\begin{proposicion}[caso de restricción de desigualdad]
+  Sea $g=\indic_{C}$ con $C=\R^m_{\le 0}$ (restricción $Ax\le0$).
+  Resolviendo el problema proyectado en $u$ se obtiene
+  \[
+    L_\rho(x,y)
+    = f(x)+\sum_{i=1}^m
+      \frac{1}{2\rho}\Bigl[
+        \bigl(\max\{0,\,y_i+\rho\, (Ax)_i\}\bigr)^2 - y_i^{\,2}
+      \Bigr],
+  \]
+  que es la \emph{forma de Hestenes--Powell--Rockafellar} para
+  desigualdades, basada en el operador $\max\{0,\cdot\}$ (proyección
+  sobre el ortante no positivo).
+\end{proposicion}
+
+\begin{teorema}[dual aumentada y regularización de Moreau]
+  Sea $p(u)=\inf_x F(x,u)$ la \emph{función valor} primal
+  perturbada.  El objetivo dual aumentado es
+  \[
+    \varphi_\rho(y)=\inf_x L_\rho(x,y)
+    =\inf_{u}\bigl\{\, p(u)+\langle y,u\rangle+\tfrac{\rho}{2}\|u\|^2\,\bigr\},
+  \]
+  de modo que, bajo las hipótesis habituales,
+  \[
+    \boxed{\;
+    \varphi_\rho(y)
+    \;=\; -\bigl(\tfrac{1}{\rho}\bigr)\,
+          \Moreau\!\bigl(\,p^*\bigr)(-y)
+    \;}
+  \]
+  es esencialmente la \emph{envolvente de Moreau--Yosida} del dual
+  ordinario $p^*$.  En consecuencia:
+  \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+    \item $\varphi_\rho$ es \emph{diferenciable} incluso si el dual
+          ordinario no lo es (la envolvente de Moreau suaviza);
+    \item $\nabla\varphi_\rho(y)=u_\rho(y)$, donde $u_\rho(y)$ es el
+          minimizador del inf, que satisface
+          $y+\rho\, u_\rho(y)\in\subdiff(-p)(u_\rho(y))$;
+    \item el método de los multiplicadores
+          $y_{k+1}=y_k+\rho\, h(x_{k+1})$ (con $h(x)=Ax-b$ en el caso
+          de igualdad) es exactamente un \emph{paso de gradiente} sobre
+          $\varphi_\rho$.
+  \end{enumerate}
+\end{teorema}
+
+El esquema iterativo es el del \emph{método de los
+multiplicadores} de Hestenes y Powell:
+\[
+  x_{k+1}\in\argmin_x L_\rho(x,y_k),
+  \qquad
+  y_{k+1}=y_k+\rho\, h(x_{k+1}),
+\]
+que combina la \emph{robustez} del método de penalización (la
+cuota $\tfrac{\rho}{2}\|h\|^2$ evita la divergencia del parámetro
+de penalización) con la \emph{precisión} del Lagrangiano (la
+actualización del multiplicador corrige la estimación del
+precio $y$).  Bajo la dualidad fuerte de la Sección~\ref{sec:dual}
+este esquema converge a un punto de silla de $L_\rho$.
+
+\section{Nota contextual e histórica}\label{sec:contexto}
+
+El concepto de \emph{función conjugada} fue introducido por
+\textbf{W.~Fenchel} en su trabajo sobre geometría convexa y
+teoría de la medida (Fenchel, \textit{On conjugate convex
+functions}, Canad.\ J.\ Math., 1949), buscando un análogo, en el
+mundo convexo, de la \emph{transformada de Legendre} de la
+mecánica analítica (Hamilton, siglo~XIX).  La transformada de
+Legendre $p\mapsto \sup_x\{p\,x-H(p)\}$ describe el paso de un
+Hamiltoniano a su representación en los momentos conjugados; el
+conjugado de Fenchel es precisamente esa idea, generalizada a
+funciones no diferenciables mediante el supremo en lugar del
+cambio de variables $y=\nabla f(x)$.
+
+La sistematización definitiva se debe a
+\textbf{R.~T.~Rockafellar}, quien en \textit{Convex Analysis}
+(1970) reformuló toda la optimización convexa como una teoría de
+\emph{funciones conjugadas} y \emph{dualidad vía perturbaciones}.
+Allí establece que el Lagrangiano es un objeto derivado de la
+conjugación, no un artefacto del cálculo vectorial: dado un
+problema primal $\inf_x F(x,0)$ con perturbación $F$ convexa, el
+Lagrangiano $L(x,y)=\inf_u\{F(x,u)-\langle y,u\rangle\}$ produce
+automáticamente el dual $\sup_y -F^*(0,y)$, unificando los
+Lagrangianos de la programación lineal, no lineal y con
+restricciones de cono.  Por ello la dualidad de este documento se
+denomina \emph{de Fenchel--Rockafellar}: Fenchel aporta la
+transformada, Rockafellar la teoría perturbacional que la conecta
+con el Lagrangiano.
+
+El \emph{Lagrangiano aumentado} nació de forma independiente en
+\textbf{M.~R.~Hestenes} (1969) y \textbf{M.~J.~D.~Powell} (1969)
+para problemas con restricciones de igualdad, y fue generalizado a
+todo problema convexo por \textbf{R.~T.~Rockafellar} en
+\textit{The multiplier method of Hestenes and Powell applied to
+convex programming} (J.\ Opt.\ Theory Appl., 1973).  La
+intuición geométrica es transparente desde el conjugado: la
+augmentación cuadrática es exactamente la \emph{regularización de
+Moreau--Yosida} del problema dual, es decir, el reemplazo del
+conjugado $p^*$ por su envolvente suavizada.  Esto explica por qué
+el método de los multiplicadores converge sin enviar el parámetro
+de penalización $\rho$ a infinito (como sí lo requiere el método
+de penalización puro de Courant): la suavización de Moreau
+\emph{regulariza el dual} en lugar de \emph{endurecer el primal}.
+
+El marco de Fenchel--Rockafellar es hoy el lenguaje estándar de la
+optimización convexa moderna (cf.\ Bauschke \& Combettes,
+\textit{Convex Analysis and Monotone Operator Theory in Hilbert
+Spaces}, 2017; Rockafellar \& Wets, \textit{Variational
+Analysis}, 1998), y subyace a algoritmos tan diversos como
+ADMM (el cual es precisamente un \emph{algoritmo de Douglas--Rachford
+sobre el dual aumentado}), los métodos de punto proximal y toda la
+teoría de operadores monotonos.  
+
+%La cadena conceptual es, en
+%resumen:
+%\[
+%  \text{conjugación de Fenchel}
+%  \;\xrightarrow{\;\text{biconjugación}\;}\;
+%  \text{función cerrada}
+%  \;\xrightarrow{\;\text{perturbación}\;}\;
+%  \text{Lagrangiano}
+%  \;\xrightarrow{\;\text{regularización de Moreau}\;}\;
+%  \text{Lagrangiano aumentado}.
+%\]
 
 \chapter{Perspectivas}
 \label{ch:conclusion}
@@ -2909,6 +3464,10 @@ En procesamiento de imágenes, técnicas como la \textbf{reconstrucción convexa
 \section{Teoría de la información}
 En teoría de la información, las funciones convexas como la \textbf{entropía relativa} (o divergencia de Kullback-Leibler) son herramientas esenciales para analizar la capacidad de canales de comunicación y diseñar códigos eficientes.
 
+\section{Mecanica e fisica no lineal y no suave}
+
+\section{Optimizacion de forma}
+
 %\addcontentsline{toc}{chapter}{Bibliograf\'ia}
 %\nocite{*}
 %{\footnotesize
@@ -2950,6 +3509,1120 @@ En teoría de la información, las funciones convexas como la \textbf{entropía 
 %\end{quotation}
 
 \appendix
+
+% =====================================================================
+%  Metodo de Newton semi-suave
+%  Notas: definicion del algoritmo, ejemplo 1D,
+%  desigualdades variacionales penalizadas en dimension finita e infinita,
+%  origen y convergencia.
+%  Compilar con pdflatex (o lualatex/xelatex).
+% =====================================================================
+% -------- Notacion ----------
+% \newcommand{\R}{\mathbb{R}}
+% \newcommand{\barr}{\overline}
+% \newcommand{\dom}{\operatorname{dom}}
+% \newcommand{\epi}{\operatorname{epi}}
+% \newcommand{\cl}{\operatorname{cl}}
+% \newcommand{\inter}{\operatorname{int}}
+% \newcommand{\subdiff}{\partial}
+% \newcommand{\indic}{\delta}
+% \newcommand{\prox}{\operatorname{prox}}
+% \newcommand{\Id}{\mathrm{Id}}
+% \newcommand{\Lip}{\operatorname{Lip}}
+% \newcommand{\rank}{\operatorname{rank}}
+% \DeclareMathOperator*{\argmin}{arg\,min}
+% \DeclareMathOperator*{\argmax}{arg\,max}
+% \DeclareMathOperator{\sign}{sgn}
+% \DeclareMathOperator{\dist}{dist}
+
+% % -------- Entornos de teoremas ----------
+% \theoremstyle{definition}
+% \newtheorem{definicion}{Definición}[section]
+% \newtheorem{ejemplo}{Ejemplo}[section]
+% \newtheorem{algoritmo}{Algoritmo}[section]
+% \theoremstyle{plain}
+% \newtheorem{proposicion}{Proposición}[section]
+% \newtheorem{teorema}{Teorema}[section]
+% \newtheorem{lema}{Lema}[section]
+% \newtheorem{hipo}{Hipótesis}[section]
+% \theoremstyle{remark}
+% \newtheorem{observacion}{Observación}[section]
+
+% \setlength{\parindent}{0pt}
+% \setlength{\parskip}{0.5em}
+
+%\title{\textbf{Método de Newton semi-suave}\\[2pt]
+%\large Definición, ejemplos en 1D y en desigualdades variacionales\\
+%penalizadas (dimensión finita e infinita), origen y convergencia}
+%\author{Notas técnicas}
+%\date{}
+
+\chapter{Lema de Baire}
+
+\section*{Enunciado}
+\begin{teorema}[Lema de Baire]
+Sea \( X \) un espacio métrico completo. Si \( \{F_n\}_{n \in \mathbb{N}} \) es una familia numerable de subconjuntos cerrados de \( X \) tales que
+\[
+\bigcup_{n \in \mathbb{N}} F_n = X,
+\]
+entonces existe al menos un \( n \in \mathbb{N} \) para el cual \( \text{int}(F_n) \neq \emptyset \).
+\end{teorema}
+
+\section*{Origen}
+El \textbf{Lema de Baire} fue demostrado por el matemático francés \textbf{René-Louis Baire} (1874--1932) en su tesis doctoral \textit{``Sur les fonctions de variables réelles''} (1899). Baire estudió propiedades de funciones discontinuas en \( \mathbb{R} \) y, en ese contexto, demostró que un espacio métrico completo no puede expresarse como unión numerable de conjuntos cerrados sin puntos interiores (conjuntos \textit{ninguna parte densa}).
+
+\begin{itemize}
+    \item \textbf{Contexto histórico:} A finales del siglo XIX, el análisis matemático se centraba en entender la estructura de funciones y conjuntos en \( \mathbb{R} \). El lema surgió como una herramienta clave para analizar conjuntos ``grandes'' en el sentido topológico.
+\end{itemize}
+
+\section*{Aplicaciones}
+El Lema de Baire es una herramienta fundamental en topología, análisis funcional y teoría de conjuntos. Algunas de sus aplicaciones más importantes son:
+
+\subsection*{Teoría de la categoría de Baire}
+Un espacio métrico completo se dice de \textbf{segunda categoría} si no puede escribirse como unión numerable de conjuntos \textit{ninguna parte densa} (cerrados sin interior). El Lema de Baire implica que \textbf{todo espacio métrico completo es de segunda categoría en sí mismo}.
+
+\subsection*{Demostración de existencia en análisis}
+Se utiliza para probar que ciertos conjuntos son no vacíos o densos. Por ejemplo:
+\begin{itemize}
+    \item En el \textbf{Teorema de Banach-Steinhaus} (análisis funcional), se demuestra que si una familia de operadores lineales acotados en un espacio de Banach está puntualmente acotada, entonces está uniformemente acotada. El Lema de Baire es clave en la prueba.
+    \item En el \textbf{Teorema de la aplicación abierta}, que afirma que toda aplicación lineal sobreyectiva entre espacios de Banach es abierta.
+\end{itemize}
+
+\subsection*{Conjuntos densos y aproximación}
+Demuestra que ciertos conjuntos son densos en un espacio. Por ejemplo:
+\begin{itemize}
+    \item El conjunto de los números irracionales es denso en \( \mathbb{R} \).
+    \item En espacios de funciones, el conjunto de las funciones continuas puede ser denso en ciertos espacios métricos.
+\end{itemize}
+
+\subsection*{Topología y espacios de funciones}
+En el espacio \( C([0,1]) \) de las funciones continuas en \([0,1]\) con la métrica del supremo, el Lema de Baire ayuda a probar que ciertos subconjuntos (como el de las funciones diferenciables) son \textbf{magros} (unión numerable de conjuntos ninguna parte densa), lo que implica que son ``pequeños'' en el sentido topológico.
+
+\section*{Ejemplo concreto}
+\begin{ejemplo}
+Demostrar que \( \mathbb{R} \) no puede escribirse como unión numerable de conjuntos cerrados sin puntos interiores.
+
+\textbf{Solución:}
+Supongamos que \( \mathbb{R} = \bigcup_{n=1}^\infty F_n \), donde cada \( F_n \) es cerrado y \( \text{int}(F_n) = \emptyset \). Dado que \( \mathbb{R} \) es un espacio métrico completo, por el Lema de Baire, algún \( F_n \) debe tener interior no vacío, lo que contradice la hipótesis. Por lo tanto, \( \mathbb{R} \) no puede expresarse como unión numerable de conjuntos cerrados sin puntos interiores.
+\end{ejemplo}
+
+\section*{Intuición}
+El Lema de Baire captura la idea de que un espacio completo es ``grande'': no puede cubrirse con una unión numerable de conjuntos ``pequeños'' (cerrados sin interior). Esto refleja que los espacios completos tienen una estructura topológica robusta, donde los conjuntos ``delgados'' no pueden acumularse para formar todo el espacio.
+
+\chapter{Newton and Clarke}
+\section{Motivación y contexto}\label{sec:motivacion}
+
+El método clásico de Newton--Raphson resuelve
+$F(x)=0$ con $F:\R^n\to\R^n$ \emph{suavemente diferenciable} mediante
+\[
+  x_{k+1}=x_k-[F'(x_k)]^{-1}F(x_k),
+\]
+donde $F'(x_k)$ es la Jacobiana.  Bajo hipótesis de regularidad y de
+no singularidad, la convergencia es \emph{cuadrática}:
+$\|x_{k+1}-x^*\|=O(\|x_k-x^*\|^2)$.
+
+En optimización y análisis numérico, sin embargo, las ecuaciones que
+aparecen rara vez son suaves: funciones de valor, resoluciones de
+proyección, leyes de complementariedad, términos de penalización con
+valor absoluto o de \texttt{max}/\texttt{min}.  Un Newton clásico no
+se aplica directamente, pues el objeto sustituto de la derivada
+(\emph{subdiferencial generalizado}) es una \emph{multifunción}
+$J_F(x)\subseteq\mathcal{L}(\R^n,\R^n)$.  La pregunta es:
+
+\begin{quote}
+  \itshape ¿Bajo qué condiciones un paso de Newton construido con un
+  elemento \emph{cualquiera} de $J_F(x_k)$ conserva convergencia
+  \emph{superlineal}?
+\end{quote}
+
+El método de \emph{Newton semi-suave} responde afirmativamente.  La
+idea, debida a \textbf{Mifflin} (1977) y sistematizada por
+\textbf{Qi y Sun} (1993), es exigir que $F$ no sea simplemente
+localmente Lipschitz, sino que su aproximación lineal por elementos
+del subdiferencial de Clarke tenga un resto \emph{de orden superior
+  al primer orden}, es decir, que el error de linealización sea
+$o(\|h\|)$ uniformemente.  Esta condición -- la
+\emph{semi-suavidad} -- es notablemente más débil que la
+diferenciabilidad y, al mismo tiempo, suficiente para recuperar
+convergencia superlineal.
+
+\section{Elementos de análisis no diferenciable}\label{sec:prelim}
+
+Sea $F:\R^n\to\R^m$ \emph{localmente Lipschitz}.  Por el teorema de
+Rademacher, $F$ es diferenciable en casi todo $x$.  El
+\emph{subdiferencial generalizado de Clarke} en $x$ es
+\[
+  \subdiff_C F(x)
+  =\co
+  \Bigl\{\, \lim_{i\to\infty} F'(x_i)\,:\,
+  x_i\to x,\; F \text{ diferenciable en } x_i \,\Bigr\},
+\]
+donde $\co$ denota la envoltura convexa.  Cada $J\in\subdiff_C F(x)$
+es una matriz $m\times n$, y la multifunción $x\rightrightarrows
+\subdiff_C F(x)$ es \emph{semi-continua superior} con valores
+no vacíos, convexos y compactos.
+
+Cuando $F$ es continuamente diferenciable,
+$\subdiff_C F(x)=\{F'(x)\}$ y se recupera el caso clásico.  Para
+$f(x)=|x|$, $\subdiff_C f(x)=\{\sign(x)\}$ si $x\neq0$ y
+$\subdiff_C f(0)=[-1,1]$.
+
+\begin{definicion}[semi-suavidad, Qi--Sun 1993]
+  $F:\R^n\to\R^m$ localmente Lipschitz es \emph{semi-suave} en $x$
+  si para todo $h\to0$ y todo $J\in\subdiff_C F(x+h)$ se cumple
+  \[
+    \boxed{\;
+    F(x+h)-F(x)-Jh \;=\; o(\|h\|).
+    \;}
+  \]
+  Es \emph{$\alpha$-semi-suave} ($0<\alpha\le1$) si el resto es
+  $O(\|h\|^{1+\alpha})$, y \emph{fuertemente semi-suave} si el resto
+  es $O(\|h\|^2)$.
+\end{definicion}
+
+\begin{observacion}
+  La semi-suavidad es \emph{más fuerte} que la direccional
+  diferenciabilidad y \emph{más débil} que la diferenciabilidad
+  continua.  Las funciones convexas, cóncavas y las funciones
+  \emph{piecewise $C^1$} (como $|\cdot|$, $\max$, $\min$,
+  proyecciones sobre politopos) son semi-suaves.
+\end{observacion}
+
+\begin{definicion}[función de BD-regularidad]
+  $F$ es \emph{BD-regular} en $x^*$ (de \emph{B-diferenciabilidad})
+  si todo $J\in\subdiff_C F(x^*)$ es no singular.  Se denomina
+  \emph{constante de BD-regularidad} a
+  \[
+    \sigma_{\min}^{\!*}:=\inf_{J\in\subdiff_C F(x^*)}\sigma_{\min}(J)>0.
+  \]
+\end{definicion}
+
+\section{El algoritmo de Newton semi-suave}\label{sec:algoritmo}
+
+\begin{algoritmo}[Newton semi-suave puro]
+  \hfill
+  \begin{description}[leftmargin=1.2em,itemsep=2pt]
+    \item[Entrada] $F:\R^n\to\R^n$ localmente Lipschitz, punto
+      inicial $x_0\in\R^n$, tolerancia $\varepsilon>0$.
+    \item[Paso $k\ge0$] Calcular $r_k:=F(x_k)$.
+      \begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+        \item Escoger $J_k\in\subdiff_C F(x_k)$.
+        \item Resolver $J_k\,d_k=-r_k$ (sistema lineal).
+        \item Actualizar $x_{k+1}=x_k+d_k$.
+        \item Si $\|F(x_{k+1})\|\le\varepsilon$, parar.
+      \end{enumerate}
+  \end{description}
+\end{algoritmo}
+
+La diferencia con el Newton clásico es exclusivamente el paso
+\textbf{(a)}: en lugar de \emph{la} Jacobiana, se usa
+\emph{cualquier} elemento del subdiferencial de Clarke.  En la
+práctica esto significa que se elige una \emph{sección activa}
+adecuada (por ejemplo, el signo de $x_k$ para $|x_k|$, los
+restricciones activas para la proyección sobre un politopo) y se
+deriva formalmente como si la función fuera afín por piezas.
+
+\begin{teorema}[convergencia local superlineal, Qi--Sun 1993]
+  Sea $x^*$ solución de $F(x)=0$.  Supóngase:
+  \begin{enumerate}[label=\textup{(\roman*)},leftmargin=1.6em,itemsep=1pt]
+    \item $F$ es semi-suave en un entorno de $x^*$;
+    \item $F$ es BD-regular en $x^*$ (todo $J\in\subdiff_C F(x^*)$ es
+          no singular).
+  \end{enumerate}
+  Entonces, si $x_0$ es suficientemente cercano a $x^*$, la
+  sucesión generada por el Algoritmo~1 está bien definida y
+  converge superlinealmente a $x^*$:
+  \[
+    \boxed{\;
+    \|x_{k+1}-x^*\| \;=\; o(\|x_k-x^*\|).
+    \;}
+  \]
+  Si además $F$ es $\alpha$-semi-suave, la convergencia es de orden
+  $1+\alpha$; si es fuertemente semi-suave, es \emph{cuadrática}.
+\end{teorema}
+
+\begin{proof}[Esquema de demostración]
+  Por BD-regularidad, $\|J_k^{-1}\|\le M$ en un entorno.  Usando
+  $F(x^*)=0$ y la semi-suavidad en $x_k-x^*$:
+  \begin{align*}
+    x_{k+1}-x^*
+    &= x_k - J_k^{-1}F(x_k) - x^*\\
+    &= J_k^{-1}\bigl(J_k(x_k-x^*) - F(x_k)+F(x^*)\bigr)\\
+    &= J_k^{-1}\bigl(F(x_k)-F(x^*)-J_k(x_k-x^*)\bigr)
+     = J_k^{-1}\,o(\|x_k-x^*\|).
+  \end{align*}
+  Tomando normas, $\|x_{k+1}-x^*\|\le M\,o(\|x_k-x^*\|)
+  =o(\|x_k-x^*\|)$.  El caso $\alpha$-semi-suave se obtiene
+  reemplazando $o(\|h\|)$ por $O(\|h\|^{1+\alpha})$.
+\end{proof}
+
+\begin{observacion}[variantes globales]
+  Para garantizar convergencia \emph{global} (desde $x_0$ lejano)
+  se añade una \emph{búsqueda lineal} o una \emph{función de
+  mérito}: típicamente $\Theta(x)=\tfrac12\|F(x)\|^2$, con criterio
+  de Armijo
+  $\Theta(x_k+\tau d_k)\le\Theta(x_k)+c\,\tau\nabla\Theta(x_k)^{\!\top}d_k$.
+  Esto produce el \emph{Newton semi-suave globalizado}; la
+  convergencia superlineal se conserva una vez que la iteración
+  entra en la vecindad de $x^*$.
+\end{observacion}
+
+\section{Ejemplo en dimensión uno}\label{sec:1d}
+
+\begin{ejemplo}[resolución de $|x|+2x-5=0$]
+  Sea $F(x)=|x|+2x-5$.  La función es semi-suave (es afín por
+  piezas) y su raíz se obtiene a mano: para $x\ge0$,
+  $x+2x-5=0\Rightarrow x^*=5/3$.  Veamos cómo opera el método.
+
+  \medskip
+  \textbf{Subdiferencial de Clarke.}
+  \[
+    \subdiff_C F(x)=
+    \begin{cases}
+      \{3\},       & x>0,\\
+      \{-1\},      & x<0,\\
+      [1,3],       & x=0.
+    \end{cases}
+  \]
+  En $x^*=5/3>0$, el único elemento es $J=3$ (no singular);
+  $F$ es BD-regular y de hecho \emph{fuertemente semi-suave} en un
+  entorno de $x^*$ (es afín allí), luego la convergencia es
+  \emph{cuadrática}.
+
+  \medskip
+  \textbf{Iteración.}  Tomamos $x_0=2$.
+  \begin{align*}
+    k=0:&\quad J_0=3,\;
+          d_0=-\tfrac{F(2)}{3}=-\tfrac{1}{3},\;
+          x_1=2-\tfrac13=\tfrac53.\\
+    k=1:&\quad F(\tfrac53)=0,\;\text{fin.}
+  \end{align*}
+  Converge en \emph{un solo paso} desde cualquier $x_0>0$, porque
+  $F$ es exactamente afín en ese semieje.  Si $x_0<0$, un paso
+  envía
+  \[
+    x_1=x_0-\frac{|x_0|+2x_0-5}{-1}=x_0-(-x_0+2x_0-5)=5-2x_0,
+  \]
+  que para $x_0<0$ es $>5>0$, y la segunda iteración aterriza
+  exactamente en $x^*$.  La semi-suavidad garantiza que el número
+  de pasos es \emph{finito} para funciones afín por piezas.
+\end{ejemplo}
+
+\begin{ejemplo}[raíz no trivial de $F(x)=\max\{0,x\}+\tfrac12 x-1$]
+  Equivalentemente
+  $F(x)=\max\{0,x\}+\tfrac12 x-1$.  Para $x\ge0$:
+  $x+\tfrac12 x-1=0\Rightarrow x^*=2/3$.  Aquí
+  \[
+    \subdiff_C F(x)=
+    \begin{cases}
+      \{3/2\},      & x>0,\\
+      \{1/2\},      & x<0,\\
+      [1/2,3/2],    & x=0.
+    \end{cases}
+  \]
+  Tomando $x_0=1$:
+  $J_0=3/2$, $F(1)=1+\tfrac12-1=\tfrac12$, $d_0=-\tfrac13$,
+  $x_1=2/3=x^*$: un solo paso.  Tomando $x_0=-2$:
+  $J_0=1/2$, $F(-2)=0-1-1=-2$, $d_0=4$, $x_1=2>0$; en el paso
+  siguiente se alcanza $x^*$.  De nuevo, convergencia finita.
+\end{ejemplo}
+
+\section{Desigualdades variacionales penalizadas}\label{sec:vi}
+
+\subsection{Formulación general}
+
+Dado un espacio de Hilbert $V$ (real, separable), un operador
+$A:V\to V^*$ y un conjunto cerrado convexo $K\subseteq V$, la
+\emph{desigualdad variacional} (DV) consiste en hallar $u\in K$ tal
+que
+\[
+  \text{(DV)}\qquad
+  \langle Au-f,\, v-u\rangle \ge 0 \quad\forall\, v\in K.
+\]
+Cuando $K$ se describe por restricciones (por ejemplo, $K=\{v:
+\Psi(v)\le0\}$), una estrategia de penalización reemplaza la
+restricción por un \emph{operador de penalización}
+$P_\rho:V\to V$ de Nemytskii del tipo \emph{proyección suave}, por
+ejemplo
+\[
+  P_\rho(u)=\frac1\rho\,\Pi_C\bigl(\rho\,\Psi(u)\bigr),
+\]
+con $\Pi_C$ la proyección (de Moreau) sobre un cono $C$ apropiado.
+El \emph{problema penalizado} es entonces la ecuación
+\[
+  \text{(DV$_\rho$)}\qquad
+  F_\rho(u):=Au-f+P_\rho(u)=0 \quad\text{en } V^*.
+\]
+Resolver $F_\rho(u)=0$ es un problema \emph{no diferenciable}, pero
+\emph{semi-suave} bajo hipótesis razonables: el operador $P_\rho$
+es composición de un operador de proyección (semi-suave) con
+$\Psi$ (suave), y por tanto hereda la semi-suavidad.  El método de
+Newton semi-suave es el caballo de batalla natural.
+
+\subsection{Ejemplo en dimensión finita}\label{sec:vi-fin}
+
+\begin{ejemplo}[complementariedad lineal penalizada]
+  Consideremos el problema de complementariedad lineal
+  $w=Mx+q\ge0$, $x\ge0$, $x^{\!\top}w=0$, con
+  $M\in\R^{n\times n}$, $q\in\R^n$.  Equivale a la DV sobre
+  $K=\R^n_+$ con $A(x)=Mx+q$.  Una penalización estándar (de
+  tipo \emph{función de Fischer--Burmeister penalizada}) es
+  \[
+    F_\rho(x)=Mx+q+\rho\,\phi(x),\qquad
+    \phi_i(x)=\sqrt{x_i^2+w_i(x)^2}-x_i-w_i(x),
+  \]
+  con $w(x)=Mx+q$.  Cada $\phi_i$ es semi-suave (composición de
+  funciones semi-suaves: raíz, norma, suma); el subdiferencial de
+  Clarke se calcula por reglas de la cadena no diferenciable.
+
+  \medskip
+  \textbf{Subdiferencial.}  En el caso regular ($x_i+w_i\ne0$),
+  \[
+    \frac{\partial\phi_i}{\partial x_j}
+    =\Bigl(\frac{x_i}{\sqrt{x_i^2+w_i^2}}-1\Bigr)\delta_{ij}
+     +\Bigl(\frac{w_i}{\sqrt{x_i^2+w_i^2}}-1\Bigr)M_{ij}.
+  \]
+  En el caso degenerado $x_i=w_i=0$, el subdiferencial de Clarke
+  es un conjunto convexo de matrices que se obtiene por límites de
+  las fórmulas anteriores.  El paso de Newton semi-suave resuelve
+  \[
+    J_k\,d_k=-(Mx_k+q+\rho\,\phi(x_k)),\qquad
+    x_{k+1}=x_k+d_k,
+  \]
+  con $J_k\in\subdiff_C F_\rho(x_k)$.  Bajo la hipótesis de
+  $P$-matriz ($M$ tiene todos los menores principales positivos),
+  $F_\rho$ es BD-regular y el método es localmente superlineal.
+\end{ejemplo}
+
+\subsection{Ejemplo en dimensión infinita}\label{sec:vi-inf}
+
+\begin{ejemplo}[obstáculo elíptico penalizado]
+  Sea $\Omega\subset\R^d$ abierto acotado con frontera Lipschitz,
+  $V=H^1_0(\Omega)$, $f\in L^2(\Omega)$ y $\psi\in H^1(\Omega)$ un
+  obstáculo.  La DV del obstáculo es: hallar $u\in K$ tal que
+  \[
+    \int_\Omega \nabla u\cdot\nabla(v-u)\,dx
+    \ge \int_\Omega f\,(v-u)\,dx
+    \quad\forall\, v\in K,
+  \]
+  con $K=\{v\in H^1_0(\Omega):v\ge\psi\}$.  Equivalentemente, con
+  $A=-\Delta$ (en forma débil), se busca $u\in K$ con
+  $\langle Au-f,v-u\rangle\ge0$.
+
+  \medskip
+  \textbf{Penalización de Moreau--Yosida.}  Se reemplaza la
+  restricción $u\ge\psi$ por un término de penalización sobre la
+  \emph{parte negativa} $[u-\psi]^{-}=\min\{0,u-\psi\}$:
+  \[
+    \text{(P$_\rho$)}\qquad
+    -\Delta u_\rho - f - \frac1\rho\,[u_\rho-\psi]^{-}=0
+    \quad\text{en }\Omega,
+    \qquad u_\rho|_{\partial\Omega}=0.
+  \]
+  La función $F_\rho(u)=-\Delta u-f-\tfrac1\rho[u-\psi]^{-}$ actúa
+  de $H^1_0(\Omega)$ en $H^{-1}(\Omega)$.  El operador de
+  Nemytskii $u\mapsto[u-\psi]^{-}=\min\{0,u-\psi\}$ es
+  \emph{semi-suave} de $L^2(\Omega)$ en $L^2(\Omega)$ (composición
+  del $\min$ semi-suave con $u-\psi$ suave), y de
+  $H^1_0(\Omega)\hookrightarrow L^{2^*}(\Omega)$ en
+  $L^2(\Omega)$ bajo las inclusiones de Sobolev pertinentes.
+
+  \medskip
+  \textbf{Subdiferencial de Clarke del operador de penalización.}
+  En casi todo $x\in\Omega$,
+  \[
+    J_\rho(x) =
+    \begin{cases}
+      -\tfrac1\rho, & u(x)<\psi(x),\\
+      \phantom{-}0, & u(x)>\psi(x),\\
+      \in[-\tfrac1\rho,0], & u(x)=\psi(x).
+    \end{cases}
+  \]
+  El subdiferencial de Clarke del operador de Nemytskii es el
+  operador de multiplicación por una función
+  $\beta_\rho\in L^\infty(\Omega)$ con
+  $\beta_\rho(x)\in[-1/\rho,0]$ casi en todo $x$.  El paso de
+  Newton semi-suave resuelve, en cada iteración, la PDE lineal
+  \[
+    -\Delta d_k + \beta_{\rho,k}\,d_k
+    = -\bigl(-\Delta u_k-f-\tfrac1\rho[u_k-\psi]^{-}\bigr),
+    \qquad d_k|_{\partial\Omega}=0,
+  \]
+  con $\beta_{\rho,k}\in\subdiff_C P_\rho(u_k)$, y actualiza
+  $u_{k+1}=u_k+d_k$.  La PDE lineal es una \emph{ecuación de
+  reacción--difusión} con coeficiente variable; su resolución es
+  un problema elíptico standard.
+
+  \medskip
+  \textbf{Convergencia.}  Bajo las hipótesis:
+  \begin{enumerate}[label=\textup{(\roman*)},leftmargin=1.6em,itemsep=1pt]
+    \item $u^*_\rho$ solución de (P$_\rho$) tal que la
+          \emph{medida del conjunto de contacto}
+          $\mathcal{C}=\{x:u^*_\rho(x)=\psi(x)\}$ es positiva pero
+          el operador de Newton es no singular en $u^*_\rho$
+          (\emph{condición de regularidad del contacto});
+    \item el operador de penalización es \emph{fuertemente
+          semi-suave} en $u^*_\rho$ (satisfecho para $[\,\cdot\,]^-$);
+  \end{enumerate}
+  el método de Newton semi-suave es \emph{localmente
+  superlineal} en $H^1_0(\Omega)$.  Además, cuando
+  $\rho\downarrow0$, $u^*_\rho\to u^*$ en $H^1_0(\Omega)$ con
+  \[
+    \|u^*_\rho-u^*\|_{H^1} \le C\sqrt{\rho}
+  \]
+  (estimación clásica de penalización de Moreau--Yosida), de modo
+  que una estrategia habitual es aplicar Newton semi-suave para
+  varios $\rho_k\downarrow0$, usando la solución previa como
+  inicialización del siguiente.
+\end{ejemplo}
+
+\begin{observacion}[estrategia de continuación en $\rho$]
+  En la práctica se resuelve (P$_{\rho_k}$) con Newton semi-suave
+  para $\rho_0\gg\rho_1\gg\cdots\to0$, tomando $u^{(k-1)}$ como
+  $u_0^{(k)}$.  Cada subproblema converge superlinealmente (o
+  cuadráticamente), y el costo por paso es el de una resolución
+  elíptica lineal, lo que hace al esquema competitivo con los
+  métodos multigrid de frontera libre.
+\end{observacion}
+
+\section{Origen histórico}\label{sec:origen}
+
+El método de Newton semi-suave tiene tres raíces históricas:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
+  \item \textbf{Análisis no diferenciable (Clarke, 1975--1983).}
+    F.~H.~Clarke introduce el subdiferencial generalizado para
+    funciones localmente Lipschitz en \textit{Optimization and
+    Nonsmooth Analysis} (1983), dando el lenguaje adecuado para
+    hablar de ``derivadas'' de funciones no suaves.  Sin esta
+    herramienta no podría formularse el método.
+
+  \item \textbf{Semi-suavidad (Mifflin, 1977).}  R.~Mifflin, en
+    \textit{Semismooth and semiconvex functions in constrained
+    optimization} (SIAM J.\ Control Optim., 1977), define por
+    primera vez la noción de \emph{función semi-suave} como una
+    condición intermedia entre diferenciabilidad y continuidad
+    Lipschitz.  Su motivación eran algoritmos de optimización no
+    diferenciable con búsqueda lineal; la convergencia
+    superlineal no estaba aún demostrada.
+
+  \item \textbf{Método de Newton semi-suave (Qi y Sun, 1993).}
+    L.~Qi y J.~Sun, en \textit{A nonsmooth version of Newton's
+    method} (Math.\ Programming, 1993), unifican los trabajos
+    anteriores y demuestran el teorema de convergencia local
+    superlineal del Algoritmo~1.  Este artículo es el punto de
+    partida de toda la literatura moderna sobre Newton
+    semi-suave y constituye la extensión canónica del método de
+    Newton al mundo no diferenciable.
+\end{enumerate}
+
+Las extensiones posteriores son inmediatas:
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Newton semi-suave globalizado} con función de
+        mérito y búsqueda lineal (De Luca, Facchinei y Pang, 1996),
+        fundamental para la convergencia desde cualquier
+        inicialización.
+  \item \textbf{Métodos inexactos} con resolución aproximada del
+        sistema lineal (error $\|J_kd_k+F(x_k)\|\le\eta_k$,
+        $\eta_k\to0$): conservan convergencia superlineal si
+        $\eta_k=o(\|F(x_k)\|)$.
+  \item \textbf{Generalización a espacios de Hilbert}
+        (Hintermüller, Ito, Kunisch, 2002; Ulbrich, 2011), clave
+        para problemas en dimensión infinita como el del
+        obstáculo penalizado.
+  \item \textbf{Newton semi-suave para DV de segunda leyenda}
+        (facchinei y Pang, \textit{Finite-Dimensional Variational
+        Inequalities and Complementarity Problems}, 2003), que
+        recubre complementariedad, juegos de Nash, equilibrios
+        de mercado, etc.
+\end{itemize}
+
+\section{Convergencia: cuadro resumen}\label{sec:convergencia}
+
+Reunimos las hipótesis y los órdenes de convergencia en un cuadro.
+\medskip
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l|l|l@{}}
+\hline
+\textbf{Hipótesis sobre $F$ en $x^*$}
+  & \textbf{Tipo de Newton}
+  & \textbf{Orden de convergencia}\\
+\hline
+$C^1$, $F'$ no singular
+  & Newton clásico
+  & cuadrático \\
+semi-suave + BD-regular
+  & Newton semi-suave
+  & superlineal: $\|e_{k+1}\|=o(\|e_k\|)$ \\
+$\alpha$-semi-suave + BD-regular
+  & Newton semi-suave
+  & de orden $1+\alpha$ \\
+fuertemente semi-suave + BD-regular
+  & Newton semi-suave
+  & cuadrático \\
+semi-suave + BD-regular + paso inexacto
+  & Newton semi-suave inexacto
+  & superlineal si $\eta_k=o(\|F(x_k)\|)$ \\
+semi-suave + BD-regular + globalización
+  & Newton semi-suave globalizado
+  & global a $x^*$; superlineal al final \\
+\hline
+\end{tabular}
+\end{center}
+
+\smallskip
+
+\begin{proposicion}[estimación de error residual]
+  Bajo las hipótesis del Teorema de Qi--Sun, existe $C>0$ tal que
+  \[
+    \|F(x_{k+1})\| \le C\,\|F(x_k)\|^{1+\alpha}
+  \]
+  si $F$ es $\alpha$-semi-suave, y
+  $\|F(x_{k+1})\|\le C\,\|F(x_k)\|^2$ si es fuertemente
+  semi-suave.  Esto da un criterio práctico de parada basado en el
+  \emph{residuo} en lugar de la distancia (desconocida) a $x^*$.
+\end{proposicion}
+
+\begin{observacion}[comparación con métodos del gradiente]
+  Un método de punto fijo $x_{k+1}=G(x_k)$ con $G$ contractiva
+  tiene convergencia \emph{lineal} ($\|e_{k+1}\|\le q\,\|e_k\|$
+  con $q<1$).  El Newton semi-suave, al precio de resolver un
+  sistema lineal por paso, obtiene \emph{superlinearidad}:
+  $q_k\to0$.  El equilibrio costo/paso vs.\ número de pasos es
+  favorable cuando la factorización del Jacobiano es accesible
+  (dimensión finita moderada, o mallas finitas en dimensión
+  infinita).
+\end{observacion}
+
+\section{Nota final: por qué importa}\label{sec:final}
+
+El método de Newton semi-suave es, en la práctica, el
+\emph{resolver por excelencia} de las DV penalizadas y de los
+problemas de complementariedad.  Su atractivo reside en tres
+puntos:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Universalidad de la semi-suavidad.}  Los
+        operadores de proyección, las funciones de complementariedad
+        (Fischer--Burmeister, min/max), las penalizaciones de
+        Moreau--Yosida y muchos operadores de Nemytskii en EDP son
+        semi-suaves.  El mismo algoritmo cubre todos estos casos.
+  \item \textbf{Convergencia superlineal demostrada.}  A
+        diferencia de los métodos del gradiente proyectado o de
+        Uzawa, la convergencia es del mismo orden que la del
+        Newton clásico, con hipótesis razonables.
+  \item \textbf{Implementación práctica.}  En dimensión finita el
+        paso se reduce a resolver un sistema lineal con una
+        matriz construida eligiendo el subgradiente adecuado
+        (reglas de activación); en dimensión infinita, a una
+        \emph{EDP lineal} por paso, integrable con cualquier
+        solver elíptico estándar.
+\end{enumerate}
+
+El marco está hoy consolidado en los libros de referencia de
+Facchinei y Pang (2003, dimensión finita) y de Ulbrich
+(\textit{Semismooth Newton Methods for Variational Inequalities
+and Constrained Optimization Problems}, 2011, dimensión infinita),
+y es la base de los solvers modernos de complementariedad y de
+frontera libre (cf.\ Hintermüller, Ito, Kunisch, 2002, para el
+obstáculo; Biegler et al., 2009, para optimización con
+restricciones de complementariedad).
+
+\chapter{Newton convexo}
+
+% =====================================================================
+%  Newton semi-suave en el caso convexo
+%  Por que Clarke y no la subdiferencial clasica, adaptacion al caso
+%  convexo, y referencia canonica.
+%  Compilar con pdflatex (o lualatex/xelatex).
+% =====================================================================
+% \documentclass[11pt,a4paper]{article}
+
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage[spanish,es-tabla]{babel}
+% \usepackage{amsmath,amssymb,amsthm,mathtools}
+% \usepackage[a4paper,margin=2.5cm]{geometry}
+% \usepackage{microtype}
+% \usepackage{enumitem}
+% \usepackage{booktabs}
+% \usepackage{array}
+
+% % -------- Notacion ----------
+% \newcommand{\R}{\mathbb{R}}
+% \newcommand{\dom}{\operatorname{dom}}
+% \newcommand{\subdiff}{\partial}
+% \newcommand{\subdiffC}{\partial_C}
+% \newcommand{\subdiffL}{\partial_L}
+% \newcommand{\subdiffR}{\partial}
+% \newcommand{\indic}{\delta}
+% \newcommand{\prox}{\operatorname{prox}}
+% \newcommand{\Id}{\mathrm{Id}}
+% \newcommand{\sign}{\operatorname{sgn}}
+% \DeclareMathOperator*{\argmin}{arg\,min}
+
+% % -------- Entornos de teoremas ----------
+% \theoremstyle{definition}
+% \newtheorem{definicion}{Definición}[section]
+% \newtheorem{ejemplo}{Ejemplo}[section]
+% \newtheorem{algoritmo}{Algoritmo}[section]
+% \theoremstyle{plain}
+% \newtheorem{proposicion}{Proposición}[section]
+% \newtheorem{teorema}{Teorema}[section]
+% \newtheorem{lema}{Lema}[section]
+% \newtheorem{hipo}{Hipótesis}[section]
+% \theoremstyle{remark}
+% \newtheorem{observacion}{Observación}[section]
+
+% \setlength{\parindent}{0pt}
+% \setlength{\parskip}{0.5em}
+
+% \title{\textbf{Newton semi-suave en el caso convexo}\\[2pt]
+% \large Subdiferencial de Clarke vs.\ subdiferencial clásica,\\
+% adaptación y referencia canónica}
+% \author{Notas técnicas}
+% \date{}
+
+% \begin{document}
+% \maketitle
+
+% \tableofcontents
+% \bigskip
+
+% =====================================================================
+\section{¿Por qué la subdiferencial de Clarke y no la clásica?}
+% =====================================================================
+
+La pregunta es legítima: si las funciones que aparecen en optimización
+son, con frecuencia, convexas, ¿no bastaría con la subdiferencial
+clásica de Rockafellar?  La respuesta es matizada: \emph{en el caso
+estrictamente convexo las dos subdiferenciales coinciden}, pero el
+Newton semi-suave se diseñó para tratar operadores \emph{no convexos}
+que aparecen de forma natural en complementariedad, en DV
+penalizadas y en EDP no lineales.  Examinemos los tres puntos clave.
+
+\subsection{La subdiferencial clásica exige convexidad}
+
+\begin{definicion}[subdiferencial clásica de Rockafellar]
+  Sea $f:\R^n\to\R\cup\{+\infty\}$ convexa propia.  La
+  \emph{subdiferencial clásica} en $x\in\dom f$ es
+  \[
+    \subdiffR f(x)=\bigl\{\,s\in\R^n:\langle s,y-x\rangle\le f(y)-f(x)
+    \ \forall\,y\in\R^n\,\bigr\}.
+  \]
+\end{definicion}
+
+\begin{observacion}
+  Esta definición se basa en la \emph{desigualdad de subgradiente},
+  que es equivalente a decir que el hiperplano afín
+  $h(y)=f(x)+\langle s,y-x\rangle$ es un \emph{soporte global} de
+  $f$ desde abajo.  Tal soporte global existe precisamente porque $f$
+  es convexa.  Si $f$ no es convexa, el conjunto puede ser
+  \emph{vacío} o \emph{no contener la información direccional}
+  necesaria para linealizar.
+\end{observacion}
+
+\subsection{En el caso convexo, Clarke y Rockafellar coinciden}
+
+\begin{teorema}[coincidencia para funciones convexas]
+  Si $f:\R^n\to\R\cup\{+\infty\}$ es convexa propia y
+  localmente Lipschitz en un entorno de $x\in\inter(\dom f)$,
+  entonces
+  \[
+    \boxed{\;\subdiffC f(x)=\subdiffR f(x).\;}
+  \]
+\end{teorema}
+
+\begin{proof}[Idea]
+  Para $f$ convexa localmente Lipschitz, el subdiferencial de Clarke
+  se construye como la envoltura convexa de los límites de gradientes
+  $\nabla f(x_i)$ con $x_i\to x$.  Por el teorema de
+  Aleksandrov, $f$ es dos veces diferenciable en casi todo punto, y
+  los límites de gradientes coinciden con los subgradientes de
+  Rockafellar.  Recíprocamente, todo $s\in\subdiffR f(x)$ es límite de
+  gradientes en puntos de diferenciabilidad (por densidad), luego
+  $s\in\subdiffC f(x)$.
+\end{proof}
+
+\begin{observacion}
+  \textbf{Consecuencia práctica.}  En el caso convexo \emph{no hay
+  diferencia} entre usar Clarke y Rockafellar: la teoría de Qi--Sun
+  se aplica con la subdiferencial clásica sin modificación.  La
+  distinción sólo es relevante cuando aparecen funciones
+  \emph{no convexas}.
+\end{observacion}
+
+\subsection{El problema aparece con funciones no convexas}
+
+El campo de aplicación principal del Newton semi-suave incluye
+funciones que \emph{no son convexas}, por ejemplo:
+
+\begin{ejemplo}[función de Fischer--Burmeister]
+  \[
+    \phi(a,b)=\sqrt{a^{2}+b^{2}}-a-b,
+    \qquad \phi(a,b)=0\iff a\ge0,\ b\ge0,\ ab=0.
+  \]
+  La función $\phi$ \emph{no es convexa}: su Hessiano (donde existe)
+  tiene autovalores de signos opuestos.  La subdiferencial clásica
+  \emph{no está definida} para ella.  La de Clarke sí:
+  \[
+    \subdiffC\phi(a,b)=\co\Bigl\{\lim_{i}\nabla\phi(a_i,b_i):
+    (a_i,b_i)\to(a,b),\ (a_i,b_i)\ne(0,0)\Bigr\}.
+  \]
+\end{ejemplo}
+
+Otros ejemplos: operadores de Nemytskii de EDP no lineales,
+composiciones anidadas de $\max/\min$ no convexas, funciones de
+complementariedad no lineal, residuos de KKT con restricciones de
+desigualdad activas, etc.  En todos estos casos, la subdiferencial
+clásica \emph{no existe como herramienta}.
+
+\subsection{Comparación de las tres subdiferenciales}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}l c c c@{}}
+\toprule
+   & \textbf{Rockafellar} $\subdiffR$
+   & \textbf{Clarke} $\subdiffC$
+   & \textbf{Mordukhovich} $\subdiffL$ \\
+\midrule
+Definida para        & sólo convexas       & toda Lipschitz local & toda Lipschitz local \\
+Valores              & convexos compactos  & convexos compactos   & \emph{no convexos} \\
+Reglas de la cadena  & sólo mundo convexo  & sí, robustas          & sí, más finas \\
+¿Coincide si $f$ es convexa?
+                     & ---                 & sí, $\subdiffC=\subdiffR$ & sí \\
+¿Apta para Newton s.s.?
+                     & sólo si todo convexo & \textbf{sí, estándar} & posible, más técnica \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\begin{observacion}[por qué no Mordukhovich]
+  La subdiferencial \emph{limitante} de Mordukhovich $\subdiffL$ es
+  más fina (más pequeña) que la de Clarke y está definida también
+  para funciones no convexas.  Pero sus valores \emph{no son
+  convexos}, lo que complica la selección de un elemento para el
+  paso de Newton y la formulación de la BD-regularidad.  Por eso el
+  marco estándar de Qi--Sun usa Clarke: es el compromiso natural
+  entre \emph{precisión} y \emph{tratabilidad} (valores convexos
+  compactos + buen cálculo).
+\end{observacion}
+
+\subsection{Síntesis}
+
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{%
+\textbf{En una frase:} si te restringieras exclusivamente a problemas
+convexos, podrías usar la subdiferencial clásica (y de hecho coincide
+con la de Clarke).  Pero el Newton semi-suave se inventó precisamente
+para tratar operadores \emph{no convexos} ---Fischer--Burmeister,
+complementariedad, Nemytskii de EDP---, y para esos la clásica
+simplemente no existe.  Clarke es el mínimo marco que cubre todos los
+casos a la vez.}}
+\end{center}
+
+% =====================================================================
+\section{Adaptación del Newton semi-suave al caso convexo}
+% =====================================================================
+
+Cuando \emph{todo} el problema es convexo, la estructura se simplifica
+considerablemente.  Mostramos la adaptación paso a paso.
+
+\subsection{Marco de trabajo}
+
+%\begin{hipo}
+  A lo largo de esta sección, $F:\R^n\to\R^n$ (o $F:V\to V^*$ con $V$
+  espacio de Hilbert real) satisface:
+  \begin{enumerate}[label=\textup{(\roman*)},leftmargin=1.6em,itemsep=1pt]
+    \item $F$ es \emph{maximal monótona}, i.e.\ $F=\subdiffR \Phi$
+          para alguna $\Phi:\R^n\to\R\cup\{+\infty\}$ convexa propia
+          cerrada (caso de potencial), o más generalmente $F$ es
+          maximal monótona;
+    \item $F$ es localmente Lipschitz (de modo que $\subdiffC F$
+          está bien definida);
+    \item $F$ es semi-suave en un entorno de la solución $x^*$
+          (definición de Qi--Sun con $\subdiffC$).
+  \end{enumerate}
+  Por el Teorema de la Sección~1.2, $\subdiffC F(x)=\subdiffR F(x)$
+  cuando $F$ es de potencial convexo, de modo que el Newton
+  semi-suave se formula con la subdiferencial clásica sin pérdida.
+%\end{hipo}
+
+\begin{observacion}
+  La monotonía maximal aporta una propiedad crucial: \emph{si $x^*$
+  existe, es único} (pues $\langle F(x)-F(x^*),x-x^*\rangle\ge0$
+  con igualdad sii $x=x^*$ cuando $F^{-1}(0)\neq\varnothing$).  En
+  el caso general no convexo, la unicidad no está garantizada y la
+  convergencia es local a una solución \emph{particular}.
+\end{observacion}
+
+\subsection{El algoritmo en el caso convexo}
+
+\begin{algoritmo}[Newton semi-suave convexo]
+  \hfill
+  \begin{description}[leftmargin=1.2em,itemsep=2pt]
+    \item[Entrada] $F=\subdiffR \Phi$ maximal monótona y semi-suave,
+      $x_0\in\R^n$, tolerancia $\varepsilon>0$.
+    \item[Paso $k\ge0$]
+      \begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+        \item Calcular $r_k:=F(x_k)$.
+        \item Escoger $J_k\in\subdiffR F(x_k)$ \emph{(subdiferencial
+              clásica)}.
+        \item Resolver $J_k\,d_k=-r_k$.
+        \item Actualizar $x_{k+1}=x_k+d_k$.
+        \item Si $\|F(x_{k+1})\|\le\varepsilon$, parar.
+      \end{enumerate}
+  \end{description}
+\end{algoritmo}
+
+\begin{observacion}
+  La única diferencia con el algoritmo general de Qi--Sun es el
+  paso \textbf{(b)}: se reemplaza $\subdiffC$ por $\subdiffR$.  Por la
+  coincidencia del Teorema de la Sección~1.2, esto es legítimo
+  \emph{sólo en el caso convexo}.  La ventaja práctica: la
+  subdiferencial clásica es a menudo más fácil de calcular porque
+  aprovecha la estructura de potencial.
+\end{observacion}
+
+\subsection{Convergencia en el caso convexo}
+
+\begin{teorema}[convergencia superlineal, caso convexo]
+  Bajo las Hipótesis de la Sección~2.1, y si además:
+  \begin{enumerate}[label=\textup{(\roman*)},leftmargin=1.6em,itemsep=1pt]
+    \item $F$ es BD-regular en $x^*$ (todo
+          $J\in\subdiffR F(x^*)=\subdiffC F(x^*)$ es no singular);
+    \item $F$ es semi-suave en $x^*$,
+  \end{enumerate}
+  entonces, para $x_0$ suficientemente cercano a $x^*$, la sucesión
+  del Algoritmo~2 converge \emph{superlinealmente} y la solución
+  $x^*$ es \emph{única}:
+  \[
+    \boxed{\;
+    \|x_{k+1}-x^*\|=o(\|x_k-x^*\|),
+    \qquad x^*\text{ único.}
+    \;}
+  \]
+\end{teorema}
+
+\begin{proof}
+  La demostración es idéntica a la del caso general (Teorema de
+  Qi--Sun, Sección~2 de la nota anterior): se usa
+  $\subdiffC F=\subdiffR F$ y la semi-suavidad para obtener
+  \[
+    x_{k+1}-x^*=J_k^{-1}\bigl(F(x_k)-F(x^*)-J_k(x_k-x^*)\bigr)
+    =J_k^{-1}\,o(\|x_k-x^*\|),
+  \]
+  y la BD-regularidad da $\|J_k^{-1}\|\le M$.  La \emph{unicidad} de
+  $x^*$ es la única novedad: proviene de la monotonía estricta de
+  $F=\subdiffR\Phi$, que implica
+  $\langle F(x)-F(x^*),x-x^*\rangle\ge0$ con igualdad sii
+  $F(x)=F(x^*)=0$ y entonces $x=x^*$.
+\end{proof}
+
+\subsection{Ventajas estructurales del caso convexo}
+
+Más allá de la coincidencia $\subdiffC=\subdiffR$, el caso convexo
+ofrece varias simplificaciones:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
+  \item \textbf{Cálculo simplificado.}  Para un potencial $\Phi$,
+        $F=\subdiffR\Phi$ y el Jacobiano generalizado $J_k$ es un
+        elemento del subdiferencial del gradiente, que se obtiene por
+        las reglas clásicas del análisis convexo (sin necesidad del
+        cálculo no diferenciable de Clarke).  En particular, las
+        reglas de la cadena \emph{son igualdades} (no inclusiones)
+        bajo regularidad.
+  \item \textbf{Monotonía y estabilidad.}  Cada $J_k$ es
+        \emph{monótono positivo semidefinido} (pues
+        $J_k\in\subdiffR F(x_k)$ y $F$ monótona implica
+        $\langle J_k h,h\rangle\ge0$).  Esto da estabilidad numérica
+        al sistema lineal $J_k d_k=-r_k$: se puede usar
+        Cholesky o CG.
+  \item \textbf{Unicidad de la solución.}  En el caso convexo, $x^*$
+        es único (monotonía estricta de $\subdiffR\Phi$), de modo que
+        no hay riesgo de converger a un mínimo local no deseado.
+  \item \textbf{Función de mérito natural.}  El residual
+        $\Theta(x)=\tfrac12\|F(x)\|^2$ es \emph{convexo} (pues $F$
+        es monótona y $\|\cdot\|^2$ convexa no decreciente), lo que
+        simplifica la globalización con búsqueda lineal: cualquier
+        punto de mínimo de $\Theta$ es un cero de $F$.
+  \item \textbf{Conexión con el método del punto proximal.}  En el
+        caso convexo, el Newton semi-suave se interpreta como una
+        \emph{linealización del operador proximal}
+        $\prox_{\tau\Phi}(x)=(\Id+\tau\,\subdiffR\Phi)^{-1}(x)$, que
+        es contractivo; esto da una demostración alternativa de la
+        convergencia y un puente con los métodos de operador
+        monótono de Rockafellar.
+\end{enumerate}
+
+\subsection{Ejemplo: problema del obstáculo como caso convexo}
+
+\begin{ejemplo}[obstáculo elíptico, caso convexo]
+  Retomamos el problema del obstáculo de la nota anterior:
+  hallar $u\in K=\{v\in H^1_0(\Omega):v\ge\psi\}$ tal que
+  \[
+    \langle -\Delta u-f,\ v-u\rangle\ge0\quad\forall\,v\in K.
+  \]
+  Este problema es la condición de optimalidad del funcional
+  convexo
+  \[
+    \Phi(v)=\tfrac12\|\nabla v\|_{L^2}^2-\langle f,v\rangle+\indic_K(v),
+  \]
+  donde $\indic_K$ es el indicador convexo.  El operador
+  $F(u)=-\Delta u-f+\subdiffR\indic_K(u)$ es maximal monótono
+  (suma de operador lineal monótono y subdiferencial de función
+  convexa propia cerrada).
+
+  \medskip
+  Tras la penalización de Moreau--Yosida con
+  $P_\rho(u)=-\tfrac1\rho[u-\psi]^-$, el operador
+  \[
+    F_\rho(u)=-\Delta u-f-\tfrac1\rho[u-\psi]^-
+  \]
+  sigue siendo \emph{maximal monótono} (composición de operadores
+  monótonos).  El subdiferencial clásico del operador de
+  penalización coincide con el de Clarke, y los $J_k$ son
+  operadores de multiplicación por funciones
+  $\beta_{\rho,k}\in[-1/\rho,0]$, que son \emph{negativos
+  semidefinidos}; al sumar $-\Delta$ (definido positivo) el
+  operador $J_k=-\Delta+\beta_{\rho,k}\Id$ es \emph{definido
+  positivo} y por tanto \emph{automáticamente no singular}.  La
+  BD-regularidad es \emph{gratuita} en este caso convexo.
+
+  \medskip
+  Por tanto, el Newton semi-suave converge superlinealmente a
+  $u^*_\rho$ \emph{único} desde cualquier inicialización
+  suficientemente cercana, sin necesidad de verificar la
+  BD-regularidad a mano.  La globalización es, además, robusta:
+  $\Theta(u)=\tfrac12\|F_\rho(u)\|_{H^{-1}}^2$ es convexa.
+\end{ejemplo}
+
+% =====================================================================
+\section{Referencia canónica para el caso convexo}
+% =====================================================================
+
+La referencia de cabecera para el Newton semi-suave en el caso convexo
+(optimización convexa en dimensión finita e infinita, con estructura
+de operador monótono y subdiferencial clásica) es:
+
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{%
+\textbf{K.\ Ito y K.\ Kunisch},\\
+\textit{Lagrange Multiplier Approach to the Variational Problems of
+PDEs},\\
+Birkhäuser (Springer), Series: Progress in Nonlinear Differential
+Equations and Their Applications, vol.\ 15, 2008.\\[4pt]
+\textbf{Capítulos clave:} Cap.\ 8 (Semismooth Newton Methods) y
+Cap.\ 9 (Applications to Variational Inequalities).}}
+\end{center}
+
+\medskip
+
+\textbf{Por qué es la referencia canónica:}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item Está dedicada específicamente al caso \emph{convexo}
+        (variational inequalities, optimal control con restricciones
+        convexas, EDP elípticas y parabólicas), donde el operador es
+        maximal monótono y la subdiferencial es la de
+        Rockafellar.
+  \item Desarrolla la teoría en \emph{dimensión infinita}
+        (espacios de Hilbert), que es el marco natural para EDP.
+  \item Presenta el Newton semi-suave como linealización del
+        operador de complementariedad / activación, con
+        demostraciones completas de convergencia superlineal.
+  \item Incluye aplicaciones detalladas: obstáculo, control
+        óptimo con restricciones puntuales, contacto en
+        elasticidad, flows incompressibles.
+\end{itemize}
+
+\textbf{Referencias complementarias:}
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{M.~Hintermüller, K.\ Ito, K.\ Kunisch},
+        ``The primal-dual active set strategy as a semismooth
+        Newton method'',
+        \textit{SIAM J.\ Optim.}, 13(3), 865--888, 2002.\\
+        Artículo fundamental donde se reformula el problema del
+        obstáculo convexo como Newton semi-suave y se demuestra la
+        convergencia superlineal usando la estructura monótona.
+  \item \textbf{R.\ T.\ Rockafellar},
+        ``Monotone operators and the proximal point algorithm'',
+        \textit{SIAM J.\ Control Optim.}, 14(5), 877--898, 1976.\\
+        Marco teórico de los operadores monótonos maximales en
+        optimización convexa; la base estructural que aprovecha el
+        Newton semi-suave convexo.
+  \item \textbf{R.\ T.\ Rockafellar, R.\ J.-B. Wets},
+        \textit{Variational Analysis}, Springer, 1998,
+        Cap.\ 13 (subdiferenciales) y Cap.\ 12 (monotonía).\\
+        Referencia general para la subdiferencial clásica y su
+        cálculo en el caso convexo.
+  \item \textbf{L.~Qi, J.~Sun},
+        ``A nonsmooth version of Newton's method'',
+        \textit{Math.\ Programming}, 58, 353--367, 1993.\\
+        Artículo original del método (caso general, no necesariamente
+        convexo); incluye el caso convexo como caso particular.
+\end{enumerate}
+
+\subsection{Lectura recomendada}
+
+Para un lector interesado en el caso convexo, el itinerario natural
+es:
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt]
+  \item \textbf{Rockafellar (1976)} para el marco de operadores
+        monótonos y el método del punto proximal;
+  \item \textbf{Qi--Sun (1993)} para la definición de semi-suavidad y
+        el teorema de convergencia general;
+  \item \textbf{Hintermüller--Ito--Kunisch (2002)} para el caso
+        prototípico del obstáculo convexo en dimensión infinita;
+  \item \textbf{Ito--Kunisch (2008)} como referencia exhaustiva
+        (libro) para el caso convexo con aplicaciones a EDP.
+\end{enumerate}
+
+% =====================================================================
+\section{Resumen ejecutivo}
+% =====================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}p{0.42\textwidth} p{0.50\textwidth}@{}}
+\toprule
+\textbf{Caso general (Qi--Sun)} & \textbf{Caso convexo (Ito--Kunisch)} \\
+\midrule
+$\subdiffC$ de Clarke
+  & $\subdiffR$ de Rockafellar ($=\subdiffC$ por coincidencia) \\
+$F$ localmente Lipschitz, semi-suave
+  & $F=\subdiffR\Phi$ maximal monótona, semi-suave \\
+BD-regularidad a verificar
+  & BD-regularidad a menudo \emph{gratuita} (monotonía $+$ coercividad) \\
+Solución posiblemente no única
+  & Solución \emph{única} (monotonía estricta) \\
+$J_k$ no necesariamente definido
+  & $J_k$ \emph{positivo semidefinido} (estabilidad numérica) \\
+$\Theta(x)=\tfrac12\|F(x)\|^2$ no convexa en general
+  & $\Theta(x)$ \emph{convexa} (globalización más simple) \\
+Referencia: Qi--Sun (1993), Facchinei--Pang (2003)
+  & Referencia: Ito--Kunisch (2008), Hintermüller et al.\ (2002) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\textbf{Conclusión práctica.}  Si tu problema es convexo (DV de
+obstáculo, complementariedad lineal con $P$-matriz, control óptimo
+con restricciones convexas), puedes usar la subdiferencial clásica
+de Rockafellar, aprovechar la monotonía para simplificar el cálculo
+y la estabilidad, y remitirte a Ito--Kunisch (2008) como referencia.
+Si tu problema contiene funciones no convexas (Fischer--Burmeister,
+Nemytskii no lineal, KKT mixto), necesitas Clarke y la teoría
+general de Qi--Sun (1993).
+
+
 
 \chapter{M\'as sobre conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
 
