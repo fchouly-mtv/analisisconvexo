@@ -212,7 +212,7 @@
 % Cambiar el título de la bibliografía
 \addto\captionsspanish{\renewcommand{\bibname}{Referencias bibliográficas}}
 
-\title{Análisis convexo y métodos numéricos}
+\title{Análisis convexo, desigualdades variacionales y métodos numéricos}
 
 %\subtitle{}
 % A voir
@@ -321,12 +321,14 @@
 \addcontentsline{toc}{chapter}{Agradecimientos}
 \markboth{Agradecimientos}{Agradecimientos}
 
-Agradezco al CMAT, a FCIEN, a Pedeciba y al IFUMI. Tambi\'en por sus consejos y apoyo:
+Agradezco al Centro de Matem\'atica, a la Facultad de Ciencias, a PEDECIBA Matem\'atica y al IRL CNRS 2030 IFUMI. Tambi\'en por sus consejos y apoyo:
 Dominique Attali,
 Juan Pablo Borthagaray,
+Federico Correa,
 Lucas Curci,
 Fran\c{c}oise Dal'Bo,
 Jean-Baptiste Hiriart Urruty,
+Sof\'ia Llavayol,
 Mauricio Velasco.
 %Quiero agradecer, primero \dots
 % Conseils
@@ -366,8 +368,9 @@ Se presentan las definiciones y propiedades esenciales de conjuntos y funciones 
 % References cles
 Para el desarrollo de este trabajo, nos apoyaremos fundamentalmente en las obras de G. Allaire~\cite{allaire2007},
 de S. Boyd and L. Vandenberghe~\cite{BoydVandenberghe2004},
+de H. Brezis~\cite{brezis2011}, de R. Glowinski~\cite{glowinski1984},
 de J.-B. Hiriart-Urruty and C. Lemar\'{e}chal~\cite{hiriart2001}
-y D. G. Luenberger~\cite{luenberger1969}. 
+y de D. G. Luenberger~\cite{luenberger1969}. 
 %complementadas con las contribuciones de [bidule] y [chose].
 % BREZIS
 % Rockafellar
@@ -660,7 +663,7 @@ La actualización se escribe como:
 $$
 {x}_{k+1} = {x}_k + \alpha_k {d}_k,
 $$
-donde ${d}_k$ es la dirección conjugada y $\alpha_k$ se elige mediante una búsqueda de línea o fórmula analítica~\cite[Chapter 11]{ggk}.
+donde ${d}_k$ es la dirección conjugada y $\alpha_k$ se elige mediante una búsqueda de línea o fórmula analítica~\cite{allairekaber2008,ggk}.
 
 \subsection{Método BiCG}
 
@@ -677,7 +680,7 @@ donde ${p}_k$ es la dirección de búsqueda y $\alpha_k$ se calcula para minimiz
 Para un análisis más detallado sobre los métodos de descenso de gradiente y sus variantes, se puede consultar 
 \cite[Capítulo~11]{ggk}
 y
-\cite[Capítulos~8--9]{allaire2007}.
+\cite[Capítulos~9--10]{allaire2007}.
 
 %\addcontentsline{toc}{chapter}{Bibliograf\'ia}
 %\nocite{*}
@@ -1211,7 +1214,7 @@ $u_1=u_2$.
 
 \subsection{Resultado general}
 
-Tenemos lo siguiente.
+Tenemos lo siguiente~\cite{allaire2007}.
 
 \begin{theorem}
     Sea \(K\) un conjunto no vacío, cerrado y convexo en un espacio de Hilbert \(V\) y sea \(\mathcal{J}\) una función continua y fuertemente convexa en \(V\). Entonces \(\mathcal{J}\) admite un único minimizador global \(u\) en \(K\). Además, para todo \(v \in K\), se cumple:
@@ -1909,7 +1912,7 @@ Por lo tanto, el resultado es:
 
 \begin{theorem}
 %\textbf{Teorema.} 
-Si $\{(u_n\}$ converge fuertemente hacia $u \in V$ %en un espacio normado $(V, \|\cdot\|)$, 
+Si $\{u_n\}$ converge fuertemente hacia $u \in V$ %en un espacio normado $(V, \|\cdot\|)$, 
 entonces $\{u_n\}$ converge débilmente hacia $u$.
 \end{theorem}
 
@@ -1933,30 +1936,42 @@ $v_n \rightharpoonup v$ débilmente.
 
 \begin{theorem}
 %\textbf{Teorema.} 
-Si $\{u_n\}$ converge débilmente hacia $u$ en un espacio normado $V$, entonces $\{u_n\}$ está acotada.
+Si $\{u_n\}$ converge débilmente hacia $u$ en $V$, entonces $\{u_n\}$ está acotada.
 \end{theorem}
 
 \begin{proof}
-
+%\textbf{Demostración.} Por el {Principio de acotación uniforme} (o Teorema de Banach-Steinhaus), 
+Si $\{u_n\}$ converge débilmente, entonces %el conjunto $\{v_n : n \in \mathbb{N}\}$ es puntualmente acotado en $V^*$. Es decir,
+para todo $f \in V^*$, 
+\[
+(f,u_n) \rightarrow (f,u).
+\
+\]
+Entonces existe $M_f > 0$ tal que:
+\[
+|f(u_n)| \leq M_f \quad \forall n \in \mathbb{N}.
+\]
+Por el {Teorema de Banach-Steinhaus}, esto implica que 
+existe
+existe $M > 0$ tal que, para cualquier función dual $f$:
+\[
+|f(u_n)| \leq M \quad \forall n \in \mathbb{N}.
+\]
+Particularmente, tomando $f(\cdot) = (u_n,\cdot)_V$,
+tenemos que
+$\{u_n\}$ está acotado en norma:
+\[
+\exists M > 0 \text{ tal que } \|u_n\|_V \leq M \quad \forall n \in \mathbb{N}.
+\]
 \end{proof}
 
 \medskip
 
-Mejorar aqui con Banach-Steinhaus +++
-\textbf{Demostración.} Por el {Principio de acotación uniforme} (o Teorema de Banach-Steinhaus), si $(v_n)$ converge débilmente, entonces el conjunto $\{v_n : n \in \mathbb{N}\}$ es puntualmente acotado en $V^*$. Es decir, para todo $f \in V^*$, existe $M_f > 0$ tal que:
-\[
-|f(v_n)| \leq M_f \quad \forall n \in \mathbb{N}.
-\]
-Por el {Teorema de Banach-Steinhaus}, esto implica que $\{v_n\}$ está acotado en norma:
-\[
-\exists M > 0 \text{ tal que } \|v_n\| \leq M \quad \forall n \in \mathbb{N}.
-\]
-
-Banach-Steinhaus
+Enunciamos ahora una versión útil, para nosotros, del Teorema de Banach-Steinhaus (se demuestra a partir del Lema de Baire, ver apéndice y \cite{brezis2011}).
 
 \begin{teorema}[Teorema de Banach-Steinhaus para funcionales lineales]
 Sea \( V \) un espacio de Banach sobre \( \mathbb{R} \), y sea \( \mathcal{F} = \{ f_\alpha \}_{\alpha \in A} \subseteq V^* \) una familia de funcionales lineales continuas.
-
+%
 Si \( \mathcal{F} \) está puntualmente acotada, es decir,
 \[
 \forall \, x \in V, \quad \sup_{\alpha \in A} |f_\alpha(x)| < \infty,
@@ -1967,47 +1982,52 @@ entonces \( \mathcal{F} \) está uniformemente acotada:
 \]
 \end{teorema}
 
-Baire Appendice
-
----
 \subsubsection{Desigualdad para el límite inferior de las normas}
 
-\textbf{Teorema.} Si $(v_n)$ converge débilmente hacia $v$ en un espacio normado $V$, entonces:
-\[
-\|v\| \leq \liminf_{n \to \infty} \|v_n\|.
-\]
+\begin{theorem}
 
-\medskip
+\textbf{Teorema.} Si $\{u_n\}$ converge débilmente hacia $u$ en $V$, entonces:
+\[
+\|u\|_V \leq \liminf_{n \to \infty} \|u_n\|_V.
+\]
+\end{theorem}
 
-\textbf{Demostración.} Sea $f \in V^*$ tal que $\|f\| = 1$ y $f(v) = \|v\|$ (existe por el {Teorema de Hahn-Banach}). 
-Por la convergencia débil, $f(v_n) \to f(v) = \|v\|$. Como $|f(v_n)| \leq \|f\| \cdot \|v_n\| = \|v_n\|$, se tiene:
+\begin{proof}
+%\textbf{Demostración.} Sea $f \in V^*$ tal que $\|f\| = 1$ y $f(v) = \|v\|$ (existe por el {Teorema de Hahn-Banach}). 
+%Por la convergencia débil, $f(v_n) \to f(v) = \|v\|$. Como $|f(v_n)| \leq \|f\| \cdot \|v_n\| = \|v_n\|$, se tiene:
+%\[
+%\|v\| = \lim_{n \to \infty} f(v_n) \leq \liminf_{n \to \infty} \|v_n\|.
+%\]
+Si $u=0$ la desigualdad se verifica siempre. Podemos luego considerar $u\neq 0$
+%Alternativa:
+%\[
+%(v_n,v) \rightarrow (v,v)_V
+%\]
+%Y luego
+y escribir
 \[
-\|v\| = \lim_{n \to \infty} f(v_n) \leq \liminf_{n \to \infty} \|v_n\|.
+\| u \|_V =
+\frac{(u,u)_V}{\| u \|_V}
+= \lim_{n \to \infty} \frac{(u_n,u)_V}{\| u \|_V}.
 \]
-Alternativa:
+Por Cauchy-Schwarz, acotamos
 \[
-(v_n,v) \rightarrow (v,v)_V
+\frac{(u_n,u)_V}{\| u \|_V} \leq \|u_n\|_V
 \]
-Y luego
+y finalmente obtenemos
 \[
-\| v \|_V =
-\frac{(v,v)_V}{\| v \|_V}
-= \lim_n \frac{(v_n,v)_V}{\| v \|_V}
+\lim_{n \to \infty} \frac{(u_n,u)_V}{\| u \|_V}
+=
+\liminf_{n \to \infty} \frac{(u_n,u)_V}{\| u \|_V}
+\leq 
+\liminf_{n \to \infty} \|u_n\|_V.
 \]
-y luego
-\[
-\frac{(v_n,v)_V}{\| v \|_V} \leq \|v_n\|_V
-\]
-y finalmente
-\[
-\liminf \frac{(v_n,v)_V}{\| v \|_V} \leq \liminf \|v_n\|_V
-\]
+\end{proof}
+
 %\[
 %\| v \|_V =
 %\sup_V \frac{(v,w)_V}{\| w \|_V}
 %\]
-
----
 %\subsection*{4. Convergencia del producto interno}
 
 %\textbf{Teorema.} Si $(v_n)$ converge débilmente hacia $v$ y $(w_n)$ converge fuertemente hacia $w$ en un espacio de Hilbert $H$, entonces:
@@ -2265,36 +2285,43 @@ Viene directamente de la definición de s.c.i. (epigrafo cerrado) y del resultad
 % **9. Existencia de un mínimo: Caso convexo, \(J\) continua, coerciva y convexa sobre \(K\)**
 
 \begin{theorem}
-    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto cerrado, convexo y no vacío, y \(J: K \to \mathbb{R}\) una función continua, coerciva (es decir, \(\lim_{\|u\| \to \infty} J(u) = +\infty\)) y convexa. Entonces \(J\) admite un mínimo global en \(K\).
+    Sea \(V\) un espacio de Hilbert, \(K \subset V\) un conjunto cerrado, convexo y no vacío, y \(\mathcal{J}: K \to \mathbb{R}\) una función continua, coerciva (es decir, \(\lim_{\|v\|_V \to \infty} \mathcal{J}(v) = +\infty\)) y convexa. Entonces \(\mathcal{J}\) admite un mínimo global en \(K\).
 \end{theorem}
 
 \begin{proof}
 %---
 %**Prueba (pasos detallados):**
+Lo hacemos en cuatro tiempos.
 
-1. Existencia de una secuencia minimizante:
-   Sea \(I = \inf_{u \in K} J(u)\). Por definición del ínfimo, existe una secuencia \(\{u_n\} \subset K\) tal que:
+\noindent
+\emph{1. Existencia de una secuencia minimizante.}
+   Sea \(I = \inf_{u \in K} \mathcal{J}(u)\). Por definición del ínfimo, existe una secuencia \(\{u_n\} \subset K\) tal que:
    \[
-   J(u_n) \to I.
+   \mathcal{J}(u_n) \to I.
    \]
 
-2. La secuencia minimizante es acotada (por contradicción):
-   Supongamos que \(\{u_n\}\) no es acotada. Entonces existe una subsucesión \(\{u_{n_k}\}\) tal que \(\|u_{n_k}\| \to \infty\). Como \(J\) es coerciva:
+\medskip
+
+\noindent \emph{2. La secuencia minimizante es acotada (por contradicción).}
+   Supongamos que \(\{u_n\}\) no es acotada. Entonces existe una subsucesión \(\{u_{n_k}\}\) tal que \(\|u_{n_k}\|_V \to \infty\). Como \(\mathcal{J}\) es coerciva:
    \[
-   J(u_{n_k}) \to +\infty,
+   \mathcal{J}(u_{n_k}) \to +\infty,
    \]
-   lo que contradice que \(J(u_{n_k}) \to I\). Por lo tanto, \(\{u_n\}\) es acotada.
+   lo que contradice que \(\mathcal{J}(u_{n_k}) \to I\). Por lo tanto, \(\{u_n\}\) es acotada.
 
-3. Existencia de una subsucesión que converge débilmente:
-   Por el Lema anterior, existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\). Además, por el Lema anterior, como \(K\) es cerrado y convexo, \(u \in K\).
+\medskip
 
-4. \(J(u)\) es el mínimo:
-   Por el Lema  anterior, \(J\) es s.c.i. para la convergencia débil. Por lo tanto:
+\noindent \emph{3. Existencia de una subsucesión que converge débilmente.}
+   Por el Lema anterior, existe una subsucesión \(\{u_{n_k}\}\) que converge débilmente a algún \(u \in V\). Además, por el otro Lema anterior, como \(K\) es cerrado y convexo, \(u \in K\).
+
+\medskip
+
+\noindent \emph{4. \(\mathcal{J}(u)\) es el mínimo.}
+   Por el ultimo Lema  anterior, \(\mathcal{J}\) es s.c.i. para la convergencia débil. Por lo tanto:
    \[
-   J(u) \leq \liminf_{k \to \infty} J(u_{n_k}) = I.
+   \mathcal{J}(u) \leq \liminf_{k \to \infty} \mathcal{J}(u_{n_k}) = I.
    \]
-   Como \(I\) es el ínfimo, se tiene \(J(u) \geq I\). Por lo tanto, \(J(u) = I\), y \(u\) es un minimizador global de \(J\) en \(K\).
-
+   Como \(I\) es el ínfimo, se tiene \(\mathcal{J}(u) \geq I\). Por lo tanto, \(\mathcal{J}(u) = I\), y \(u\) es un minimizador global de \(\mathcal{J}\) en \(K\).
 \end{proof}
 
 %\section{Funciones diferenciables}
@@ -2320,7 +2347,7 @@ Viene directamente de la definición de s.c.i. (epigrafo cerrado) y del resultad
 
 %Aquí los criterios con derivada de $\mathcal{J}$ y derivada segunda.
 
-\noindent Ahora necesitamos los siguientes resultados para caracterizar el mínimo con la diferencial de $J$. Primero adaptamos la Proposición 10.1.4 de Allaire.
+\noindent Ahora necesitamos los siguientes resultados para caracterizar el mínimo con la diferencial de $\mathcal{J}$. Primero adaptamos la Proposición 10.1.4 de G. Allaire~\cite{allaire2007}.
 %Caracterización con la diferencial.
 
 \begin{proposition}
@@ -2351,20 +2378,20 @@ Haciendo $t \to 0$, se obtiene el resultado.
 \noindent Adaptamos luego el Teorema 10.2.1 (desigualdad de Euler):
 
 \begin{theorem}
-    Si $K$ es un subconjunto convexo cerrado no vacío de $V$ y $\mathcal{J}$ es convexa y derivable en $V$, entonces $u$ es un minimizador global de $\mathcal{J}$ en $K$ si y solo si
+    Sea $K$  un subconjunto convexo cerrado no vacío de $V$ y $\mathcal{J}$ una función convexa y derivable en $V$. Entonces $u$ es un minimizador global de $\mathcal{J}$ en $K$ si y solo si, para todo $v\in K$, tenemos
     \[
     \mathcal{J}'(u;v-u) \geq 0.
     \]
 \end{theorem}
 
 \begin{proof}
-Primero suponemos que $u$ es un minimizador global de $\mathcal{J}$ en $K$, entonces para $\varepsilon > 0$, se tiene, para $v \in K$:
+Primero suponemos que $u$ es un minimizador global de $\mathcal{J}$ en $K$, entonces para $\varepsilon > 0$ pequeño, se tiene, para $v \in K$:
 \[
 \frac{\mathcal{J}(u+\varepsilon (v-u)) - \mathcal{J}(u)}{\varepsilon} \geq 0
 \]
 ya que $u+\varepsilon (v-u) \in K$ por convexidad de $K$ y tomamos el límite en $\varepsilon$.
 
-Supongamos ahora que se cumple la DV. Usamos la Proposición anterior en $u$: para todo $v \in K$:
+Supongamos ahora que se cumple la desigualdad variacional. Usamos la Proposición anterior en $u$. Para todo $v \in K$:
 \[
 \mathcal{J}(v) \geq \mathcal{J}(u) + \mathcal{J}'(u;v-u) \geq \mathcal{J}(u)
 \]
@@ -2372,46 +2399,124 @@ y por lo tanto $u$ es un minimizador global.
 \end{proof}
 
 \begin{ex}
-Obstaculo:
+Veamos con el anterior que el problema de obstáculo se formula como una desigualdad variacional: $u\in K$ verifica
 \[
 a(u,v-u) \geq L(v-u)
 \]
+para todo $v \in K$.
 \end{ex}
 
+\section{Para profundizar}
+
+Se puede referir a \cite{allaire2007},
+\cite{brezis2011},
+\cite{barbu2012},
+\cite{peypouquet2015}.
+
 \chapter{Newton semi-suave}
-El método de Newton es un algoritmo de optimización de segundo orden que utiliza información de la segunda derivada para acelerar la convergencia. A diferencia del descenso de gradiente, este método aproxima la función objetivo localmente por una función cuadrática y encuentra su mínimo en una sola iteración. Aunque requiere el cálculo de la matriz hessiana, su convergencia es típicamente más rápida, especialmente cerca del óptimo. Es ampliamente utilizado en problemas donde la precisión y la velocidad son críticas. Sin embargo, su implementación puede ser costosa en términos computacionales.
 
-%\section{Método de Newton / Newton semi-suave}
+%\section{El método de Newton semi-suave en el caso convexo}
 
+El método de Newton clásico es una herramienta fundamental para calcular los ceros de una función diferenciable \( g: \mathbb{R}^n \to \mathbb{R}^n \). Cuando \( g \) es el gradiente de una función \( F: \mathbb{R}^n \to \mathbb{R} \), es decir, \( g = \nabla F \), los ceros de \( g \) corresponden a los puntos críticos de \( F \). En el contexto convexo, donde \( F \) es una función convexa, el método de Newton puede adaptarse para manejar situaciones en las que \( g \) no es diferenciable en todos los puntos, dando lugar al \emph{método de Newton semi-suave}.
 
-\section{Recuerdo de Newton suave}
+Este método generaliza el enfoque clásico al permitir el uso de \emph{subgradientes} en lugar de gradientes, lo que lo hace aplicable a funciones que no son de clase \( C^1 \). La idea central es que, incluso cuando \( g \) no es diferenciable en un punto \( x \), el subdiferencial \( \partial g(x) \) (el conjunto de todos los subgradientes en \( x \)) contiene suficiente información para definir una dirección de descenso. En el caso semi-suave, el subdiferencial varía de manera continua, lo que permite una generalización natural del método de Newton.
 
-Seguimos los libros de Suli y Allaire.
-%
-El \emph{método de Newton} utiliza aproximaciones cuadráticas locales para acelerar la convergencia. La iteración se define como:
+\section{Unos ejemplos}
+
+Veamos ejemplos sencillos para empezar.
+
+\subsection{Un primer ejemplo}
+%\section*{Ejemplo con un único cero y distinta cantidad de iteraciones}
+
+Consideremos la función \( g: \mathbb{R} \to \mathbb{R} \) definida por
 \[
-x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k),
+g(x) = \max(0, x) - 1.
 \]
-donde \( \nabla^2 f(x_k) \) es la matriz Hessiana de \( f \) en \( x_k \). Este método converge cuadráticamente cerca de mínimos locales (Teorema de Kantorovich).
-%
-%\begin{quotation}
-%\textbf{Vínculo con ecuaciones diferenciales:}
-El método de Newton puede verse como una aproximación de la dinámica de segundo orden:
+Esta función tiene un único cero en \( x = 1 \), ya que:
 \[
-\frac{d^2x}{dt^2} + \gamma \frac{dx}{dt} = -\nabla f(x),
+g(x) =
+\begin{cases}
+-1 & \text{si } x \leq 0, \\
+x - 1 & \text{si } x > 0.
+\end{cases}
 \]
-donde \( \gamma \) es un parámetro de amortiguamiento. Esta ecuación modela el movimiento de una partícula en un paisaje de energía potencial \( f \).
-%\end{quotation}
+El subdiferencial de \( g \) está dado por:
+\[
+\partial g(x) =
+\begin{cases}
+\{0\} & \text{si } x < 0, \\
+[0, 1] & \text{si } x = 0, \\
+\{1\} & \text{si } x > 0.
+\end{cases}
+\]
+El método de Newton semi-suave se define mediante la iteración:
+\[
+x_{k+1} = x_k - v_k^{-1} g(x_k), \quad \text{donde } v_k \in \partial g(x_k) \text{ y } v_k \neq 0.
+\]
+%\medskip
+\textbf{Cálculo manual partiendo de \( x_0 = 0 \):}
+\begin{itemize}
+    \item \textbf{Paso 0:} \( x_0 = 0 \), \( g(x_0) = -1 \), y \( \partial g(x_0) = [0, 1] \).
 
-\section{Hacia Newton semi-suave}
+    \item \textbf{Elección 1:} \( v_0 = 1 \).
+    \[
+    x_1 = 0 - \frac{1}{1} \cdot (-1) = 1.
+    \]
+    En \( x_1 = 1 \), \( g(x_1) = 0 \), por lo que el método converge en 1 iteración.
 
-\dots
+    \item \textbf{Elección 2:} \( v_0 = 0.5 \).
+    \[
+    x_1 = 0 - \frac{1}{0.5} \cdot (-1) = 2.
+    \]
+    En \( x_1 = 2 \), \( g(x_1) = 1 \) y \( \partial g(x_1) = \{1\} \). Tomamos \( v_1 = 1 \):
+    \[
+    x_2 = 2 - \frac{1}{1} \cdot 1 = 1.
+    \]
+    En \( x_2 = 1 \), \( g(x_2) = 0 \), por lo que el método converge en 2 iteraciones.
+\end{itemize}
 
-\section{Mas sobre funciones convexas}
+En este ejemplo, aunque el cero \( x = 1 \) es único, la cantidad de iteraciones necesarias para alcanzarlo depende de la elección del subgradiente en el punto inicial \( x_0 = 0 \). Esto ilustra cómo, en el método de Newton semi-suave, la selección del subgradiente puede afectar la eficiencia del algoritmo, incluso cuando el cero es único.
 
-Tambien, semi continuidad inferior y continuidad de las funciones convexas.
+\subsection{Un otro ejemplo}
 
-\begin{definition}[Función convexa en dimensión finita]
+%\textbf{Ejemplo en \( \mathbb{R} \):}
+Consideremos la función \( g: \mathbb{R} \to \mathbb{R} \) definida por
+\[
+g(x) = |x| - 1,
+\]
+cuyos ceros son \( x = 1 \) y \( x = -1 \). Esta función no es diferenciable en \( x = 0 \), pero su subdiferencial está dado por:
+\[
+\partial g(x) =
+\begin{cases}
+\{1\} & \text{si } x > 0, \\
+\{-1\} & \text{si } x < 0, \\
+[-1, 1] & \text{si } x = 0.
+\end{cases}
+\]
+\textbf{Cálculo manual partiendo de \( x_0 = 0 \):}
+\begin{itemize}
+    \item \textbf{Paso 0:} \( x_0 = 0 \), \( g(x_0) = |0| - 1 = -1 \), y \( \partial g(x_0) = [-1, 1] \).
+
+    \item \textbf{Elección 1:} \( v_0 = 1 \).
+    \[
+    x_1 = 0 - \frac{1}{1} \cdot (-1) = 1.
+    \]
+    En \( x_1 = 1 \), \( g(x_1) = |1| - 1 = 0 \), por lo que el método converge en un paso al cero \( x = 1 \).
+
+    \item \textbf{Elección 2:} \( v_0 = -1 \).
+    \[
+    x_1 = 0 - \frac{1}{-1} \cdot (-1) = -1.
+    \]
+    En \( x_1 = -1 \), \( g(x_1) = |-1| - 1 = 0 \), por lo que el método converge en un paso al cero \( x = -1 \).
+\end{itemize}
+
+En este ejemplo, aunque \( x_0 = 0 \) es un punto no diferenciable, el método de Newton semi-suave converge a un cero de \( g \) en una sola iteración, independientemente de la elección del subgradiente \( v_0 \in \partial g(x_0) \). Esto ilustra cómo el método puede manejar la no diferenciabilidad y aún así aproximar los puntos críticos de manera eficiente.
+
+\section{Dominios de funciones convexas}
+
+Veamos ahora nuevas definiciones m\'as generales que en el cap\'itulo anterior.
+
+\begin{definition}[Función convexa]
 Una función \[f: \mathbb{R}^n \to (-\infty, +\infty] \] es \textbf{convexa} si su \textbf{dominio extendido} \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es un conjunto convexo y, para todo \( x, y \in \text{dom}(f) \) y todo \( \lambda \in [0,1] \), se cumple:
 \[
 f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y).
@@ -2424,6 +2529,21 @@ El \textbf{dominio extendido} \( \text{dom}(f) \) incluye todos los puntos donde
     \item Permite manejar funciones definidas solo en subconjuntos específicos de \( \mathbb{R}^n \) (por ejemplo, restricciones en optimización).
     \item Garantiza que la desigualdad de convexidad se aplique \textbf{solo} a pares de puntos donde \( f \) está bien definida.
 \end{itemize}
+
+Las funciones convexas propias son un caso especialmente importante en optimización y análisis convexo, ya que combinan la convexidad con condiciones naturales sobre su dominio y valores. A continuación, presentamos su definición formal. % y sus implicaciones clave.
+
+\begin{definition}[Función convexa propia]
+Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{convexa propia} si cumple las siguientes condiciones:
+\begin{enumerate}
+    \item \textbf{Convexidad:} \( f \) es convexa en el sentido usual:
+    \[
+    f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \quad \forall x, y \in \mathbb{R}^n, \forall \lambda \in [0,1].
+    \]
+    \item \textbf{Condición de no trivialidad:} \( f(x) < +\infty \) para al menos un \( x \in \mathbb{R}^n \) (es decir, \( \text{dom}(f) \neq \emptyset \)).
+    %\item %\textbf{Condición de no infinitud global:} \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \) (no existen puntos donde \( f \) tome el valor \( -\infty \)).
+\end{enumerate}
+\end{definition}
+
 
 \subsubsection{Ejemplos ilustrativos}
 
@@ -2495,20 +2615,6 @@ Se define as\'i:
 
 %\subsection{Función convexa propia: definición y propiedades}
 %\label{subsec:funcion_convexa_propia}
-
-Las funciones convexas propias son un caso especialmente importante en optimización y análisis convexo, ya que combinan la convexidad con condiciones naturales sobre su dominio y valores. A continuación, presentamos su definición formal. % y sus implicaciones clave.
-
-\begin{definition}[Función convexa propia]
-Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{convexa propia} si cumple las siguientes condiciones:
-\begin{enumerate}
-    \item \textbf{Convexidad:} \( f \) es convexa en el sentido usual:
-    \[
-    f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \quad \forall x, y \in \mathbb{R}^n, \forall \lambda \in [0,1].
-    \]
-    \item \textbf{Condición de no trivialidad:} \( f(x) < +\infty \) para al menos un \( x \in \mathbb{R}^n \) (es decir, \( \text{dom}(f) \neq \emptyset \)).
-    %\item %\textbf{Condición de no infinitud global:} \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \) (no existen puntos donde \( f \) tome el valor \( -\infty \)).
-\end{enumerate}
-\end{definition}
 
 \subsection{Subdiferencial de funciones convexas}
 
