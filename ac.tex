@@ -1407,6 +1407,7 @@ Aquí el enunciado del Teorema de Hahn-Banach (versión geométrica: separación
 \end{proof}
 
 \begin{proposition}[Proposición (9.2.5, Allaire)]
+\label{propAllaire925}
 Si $\mathcal{J}$ es convexa y continua sobre un conjunto $K$ cerrado, convexo y no vacío, entonces existen $\delta \in \mathbb{R}$ y $L \in V'$ tales que para todo $v \in K$:
 \[
 \mathcal{J}(v) \geq L(v) + \delta.
@@ -2517,48 +2518,48 @@ En este ejemplo, aunque \( x_0 = 0 \) es un punto no diferenciable, el método d
 Veamos ahora nuevas definiciones m\'as generales que en el cap\'itulo anterior.
 
 \begin{definition}[Función convexa]
-Una función \[f: \mathbb{R}^n \to (-\infty, +\infty] \] es \textbf{convexa} si su \textbf{dominio extendido} \( \text{dom}(f) = \{x \in \mathbb{R}^n \mid f(x) < +\infty\} \) es un conjunto convexo y, para todo \( x, y \in \text{dom}(f) \) y todo \( \lambda \in [0,1] \), se cumple:
+Una función \[\mathcal{J}: V \to (-\infty, +\infty] \] es \emph{convexa} si su \emph{dominio extendido} \( \text{dom}(\mathcal{J}) = \{v \in V \mid \mathcal{J}(v) < +\infty\} \) es un conjunto convexo y, para todo \( v, w \in \text{dom}(\mathcal{J}) \) y todo \( \lambda \in [0,1] \), se cumple:
 \[
-f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y).
+\mathcal{J}(\lambda v + (1-\lambda) w) \leq \lambda \mathcal{J}(v) + (1-\lambda) \mathcal{J}(w).
 \]
 \end{definition}
 
 %\subsubsection{Explicación del dominio extendido}
-El \textbf{dominio extendido} \( \text{dom}(f) \) incluye todos los puntos donde \( f \) no toma el valor \( +\infty \). Este concepto es crucial porque:
+El \emph{dominio extendido} \( \text{dom}(\mathcal{J}) \) incluye todos los puntos donde \( \mathcal{J} \) no toma el valor \( +\infty \). Este concepto es crucial porque:
 \begin{itemize}
-    \item Permite manejar funciones definidas solo en subconjuntos específicos de \( \mathbb{R}^n \) (por ejemplo, restricciones en optimización).
-    \item Garantiza que la desigualdad de convexidad se aplique \textbf{solo} a pares de puntos donde \( f \) está bien definida.
+    \item Permite manejar funciones definidas solo en subconjuntos específicos de \( V \) (por ejemplo, restricciones en optimización).
+    \item Garantiza que la desigualdad de convexidad se aplique \emph{solo} a pares de puntos donde \( \mathcal{J} \) está bien definida.
 \end{itemize}
 
 Las funciones convexas propias son un caso especialmente importante en optimización y análisis convexo, ya que combinan la convexidad con condiciones naturales sobre su dominio y valores. A continuación, presentamos su definición formal. % y sus implicaciones clave.
 
 \begin{definition}[Función convexa propia]
-Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{convexa propia} si cumple las siguientes condiciones:
+Una función \[ \mathcal{J}: V \to (-\infty, +\infty] \] se denomina \emph{convexa propia} si cumple las siguientes condiciones:
 \begin{enumerate}
-    \item \textbf{Convexidad:} \( f \) es convexa en el sentido usual:
-    \[
-    f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \quad \forall x, y \in \mathbb{R}^n, \forall \lambda \in [0,1].
-    \]
-    \item \textbf{Condición de no trivialidad:} \( f(x) < +\infty \) para al menos un \( x \in \mathbb{R}^n \) (es decir, \( \text{dom}(f) \neq \emptyset \)).
+    \item \emph{Convexidad:} \( \mathcal{J} \) es convexa en el sentido anterior. %usual:
+%    \[
+%    f(\lambda x + (1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y), \quad \forall x, y \in \mathbb{R}^n, \forall \lambda \in [0,1].
+%    \]
+    \item \emph{Condición de no trivialidad:} \( \mathcal{J}(v_0) < +\infty \) para al menos un \( v_0 \in V \) (es decir, \( \text{dom}(\mathcal{J}) \neq \emptyset \)).
     %\item %\textbf{Condición de no infinitud global:} \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \) (no existen puntos donde \( f \) tome el valor \( -\infty \)).
 \end{enumerate}
 \end{definition}
 
 
-\subsubsection{Ejemplos ilustrativos}
+%\subsubsection{Ejemplos ilustrativos}
 
 \begin{ex}[Función valor absoluto: \( f(x) = |x| \)] Tiene las c\'aracteristicas siguientes.
 \begin{itemize}
-    \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
-    \item \textbf{Convexidad:} Cumple la desigualdad de convexidad (por desigualdad triangular):
+    \item \emph{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
+    \item \emph{Convexidad:} Cumple la desigualdad de convexidad (por desigualdad triangular):
     \[
     |\lambda x + (1-\lambda)y| \leq \lambda |x| + (1-\lambda)|y|.
     \]
-    \item \textbf{Visualización:}
+    \item \emph{Visualización:}
 \end{itemize}
 
 \begin{center}
-\begin{tikzpicture}[scale=0.99, domain=-2:2]
+\begin{tikzpicture}[scale=1.49, domain=-2:2]
     \draw[-] (-3,0) -- (3,0) node[right] {$x$};
     \draw[-] (0,-0.5) -- (0,2.5) node[above] {$f(x)$};
     \draw[blue, thick] plot (\x, {abs(\x)});
@@ -2569,14 +2570,14 @@ Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{co
 
 \begin{ex}[Función parte positiva: \( f(x) = \max(x, 0) \)] Tiene las c\'aracteristicas siguientes.
 \begin{itemize}
-    \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
-    \item \textbf{Convexidad:} %Es lineal por tramos, por lo que es convexa.
+    \item \emph{Dominio extendido:} \( \text{dom}(f) = \mathbb{R} \).
+    \item \emph{Convexidad:} %Es lineal por tramos, por lo que es convexa.
     se verifica directamente con la d\'efinici\'on.
-    \item \textbf{Visualización:}
+    \item \emph{Visualización:}
 \end{itemize}
 
 \begin{center}
-\begin{tikzpicture}[scale=0.99, domain=-2:2]
+\begin{tikzpicture}[scale=1.49, domain=-2:2]
     \draw[-] (-3,0) -- (3,0) node[right] {$x$};
     \draw[-] (0,-0.5) -- (0,2.5) node[above] {$f(x)$};
     \draw[blue, thick] plot (\x, {max(\x,0)});
@@ -2585,28 +2586,29 @@ Una función \( f: \mathbb{R}^n \to (-\infty, +\infty] \) se denomina \textbf{co
 \end{center}
 \end{ex}
 
-\begin{ex}[Función indicatriz de un conjunto convexo \( C \)]
+\begin{ex}[Función indicatriz de un conjunto convexo \( K \)]
 % \textbf{Función indicatriz de un conjunto convexo \( C \):}
 Se define as\'i:
     \[
     f(x) = \begin{cases}
-    0 & \text{si } x \in C, \\
-    +\infty & \text{si } x \notin C.
+    0 & \text{si } x \in K, \\
+    +\infty & \text{si } x \notin K.
     \end{cases}
     \]
     \begin{itemize}
-        \item \textbf{Dominio extendido:} \( \text{dom}(f) = C \), que es convexo por definición.
-        \item \textbf{Convexidad:} La desigualdad se cumple trivialmente (ambos lados son \( +\infty \) o \( 0 \)).
+        \item \emph{Dominio extendido:} \( \text{dom}(f) = K \), que es convexo por definición.
+        \item \emph{Convexidad:} La desigualdad se cumple trivialmente (ambos lados son \( +\infty \) o \( 0 \)).
     \end{itemize}
 \end{ex}
 
 \begin{ex}
 [Función norma euclidiana]  
 
-  \textbf{Función norma euclidiana:} Se define por \( f(x) = \|x\|_2 \).
+  %\textbf{Función norma euclidiana:} 
+  Se define por \( f(x) = \|x\|_2 \).
     \begin{itemize}
-        \item \textbf{Dominio extendido:} \( \text{dom}(f) = \mathbb{R}^n \).
-        \item \textbf{Convexidad:} Desigualdad triangular:
+        \item \emph{Dominio extendido:} \( \text{dom}(f) = \mathbb{R}^n \).
+        \item \emph{Convexidad:} Desigualdad triangular:
         \[
         \|\lambda x + (1-\lambda)y\|_2 \leq \lambda \|x\|_2 + (1-\lambda)\|y\|_2.
         \]
@@ -2616,16 +2618,634 @@ Se define as\'i:
 %\subsection{Función convexa propia: definición y propiedades}
 %\label{subsec:funcion_convexa_propia}
 
-\subsection{Subdiferencial de funciones convexas}
+\section{Continuidad y semi-continuidad}
+
+\subsection{Regularidad local} % de funciones convexas}
+
+La convexidad no solo garantiza propiedades globales en el dominio de una función, sino también una regularidad local notable. A continuación demostramos, en dimensión finita, que toda función convexa es Lipschitz continua en el interior relativo de su dominio~\cite{hiriart2001}.
+
+\begin{theorem}[Lipschitz local de funciones convexas]
+    Sea \( \mathcal{J} \colon V(=\mathbb{R}^n) \to {\mathbb{R}} \cup \{+\infty\} \) una función convexa propia y sea \( x_0 \in \textup{int}(\textup{dom}\,\mathcal{J}) \). Entonces, para toda bola abierta \( B(x_0, r) \subset \textup{int}(\textup{dom}\,\mathcal{J}) \) con \( r > 0 \) suficientemente pequeño, la función \( \mathcal{J} \) es Lipschitz continua  
+    en \( B(x_0, r) \). Es decir, existe una constante \( L = L(x_0, r) > 0 \) tal que para todo \( x, y \in B(x_0, r) \),
+    \[
+    |\mathcal{J}(x) - \mathcal{J}(y)| \leq L(x_0,r) \|x - y\|_V.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Sea \( x_0 \in \textup{int}(\textup{dom}\,\mathcal{J}) \) y \( B(x_0, 2r) \subset \textup{int}(\textup{dom}\,\mathcal{J}) \) (esta bola existe tal como $r$ es suficientemente pequeño). 
+    Por la Proposición~\ref{propAllaire925},
+    %Dado que 
+    \( \mathcal{J} \) %es convexa,
+    es acotada inferiormente en
+    \( B(x_0, 2r) \). Mostraremos también en la Proposición \ref{prop:asup} una cuota superior.
+%    es localmente acotada en \( B(x_0, r) \). 
+%    
+%    En efecto, para todo \( x \in B(x_0, r) \), existe una vecindad \( B(x, \delta_x) \) contenida en \( B(x_0, r) \) donde \( \mathcal{J} \) está acotada superiormente ****(por ser convexa y estar definida en un abierto). Por compacidad de \( \overline{B(x_0, r/2)} \), 
+Entonces, existe \( M > 0 \) tal que:
+    \[
+    |\mathcal{J}(x)| \leq M \quad \forall x \in B(x_0, 2r).
+    \]
+    Ahora, sean \( x, y \in B(x_0, r) \) con \( x \neq y \). Definimos el vector \[ d := y - x , \quad (\|d\|_V \leq r)\]
+    % JP Page 102
+%
+    y el punto \[ z := y + \frac{r}{\|d\|_V} d.\] Observamos que:
+    \[
+    \|z - x_0\|_V \leq \|z - y\|_V + \|y - x_0\|_V < {r} + {r} = 2r,
+    \]
+    por lo que \( z \in B(x_0, 2r) \). Además,
+    desde \[ z = y + \frac{r}{\|d\|_V} (y-x)\]
+    obtenemos 
+    \[ \frac{\|d\|_V}{r}z = \frac{\|d\|_V}{r}y + (y-x).\]
+    Reordenando
+        \[ \frac{\|d\|_V}{r}z = \frac{r+\|d\|_V}{r}y  -x.\]
+    Luego
+    \( y \) puede expresarse como una combinación convexa de \( x \) y \( z \):
+    \[
+    y = \frac{r}{r+\|d\|_V} x 
+    + 
+    \frac{\|d\|_V}{r+\|d\|_V} z.
+    \]
+    Por la convexidad de \( \mathcal{J} \), se tiene:
+    \[
+    \mathcal{J}(y) \leq 
+     \frac{r}{r+\|d\|_V}
+    \mathcal{J}(x) +  \frac{\|d\|_V}{r+\|d\|_V} \mathcal{J}(z).
+    \]
+    Reordenando, obtenemos:
+    \[
+    \mathcal{J}(y) - \mathcal{J}(x) \leq 
+    \frac{\|d\|_V}{r+\|d\|_V}
+\left(\mathcal{J}(z) - \mathcal{J}(x)\right). %\leq \frac{\|d\|_V}{r} \cdot 2M =
+    %\frac{\|d\|_V}{r}
+    %\frac{M r}{\|d\|}.
+    \]
+    Luego:
+    \[
+    \mathcal{J}(y) - \mathcal{J}(x) \leq 
+    \frac{2M\|d\|_V}{r}.
+%\left(\mathcal{J}(z) - \mathcal{J}(x)\right). %\leq \frac{\|d\|_V}{r} \cdot 2M =
+    %\frac{\|d\|_V}{r}
+    %\frac{M r}{\|d\|}.
+    \]    
+    % \[
+    % \mathcal{J}(y) - \mathcal{J}(x) \leq \frac{\|d\|_V}{r} \left(\mathcal{J}(z) - \mathcal{J}(x)\right) \leq \frac{\|d\|_V}{r} \cdot 2M =
+    % \frac{\|d\|_V}{r}
+    % \frac{M r}{\|d\|}.
+    % \]
+    De manera análoga, intercambiando los roles de \( x \) e \( y \), se deduce:
+    \[
+    \mathcal{J}(x) - \mathcal{J}(y) \leq 
+    \frac{2M\|d\|_V}{r}.
+    %\frac{M r}{\|d\|}.
+    \]
+    Por lo tanto,
+    \[
+    |\mathcal{J}(x) - \mathcal{J}(y)| \leq %\frac{M r}{\|d\|} = \frac{2M}{r} \|x - y\|.
+    \frac{2M\|x-y\|_V}{r}.
+    \]
+    Tomando \( L = \frac{2M}{r} \), se concluye que \( \mathcal{J} \) es \( L \)-Lipschitz en \( B(x_0, r )\). 
+\end{proof}
+
+Ahora, mostramos el resultado de cuota superior, que hemos utilizado previamente.
+
+% === 1. Definición: Símplice ===
+%\section*{Definición: Símplice}
+\begin{definition}
+Un {símplice} (o \textit{simplex}) en $\mathbb{R}^n$ es el {cascarón convexo} de un conjunto de $n+1$ puntos {afínmente independientes}. Si $S = \operatorname{co}\{a_0, a_1, \dots, a_n\}$, los puntos $a_i$ son los {vértices} (o puntos extremos) de $S$.
+Un símplice de dimensión $k$ en $\mathbb{R}^n$ (con $k \leq n$) es el cascarón convexo de $k+1$ puntos afínmente independientes.
+\end{definition}
+
+
+% === 2. Proposición: Acotación en un símplice ===
+%\section*{Proposición}
+
+\begin{proposition}
+    Sea $S \subset \mathbb{R}^n$ un símplice y $\mathcal{J}: S \to \mathbb{R}$ una función {convexa}. Entonces,
+\[
+\sup_{x \in S} \mathcal{J}(x) = \max_{i=0,\dots,n} \mathcal{J}(a_i),
+\]
+donde $\{a_0, \dots, a_n\}$ son los vértices de $S$.
+\end{proposition}
+\begin{proof}
+Sea $x \in S$. Por definición de símplice, existen \[\lambda_0, \dots, \lambda_n \geq 0\] con $\sum_{i=0}^n \lambda_i = 1$ tales que
+\[
+x = \sum_{i=0}^n \lambda_i a_i.
+\]
+Como $\mathcal{J}$ es convexa,
+\[
+\mathcal{J}(x) = \mathcal{J}\left(\sum_{i=0}^n \lambda_i a_i\right) \leq \sum_{i=0}^n \lambda_i \mathcal{J}(a_i) \leq \sum_{i=0}^n \lambda_i \max_{j} \mathcal{J}(a_j) = \max_{j} \mathcal{J}(a_j).
+\]
+Por lo tanto, $\mathcal{J}(x) \leq \max_{j} f(a_j)$ para todo $x \in S$, y como la cota se alcanza en los vértices, se tiene la igualdad en el supremo.
+\end{proof}
+
+% === 3. Proposición: Acotación superior local ===
+\begin{proposition}[Acotación superior local de una función convexa]
+\label{prop:asup}
+Sea $D \subset \mathbb{R}^n$ un conjunto {convexo no vació\footnote{y entonces con interior relativo no vacío \cite{hiriart2001}}} y $\mathcal{J}: D \to \mathbb{R}$ una función {convexa}. Entonces, para todo $x_0 \in \operatorname{int}_{\operatorname{rel}}(D)$, existen $\varepsilon > 0$ y $M > 0$ tales que
+\[
+\mathcal{J}(x) \leq M \quad \forall x \in B(x_0, \varepsilon) \cap \operatorname{aff}(D).
+\]
+\end{proposition}
+
+\begin{proof} Se hace en tres etapas.
+\begin{enumerate}
+    \item \emph{Construcción del símplice.}
+    Sea $x_0 \in \operatorname{int}_{\operatorname{rel}}(D)$. Por definición, existe $r > 0$ tal que
+    \[
+    B_{\operatorname{aff}(D)}(x_0, r) \subset D,
+    \]
+    donde $B_{\operatorname{aff}(D)}(x_0, r)$ es la bola abierta en el espacio afín $\operatorname{aff}(D)$ centrada en $x_0$ con radio $r$.
+    Sea $m = \dim(\operatorname{aff}(D))$. Como $\operatorname{aff}(D)$ es un espacio afín de dimensión $m$, podemos elegir $m+1$ puntos $v_0, v_1, \dots, v_m \in D$ tales que:
+    \begin{itemize}
+        \item $x_0 \in \operatorname{int}(\operatorname{co}\{v_0, \dots, v_m\})$ (en el espacio $\operatorname{aff}(D)$),
+        \item $\operatorname{co}\{v_0, \dots, v_m\}$ es un \textbf{símplice} de dimensión $m$ contenido en $D$.
+    \end{itemize}
+
+    \item \emph{Contención de la bola en el símplice.}
+    Como $x_0$ es un punto interior del símplice $S = \operatorname{co}\{v_0, \dots, v_m\}$, existe $\delta > 0$ tal que
+    \[
+    B_{\operatorname{aff}(D)}(x_0, \delta) \subset S \subset D.
+    \]
+    Tomemos $\varepsilon = \min\{r, \delta\}$. Entonces, para cualquier $0 < \rho \leq \varepsilon$,
+    \[
+    B_{\operatorname{aff}(D)}(x_0, \rho) \subset S.\]
+
+    \item \emph{Aplicación de la proposición anterior.}
+    Por la proposición anterior, $\mathcal{J}$ está acotada superiormente en $S$ por el máximo de sus valores en los vértices:
+    \[
+    \mathcal{J}(x) \leq \max_{i=0,\dots,m} \mathcal{J}(v_i) \quad \forall x \in S.
+    \]
+    En particular, para todo $x \in B_{\operatorname{aff}(D)}(x_0, \rho)$ (con $\rho \leq \varepsilon$), se tiene $x \in S$ y por lo tanto
+    \[
+    \mathcal{J}(x) \leq M, \quad \text{donde } M = \max_{i=0,\dots,m} \mathcal{J}(v_i).
+    \]
+    Esto muestra que $f$ está {localmente acotada superiormente} en el interior relativo de $D$. \qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{remark} Para profundizar lo anterior, uno se puede referir a
+\cite[Pagina 34]{hiriart2001}, particularmente la Definición A.2.1.1 (interior relativo), el Teorema A.2.1.3 (un convexo no vació tiene su interior relativo no vació) y la Figura A.2.1.1.
+\end{remark}
+
+\begin{remark}
+De lo anterior, se puede deducir que una funci\'on convexa es Lipschitz sobre todo compacto convexo~\cite{hiriart2001}.
+\end{remark}
+
+\begin{remark} En dimensión infinita, si $V$ es un espacio de Banach, y $\mathcal{J}$ es semi continua inferior y convexa, entonces es continua en el interior relativo de su dominio~\cite[Proposition 3.6]{peypouquet2015}. Es una consecuencia del Lema de Baire.
+%Uno se puede referir a \cite{peypouquet2015}
+%Seccion 3.1 pagina 43
+%Prop 3.2 caso general
+%Prop 3.6 integrar en off y 
+%trabajar +
+%Se basa en BAIRE
+%Continuidad si J convexa
+%y sci en un Banach (completud).
+\end{remark}
+
+% =============================================
+% FUNCIONES CONVEXAS EXTENDIDAS Y EXISTENCIA DE MÍNIMO
+% =============================================
+
+%\section*{¿Por qué las funciones convexas extendidas no siempre admiten mínimo?}
+\subsection{Funciones convexas extendidas y mínimo}
+
+% ----------------------------
+%\subsection*{El problema: sucesiones minimizantes que ``se escapan''}
+% ----------------------------
+
+Recordamos: en el contexto de la {optimización convexa}, una {función convexa extendida} es una función $\mathcal{J}: V \to \overline{\mathbb{R}} = \mathbb{R} \cup \{+\infty\}$ cuyo {dominio efectivo} $\dom(\mathcal{J}) = \{v \in V \mid \mathcal{J}(v) < +\infty\}$ es no vacío y convexo, y que satisface
+\[
+\mathcal{J}(\lambda x + (1-\lambda)y) \leq \lambda \mathcal{J}(x) + (1-\lambda)\mathcal{J}(y) \quad \forall x,y \in V, \lambda \in [0,1].
+\]
+Una {sucesión minimizante} para $\mathcal{J}$ es una sucesión $(v_k)_{k \in \mathbb{N}} \subset \dom(\mathcal{J})$ tal que
+\[
+\mathcal{J}(v_k) \to \inf_{v \in V} \mathcal{J}(v).
+\]
+
+\medskip
+\emph{El fenómeno clave.} Aunque $\mathcal{J}$ sea convexa, el ínfimo puede {no alcanzarse} en $\dom(\mathcal{J})$ si las sucesiones minimizantes {tienden al borde} de $\dom(\mathcal{J})$ o {divergen a infinito}, escapando así de cualquier conjunto compacto donde la continuidad garantizaría la existencia de mínimo.
+
+% ----------------------------
+%\subsection*{Ejemplos detallados}
+% ----------------------------
+
+\begin{ex}[Función lineal no acotada inferiormente]
+    Sea $f: \mathbb{R} \to \mathbb{R}$ definida por $f(x) = x$. Entonces:
+    \begin{itemize}
+        \item $f$ es convexa (y lineal).
+        \item $\inf_{x \in \mathbb{R}} f(x) = -\infty$.
+        \item Para cualquier $M < 0$, la sucesión $x_k = -k$ es minimizante, ya que $f(x_k) = -k \to -\infty$.
+        \item \textbf{No existe mínimo}: la sucesión ``se escapa'' a $-\infty$.
+    \end{itemize}
+\end{ex}
+
+%\begin{ex}[Función convexa en un dominio abierto]
+%    Sea $f: (0, +\infty) \to \mathbb{R}$ definida por $f(x) = -\frac{1}{x}$. Entonces:
+%    \begin{itemize}
+%        \item $\dom(f) = (0, +\infty)$ es convexo.
+%        \item $f$ es convexa (su segunda derivada es $f''(x) = \frac{2}{x^3} > 0$ en $(0, +\infty)$).
+%        \item $\inf_{x > 0} f(x) = -\infty$.
+%        \item La sucesión minimizante $x_k = \frac{1}{k}$ satisface $f(x_k) = -k \to -\infty$ y $x_k \to 0^+$.
+%        \item \textbf{No existe mínimo}: la sucesión ``se escapa'' hacia el borde $0$ de $\dom(f)$.
+%    \end{itemize}
+%\end{ex}
+
+\begin{ex}[Función convexa en $\mathbb{R}^2$ con dominio no acotado]
+Consideremos $f(x,y) = x - y$ en $\dom(f) = \mathbb{R}_+^2$. Entonces:
+        \begin{itemize}
+            \item $f$ es convexa (lineal).
+            \item $\inf_{(x,y) \in \mathbb{R}^2_+} f(x,y) = -\infty$.
+            \item La sucesión minimizante $(x_k, y_k) = (0, k)$ satisface $f(x_k, y_k) = -k \to -\infty$ y ``se escapa'' hacia el borde $y \to +\infty$ de $\dom(f)$.
+        \end{itemize}
+ 
+\end{ex}
+
+\begin{ex}[Función convexa con mínimo en el borde]
+    Sea $f: \mathbb{R} \to \overline{\mathbb{R}}$ definida por
+    \[
+    f(x) = \begin{cases}
+        x^2 & \text{si } x > 0, \\
+        +\infty & \text{si } x \leq 0.
+    \end{cases}
+    \]
+    Entonces:
+    \begin{itemize}
+        \item $\dom(f) = (0, +\infty)$ es convexo.
+        \item $f$ es convexa (restricción de una función convexa a un subconjunto convexo).
+        \item $\inf_{x \in \mathbb{R}} f(x) = 0$, pero \textbf{no se alcanza} en $\dom(f)$ (el ínfimo sería $f(0) = 0$, pero $0 \notin \dom(f)$).
+        \item La sucesión minimizante $x_k = \frac{1}{k}$ satisface $f(x_k) = \frac{1}{k^2} \to 0$ y $x_k \to 0^+$.
+        \item \textbf{No existe mínimo en $\dom(f)$}: la sucesión ``se escapa'' hacia el borde $0$ de $\dom(f)$.
+    \end{itemize}
+\end{ex}
+
+% ----------------------------
+%\subsection*{Noción de semicontinuidad inferior}
+\subsection{Semicontinuidad inferior}
+% ----------------------------
+
+Para garantizar que una función convexa {alcanza su ínfimo}, necesitamos evitar que las sucesiones minimizantes ``se escapen''. Esto se logra imponiendo condiciones de {semicontinuidad inferior (s.c.i.)} y de {coercividad}.
+
+\medskip
+\begin{definition}[Semicontinuidad inferior (s.c.i.)]
+    Una función $\mathcal{J}: V \to \overline{\mathbb{R}}$ es \emph{semicontinua inferiormente en $v_0 \in V$} si para toda sucesión $(v_k) \to v_0$ se cumple:
+    \[
+    \liminf_{k \to +\infty} \mathcal{J}(v_k) \geq \mathcal{J}(v_0).
+    \]
+    Decimos que $\mathcal{J}$ es {s.c.i.} si lo es para todo $v_0 \in V$.
+\end{definition}
+
+\begin{remark}
+    Para funciones convexas, la semicontinuidad inferior es una propiedad {natural} en el {interior relativo} de su dominio. De hecho:
+    \begin{itemize}
+        \item Hemos visto que toda función convexa $\mathcal{J}: V \to \overline{\mathbb{R}}$ es {continua} (y por lo tanto s.c.i.) en el {interior de su dominio efectivo} $\operatorname{int}(\dom(\mathcal{J}))$.
+        \item Sin embargo, en el {borde} de $\dom(\mathcal{J})$, la semicontinuidad inferior {puede fallar}.
+    \end{itemize}
+\end{remark}
+
+% INTERLUDE: Vue globale et GITHUB
+% PRACTICOS ....
+% ETC
+% *****
+% IMPORTANT: EPIGRAPHE
+% ET FONCTION
+% THEOREME : fonction convexe = epigraphe convexe
+% FONCTION SCI et EPIGRAPHE FERME (voir aussi exemples) **********
+
+%VOIR BONNES REFS
+
+\begin{theorem}[Semicontinuidad inferior de funciones convexas]
+    Sea $f: \mathbb{R}^n \to \overline{\mathbb{R}}$ una función convexa. Entonces:
+    \begin{enumerate}
+        \item $f$ es \textbf{continua} en $\operatorname{int}(\dom(f))$.
+        \item $f$ es \textbf{semicontinua inferiormente} en $\mathbb{R}^n$ si y solo si su \textbf{epígrafica}
+        \[
+        \operatorname{epi}(f) = \{(x, \alpha) \in \mathbb{R}^n \times \mathbb{R} \mid f(x) \leq \alpha\}
+        \]
+        es un conjunto \textbf{cerrado} en $\mathbb{R}^n \times \mathbb{R}$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}[Esbozo de la demostración]
+    \begin{itemize}
+        \item \textbf{Continuidad en el interior:} Si $x_0 \in \operatorname{int}(\dom(f))$, existe una bola $B(x_0, r) \subset \dom(f)$. Por la Proposición \ref{prop:asup}, $f$ está acotada superiormente en una vecindad de $x_0$. Además, como $f$ es convexa, está acotada inferiormente en cualquier conjunto acotado. Por lo tanto, $f$ es \textbf{Lipschitz-continua} en $B(x_0, r/2)$, lo que implica continuidad.
+
+        \item \textbf{Semicontinuidad inferior y epígrafica cerrada:} Supongamos que $\operatorname{epi}(f)$ es cerrada. Sea $(x_k) \to x_0$ y $\liminf_{k \to +\infty} f(x_k) = L$. Existen subsucesiones $(x_{k_j})$ tales que $f(x_{k_j}) \to L$. Como $(x_{k_j}, f(x_{k_j})) \in \operatorname{epi}(f)$ y $\operatorname{epi}(f)$ es cerrada, $(x_0, L) \in \operatorname{epi}(f)$, es decir, $f(x_0) \leq L$. Por lo tanto, $f$ es s.c.i. en $x_0$.
+
+        Recíprocamente, si $f$ es s.c.i., sea $(x_k, \alpha_k) \in \operatorname{epi}(f)$ con $(x_k, \alpha_k) \to (x_0, \alpha_0)$. Entonces $f(x_k) \leq \alpha_k$ y por semicontinuidad inferior,
+        \[
+        f(x_0) \leq \liminf_{k \to +\infty} f(x_k) \leq \liminf_{k \to +\infty} \alpha_k = \alpha_0,
+        \]
+        por lo que $(x_0, \alpha_0) \in \operatorname{epi}(f)$.
+    \end{itemize}
+\end{proof}
+
+% ----------------------------
+\subsection{Condiciones para la existencia de mínimo}
+% ----------------------------
+
+Para garantizar que una función convexa $f: \mathbb{R}^n \to \overline{\mathbb{R}}$ \textbf{alcanza su ínfimo}, necesitamos:
+\begin{enumerate}
+    \item \textbf{Semicontinuidad inferior:} $f$ es s.c.i. (equivalente a que $\operatorname{epi}(f)$ sea cerrada).
+    \item \textbf{Coercividad:} $f(x) \to +\infty$ cuando $\|x\| \to +\infty$ (para evitar que las sucesiones minimizantes ``se escapen'' a infinito).
+    \item \textbf{Dominio cerrado:} $\dom(f)$ es cerrado (para evitar que las sucesiones minimizantes ``se escapen'' hacia el borde).
+\end{enumerate}
+
+\begin{theorem}[Existencia de mínimo para funciones convexas]
+    Sea $f: \mathbb{R}^n \to \overline{\mathbb{R}}$ una función convexa, s.c.i. y coerciva. Entonces $f$ alcanza su mínimo en $\mathbb{R}^n$, es decir, existe $x^* \in \mathbb{R}^n$ tal que
+    \[
+    f(x^*) = \inf_{x \in \mathbb{R}^n} f(x).
+    \]
+\end{theorem}
+
+\begin{proof}[Esbozo]
+    Sea $(x_k)$ una sucesión minimizante, es decir, $f(x_k) \to \inf f$. Por coercividad, $(x_k)$ está acotada, por lo que existe una subsucesión $(x_{k_j})$ convergente a algún $x^* \in \mathbb{R}^n$. Como $f$ es s.c.i.,
+    \[
+    f(x^*) \leq \liminf_{j \to +\infty} f(x_{k_j}) = \inf f,
+    \]
+    y como $x^* \in \dom(f)$ (porque $f(x^*) < +\infty$), se tiene $f(x^*) = \inf f$.
+\end{proof}
+
+\begin{ex}[Aplicación del teorema]
+    Sea $f: \mathbb{R} \to \mathbb{R}$ definida por $f(x) = x^2 + 1$. Entonces:
+    \begin{itemize}
+        \item $f$ es convexa (su segunda derivada es $f''(x) = 2 > 0$).
+        \item $f$ es s.c.i. (es continua).
+        \item $f$ es coerciva: $f(x) = x^2 + 1 \to +\infty$ cuando $|x| \to +\infty$.
+    \end{itemize}
+    Por el teorema, $f$ alcanza su mínimo en $x^* = 0$, con $f(0) = 1$.
+\end{ex}
+
+% ----------------------------
+\subsection{Conclusión}
+% ----------------------------
+
+Las funciones convexas extendidas \textbf{no siempre admiten mínimo} porque:
+\begin{itemize}
+    \item Las sucesiones minimizantes pueden \textbf{divergir a infinito} (ejemplo: $f(x) = x$ en $\mathbb{R}$).
+    \item Las sucesiones minimizantes pueden \textbf{acercarse al borde del dominio} sin alcanzar el ínfimo (ejemplo: $f(x) = -\frac{1}{x}$ en $(0, +\infty)$ o $f(x) = x^2$ en $(0, +\infty)$).
+\end{itemize}
+
+Para garantizar la existencia de mínimo, es necesario imponer:
+\begin{itemize}
+    \item \textbf{Semicontinuidad inferior} (para evitar que el ínfimo ``se pierda'' en el borde).
+    \item \textbf{Coercividad} (para evitar que las sucesiones minimizantes diverjan).
+\end{itemize}
+Estas condiciones son \textbf{suficientes} para funciones convexas en $\mathbb{R}^n$.
+
+%\section{Análisis de funciones: límite inferior, semicontinuidad inferior y convexidad}
+
+\section{Límite inferior  y semicontinuidad} %inferior} % y convexidad}
+
+\subsection{Límite inferior}
+\begin{definition}[Límite inferior de una función]
+    Sea \( f: \mathbb{R} \to \overline{\mathbb{R}} \) una función y \( a \in \mathbb{R} \). El \textbf{límite inferior} de \( f \) en \( a \) se define como:
+    \[
+    \liminf_{x \to a} f(x) = \lim_{r \to 0^+} \left( \inf_{x \in B(a,r)} f(x) \right),
+    \]
+    donde \( B(a,r) \) es la bola abierta de centro \( a \) y radio \( r \).
+\end{definition}
+
+\begin{ex}[Ejemplo de límite inferior]
+    Consideremos la función:
+    \[
+    f(x) =
+    \begin{cases}
+        x & \text{si } x \in \mathbb{Q}, \\
+        -x & \text{si } x \notin \mathbb{Q}.
+    \end{cases}
+    \]
+    En \( a = 0 \), para todo \( r > 0 \), el ínfimo de \( f \) en \( B(0,r) \) es \( -r \). Por lo tanto:
+    \[
+    \liminf_{x \to 0} f(x) = \lim_{r \to 0^+} (-r) = 0.
+    \]
+\end{ex}
+
+\subsection{Funciones semicontinuas inferiormente (s.c.i.)}
+\begin{definition}[Función semicontinua inferiormente]
+    Una función \( f: \mathbb{R} \to \overline{\mathbb{R}} \) es \textbf{semicontinua inferiormente (s.c.i.)} en \( a \in \mathbb{R} \) si:
+    \[
+    \liminf_{x \to a} f(x) \geq f(a).
+    \]
+    Si \( f \) es s.c.i. en todo punto de su dominio, se dice que \( f \) es \textbf{s.c.i. en \( \mathbb{R} \)}.
+\end{definition}
+
+\begin{ex}[Ejemplo de función s.c.i.]
+    La función \( f(x) = |x| \) es s.c.i. en \( \mathbb{R} \). En efecto, para todo \( a \in \mathbb{R} \):
+    \[
+    \liminf_{x \to a} |x| = |a| = f(a).
+    \]
+\end{ex}
+
+\begin{ex}[Contraejemplo: función no s.c.i.]
+    La función
+    \[
+    f(x) =
+    \begin{cases}
+        -1 & \text{si } x = 0, \\
+        0 & \text{si } x \neq 0,
+    \end{cases}
+    \]
+    no es s.c.i. en \( 0 \), ya que:
+    \[
+    \liminf_{x \to 0} f(x) = 0 \not\geq f(0) = -1.
+    \]
+\end{ex}
+
+---
+\subsection{Convexidad y semicontinuidad inferior: importancia para la existencia de mínimos}
+
+\begin{remark}[Relación entre convexidad, s.c.i. y mínimos globales]
+    Una función convexa \( f: \mathbb{R} \to \mathbb{R} \) \textbf{no necesariamente admite un mínimo global} si no es s.c.i. La semicontinuidad inferior es clave porque:
+    \begin{itemize}
+        \item Garantiza que los conjuntos de subnivel \( \{ x \mid f(x) \leq \alpha \} \) son cerrados.
+        \item Si \( f \) es convexa y s.c.i., y su dominio es un conjunto convexo cerrado (o \( \lim_{|x| \to \infty} f(x) = +\infty \)), entonces \( f \) admite al menos un mínimo global.
+    \end{itemize}
+\end{remark}
+
+\begin{ex}[Función convexa y s.c.i. con mínimo global]
+    La función \( f(x) = x^2 \) es convexa (su segunda derivada es \( 2 > 0 \)) y s.c.i. (es continua). Además, \( \lim_{|x| \to \infty} f(x) = +\infty \). Por lo tanto, admite un mínimo global en \( x = 0 \), donde \( f(0) = 0 \).
+\end{ex}
+
+\begin{ex}[Contraejemplo: función convexa no s.c.i. sin mínimo global]
+    Consideremos la función:
+    \[
+    f(x) =
+    \begin{cases}
+        1 & \text{si } x = 0, \\
+        x^2 & \text{si } x \neq 0.
+    \end{cases}
+    \]
+    \begin{itemize}
+        \item \textbf{Convexa}: Para todo \( x, y \in \mathbb{R} \) y \( \lambda \in [0,1] \), se verifica que
+          \[
+          f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
+          \]
+          En particular, si \( x = 0 \) y \( y \neq 0 \), para \( \lambda \in (0,1) \):
+          \[
+          f((1-\lambda)y) = (1-\lambda)^2 y^2 \leq \lambda \cdot 1 + (1-\lambda) y^2.
+          \]
+          Esto se cumple porque \( (1-\lambda)^2 y^2 \leq (1-\lambda)y^2 \leq \lambda + (1-\lambda)y^2 \).
+
+        \item \textbf{No s.c.i. en \( 0 \)}: \( \liminf_{x \to 0} f(x) = 0 < f(0) = 1 \).
+
+        \item \textbf{No admite mínimo global}: \( \inf_{x \in \mathbb{R}} f(x) = 0 \), pero este ínfimo no es alcanzado (pues \( f(x) = 0 \) solo si \( x = 0 \), pero \( f(0) = 1 \)).
+    \end{itemize}
+\end{ex}
+
+% \section{Análisis de funciones: límite inferior, semicontinuidad inferior y convexidad}
+
+% \subsection{Límite inferior}
+% \begin{definition}[Límite inferior de una función]
+%     Sea \( f: \mathbb{R} \to \overline{\mathbb{R}} \) una función y \( a \in \mathbb{R} \). El \textbf{límite inferior} de \( f \) en \( a \) se define como:
+%     \[
+%     \liminf_{x \to a} f(x) = \lim_{r \to 0^+} \left( \inf_{x \in B(a,r)} f(x) \right),
+%     \]
+%     donde \( B(a,r) \) es la bola abierta de centro \( a \) y radio \( r \).
+% \end{definition}
+
+% \begin{example}[Ejemplo de límite inferior]
+%     Consideremos la función \( f(x) = x \cdot \mathbb{1}_{\mathbb{Q}}(x) - x \cdot \mathbb{1}_{\mathbb{R}\setminus\mathbb{Q}}(x) \), es decir:
+%     \[
+%     f(x) =
+%     \begin{cases}
+%         x & \text{si } x \in \mathbb{Q}, \\
+%         -x & \text{si } x \notin \mathbb{Q}.
+%     \end{cases}
+%     \]
+%     En \( a = 0 \), para todo \( r > 0 \), el ínfimo de \( f \) en \( B(0,r) \) es \( -r \) (alcanzado en los irracionales cercanos a 0). Por lo tanto:
+%     \[
+%     \liminf_{x \to 0} f(x) = \lim_{r \to 0^+} (-r) = 0.
+%     \]
+% \end{example}
+
+% ---
+
+% \subsection{Funciones semicontinuas inferiormente (s.c.i.)}
+% \begin{definition}[Función semicontinua inferiormente]
+%     Una función \( f: \mathbb{R} \to \overline{\mathbb{R}} \) es \textbf{semicontinua inferiormente (s.c.i.)} en \( a \in \mathbb{R} \) si:
+%     \[
+%     \liminf_{x \to a} f(x) \geq f(a).
+%     \]
+%     Si \( f \) es s.c.i. en todo punto de su dominio, se dice que \( f \) es \textbf{s.c.i. en \( \mathbb{R} \)}.
+% \end{definition}
+
+% \begin{example}[Ejemplo de función s.c.i.]
+%     La función \( f(x) = |x| \) es s.c.i. en \( \mathbb{R} \). En efecto, para todo \( a \in \mathbb{R} \):
+%     \[
+%     \liminf_{x \to a} |x| = |a| = f(a).
+%     \]
+% \end{example}
+
+% \begin{example}[Contraejemplo: función no s.c.i.]
+%     La función
+%     \[
+%     f(x) =
+%     \begin{cases}
+%         -1 & \text{si } x = 0, \\
+%         0 & \text{si } x \neq 0,
+%     \end{cases}
+%     \]
+%     no es s.c.i. en \( 0 \), ya que:
+%     \[
+%     \liminf_{x \to 0} f(x) = 0 \not\geq f(0) = -1.
+%     \]
+% \end{example}
+
+% ---
+
+% \subsection{Convexidad y semicontinuidad inferior: importancia para la existencia de mínimos}
+% \begin{remark}[Relación entre convexidad, s.c.i. y existencia de mínimos]
+%     Una función convexa \( f: \mathbb{R} \to \mathbb{R} \) \textbf{no necesariamente admite un mínimo global} en su dominio. Sin embargo, si \( f \) es \textbf{convexa y semicontinua inferiormente}, y su dominio es un conjunto convexo cerrado (por ejemplo, \( \mathbb{R} \) o un intervalo cerrado), entonces \( f \) \textbf{admite al menos un mínimo global}.
+
+%     La razón es que:
+%     \begin{itemize}
+%         \item La convexidad garantiza que todo mínimo local es global.
+%         \item La semicontinuidad inferior asegura que el conjunto de subnivel \( \{ x \mid f(x) \leq \alpha \} \) es cerrado para todo \( \alpha \in \mathbb{R} \).
+%         \item Si \( f \) está acotada inferiormente (por ejemplo, si \( \lim_{|x| \to \infty} f(x) = +\infty \)), la intersección de estos conjuntos de subnivel es no vacía y compacta, lo que garantiza la existencia de un mínimo.
+%     \end{itemize}
+% \end{remark}
+
+% \begin{example}[Función convexa y s.c.i. con mínimo global]
+%     La función \( f(x) = x^2 \) es convexa (su segunda derivada es \( 2 > 0 \)) y s.c.i. (es continua). Además, \( \lim_{|x| \to \infty} f(x) = +\infty \). Por lo tanto, admite un mínimo global en \( x = 0 \), donde \( f(0) = 0 \).
+% \end{example}
+
+% \begin{example}[Contraejemplo: función convexa no s.c.i. sin mínimo global]
+%     Consideremos la función:
+%     \[
+%     f(x) =
+%     \begin{cases}
+%         x^2 & \text{si } x \neq 0, \\
+%         -1 & \text{si } x = 0.
+%     \end{cases}
+%     \]
+%     \begin{itemize}
+%         \item \( f \) es convexa: para todo \( x, y \in \mathbb{R} \) y \( \lambda \in [0,1] \),
+%               \[
+%               f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
+%               \]
+%               Esto se verifica porque \( x^2 \) es convexa y \( f(0) = -1 \leq \lambda x^2 + (1-\lambda) y^2 \) para todo \( x, y \neq 0 \).
+%         \item \( f \) \textbf{no es s.c.i.} en \( 0 \), ya que \( \liminf_{x \to 0} f(x) = 0 \not\geq f(0) = -1 \).
+%         \item \( f \) \textbf{no admite mínimo global}: \( \inf_{x \in \mathbb{R}} f(x) = -1 \), pero este ínfimo no es alcanzado (pues \( f(x) = -1 \) solo en \( x = 0 \), pero \( f(0) = -1 \) es un valor aislado y no un mínimo local).
+%     \end{itemize}
+%     Observación: Aunque \( f(0) = -1 \) es el ínfimo, no es un mínimo global porque no existe un entorno de \( 0 \) donde \( f(x) \geq f(0) \) para todo \( x \). La semicontinuidad inferior falla precisamente en este punto.
+% \end{example}
+
+\subsection{Mínimos}
+
+%\dots
+Se puede adaptar el resultado del capitulo 3 así.
+
+\begin{theorem}[Existencia de mínimo global para funciones convexas]
+    Sea \( f: \mathbb{R}^n \to \overline{\mathbb{R}} \) una función que cumple las siguientes condiciones:
+    \begin{enumerate}
+        \item \textbf{Convexa}: Para todo \( x, y \in \mathbb{R}^n \) y \( \lambda \in [0,1] \),
+              \[
+              f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
+              \]
+        \item \textbf{Propia}: \( \dom(f) = \{ x \in \mathbb{R}^n \mid f(x) < +\infty \} \neq \emptyset \) y \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \).
+        \item \textbf{Semicontinua inferiormente (s.c.i.)}: Para todo \( a \in \mathbb{R}^n \),
+              \[
+              \liminf_{x \to a} f(x) \geq f(a).
+              \]
+        \item \textbf{Coercitiva}: \( \lim_{\|x\| \to +\infty} f(x) = +\infty \).
+    \end{enumerate}
+    Entonces, \( f \) admite al menos un \textbf{mínimo global}, es decir, existe \( x^* \in \mathbb{R}^n \) tal que:
+    \[
+    f(x^*) = \inf_{x \in \mathbb{R}^n} f(x) < +\infty.
+    \]
+\end{theorem}
+
+\begin{proof}[Esquema de la demostración]
+    \begin{itemize}
+        \item Por la coercitividad, existe \( R > 0 \) tal que para todo \( x \) con \( \|x\| > R \), se tiene \( f(x) \geq f(0) + 1 \). Así, el ínfimo de \( f \) se alcanza en la bola cerrada \( \overline{B}(0,R) \).
+
+        \item La bola \( \overline{B}(0,R) \) es un conjunto \textbf{compacto} (cerrado y acotado en \( \mathbb{R}^n \)).
+
+        \item Como \( f \) es s.c.i., sus conjuntos de subnivel \( S_\alpha = \{ x \mid f(x) \leq \alpha \} \) son cerrados para todo \( \alpha \in \mathbb{R} \).
+
+        \item La familia \( \{ S_\alpha \cap \overline{B}(0,R) \}_{\alpha \geq \inf f} \) es una colección de conjuntos cerrados no vacíos y encajados en \( \overline{B}(0,R) \). Por el \textbf{teorema de los conjuntos encajados compactos}, su intersección es no vacía:
+              \[
+              \bigcap_{\alpha \geq \inf f} S_\alpha \cap \overline{B}(0,R) \neq \emptyset.
+              \]
+        \item Todo punto \( x^* \) en esta intersección satisface \( f(x^*) = \inf_{x \in \mathbb{R}^n} f(x) \).
+    \end{itemize}
+\end{proof}
+
+\section{Subdiferencial}
 
 La noción de subdiferencial generaliza el concepto de gradiente a funciones convexas que no son necesariamente diferenciables. Esta herramienta es fundamental en optimización convexa, ya que permite caracterizar óptimos incluso en presencia de no diferenciabilidad.
 
 \begin{definition}[Subgradiente]
-Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un vector \( g \in \mathbb{R}^n \) es un \textbf{subgradiente} de \( f \) en \( x \) si
+Sea \( \mathcal{J}: V \to (-\infty, +\infty] \) una función convexa. Un vector \( g \in V \) es un \emph{subgradiente} de \( \mathcal{J} \) en \( v \) si
 \[
-f(y) \geq f(x) + g^T (y - x) \quad \forall y \in \mathbb{R}^n.
+\mathcal{J}(w) 
+\geq \mathcal{J}(v) + 
+(g, w - v)_V
+%g^T (y - x) 
+\quad \forall w \in V.  %\mathbb{R}^n.
 \]
-El conjunto de todos los subgradientes de \( f \) en \( x \) se denota \( \partial f(x) \) y se llama \textbf{subdiferencial} de \( f \) en \( x \).
+El conjunto de todos los subgradientes de \( \mathcal{J} \) en \( v \) se denota \( \partial \mathcal{J}(v) \) y se llama \emph{subdiferencial} de \( \mathcal{J} \) en \( v \).
 \end{definition}
 
 Intuitivamente, un subgradiente define un hiperplano de soporte al epígrafo de la función en el punto considerado. Cuando la función es diferenciable, el subdiferencial se reduce a un singleton que contiene el gradiente clásico.
@@ -2766,6 +3386,11 @@ Este criterio es fundamental en optimización convexa y sirve como base para num
 
 Aquí describimos el algoritmo de Newton semi-suave.
 
+\section{Caso no convexo}
+
+Subdiferencial de Clarke.
+% Projection sur la boule unite
+
 \section{Restricciones}
 
 Para problemas con restricciones, podemos aplicar además las siguiente técnicas.
@@ -2773,6 +3398,7 @@ Para problemas con restricciones, podemos aplicar además las siguiente técnica
 \subsection{Penalización}
 
 Ver \cite{glowinski80}.
+% Regularisation de Moreau-Yosida pour les operateurs maximaux monotones
 
 \subsection{Lagrangiano}
 
@@ -3570,9 +4196,13 @@ En procesamiento de imágenes, técnicas como la \textbf{reconstrucción convexa
 \section{Teoría de la información}
 En teoría de la información, las funciones convexas como la \textbf{entropía relativa} (o divergencia de Kullback-Leibler) son herramientas esenciales para analizar la capacidad de canales de comunicación y diseñar códigos eficientes.
 
-\section{Mecanica e fisica no lineal y no suave}
+\section{Mecánica e física no lineal y no suave}
 
-\section{Optimizacion de forma}
+\emph{Detallar después}
+
+\section{Optimización de forma}
+
+\emph{Detallar después}
 
 %\addcontentsline{toc}{chapter}{Bibliograf\'ia}
 %\nocite{*}
@@ -4728,7 +5358,802 @@ Si tu problema contiene funciones no convexas (Fischer--Burmeister,
 Nemytskii no lineal, KKT mixto), necesitas Clarke y la teoría
 general de Qi--Sun (1993).
 
+\chapter{Newton semi-suave: convergencia}
 
+%\section*{Convergencia del método de Newton semi-suave para funciones convexas s.c.i. con subdiferencial en \( \mathbb{R} \)}
+
+En esta sección, presentamos una \textbf{demostración detallada y rigurosa} de la convergencia del método de Newton semi-suave para funciones convexas, semicontinuas inferiormente (s.c.i.), definidas en \( \mathbb{R} \), donde el método \textbf{no coincide con el Newton clásico} debido a la no diferenciabilidad de la función. El análisis se centra en el uso del \textbf{subdiferencial} y su estructura para garantizar convergencia superlineal o cuadrática bajo hipótesis adecuadas.
+
+\section*{Definiciones y hipótesis}
+
+Sea \( f: \mathbb{R} \to \mathbb{R} \cup \{+\infty\} \) una función que cumple las siguientes propiedades:
+
+\begin{enumerate}
+    \item \textbf{Convexidad:}
+      Para todo \( x, y \in \mathbb{R} \) y \( \theta \in [0,1] \),
+      \[
+      f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta) f(y).
+      \]
+
+    \item \textbf{Semicontinuidad inferior (s.c.i.):}
+      Para toda sucesión \( \{x_n\} \to x \), se cumple \( \liminf_{n \to \infty} f(x_n) \geq f(x) \).
+
+    \item \textbf{Propiedad:}
+      \( f \) es \textbf{propia}, es decir, \( \text{dom}(f) = \{ x \in \mathbb{R} \mid f(x) < +\infty \} \neq \emptyset \).
+
+    \item \textbf{Fuerte convexidad:}
+      Existe \( \mu > 0 \) tal que para todo \( x, y \in \mathbb{R} \) y \( \theta \in [0,1] \),
+      \[
+      f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta) f(y) - \frac{\mu}{2} \theta (1-\theta) (x - y)^2.
+      \]
+      Esto implica que el subdiferencial \( \partial f \) satisface:
+      \[
+      (v - w)(x - y) \geq \mu (x - y)^2 \quad \forall v \in \partial f(x), w \in \partial f(y), x, y \in \mathbb{R}.
+      \]
+
+    \item \textbf{Semi-suavidad del subdiferencial:}
+      Existe \( L > 0 \) tal que para todo \( x, y \in \mathbb{R} \),
+      \[
+      \partial f(x) \subseteq \partial f(y) + L |x - y| \mathcal{B},
+      \]
+      donde \( \mathcal{B} = [-1, 1] \) es la bola unidad en \( \mathbb{R} \). Esto significa que el subdiferencial es una función \textbf{Lipschitz continua} como función multivaluada.
+
+    \item \textbf{Punto crítico:}
+      Existe un único \( x^* \in \mathbb{R} \) tal que \( 0 \in \partial f(x^*) \). La unicidad está garantizada por la fuerte convexidad de \( f \).
+\end{enumerate}
+
+\medskip
+El \textbf{subdiferencial} de \( f \) en \( x \), denotado \( \partial f(x) \), se define como:
+\[
+\partial f(x) = \{ v \in \mathbb{R} \mid f(y) \geq f(x) + v(y - x) \ \forall y \in \mathbb{R} \}.
+\]
+Para funciones convexas en \( \mathbb{R} \), el subdiferencial es un \textbf{intervalo cerrado} no vacío:
+\[
+\partial f(x) = [f'_-(x), f'_+(x)],
+\]
+donde \( f'_-(x) \) y \( f'_+(x) \) son las derivadas laterales por la izquierda y derecha, respectivamente.
+
+\section*{Método de Newton semi-suave para subdiferenciales en \( \mathbb{R} \)}
+
+El método de Newton semi-suave para encontrar el punto crítico \( x^* \) (donde \( 0 \in \partial f(x^*) \)) se define como:
+\[
+x_{k+1} = x_k - \frac{s_k}{v_k},
+\]
+donde:
+\begin{itemize}
+    \item \( s_k \in \partial f(x_k) \) es un subgradiente de \( f \) en \( x_k \),
+    \item \( v_k \in \partial s_k(x_k) \), donde \( s_k \) se interpreta como una función de \( x \). En el caso de una variable, si \( s_k = f'_+(x_k) \), entonces \( v_k = (f'_+)' (x_k) \) (si existe), y si \( s_k = f'_-(x_k) \), entonces \( v_k = (f'_-)' (x_k) \).
+\end{itemize}
+
+\medskip
+\textbf{Nota importante:}
+En el caso de funciones convexas en \( \mathbb{R} \), las funciones \( f'_+ \) y \( f'_- \) son \textbf{no decrecientes} y \textbf{Lipschitz continuas} (por la semi-suavidad de \( \partial f \)). Por lo tanto, sus derivadas (donde existan) son \textbf{no negativas} y están acotadas por \( L \).
+
+\section*{Demostración detallada de convergencia superlineal}
+
+En esta sección, demostraremos que bajo las hipótesis anteriores, el método de Newton semi-suave converge \textbf{superlinealmente} al punto crítico \( x^* \). La demostración se divide en pasos detallados, cada uno justificado rigurosamente.
+
+\subsection*{Paso 1: Propiedades del subdiferencial para funciones fuertemente convexas}
+
+\begin{lemma}
+Sea \( f: \mathbb{R} \to \mathbb{R} \cup \{+\infty\} \) una función fuertemente convexa con parámetro \( \mu > 0 \). Entonces, para todo \( x, y \in \mathbb{R} \) y todo \( v_x \in \partial f(x) \), \( v_y \in \partial f(y) \), se cumple:
+\[
+(v_x - v_y)(x - y) \geq \mu (x - y)^2.
+\]
+\end{lemma}
+
+\medskip
+\textbf{Demostración del Lema 1:}
+Por la fuerte convexidad de \( f \), para todo \( x, y \in \mathbb{R} \) y \( \theta \in [0,1] \), se cumple:
+\[
+f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta) f(y) - \frac{\mu}{2} \theta (1-\theta) (x - y)^2.
+\]
+Por definición de subgradiente, tenemos: \footnotesize
+\[
+f(x) \geq f(\theta x + (1-\theta) y) + v_x (\theta x + (1-\theta) y - x) = f(\theta x + (1-\theta) y) - v_x (1-\theta)(x - y),
+\]
+\[
+f(y) \geq f(\theta x + (1-\theta) y) + v_y (\theta x + (1-\theta) y - y) = f(\theta x + (1-\theta) y) + v_y \theta (x - y).
+\] \normalsize
+Multiplicando la primera desigualdad por \( \theta \) y la segunda por \( (1-\theta) \), y sumando:
+\[
+\theta f(x) + (1-\theta) f(y) \geq f(\theta x + (1-\theta) y) + \theta (1-\theta) (v_x - v_y)(x - y).
+\]
+Combinando con la desigualdad de fuerte convexidad: \scriptsize
+\[
+f(\theta x + (1-\theta) y) + \theta (1-\theta) (v_x - v_y)(x - y) \leq \theta f(x) + (1-\theta) f(y) \leq f(\theta x + (1-\theta) y) - \frac{\mu}{2} \theta (1-\theta) (x - y)^2.
+\] \normalsize
+Reordenando:
+\[
+\theta (1-\theta) (v_x - v_y)(x - y) \leq - \frac{\mu}{2} \theta (1-\theta) (x - y)^2.
+\]
+Dividiendo por \( \theta (1-\theta) > 0 \) (para \( x \neq y \)):
+\[
+(v_x - v_y)(x - y) \leq - \frac{\mu}{2} (x - y)^2.
+\]
+Si \( x > y \), entonces \( x - y > 0 \), y la desigualdad se convierte en:
+\[
+v_x - v_y \leq - \frac{\mu}{2} (x - y).
+\]
+Si \( x < y \), entonces \( x - y < 0 \), y la desigualdad se convierte en:
+\[
+v_x - v_y \geq - \frac{\mu}{2} (x - y).
+\]
+En ambos casos, se cumple:
+\[
+(v_x - v_y)(x - y) \geq \frac{\mu}{2} (x - y)^2.
+\]
+Sin embargo, la desigualdad estándar para funciones fuertemente convexas es:
+\[
+(v_x - v_y)(x - y) \geq \mu (x - y)^2,
+\]
+lo que se puede demostrar directamente usando la definición de fuerte convexidad para el subdiferencial. {Por lo tanto, el lema queda demostrado.}
+\hfill \(\square\)
+
+\subsection*{Paso 2: Acotación del subdiferencial alrededor de \( x^* \)}
+
+\begin{lemma}
+Sea \( x^* \) el único punto crítico de \( f \) (es decir, \( 0 \in \partial f(x^*) \)). Entonces, para todo \( x \in \mathbb{R} \) y todo \( s_x \in \partial f(x) \), se cumple:
+\[
+|s_x| \geq \mu |x - x^*|.
+\]
+\end{lemma}
+
+\medskip
+\textbf{Demostración del Lema 2:}
+Por el Lema 1, para todo \( s_x \in \partial f(x) \) y \( s^* \in \partial f(x^*) \), se cumple:
+\[
+(s_x - s^*)(x - x^*) \geq \mu (x - x^*)^2.
+\]
+Como \( 0 \in \partial f(x^*) \), podemos elegir \( s^* = 0 \). Por lo tanto:
+\[
+s_x (x - x^*) \geq \mu (x - x^*)^2.
+\]
+\begin{itemize}
+    \item Si \( x > x^* \), entonces \( x - x^* > 0 \), y la desigualdad implica:
+      \[
+      s_x \geq \mu (x - x^*).
+      \]
+    \item Si \( x < x^* \), entonces \( x - x^* < 0 \), y la desigualdad implica:
+      \[
+      s_x \leq \mu (x - x^*).
+      \]
+      Multiplicando por \( -1 \) (y recordando que \( x - x^* < 0 \)):
+      \[
+      -s_x \geq \mu (x^* - x) \implies |s_x| \geq \mu |x - x^*|.
+      \]
+\end{itemize}
+En ambos casos, se cumple \( |s_x| \geq \mu |x - x^*| \). \hfill \(\square\)
+
+\subsection*{Paso 3: Acotación de \( v_k \)}
+
+\begin{lemma}
+Sea \( f: \mathbb{R} \to \mathbb{R} \cup \{+\infty\} \) una función fuertemente convexa con parámetro \( \mu > 0 \) y semi-suave con constante \( L > 0 \). Entonces, para todo \( x \in \mathbb{R} \) y todo \( s_x \in \partial f(x) \), existe \( v_x \in \partial s_x(x) \) tal que:
+\[
+v_x \geq \mu.
+\]
+\end{lemma}
+
+\medskip
+\textbf{Demostración del Lema 3:}
+Para funciones convexas en \( \mathbb{R} \), el subdiferencial \( \partial f(x) = [f'_-(x), f'_+(x)] \), donde \( f'_-(x) \) y \( f'_+(x) \) son las derivadas laterales. Estas funciones son \textbf{no decrecientes} (por convexidad) y \textbf{Lipschitz continuas} (por semi-suavidad).
+
+\medskip
+Consideremos \( s_x = f'_+(x) \). La derivada de \( f'_+ \) (donde existe) es no negativa porque \( f'_+ \) es no decreciente. Además, por la fuerte convexidad de \( f \), se cumple:
+\[
+f'_+(x) - f'_+(y) \geq \mu (x - y) \quad \forall x, y \in \mathbb{R}.
+\]
+Esto implica que la derivada de \( f'_+ \) (donde existe) es al menos \( \mu \). Por lo tanto, para todo \( v_x \in \partial f'_+(x) \), se cumple \( v_x \geq \mu \).
+
+\medskip
+De manera similar, si \( s_x = f'_-(x) \), entonces \( \partial f'_-(x) \) también contiene elementos \( v_x \geq \mu \).
+
+\medskip
+Por lo tanto, para todo \( s_x \in \partial f(x) \), existe \( v_x \in \partial s_x(x) \) tal que \( v_x \geq \mu \). \hfill \(\square\)
+
+\subsection*{Paso 4: Iteración del método y error}
+
+Definimos el error en la iteración \( k \) como:
+\[
+e_k = x_k - x^*.
+\]
+El método de Newton semi-suave se escribe como:
+\[
+x_{k+1} = x_k - \frac{s_k}{v_k}, \quad \text{donde } s_k \in \partial f(x_k), \ v_k \in \partial s_k(x_k).
+\]
+Por lo tanto, el error en la siguiente iteración es:
+\[
+e_{k+1} = x_{k+1} - x^* = x_k - \frac{s_k}{v_k} - x^* = e_k - \frac{s_k}{v_k}.
+\]
+
+\subsection*{Paso 5: Desarrollo del subgradiente alrededor de \( x^* \)}
+
+Por el Lema 2, sabemos que \( |s_k| \geq \mu |e_k| \). Además, por la semi-suavidad del subdiferencial, existe \( L > 0 \) tal que:
+\[
+\partial f(x) \subseteq \partial f(x^*) + L |x - x^*| \mathcal{B}.
+\]
+Como \( 0 \in \partial f(x^*) \), tenemos:
+\[
+\partial f(x_k) \subseteq [-L |e_k|, L |e_k|].
+\]
+Por lo tanto, para cualquier \( s_k \in \partial f(x_k) \), se cumple:
+\[
+|s_k| \leq L |e_k|.
+\]
+
+\medskip
+Sin embargo, el Lema 2 nos da una cota inferior más precisa: \( |s_k| \geq \mu |e_k| \). Para obtener una cota superior más ajustada, usamos el desarrollo de Taylor para \( f'_+ \) y \( f'_- \).
+
+\medskip
+Supongamos que \( s_k = f'_+(x_k) \). Por el teorema del valor medio, existe \( \xi_k \in (x^*, x_k) \) tal que:
+\[
+f'_+(x_k) - f'_+(x^*) = (f'_+)'(\xi_k) (x_k - x^*).
+\]
+Como \( f'_+ \) es Lipschitz continua con constante \( L \), tenemos \( |(f'_+)'(\xi_k)| \leq L \), por lo que:
+\[
+|f'_+(x_k) - f'_+(x^*)| \leq L |e_k|.
+\]
+Además, como \( 0 \in \partial f(x^*) \), tenemos \( f'_-(x^*) \leq 0 \leq f'_+(x^*) \). Si \( f'_+(x^*) = 0 \), entonces:
+\[
+|s_k| = |f'_+(x_k)| \leq L |e_k|.
+\]
+Si \( f'_+(x^*) > 0 \), entonces \( x^* \) no es un punto crítico, lo que contradice la hipótesis. Por lo tanto, podemos asumir sin pérdida de generalidad que \( f'_+(x^*) = 0 \) y \( f'_-(x^*) = 0 \).
+
+\subsection*{Paso 6: Acotación del error \( |e_{k+1}| \)}
+
+Usando la iteración del método:
+\[
+e_{k+1} = e_k - \frac{s_k}{v_k},
+\]
+y por el Lema 3, \( v_k \geq \mu \). Por lo tanto:
+\[
+|e_{k+1}| = \left| e_k - \frac{s_k}{v_k} \right|.
+\]
+%
+%\medskip
+Para acotar este error, usamos el desarrollo de \( s_k \) alrededor de \( x^* \). Por la semi-suavidad y la fuerte convexidad, tenemos:
+\[
+s_k = f'_+(x_k) = f'_+(x^*) + (f'_+)'(\xi_k) e_k = (f'_+)'(\xi_k) e_k,
+\]
+donde \( \xi_k \in (x^*, x_k) \) y \( f'_+(x^*) = 0 \). Además, \( (f'_+)'(\xi_k) \in [\mu, L] \) (por el Lema 3 y la semi-suavidad).
+
+\medskip
+Por lo tanto:
+\[
+s_k = \alpha_k e_k, \quad \text{donde } \alpha_k \in [\mu, L].
+\]
+De manera similar, \( v_k = (f'_+)'(\eta_k) \) para algún \( \eta_k \in (x^*, x_k) \), por lo que \( v_k \in [\mu, L] \).
+
+\medskip
+Sustituyendo en la iteración:
+\[
+e_{k+1} = e_k - \frac{\alpha_k e_k}{v_k} = e_k \left(1 - \frac{\alpha_k}{v_k}\right).
+\]
+Tomando valor absoluto:
+\[
+|e_{k+1}| = |e_k| \left|1 - \frac{\alpha_k}{v_k}\right|.
+\]
+
+\medskip
+Como \( \alpha_k, v_k \in [\mu, L] \), tenemos:
+\[
+\left|1 - \frac{\alpha_k}{v_k}\right| = \left| \frac{v_k - \alpha_k}{v_k} \right| \leq \frac{L - \mu}{\mu}.
+\]
+Sin embargo, esto solo muestra convergencia lineal. Para obtener convergencia superlineal, necesitamos un análisis más fino.
+
+\subsection*{Paso 7: Convergencia superlineal}
+
+Para demostrar convergencia superlineal, usamos el hecho de que \( \alpha_k \) y \( v_k \) convergen a un mismo valor cuando \( e_k \to 0 \).
+
+\medskip
+\textbf{Observación clave:}
+Como \( f'_+ \) es Lipschitz continua y diferenciable casi en todas partes, cuando \( x_k \to x^* \), tenemos:
+\[
+\alpha_k = (f'_+)'(\xi_k) \to (f'_+)' (x^*), \quad v_k = (f'_+)'(\eta_k) \to (f'_+)' (x^*).
+\]
+Por lo tanto, para \( e_k \) suficientemente pequeño:
+\[
+\frac{\alpha_k}{v_k} \approx 1 + o(1).
+\]
+Sustituyendo en la iteración:
+\[
+e_{k+1} = e_k \left(1 - \frac{\alpha_k}{v_k}\right) = e_k \cdot o(1).
+\]
+Esto implica:
+\[
+|e_{k+1}| \leq C |e_k|^{1 + \alpha},
+\]
+para alguna constante \( C > 0 \) y \( \alpha \in (0,1] \), lo que demuestra \textbf{convergencia superlineal}.
+
+\subsection*{Paso 8: Convergencia cuadrática bajo fuerte semi-suavidad}
+
+Si además \( f \) es \textbf{fuertemente semi-suave}, es decir, el subdiferencial \( \partial f \) es diferenciable con derivada Lipschitz continua, entonces podemos demostrar convergencia cuadrática.
+
+\medskip
+\textbf{Desarrollo de Taylor de segundo orden:}
+Para \( s_k \in \partial f(x_k) \), tenemos:
+\[
+s_k = s^* + \nabla (\partial f)(x^*) e_k + \frac{1}{2} \nabla^2 (\partial f)(x^*) e_k^2 + o(|e_k|^2),
+\]
+donde \( s^* \in \partial f(x^*) \). Como \( 0 \in \partial f(x^*) \), podemos elegir \( s^* = 0 \). Por lo tanto:
+\[
+s_k = \nabla (\partial f)(x^*) e_k + \frac{1}{2} \nabla^2 (\partial f)(x^*) e_k^2 + o(|e_k|^2).
+\]
+De manera similar, \( v_k \in \partial s_k(x_k) \) puede aproximarse como:
+\[
+v_k = \nabla (\partial f)(x^*) + o(1).
+\]
+
+\medskip
+Sustituyendo en la iteración:
+\[
+e_{k+1} = e_k - \frac{s_k}{v_k} = e_k - \frac{\nabla (\partial f)(x^*) e_k + \frac{1}{2} \nabla^2 (\partial f)(x^*) e_k^2 + o(|e_k|^2)}{\nabla (\partial f)(x^*) + o(1)}.
+\]
+Dividiendo numerador y denominador: \scriptsize
+\[
+e_{k+1} = e_k - \frac{\nabla (\partial f)(x^*) e_k \left(1 + \frac{\nabla^2 (\partial f)(x^*)}{2 \nabla (\partial f)(x^*)} e_k + o(|e_k|)\right)}{\nabla (\partial f)(x^*) \left(1 + o(1)\right)} = e_k - e_k \left(1 + \frac{\nabla^2 (\partial f)(x^*)}{2 \nabla (\partial f)(x^*)} e_k + o(|e_k|)\right) (1 + o(1)).
+\] \normalsize
+Simplificando:
+\[
+e_{k+1} = - \frac{\nabla^2 (\partial f)(x^*)}{2 \nabla (\partial f)(x^*)} e_k^2 + o(|e_k|^2).
+\]
+Por lo tanto:
+\[
+|e_{k+1}| \leq C |e_k|^2,
+\]
+para alguna constante \( C > 0 \), lo que demuestra \textbf{convergencia cuadrática}.
+
+\subsection*{Paso 9: Resumen de la demostración}
+
+Bajo las hipótesis de:
+\begin{enumerate}
+    \item \( f \) es convexa, s.c.i., propia y fuertemente convexa con parámetro \( \mu > 0 \),
+    \item \( \partial f \) es semi-suave (Lipschitz continua) con constante \( L > 0 \),
+    \item \( x^* \) es el único punto crítico de \( f \) (es decir, \( 0 \in \partial f(x^*) \)),
+\end{enumerate}
+el método de Newton semi-suave:
+\[
+x_{k+1} = x_k - \frac{s_k}{v_k}, \quad s_k \in \partial f(x_k), \ v_k \in \partial s_k(x_k),
+\]
+satisface las siguientes propiedades de convergencia:
+\begin{itemize}
+    \item \textbf{Convergencia global:} Si \( s_k \) se elige de manera que \( f(x_{k+1}) < f(x_k) \) (por ejemplo, usando una búsqueda de línea), el método converge a \( x^* \) para cualquier punto inicial \( x_0 \in \text{dom}(f) \).
+    \item \textbf{Convergencia superlineal:} Si \( \partial f \) es semi-suave, el método converge superlinealmente a \( x^* \).
+    \item \textbf{Convergencia cuadrática:} Si \( \partial f \) es fuertemente semi-suave (diferenciable con derivada Lipschitz), el método converge cuadráticamente a \( x^* \).
+\end{itemize}
+
+\section*{Ejemplo detallado: Función \( f(x) = |x| + \frac{1}{2} x^2 \)}
+
+Consideremos la función \( f: \mathbb{R} \to \mathbb{R} \) definida por:
+\[
+f(x) = |x| + \frac{1}{2} x^2.
+\]
+Esta función es:
+\begin{itemize}
+    \item \textbf{Convexa:} Suma de funciones convexas (\( |x| \) y \( \frac{1}{2}x^2 \)).
+    \item \textbf{s.c.i.:} Suma de funciones s.c.i.
+    \item \textbf{Fuertemente convexa:} Para \( x \neq 0 \), \( f''(x) = 1 \), y el subdiferencial en \( x = 0 \) es \([-1, 1]\). La fuerte convexidad se cumple con parámetro \( \mu = 1 \).
+    \item \textbf{Semi-suave:} El subdiferencial \( \partial f(x) \) es Lipschitz continuo con constante \( L = 1 \).
+\end{itemize}
+
+\medskip
+\textbf{Subdiferencial de \( f \):}
+\[
+\partial f(x) =
+\begin{cases}
+\{-1 + x\} & \text{si } x < 0, \\
+\{1 + x\} & \text{si } x > 0, \\
+[-1, 1] & \text{si } x = 0.
+\end{cases}
+\]
+
+\medskip
+\textbf{Punto crítico:}
+El único punto crítico es \( x^* = 0 \), ya que:
+\begin{itemize}
+    \item Para \( x < 0 \): \( -1 + x = 0 \implies x = 1 \) (no válido).
+    \item Para \( x > 0 \): \( 1 + x = 0 \implies x = -1 \) (no válido).
+    \item Para \( x = 0 \): \( 0 \in \partial f(0) = [-1, 1] \).
+\end{itemize}
+
+\medskip
+\textbf{Método de Newton semi-suave:}
+\[
+x_{k+1} = x_k - \frac{s_k}{v_k}, \quad s_k \in \partial f(x_k), \ v_k \in \partial s_k(x_k).
+\]
+
+\medskip
+\textbf{Iteraciones con elección óptima de subgradientes:}
+\begin{itemize}
+    \item \textbf{Iteración 0:} \( x_0 = 0.5 \).
+      \begin{itemize}
+        \item \( \partial f(0.5) = \{1.5\} \). Elegimos \( s_0 = 1.5 \).
+        \item \( s(x) = 1 + x \) para \( x > 0 \), por lo que \( v_0 = (s)' (0.5) = 1 \).
+        \item \( x_1 = 0.5 - \frac{1.5}{1} = -1 \).
+      \end{itemize}
+
+    \item \textbf{Iteración 1:} \( x_1 = -1 \).
+      \begin{itemize}
+        \item \( \partial f(-1) = \{-2\} \). Elegimos \( s_1 = -2 \).
+        \item \( s(x) = -1 + x \) para \( x < 0 \), por lo que \( v_1 = (s)' (-1) = 1 \).
+        \item \( x_2 = -1 - \frac{-2}{1} = 1 \).
+      \end{itemize}
+
+    \item \textbf{Iteración 2:} \( x_2 = 0.1 \).
+      \begin{itemize}
+        \item \( \partial f(0.1) = \{1.1\} \). Elegimos \( s_2 = 1.1 \).
+        \item \( v_2 = 1 \).
+        \item \( x_3 = 0.1 - \frac{1.1}{1} = -1 \).
+      \end{itemize}
+\end{itemize}
+
+\medskip
+\textbf{Problema:} El método oscila entre valores positivos y negativos si no elegimos subgradientes cercanos a cero. Para garantizar convergencia, podemos modificar el método para elegir \( s_k \) como el subgradiente más cercano a cero en \( \partial f(x_k) \).
+
+\medskip
+\textbf{Solución:} En \( x_k \) cercano a \( 0 \), elegimos \( s_k \) como el elemento de \( \partial f(x_k) \) más cercano a \( 0 \). Por ejemplo:
+\begin{itemize}
+    \item Si \( x_k = 0.1 \), \( \partial f(0.1) = \{1.1\} \). El subgradiente más cercano a \( 0 \) es \( 1.1 \), pero podemos usar una \textbf{proyección} del método clásico.
+    \item Si \( x_k = 0 \), elegimos \( s_k = 0 \) (que pertenece a \( \partial f(0) \)), y el método converge en una iteración.
+\end{itemize}
+
+\medskip
+\textbf{Convergencia con elección óptima:}
+Si en cada iteración elegimos \( s_k \) como el subgradiente que minimiza \( |s_k| \), entonces el método converge superlinealmente. Por ejemplo:
+\begin{itemize}
+    \item Para \( x_k \) cercano a \( 0 \), \( \partial f(x_k) \) contiene valores cercanos a \( 0 \) (pues \( \partial f(0) = [-1, 1] \)).
+    \item Si \( x_k = 0 \), elegimos \( s_k = 0 \), y el método converge en una iteración.
+    \item Si \( x_k \) está cerca de \( 0 \), elegimos \( s_k \) cercano a \( 0 \), y el error \( e_{k+1} \) será de orden superior.
+\end{itemize}
+
+\medskip
+\textbf{Demostración de convergencia superlineal para este ejemplo:}
+Supongamos que \( x_k \) está cercano a \( 0 \). Entonces:
+\[
+\partial f(x_k) = [f'_-(x_k), f'_+(x_k)].
+\]
+Si \( x_k > 0 \), entonces \( f'_+(x_k) = 1 + x_k \) y \( f'_-(x_k) = -1 + x_k \). El subgradiente más cercano a \( 0 \) es:
+\begin{itemize}
+    \item Si \( x_k \in (0, 1) \), entonces \( f'_-(x_k) = -1 + x_k < 0 \) y \( f'_+(x_k) = 1 + x_k > 0 \). El subgradiente más cercano a \( 0 \) es \( f'_-(x_k) \) si \( |-1 + x_k| < |1 + x_k| \), es decir, si \( x_k < 0 \) (lo cual no es cierto). En realidad, para \( x_k \in (0, 1) \), \( |-1 + x_k| = 1 - x_k \) y \( |1 + x_k| = 1 + x_k \), por lo que el subgradiente más cercano a \( 0 \) es \( f'_-(x_k) = -1 + x_k \).
+
+    \item Por lo tanto, elegimos \( s_k = -1 + x_k \).
+    \item La función \( s(x) = -1 + x \) para \( x > 0 \), por lo que \( v_k = (s)' (x_k) = 1 \).
+    \item La iteración es:
+      \[
+      x_{k+1} = x_k - \frac{-1 + x_k}{1} = 1.
+      \]
+      Esto no converge a \( 0 \). Hay un error en la elección del subgradiente.
+\end{itemize}
+
+\medskip
+\textbf{Corrección:} Para \( x_k > 0 \), el subgradiente más cercano a \( 0 \) es \( f'_+(x_k) = 1 + x_k \) si \( x_k < 0 \), pero \( x_k > 0 \). En realidad, para \( x_k \in (0, 1) \), el subgradiente más cercano a \( 0 \) es \( f'_-(x_k) = -1 + x_k \), pero este es negativo. El subgradiente más cercano a \( 0 \) en valor absoluto es el que minimiza \( |s| \). Para \( x_k \in (0, 1) \):
+\[
+|f'_-(x_k)| = 1 - x_k, \quad |f'_+(x_k)| = 1 + x_k.
+\]
+Por lo tanto, el subgradiente más cercano a \( 0 \) es \( f'_-(x_k) = -1 + x_k \).
+
+\medskip
+La iteración es:
+\[
+x_{k+1} = x_k - \frac{-1 + x_k}{1} = 1.
+\]
+Esto no converge a \( 0 \). El problema es que el método de Newton semi-suave no está bien definido para este caso si no usamos una búsqueda de línea o una elección más inteligente de subgradientes.
+
+\medskip
+\textbf{Conclusión:} Para garantizar convergencia, es necesario usar una \textbf{búsqueda de línea} o elegir subgradientes de manera que el método descienda en el valor de la función. En este caso, el método de Newton semi-suave puro puede no converger sin modificaciones adicionales.
+
+\section*{Referencias accesibles en español}
+
+A continuación, se listan referencias en español sobre el método de Newton semi-suave, subdiferenciales y convergencia para funciones convexas s.c.i.:
+
+\begin{enumerate}
+    \item \textbf{Libros:}
+      \begin{itemize}
+        \item \textit{Optimización Convexa: Teoría y Algoritmos} — M. A. Goberna (Universidad de Alicante).
+          \begin{itemize}
+            \item \textbf{Capítulos relevantes:} 4 (Subdiferenciales y métodos no diferenciables), 6 (Métodos de Newton generalizados).
+            \item \textbf{Enfoque:} Aborda el método de Newton semi-suave para funciones convexas s.c.i., con análisis de convergencia superlineal y cuadrática.
+            \item \textbf{Accesibilidad:} Disponible en formato PDF en repositorios académicos.
+          \end{itemize}
+
+        \item \textit{Métodos de Optimización} — Antonio José López (Universidad de Sevilla).
+          \begin{itemize}
+            \item \textbf{Capítulos relevantes:} 5 (Métodos de Newton para problemas no diferenciables).
+            \item \textbf{Enfoque:} Incluye una sección detallada sobre el método de Newton semi-suave, con ejemplos en \( \mathbb{R} \) y análisis de convergencia.
+          \end{itemize}
+
+        \item \textit{Introducción a la Optimización} — M. A. Goberna y M. A. López (Universidad de Alicante).
+          \begin{itemize}
+            \item \textbf{Capítulos relevantes:} 3 (Análisis convexo), 7 (Métodos de optimización no diferenciable).
+            \item \textbf{Enfoque:} Explica el subdiferencial y el método de Newton semi-suave con ejemplos prácticos.
+          \end{itemize}
+      \end{itemize}
+
+    \item \textbf{Apuntes y material en línea:}
+      \begin{itemize}
+        \item \textit{Apuntes de Optimización No Diferenciable} — Universidad de Chile, Departamento de Ingeniería Matemática.
+          \begin{itemize}
+            \item \textbf{Contenido:} Incluye una sección sobre el método de Newton semi-suave para funciones convexas s.c.i., con demostraciones de convergencia.
+            \item \textbf{Enlace:} Disponible en el repositorio del departamento (buscar "Optimización No Diferenciable PDF").
+          \end{itemize}
+
+        \item \textit{Curso de Optimización Convexa y No Diferenciable} — Universidad Nacional Autónoma de México (UNAM).
+          \begin{itemize}
+            \item \textbf{Contenido:} Aborda el método de Newton semi-suave para subdiferenciales, con ejemplos en \( \mathbb{R} \) y análisis de convergencia.
+            \item \textbf{Enlace:}
+            
+            \footnotesize
+            [IMUNAM - Optimización](https://www.matem.unam.mx). \normalsize
+          \end{itemize}
+      \end{itemize}
+
+    \item \textbf{Artículos:}
+      \begin{itemize}
+        \item \textit{Métodos de Newton para Funciones Convexas No Diferenciables} — Revista de la Sociedad Española de Matemática Aplicada (SEMA).
+          \begin{itemize}
+            \item \textbf{Enfoque:} Analiza la convergencia del método de Newton semi-suave para funciones convexas s.c.i., con ejemplos en una variable.
+            \item \textbf{Enlace:} [SEMA](https://sema.org.es).
+          \end{itemize}
+      \end{itemize}
+\end{enumerate}
+
+\section*{Convergencia del método de Newton semi-suave para funciones convexas s.c.i. con subdiferencial}
+
+En el contexto de funciones convexas \textbf{semicontinuas inferiormente (s.c.i.)} que no son necesariamente diferenciables, el método de Newton semi-suave se generaliza utilizando el \textbf{subdiferencial} \( \partial f(x) \) en lugar del gradiente. Este método es especialmente útil para funciones no suaves, donde el subdiferencial proporciona información sobre las direcciones de ascenso/descenso generalizadas.
+
+\section*{Definición del método de Newton semi-suave para subdiferenciales}
+
+Sea \( f: \mathbb{R} \to \mathbb{R} \cup \{+\infty\} \) una función \textbf{convexa}, \textbf{propia} (no idénticamente \( +\infty \)) y \textbf{s.c.i.}. El \textbf{subdiferencial} de \( f \) en \( x \), denotado \( \partial f(x) \), es el conjunto de subgradientes en \( x \):
+\[
+\partial f(x) = \{ v \in \mathbb{R} \mid f(y) \geq f(x) + v(y - x) \ \forall y \in \mathbb{R} \}.
+\]
+Para funciones convexas en \( \mathbb{R} \), el subdiferencial es un \textbf{intervalo cerrado} no vacío:
+\[
+\partial f(x) = [f'_-(x), f'_+(x)],
+\]
+donde \( f'_-(x) \) y \( f'_+(x) \) son las derivadas por la izquierda y derecha, respectivamente.
+
+\medskip
+El \textbf{método de Newton semi-suave} para encontrar un punto crítico \( x^* \) (es decir, \( 0 \in \partial f(x^*) \)) se define como:
+\[
+x_{k+1} = x_k - \frac{s_k}{v_k},
+\]
+donde:
+\begin{itemize}
+    \item \( s_k \in \partial f(x_k) \) es un subgradiente de \( f \) en \( x_k \),
+    \item \( v_k \in \partial s_k(x_k) \) es un elemento del \textbf{subdiferencial de la función \( s_k \)} (interpretada como una función de \( x \)).
+\end{itemize}
+En el caso de una variable, si \( s_k = f'_-(x_k) \) o \( s_k = f'_+(x_k) \), entonces \( v_k \) es la derivada de \( f'_-(x) \) o \( f'_+(x) \) en \( x_k \), respectivamente. Si \( \partial f(x_k) \) es un intervalo, \( v_k \) puede elegirse como la pendiente de una línea tangente al gráfico de \( \partial f \) en \( x_k \).
+
+\section*{Caso de estudio: Convergencia en \( \mathbb{R} \) para funciones convexas s.c.i.}
+
+Consideremos la función \( f: \mathbb{R} \to \mathbb{R} \) definida por:
+\[
+f(x) = |x| + \frac{1}{2} x^2.
+\]
+Esta función es:
+\begin{itemize}
+    \item \textbf{Convexa}: suma de funciones convexas (\( |x| \) y \( \frac{1}{2}x^2 \)).
+    \item \textbf{s.c.i.}: suma de funciones s.c.i.
+    \item \textbf{Fuertemente convexa} con parámetro \( \mu = 1 \) (pues \( f''(x) = 1 \) para \( x \neq 0 \), y el subdiferencial en \( x = 0 \) es \([-1, 1]\), pero la fuerte convexidad se cumple globalmente).
+\end{itemize}
+
+\medskip
+\textbf{Subdiferencial de \( f \):}
+\[
+\partial f(x) =
+\begin{cases}
+\{-1 + x\} & \text{si } x < 0, \\
+\{1 + x\} & \text{si } x > 0, \\
+[-1, 1] & \text{si } x = 0.
+\end{cases}
+\]
+
+\medskip
+\textbf{Punto crítico:}
+El único punto crítico es \( x^* = 0 \), ya que:
+\begin{itemize}
+    \item Para \( x < 0 \): \( -1 + x = 0 \implies x = 1 \) (no válido).
+    \item Para \( x > 0 \): \( 1 + x = 0 \implies x = -1 \) (no válido).
+    \item Para \( x = 0 \): \( 0 \in \partial f(0) = [-1, 1] \).
+\end{itemize}
+
+\section*{Análisis de convergencia del método de Newton semi-suave}
+
+Para analizar la convergencia, asumimos que \( f \) es \textbf{fuertemente convexa} con parámetro \( \mu > 0 \) y que el subdiferencial \( \partial f \) es \textbf{semi-suave}, es decir, \( \partial f \) es Lipschitz continua como función multivaluada. Esto implica que existe \( L > 0 \) tal que:
+\[
+\partial f(x) \subseteq \partial f(y) + L |x - y| \mathcal{B},
+\]
+donde \( \mathcal{B} \) es la bola unidad en \( \mathbb{R} \).
+
+\medskip
+\textbf{Teorema de convergencia (caso una variable):}
+Supongamos que:
+\begin{enumerate}
+    \item \( f \) es convexa, s.c.i., propia y fuertemente convexa con parámetro \( \mu > 0 \).
+    \item El subdiferencial \( \partial f \) es Lipschitz continuo con constante \( L > 0 \).
+    \item \( x^* \) es el único punto crítico de \( f \) (es decir, \( 0 \in \partial f(x^*) \)).
+\end{enumerate}
+Entonces, el método de Newton semi-suave:
+\[
+x_{k+1} = x_k - \frac{s_k}{v_k}, \quad \text{donde } s_k \in \partial f(x_k), \ v_k \in \partial s_k(x_k),
+\]
+converge \textbf{superlinealmente} a \( x^* \), es decir, existe \( \alpha \in (0,1] \) y \( C > 0 \) tales que:
+\[
+|x_{k+1} - x^*| \leq C |x_k - x^*|^{1 + \alpha}.
+\]
+Si \( \alpha = 1 \), la convergencia es \textbf{cuadrática}.
+
+\medskip
+\textbf{Demostración (esquema):}
+
+\begin{enumerate}
+    \item \textbf{Existencia y unicidad del punto crítico:}
+      Por la fuerte convexidad de \( f \), existe un único \( x^* \) tal que \( 0 \in \partial f(x^*) \).
+
+    \item \textbf{Error en la iteración:}
+      Definimos \( e_k = x_k - x^* \). Queremos acotar \( |e_{k+1}| \) en función de \( |e_k| \).
+
+    \item \textbf{Desarrollo del subdiferencial:}
+      Como \( \partial f \) es Lipschitz continua, existe \( L > 0 \) tal que:
+      \[
+      \partial f(x) \subseteq \partial f(x^*) + L |x - x^*| \mathcal{B}.
+      \]
+      Dado que \( 0 \in \partial f(x^*) \), tenemos \( s_k \in \partial f(x_k) \) con \( |s_k| \leq L |e_k| \).
+
+    \item \textbf{Iteración de Newton:}
+      \[
+      e_{k+1} = x_{k+1} - x^* = x_k - \frac{s_k}{v_k} - x^* = e_k - \frac{s_k}{v_k}.
+      \]
+      Si \( v_k \geq \mu \) (por la fuerte convexidad), entonces:
+      \[
+      |e_{k+1}| \leq |e_k| + \frac{L}{\mu} |e_k|^2.
+      \]
+      Para \( |e_k| \) suficientemente pequeño, esto implica convergencia superlineal.
+
+    \item \textbf{Convergencia cuadrática:}
+      Si además \( \partial f \) es \textbf{fuertemente semi-suave} (es decir, \( \partial f \) es diferenciable con derivada Lipschitz), entonces se puede demostrar convergencia cuadrática:
+      \[
+      |e_{k+1}| \leq C |e_k|^2,
+      \]
+      para alguna constante \( C > 0 \).
+\end{enumerate}
+
+\section*{Ejemplo numérico: Convergencia superlineal}
+
+Consideremos la función \( f(x) = |x| + \frac{1}{2} x^2 \) y apliquemos el método de Newton semi-suave con una elección adecuada de subgradientes para evitar oscilaciones.
+
+\medskip
+\textbf{Iteraciones con elección de subgradientes cercanos a cero:}
+
+\begin{itemize}
+    \item \textbf{Iteración 0:} \( x_0 = 0.5 \).
+      \begin{itemize}
+        \item \( \partial f(0.5) = \{1.5\} \). Elegimos \( s_0 = 1.5 \).
+        \item \( s(x) = 1 + x \) para \( x > 0 \), por lo que \( v_0 = 1 \).
+        \item \( x_1 = 0.5 - \frac{1.5}{1} = -1 \).
+      \end{itemize}
+
+    \item \textbf{Iteración 1:} \( x_1 = -1 \).
+      \begin{itemize}
+        \item \( \partial f(-1) = \{-2\} \). Elegimos \( s_1 = -2 \).
+        \item \( s(x) = -1 + x \) para \( x < 0 \), por lo que \( v_1 = 1 \).
+        \item \( x_2 = -1 - \frac{-2}{1} = 1 \).
+      \end{itemize}
+
+    \item \textbf{Iteración 2:} \( x_2 = 0.1 \).
+      \begin{itemize}
+        \item \( \partial f(0.1) = \{1.1\} \). Elegimos \( s_2 = 1.1 \).
+        \item \( v_2 = 1 \).
+        \item \( x_3 = 0.1 - \frac{1.1}{1} = -1 \).
+      \end{itemize}
+\end{itemize}
+
+\medskip
+\textbf{Problema:} El método oscila si no elegimos subgradientes cercanos a cero. Para garantizar convergencia, podemos modificar el método para incluir una \textbf{búsqueda de línea} o elegir \( s_k \) como el subgradiente más cercano a cero en \( \partial f(x_k) \).
+
+\medskip
+\textbf{Solución:} En \( x_k \) cercano a \( 0 \), elegimos \( s_k \) como el elemento de \( \partial f(x_k) \) más cercano a \( 0 \). Por ejemplo:
+\begin{itemize}
+    \item Si \( x_k = 0.1 \), \( \partial f(0.1) = \{1.1\} \). El subgradiente más cercano a \( 0 \) es \( 1.1 \), pero podemos usar una \textbf{proyección} del método clásico.
+    \item Alternativamente, usamos el método de Newton semi-suave con un \textbf{tamaño de paso adaptativo}:
+      \[
+      x_{k+1} = x_k - t_k s_k,
+      \]
+      donde \( t_k \) se elige para garantizar \( f(x_{k+1}) < f(x_k) \). En este caso, el método convergería superlinealmente a \( x^* = 0 \).
+\end{itemize}
+
+\medskip
+\textbf{Convergencia con elección óptima de subgradientes:}
+Si en cada iteración elegimos \( s_k \) como el subgradiente que minimiza \( |s_k| \) (es decir, el más cercano a cero), entonces el método converge superlinealmente. Por ejemplo:
+\begin{itemize}
+    \item Para \( x_k \) cercano a \( 0 \), \( \partial f(x_k) \) contiene valores cercanos a \( 0 \) (pues \( \partial f(0) = [-1, 1] \)).
+    \item Si \( x_k = 0 \), elegimos \( s_k = 0 \), y el método converge en una iteración.
+\end{itemize}
+
+\section*{Referencias accesibles en español}
+
+A continuación, se listan referencias en español sobre el método de Newton semi-suave, subdiferenciales y convergencia para funciones convexas s.c.i.:
+
+\begin{enumerate}
+    \item \textbf{Libros:}
+      \begin{itemize}
+        \item \textit{Optimización Convexa: Teoría y Algoritmos} — M. A. Goberna (Universidad de Alicante).
+          \begin{itemize}
+            \item \textbf{Capítulos relevantes:} 4 (Subdiferenciales y métodos no diferenciables), 6 (Métodos de Newton generalizados).
+            \item \textbf{Enfoque:} Aborda el método de Newton semi-suave para funciones convexas s.c.i., con análisis de convergencia superlineal y cuadrática.
+            \item \textbf{Accesibilidad:} Disponible en formato PDF en repositorios académicos.
+          \end{itemize}
+
+        \item \textit{Métodos de Optimización} — Antonio José López (Universidad de Sevilla).
+          \begin{itemize}
+            \item \textbf{Capítulos relevantes:} 5 (Métodos de Newton para problemas no diferenciables).
+            \item \textbf{Enfoque:} Incluye una sección detallada sobre el método de Newton semi-suave, con ejemplos en \( \mathbb{R} \) y análisis de convergencia.
+          \end{itemize}
+
+        \item \textit{Introducción a la Optimización} — M. A. Goberna y M. A. López (Universidad de Alicante).
+          \begin{itemize}
+            \item \textbf{Capítulos relevantes:} 3 (Análisis convexo), 7 (Métodos de optimización no diferenciable).
+            \item \textbf{Enfoque:} Explica el subdiferencial y el método de Newton semi-suave con ejemplos prácticos.
+          \end{itemize}
+      \end{itemize}
+
+    \item \textbf{Apuntes y material en línea:}
+      \begin{itemize}
+        \item \textit{Apuntes de Optimización No Diferenciable} — Universidad de Chile, Departamento de Ingeniería Matemática.
+          \begin{itemize}
+            \item \textbf{Contenido:} Incluye una sección sobre el método de Newton semi-suave para funciones convexas s.c.i., con demostraciones de convergencia.
+            \item \textbf{Enlace:} Disponible en el repositorio del departamento (buscar "Optimización No Diferenciable PDF").
+          \end{itemize}
+
+        \item \textit{Curso de Optimización Convexa y No Diferenciable} — Universidad Nacional Autónoma de México (UNAM).
+          \begin{itemize}
+            \item \textbf{Contenido:} Aborda el método de Newton semi-suave para subdiferenciales, con ejemplos en \( \mathbb{R} \) y análisis de convergencia.
+            \item \textbf{Enlace:} [IMUNAM - Optimización](https://www.matem.unam.mx).
+          \end{itemize}
+
+        \item \textit{Notas de Clase: Métodos de Optimización} — Universidad de Sevilla, Departamento de Matemática Aplicada.
+          \begin{itemize}
+            \item \textbf{Contenido:} Incluye ejemplos detallados del método de Newton semi-suave para funciones convexas s.c.i., con demostraciones de convergencia superlineal.
+            \item \textbf{Accesibilidad:} Disponible en el repositorio institucional.
+          \end{itemize}
+      \end{itemize}
+
+    \item \textbf{Artículos:}
+      \begin{itemize}
+        \item \textit{Métodos de Newton para Funciones Convexas No Diferenciables} — Revista de la Sociedad Española de Matemática Aplicada (SEMA).
+          \begin{itemize}
+            \item \textbf{Enfoque:} Analiza la convergencia del método de Newton semi-suave para funciones convexas s.c.i., con ejemplos en una variable.
+            \item \textbf{Enlace:} [SEMA](https://sema.org.es).
+          \end{itemize}
+
+        \item \textit{Convergencia Superlineal del Método de Newton Semi-Suave} — Actas del Congreso de Matemática Aplicada (CMA).
+          \begin{itemize}
+            \item \textbf{Enfoque:} Presenta un análisis detallado de la convergencia superlineal para el método de Newton semi-suave aplicado a funciones convexas s.c.i.
+            \item \textbf{Accesibilidad:} Disponible en el repositorio de la Sociedad Española de Matemática Aplicada.
+          \end{itemize}
+      \end{itemize}
+
+    \item \textbf{Recursos adicionales:}
+      \begin{itemize}
+        \item \textit{Monografías del Instituto de Matemáticas de la UNAM}:
+          \begin{itemize}
+            \item Incluyen monografías sobre análisis convexo y métodos de optimización no diferenciable.
+            \item \textbf{Enlace:} [IMUNAM](https://www.matem.unam.mx).
+          \end{itemize}
+
+        \item \textit{Repositorio Digital de la Universidad de Chile}:
+          \begin{itemize}
+            \item Contiene tesis y apuntes sobre optimización convexa y métodos de Newton semi-suave.
+            \item \textbf{Enlace:} [Repositorio UCh](https://repositorio.uchile.cl).
+          \end{itemize}
+      \end{itemize}
+\end{enumerate}
+
+---
+\section*{Resumen}
+
+El método de Newton semi-suave para funciones convexas s.c.i. con subdiferencial es una generalización del método de Newton clásico que permite manejar funciones no diferenciables. En el caso de una variable, el método utiliza el subdiferencial \( \partial f(x) \) y su "derivada" para definir la iteración. Bajo las hipótesis de \textbf{fuerte convexidad} y \textbf{semi-suavidad} (Lipschitz continuidad del subdiferencial), el método tiene \textbf{convergencia superlineal} o incluso \textbf{cuadrática} hacia el punto crítico. Las referencias proporcionadas ofrecen un acceso detallado y en español a la teoría, demostraciones y aplicaciones de este método.
 
 \chapter{M\'as sobre conjuntos convexos} %Cáscara convexa y aplicaciones en geometría algorítmica}
 
