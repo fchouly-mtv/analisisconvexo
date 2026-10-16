@@ -2836,7 +2836,7 @@ Una {sucesión minimizante} para $\mathcal{J}$ es una sucesión $(v_k)_{k \in \m
         \item $f$ es convexa (y lineal).
         \item $\inf_{x \in \mathbb{R}} f(x) = -\infty$.
         \item Para cualquier $M < 0$, la sucesión $x_k = -k$ es minimizante, ya que $f(x_k) = -k \to -\infty$.
-        \item \textbf{No existe mínimo}: la sucesión ``se escapa'' a $-\infty$.
+        \item {No existe mínimo}: la sucesión ``se escapa'' a $-\infty$.
     \end{itemize}
 \end{ex}
 
@@ -2873,9 +2873,9 @@ Consideremos $f(x,y) = x - y$ en $\dom(f) = \mathbb{R}_+^2$. Entonces:
     \begin{itemize}
         \item $\dom(f) = (0, +\infty)$ es convexo.
         \item $f$ es convexa (restricción de una función convexa a un subconjunto convexo).
-        \item $\inf_{x \in \mathbb{R}} f(x) = 0$, pero \textbf{no se alcanza} en $\dom(f)$ (el ínfimo sería $f(0) = 0$, pero $0 \notin \dom(f)$).
+        \item $\inf_{x \in \mathbb{R}} f(x) = 0$, pero {no se alcanza} en $\dom(f)$ (el ínfimo sería $f(0) = 0$, pero $0 \notin \dom(f)$).
         \item La sucesión minimizante $x_k = \frac{1}{k}$ satisface $f(x_k) = \frac{1}{k^2} \to 0$ y $x_k \to 0^+$.
-        \item \textbf{No existe mínimo en $\dom(f)$}: la sucesión ``se escapa'' hacia el borde $0$ de $\dom(f)$.
+        \item {No existe mínimo en $\dom(f)$}: la sucesión ``se escapa'' hacia el borde $0$ de $\dom(f)$.
     \end{itemize}
 \end{ex}
 
@@ -2895,7 +2895,32 @@ Para garantizar que una función convexa {alcanza su ínfimo}, necesitamos evita
     Decimos que $\mathcal{J}$ es {s.c.i.} si lo es para todo $v_0 \in V$.
 \end{definition}
 
-\begin{remark}
+\begin{remark} 
+Sea $(a_n)_{n\in\mathbb{N}}$ una sucesión de números reales. Se define su
+\emph{límite inferior} (o \emph{lim inf}) como
+\[
+  \liminf_{n\to\infty} a_n \;=\; \lim_{n\to\infty}\Bigl(\inf_{k\ge n} a_k\Bigr)
+  \;=\; \sup_{n\in\mathbb{N}}\Bigl(\inf_{k\ge n} a_k\Bigr),
+\]
+donde la primera igualdad tiene sentido pues la sucesión de cotas inferiores
+$b_n:=\inf_{k\ge n} a_k$ es monótona no decreciente, de modo que
+converge, y la segunda expresa su límite como un supremo. En términos de puntos
+de acumulación, el $\liminf$ admite la siguiente caracterización: es el
+\emph{mínimo} de los puntos de acumulación de la sucesión. 
+%es decir,
+%\[
+%  \liminf_{n\to\infty} a_n \;=\; \min\,\bigl\{ \alpha\in\mathbb{R}\cup\{\pm\infty\}
+%  :\ \exists\, (n_j)_{j\in\mathbb{N}} \text{ estrictamente creciente tal que }
+%  a_{n_j}\to \alpha \bigr\}.
+%\] 
+Equivalentemente, $\alpha=\liminf a_n$ es el único número real con la propiedad de
+que para todo $\varepsilon>0$: (i) existe $N\in\mathbb{N}$ tal que $a_n>\alpha-\varepsilon$
+para todo $n\ge N$ (ninguna subsucesión baja "definitivamente" de
+$\alpha-\varepsilon$), y (ii) para todo $N\in\mathbb{N}$ existe $n\ge N$ con
+$a_n<\alpha+\varepsilon$ (infinitos términos se acercan a $\alpha$ por abajo).
+\end{remark}
+
+\begin{remark} 
     Para funciones convexas, la semicontinuidad inferior es una propiedad {natural} en el {interior relativo} de su dominio. De hecho:
     \begin{itemize}
         \item Hemos visto que toda función convexa $\mathcal{J}: V \to \overline{\mathbb{R}}$ es {continua} (y por lo tanto s.c.i.) en el {interior de su dominio efectivo} $\operatorname{int}(\dom(\mathcal{J}))$.
@@ -2903,195 +2928,207 @@ Para garantizar que una función convexa {alcanza su ínfimo}, necesitamos evita
     \end{itemize}
 \end{remark}
 
-% INTERLUDE: Vue globale et GITHUB
-% PRACTICOS ....
-% ETC
-% *****
-% IMPORTANT: EPIGRAPHE
-% ET FONCTION
-% THEOREME : fonction convexe = epigraphe convexe
-% FONCTION SCI et EPIGRAPHE FERME (voir aussi exemples) **********
-
-%VOIR BONNES REFS
-
 \begin{theorem}[Semicontinuidad inferior de funciones convexas]
-    Sea $f: \mathbb{R}^n \to \overline{\mathbb{R}}$ una función convexa. Entonces:
-    \begin{enumerate}
-        \item $f$ es \textbf{continua} en $\operatorname{int}(\dom(f))$.
-        \item $f$ es \textbf{semicontinua inferiormente} en $\mathbb{R}^n$ si y solo si su \textbf{epígrafica}
+    Sea $\mathcal{J}: V %\mathbb{R}^n 
+    \to \overline{\mathbb{R}}$ una función convexa. Entonces
+    %\begin{enumerate}
+        %\item 
+        %$f$ es \textbf{continua} en $\operatorname{int}(\dom(f))$.
+        %\item 
+        $\mathcal{J}$ es {semicontinua inferiormente} en $V$ si y solo si su {epígrafica}
         \[
-        \operatorname{epi}(f) = \{(x, \alpha) \in \mathbb{R}^n \times \mathbb{R} \mid f(x) \leq \alpha\}
+        \operatorname{epi}(\mathcal{J}) = \{(x, \alpha) \in V \times \mathbb{R} \mid \mathcal{J}(x) \leq \alpha\}
         \]
-        es un conjunto \textbf{cerrado} en $\mathbb{R}^n \times \mathbb{R}$.
-    \end{enumerate}
+        es un conjunto {cerrado} en $V %\mathbb{R}^n 
+        \times \mathbb{R}$.
+    %\end{enumerate}
 \end{theorem}
 
-\begin{proof}[Esbozo de la demostración]
-    \begin{itemize}
-        \item \textbf{Continuidad en el interior:} Si $x_0 \in \operatorname{int}(\dom(f))$, existe una bola $B(x_0, r) \subset \dom(f)$. Por la Proposición \ref{prop:asup}, $f$ está acotada superiormente en una vecindad de $x_0$. Además, como $f$ es convexa, está acotada inferiormente en cualquier conjunto acotado. Por lo tanto, $f$ es \textbf{Lipschitz-continua} en $B(x_0, r/2)$, lo que implica continuidad.
+\begin{proof} 
+Mostramos la equivalencia. 
+%[Esbozo de la demostración]
+%    \begin{itemize}
+%        \item \textbf{Continuidad en el interior:} Si $x_0 \in \operatorname{int}(\dom(f))$, existe una bola $B(x_0, r) \subset \dom(f)$. Por la Proposición \ref{prop:asup}, $f$ está acotada superiormente en una vecindad de $x_0$. Además, como $f$ es convexa, está acotada inferiormente en cualquier conjunto acotado. Por lo tanto, $f$ es \textbf{Lipschitz-continua} en $B(x_0, r/2)$, lo que implica continuidad.
 
-        \item \textbf{Semicontinuidad inferior y epígrafica cerrada:} Supongamos que $\operatorname{epi}(f)$ es cerrada. Sea $(x_k) \to x_0$ y $\liminf_{k \to +\infty} f(x_k) = L$. Existen subsucesiones $(x_{k_j})$ tales que $f(x_{k_j}) \to L$. Como $(x_{k_j}, f(x_{k_j})) \in \operatorname{epi}(f)$ y $\operatorname{epi}(f)$ es cerrada, $(x_0, L) \in \operatorname{epi}(f)$, es decir, $f(x_0) \leq L$. Por lo tanto, $f$ es s.c.i. en $x_0$.
+ %       \item 
+ %\textbf{Semicontinuidad inferior y epígrafica cerrada:}
+ 
+ \medskip
+ 
+ \noindent
+ [1/2]
+ Supongamos que $\operatorname{epi}(\mathcal{J})$ es cerrada. Sea $(x_k) \to x_0$ y 
+ \[
+ \liminf_{k \to +\infty} \mathcal{J}(x_k) = L.
+ \]
+ Existen subsucesiones $(x_{k_j})$ tales que $\mathcal{J}(x_{k_j}) \to L$. Como $(x_{k_j}, \mathcal{J}(x_{k_j})) \in \operatorname{epi}(\mathcal{J})$ y $\operatorname{epi}(\mathcal{J})$ es cerrada, $(x_0, L) \in \operatorname{epi}(\mathcal{J})$, es decir, $\mathcal{J}(x_0) \leq L$. Por lo tanto, $f$ es s.c.i. en $x_0$.
 
-        Recíprocamente, si $f$ es s.c.i., sea $(x_k, \alpha_k) \in \operatorname{epi}(f)$ con $(x_k, \alpha_k) \to (x_0, \alpha_0)$. Entonces $f(x_k) \leq \alpha_k$ y por semicontinuidad inferior,
+\medskip
+
+\noindent 
+[2/2]
+        Recíprocamente, si $\mathcal{J}$ es s.c.i., sea $(x_k, \alpha_k) \in \operatorname{epi}(\mathcal{J})$ con $(x_k, \alpha_k) \to (x_0, \alpha_0)$. Entonces $\mathcal{J}(x_k) \leq \alpha_k$ y por semicontinuidad inferior,
         \[
-        f(x_0) \leq \liminf_{k \to +\infty} f(x_k) \leq \liminf_{k \to +\infty} \alpha_k = \alpha_0,
+        \mathcal{J}(x_0) \leq \liminf_{k \to +\infty} f(x_k) \leq \liminf_{k \to +\infty} \alpha_k = \alpha_0,
         \]
-        por lo que $(x_0, \alpha_0) \in \operatorname{epi}(f)$.
-    \end{itemize}
+        por lo que $(x_0, \alpha_0) \in \operatorname{epi}(\mathcal{J})$.
+%    \end{itemize}
 \end{proof}
 
 % ----------------------------
 \subsection{Condiciones para la existencia de mínimo}
 % ----------------------------
 
-Para garantizar que una función convexa $f: \mathbb{R}^n \to \overline{\mathbb{R}}$ \textbf{alcanza su ínfimo}, necesitamos:
+Para garantizar que una función convexa $\mathcal{J}: V \to \overline{\mathbb{R}}$ {alcanza su ínfimo}, necesitamos:
 \begin{enumerate}
-    \item \textbf{Semicontinuidad inferior:} $f$ es s.c.i. (equivalente a que $\operatorname{epi}(f)$ sea cerrada).
-    \item \textbf{Coercividad:} $f(x) \to +\infty$ cuando $\|x\| \to +\infty$ (para evitar que las sucesiones minimizantes ``se escapen'' a infinito).
-    \item \textbf{Dominio cerrado:} $\dom(f)$ es cerrado (para evitar que las sucesiones minimizantes ``se escapen'' hacia el borde).
+    \item \emph{Semicontinuidad inferior:} $\mathcal{J}$ es s.c.i. (equivalente a que $\operatorname{epi}(\mathcal{J})$ sea cerrada).
+    \item \emph{Coercividad:} $\mathcal{J}(x) \to +\infty$ cuando $\|x\|_V \to +\infty$ (para evitar que las sucesiones minimizantes ``se escapen'' a infinito).
+    \item \emph{Dominio cerrado:} $\dom(\mathcal{J})$ es cerrado (para evitar que las sucesiones minimizantes ``se escapen'' hacia el borde).
 \end{enumerate}
 
+Se puede entonces adaptar sin problema el teorema del capitulo anterior. 
+
 \begin{theorem}[Existencia de mínimo para funciones convexas]
-    Sea $f: \mathbb{R}^n \to \overline{\mathbb{R}}$ una función convexa, s.c.i. y coerciva. Entonces $f$ alcanza su mínimo en $\mathbb{R}^n$, es decir, existe $x^* \in \mathbb{R}^n$ tal que
+    Sea $\mathcal{J}: V \to {\mathbb{R}} \cup \{ +\infty\}$ una función convexa propia, s.c.i. y coerciva. Entonces $\mathcal{J}$ alcanza su mínimo en $V$, es decir, existe $v^* \in V$ tal que
     \[
-    f(x^*) = \inf_{x \in \mathbb{R}^n} f(x).
+    \mathcal{J}(v^*) = \inf_{v \in V} \mathcal{J}(v).
     \]
 \end{theorem}
 
-\begin{proof}[Esbozo]
-    Sea $(x_k)$ una sucesión minimizante, es decir, $f(x_k) \to \inf f$. Por coercividad, $(x_k)$ está acotada, por lo que existe una subsucesión $(x_{k_j})$ convergente a algún $x^* \in \mathbb{R}^n$. Como $f$ es s.c.i.,
-    \[
-    f(x^*) \leq \liminf_{j \to +\infty} f(x_{k_j}) = \inf f,
-    \]
-    y como $x^* \in \dom(f)$ (porque $f(x^*) < +\infty$), se tiene $f(x^*) = \inf f$.
-\end{proof}
+% \begin{proof}[Esbozo]
+%     Sea $(x_k)$ una sucesión minimizante, es decir, $f(x_k) \to \inf f$. Por coercividad, $(x_k)$ está acotada, por lo que existe una subsucesión $(x_{k_j})$ convergente a algún $x^* \in \mathbb{R}^n$. Como $f$ es s.c.i.,
+%     \[
+%     f(x^*) \leq \liminf_{j \to +\infty} f(x_{k_j}) = \inf f,
+%     \]
+%     y como $x^* \in \dom(f)$ (porque $f(x^*) < +\infty$), se tiene $f(x^*) = \inf f$.
+% \end{proof}
 
-\begin{ex}[Aplicación del teorema]
-    Sea $f: \mathbb{R} \to \mathbb{R}$ definida por $f(x) = x^2 + 1$. Entonces:
-    \begin{itemize}
-        \item $f$ es convexa (su segunda derivada es $f''(x) = 2 > 0$).
-        \item $f$ es s.c.i. (es continua).
-        \item $f$ es coerciva: $f(x) = x^2 + 1 \to +\infty$ cuando $|x| \to +\infty$.
-    \end{itemize}
-    Por el teorema, $f$ alcanza su mínimo en $x^* = 0$, con $f(0) = 1$.
-\end{ex}
+% \begin{ex}[Aplicación del teorema]
+%     Sea $f: \mathbb{R} \to \mathbb{R}$ definida por $f(x) = x^2 + 1$. Entonces:
+%     \begin{itemize}
+%         \item $f$ es convexa (su segunda derivada es $f''(x) = 2 > 0$).
+%         \item $f$ es s.c.i. (es continua).
+%         \item $f$ es coerciva: $f(x) = x^2 + 1 \to +\infty$ cuando $|x| \to +\infty$.
+%     \end{itemize}
+%     Por el teorema, $f$ alcanza su mínimo en $x^* = 0$, con $f(0) = 1$.
+% \end{ex}
 
 % ----------------------------
 \subsection{Conclusión}
 % ----------------------------
 
-Las funciones convexas extendidas \textbf{no siempre admiten mínimo} porque:
+Las funciones convexas extendidas \emph{no siempre admiten mínimo} porque:
 \begin{itemize}
-    \item Las sucesiones minimizantes pueden \textbf{divergir a infinito} (ejemplo: $f(x) = x$ en $\mathbb{R}$).
-    \item Las sucesiones minimizantes pueden \textbf{acercarse al borde del dominio} sin alcanzar el ínfimo (ejemplo: $f(x) = -\frac{1}{x}$ en $(0, +\infty)$ o $f(x) = x^2$ en $(0, +\infty)$).
+    \item Las sucesiones minimizantes pueden \emph{divergir a infinito} (ejemplo: $f(x) = x$ en $\mathbb{R}$).
+    \item Las sucesiones minimizantes pueden \emph{acercarse al borde del dominio} sin alcanzar el ínfimo (ejemplo: $f(x) = -\frac{1}{x}$ en $(0, +\infty)$ o $f(x) = x^2$ en $(0, +\infty)$).
 \end{itemize}
 
 Para garantizar la existencia de mínimo, es necesario imponer:
 \begin{itemize}
-    \item \textbf{Semicontinuidad inferior} (para evitar que el ínfimo ``se pierda'' en el borde).
-    \item \textbf{Coercividad} (para evitar que las sucesiones minimizantes diverjan).
+    \item \emph{Semicontinuidad inferior} (para evitar que el ínfimo ``se pierda'' en el borde).
+    \item \emph{Coercividad} (para evitar que las sucesiones minimizantes diverjan).
 \end{itemize}
-Estas condiciones son \textbf{suficientes} para funciones convexas en $\mathbb{R}^n$.
+Estas condiciones son \emph{suficientes} para funciones convexas en $V$.
 
 %\section{Análisis de funciones: límite inferior, semicontinuidad inferior y convexidad}
 
-\section{Límite inferior  y semicontinuidad} %inferior} % y convexidad}
+% \subsection{Mas límite inferior  y mas semicontinuidad} %inferior} % y convexidad}
 
-\subsection{Límite inferior}
-\begin{definition}[Límite inferior de una función]
-    Sea \( f: \mathbb{R} \to \overline{\mathbb{R}} \) una función y \( a \in \mathbb{R} \). El \textbf{límite inferior} de \( f \) en \( a \) se define como:
-    \[
-    \liminf_{x \to a} f(x) = \lim_{r \to 0^+} \left( \inf_{x \in B(a,r)} f(x) \right),
-    \]
-    donde \( B(a,r) \) es la bola abierta de centro \( a \) y radio \( r \).
-\end{definition}
+% \subsubsection{Límite inferior} ***
+% \begin{definition}[Límite inferior de una función]
+%     Sea \( f: \mathbb{R} \to \overline{\mathbb{R}} \) una función y \( a \in \mathbb{R} \). El \textbf{límite inferior} de \( f \) en \( a \) se define como:
+%     \[
+%     \liminf_{x \to a} f(x) = \lim_{r \to 0^+} \left( \inf_{x \in B(a,r)} f(x) \right),
+%     \]
+%     donde \( B(a,r) \) es la bola abierta de centro \( a \) y radio \( r \).
+% \end{definition}
 
-\begin{ex}[Ejemplo de límite inferior]
-    Consideremos la función:
-    \[
-    f(x) =
-    \begin{cases}
-        x & \text{si } x \in \mathbb{Q}, \\
-        -x & \text{si } x \notin \mathbb{Q}.
-    \end{cases}
-    \]
-    En \( a = 0 \), para todo \( r > 0 \), el ínfimo de \( f \) en \( B(0,r) \) es \( -r \). Por lo tanto:
-    \[
-    \liminf_{x \to 0} f(x) = \lim_{r \to 0^+} (-r) = 0.
-    \]
-\end{ex}
+% \begin{ex}[Ejemplo de límite inferior]
+%     Consideremos la función:
+%     \[
+%     f(x) =
+%     \begin{cases}
+%         x & \text{si } x \in \mathbb{Q}, \\
+%         -x & \text{si } x \notin \mathbb{Q}.
+%     \end{cases}
+%     \]
+%     En \( a = 0 \), para todo \( r > 0 \), el ínfimo de \( f \) en \( B(0,r) \) es \( -r \). Por lo tanto:
+%     \[
+%     \liminf_{x \to 0} f(x) = \lim_{r \to 0^+} (-r) = 0.
+%     \]
+% \end{ex}
 
-\subsection{Funciones semicontinuas inferiormente (s.c.i.)}
-\begin{definition}[Función semicontinua inferiormente]
-    Una función \( f: \mathbb{R} \to \overline{\mathbb{R}} \) es \textbf{semicontinua inferiormente (s.c.i.)} en \( a \in \mathbb{R} \) si:
-    \[
-    \liminf_{x \to a} f(x) \geq f(a).
-    \]
-    Si \( f \) es s.c.i. en todo punto de su dominio, se dice que \( f \) es \textbf{s.c.i. en \( \mathbb{R} \)}.
-\end{definition}
+% \subsection{Funciones semicontinuas inferiormente (s.c.i.)}
+% \begin{definition}[Función semicontinua inferiormente]
+%     Una función \( f: \mathbb{R} \to \overline{\mathbb{R}} \) es \textbf{semicontinua inferiormente (s.c.i.)} en \( a \in \mathbb{R} \) si:
+%     \[
+%     \liminf_{x \to a} f(x) \geq f(a).
+%     \]
+%     Si \( f \) es s.c.i. en todo punto de su dominio, se dice que \( f \) es \textbf{s.c.i. en \( \mathbb{R} \)}.
+% \end{definition}
 
-\begin{ex}[Ejemplo de función s.c.i.]
-    La función \( f(x) = |x| \) es s.c.i. en \( \mathbb{R} \). En efecto, para todo \( a \in \mathbb{R} \):
-    \[
-    \liminf_{x \to a} |x| = |a| = f(a).
-    \]
-\end{ex}
+% \begin{ex}[Ejemplo de función s.c.i.]
+%     La función \( f(x) = |x| \) es s.c.i. en \( \mathbb{R} \). En efecto, para todo \( a \in \mathbb{R} \):
+%     \[
+%     \liminf_{x \to a} |x| = |a| = f(a).
+%     \]
+% \end{ex}
 
-\begin{ex}[Contraejemplo: función no s.c.i.]
-    La función
-    \[
-    f(x) =
-    \begin{cases}
-        -1 & \text{si } x = 0, \\
-        0 & \text{si } x \neq 0,
-    \end{cases}
-    \]
-    no es s.c.i. en \( 0 \), ya que:
-    \[
-    \liminf_{x \to 0} f(x) = 0 \not\geq f(0) = -1.
-    \]
-\end{ex}
+% \begin{ex}[Contraejemplo: función no s.c.i.]
+%     La función
+%     \[
+%     f(x) =
+%     \begin{cases}
+%         -1 & \text{si } x = 0, \\
+%         0 & \text{si } x \neq 0,
+%     \end{cases}
+%     \]
+%     no es s.c.i. en \( 0 \), ya que:
+%     \[
+%     \liminf_{x \to 0} f(x) = 0 \not\geq f(0) = -1.
+%     \]
+% \end{ex}
 
----
-\subsection{Convexidad y semicontinuidad inferior: importancia para la existencia de mínimos}
+% ---
+% \subsection{Convexidad y semicontinuidad inferior: importancia para la existencia de mínimos}
 
-\begin{remark}[Relación entre convexidad, s.c.i. y mínimos globales]
-    Una función convexa \( f: \mathbb{R} \to \mathbb{R} \) \textbf{no necesariamente admite un mínimo global} si no es s.c.i. La semicontinuidad inferior es clave porque:
-    \begin{itemize}
-        \item Garantiza que los conjuntos de subnivel \( \{ x \mid f(x) \leq \alpha \} \) son cerrados.
-        \item Si \( f \) es convexa y s.c.i., y su dominio es un conjunto convexo cerrado (o \( \lim_{|x| \to \infty} f(x) = +\infty \)), entonces \( f \) admite al menos un mínimo global.
-    \end{itemize}
-\end{remark}
+% \begin{remark}[Relación entre convexidad, s.c.i. y mínimos globales]
+%     Una función convexa \( f: \mathbb{R} \to \mathbb{R} \) \textbf{no necesariamente admite un mínimo global} si no es s.c.i. La semicontinuidad inferior es clave porque:
+%     \begin{itemize}
+%         \item Garantiza que los conjuntos de subnivel \( \{ x \mid f(x) \leq \alpha \} \) son cerrados.
+%         \item Si \( f \) es convexa y s.c.i., y su dominio es un conjunto convexo cerrado (o \( \lim_{|x| \to \infty} f(x) = +\infty \)), entonces \( f \) admite al menos un mínimo global.
+%     \end{itemize}
+% \end{remark}
 
-\begin{ex}[Función convexa y s.c.i. con mínimo global]
-    La función \( f(x) = x^2 \) es convexa (su segunda derivada es \( 2 > 0 \)) y s.c.i. (es continua). Además, \( \lim_{|x| \to \infty} f(x) = +\infty \). Por lo tanto, admite un mínimo global en \( x = 0 \), donde \( f(0) = 0 \).
-\end{ex}
+% \begin{ex}[Función convexa y s.c.i. con mínimo global]
+%     La función \( f(x) = x^2 \) es convexa (su segunda derivada es \( 2 > 0 \)) y s.c.i. (es continua). Además, \( \lim_{|x| \to \infty} f(x) = +\infty \). Por lo tanto, admite un mínimo global en \( x = 0 \), donde \( f(0) = 0 \).
+% \end{ex}
 
-\begin{ex}[Contraejemplo: función convexa no s.c.i. sin mínimo global]
-    Consideremos la función:
-    \[
-    f(x) =
-    \begin{cases}
-        1 & \text{si } x = 0, \\
-        x^2 & \text{si } x \neq 0.
-    \end{cases}
-    \]
-    \begin{itemize}
-        \item \textbf{Convexa}: Para todo \( x, y \in \mathbb{R} \) y \( \lambda \in [0,1] \), se verifica que
-          \[
-          f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
-          \]
-          En particular, si \( x = 0 \) y \( y \neq 0 \), para \( \lambda \in (0,1) \):
-          \[
-          f((1-\lambda)y) = (1-\lambda)^2 y^2 \leq \lambda \cdot 1 + (1-\lambda) y^2.
-          \]
-          Esto se cumple porque \( (1-\lambda)^2 y^2 \leq (1-\lambda)y^2 \leq \lambda + (1-\lambda)y^2 \).
+% \begin{ex}[Contraejemplo: función convexa no s.c.i. sin mínimo global]
+%     Consideremos la función:
+%     \[
+%     f(x) =
+%     \begin{cases}
+%         1 & \text{si } x = 0, \\
+%         x^2 & \text{si } x \neq 0.
+%     \end{cases}
+%     \]
+%     \begin{itemize}
+%         \item \textbf{Convexa}: Para todo \( x, y \in \mathbb{R} \) y \( \lambda \in [0,1] \), se verifica que
+%           \[
+%           f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
+%           \]
+%           En particular, si \( x = 0 \) y \( y \neq 0 \), para \( \lambda \in (0,1) \):
+%           \[
+%           f((1-\lambda)y) = (1-\lambda)^2 y^2 \leq \lambda \cdot 1 + (1-\lambda) y^2.
+%           \]
+%           Esto se cumple porque \( (1-\lambda)^2 y^2 \leq (1-\lambda)y^2 \leq \lambda + (1-\lambda)y^2 \).
 
-        \item \textbf{No s.c.i. en \( 0 \)}: \( \liminf_{x \to 0} f(x) = 0 < f(0) = 1 \).
+%         \item \textbf{No s.c.i. en \( 0 \)}: \( \liminf_{x \to 0} f(x) = 0 < f(0) = 1 \).
 
-        \item \textbf{No admite mínimo global}: \( \inf_{x \in \mathbb{R}} f(x) = 0 \), pero este ínfimo no es alcanzado (pues \( f(x) = 0 \) solo si \( x = 0 \), pero \( f(0) = 1 \)).
-    \end{itemize}
-\end{ex}
+%         \item \textbf{No admite mínimo global}: \( \inf_{x \in \mathbb{R}} f(x) = 0 \), pero este ínfimo no es alcanzado (pues \( f(x) = 0 \) solo si \( x = 0 \), pero \( f(0) = 1 \)).
+%     \end{itemize}
+% \end{ex}
 
 % \section{Análisis de funciones: límite inferior, semicontinuidad inferior y convexidad}
 
@@ -3191,48 +3228,49 @@ Estas condiciones son \textbf{suficientes} para funciones convexas en $\mathbb{R
 %     Observación: Aunque \( f(0) = -1 \) es el ínfimo, no es un mínimo global porque no existe un entorno de \( 0 \) donde \( f(x) \geq f(0) \) para todo \( x \). La semicontinuidad inferior falla precisamente en este punto.
 % \end{example}
 
-\subsection{Mínimos}
+% \subsection{Mínimos}
 
-%\dots
-Se puede adaptar el resultado del capitulo 3 así.
+% %\dots
+% Se puede adaptar el resultado del capitulo 3 así.
 
-\begin{theorem}[Existencia de mínimo global para funciones convexas]
-    Sea \( f: \mathbb{R}^n \to \overline{\mathbb{R}} \) una función que cumple las siguientes condiciones:
-    \begin{enumerate}
-        \item \textbf{Convexa}: Para todo \( x, y \in \mathbb{R}^n \) y \( \lambda \in [0,1] \),
-              \[
-              f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
-              \]
-        \item \textbf{Propia}: \( \dom(f) = \{ x \in \mathbb{R}^n \mid f(x) < +\infty \} \neq \emptyset \) y \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \).
-        \item \textbf{Semicontinua inferiormente (s.c.i.)}: Para todo \( a \in \mathbb{R}^n \),
-              \[
-              \liminf_{x \to a} f(x) \geq f(a).
-              \]
-        \item \textbf{Coercitiva}: \( \lim_{\|x\| \to +\infty} f(x) = +\infty \).
-    \end{enumerate}
-    Entonces, \( f \) admite al menos un \textbf{mínimo global}, es decir, existe \( x^* \in \mathbb{R}^n \) tal que:
-    \[
-    f(x^*) = \inf_{x \in \mathbb{R}^n} f(x) < +\infty.
-    \]
-\end{theorem}
+% \begin{theorem}[Existencia de mínimo global para funciones convexas]
+%     Sea \( f: \mathbb{R}^n \to \overline{\mathbb{R}} \) una función que cumple las siguientes condiciones:
+%     \begin{enumerate}
+%         \item \textbf{Convexa}: Para todo \( x, y \in \mathbb{R}^n \) y \( \lambda \in [0,1] \),
+%               \[
+%               f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).
+%               \]
+%         \item \textbf{Propia}: \( \dom(f) = \{ x \in \mathbb{R}^n \mid f(x) < +\infty \} \neq \emptyset \) y \( f(x) > -\infty \) para todo \( x \in \mathbb{R}^n \).
+%         \item \textbf{Semicontinua inferiormente (s.c.i.)}: Para todo \( a \in \mathbb{R}^n \),
+%               \[
+%               \liminf_{x \to a} f(x) \geq f(a).
+%               \]
+%         \item \textbf{Coercitiva}: \( \lim_{\|x\| \to +\infty} f(x) = +\infty \).
+%     \end{enumerate}
+%     Entonces, \( f \) admite al menos un \textbf{mínimo global}, es decir, existe \( x^* \in \mathbb{R}^n \) tal que:
+%     \[
+%     f(x^*) = \inf_{x \in \mathbb{R}^n} f(x) < +\infty.
+%     \]
+% \end{theorem}
 
-\begin{proof}[Esquema de la demostración]
-    \begin{itemize}
-        \item Por la coercitividad, existe \( R > 0 \) tal que para todo \( x \) con \( \|x\| > R \), se tiene \( f(x) \geq f(0) + 1 \). Así, el ínfimo de \( f \) se alcanza en la bola cerrada \( \overline{B}(0,R) \).
+% \begin{proof}[Esquema de la demostración]
+%     \begin{itemize}
+%         \item Por la coercitividad, existe \( R > 0 \) tal que para todo \( x \) con \( \|x\| > R \), se tiene \( f(x) \geq f(0) + 1 \). Así, el ínfimo de \( f \) se alcanza en la bola cerrada \( \overline{B}(0,R) \).
 
-        \item La bola \( \overline{B}(0,R) \) es un conjunto \textbf{compacto} (cerrado y acotado en \( \mathbb{R}^n \)).
+%         \item La bola \( \overline{B}(0,R) \) es un conjunto \textbf{compacto} (cerrado y acotado en \( \mathbb{R}^n \)).
 
-        \item Como \( f \) es s.c.i., sus conjuntos de subnivel \( S_\alpha = \{ x \mid f(x) \leq \alpha \} \) son cerrados para todo \( \alpha \in \mathbb{R} \).
+%         \item Como \( f \) es s.c.i., sus conjuntos de subnivel \( S_\alpha = \{ x \mid f(x) \leq \alpha \} \) son cerrados para todo \( \alpha \in \mathbb{R} \).
 
-        \item La familia \( \{ S_\alpha \cap \overline{B}(0,R) \}_{\alpha \geq \inf f} \) es una colección de conjuntos cerrados no vacíos y encajados en \( \overline{B}(0,R) \). Por el \textbf{teorema de los conjuntos encajados compactos}, su intersección es no vacía:
-              \[
-              \bigcap_{\alpha \geq \inf f} S_\alpha \cap \overline{B}(0,R) \neq \emptyset.
-              \]
-        \item Todo punto \( x^* \) en esta intersección satisface \( f(x^*) = \inf_{x \in \mathbb{R}^n} f(x) \).
-    \end{itemize}
-\end{proof}
+%         \item La familia \( \{ S_\alpha \cap \overline{B}(0,R) \}_{\alpha \geq \inf f} \) es una colección de conjuntos cerrados no vacíos y encajados en \( \overline{B}(0,R) \). Por el \textbf{teorema de los conjuntos encajados compactos}, su intersección es no vacía:
+%               \[
+%               \bigcap_{\alpha \geq \inf f} S_\alpha \cap \overline{B}(0,R) \neq \emptyset.
+%               \]
+%         \item Todo punto \( x^* \) en esta intersección satisface \( f(x^*) = \inf_{x \in \mathbb{R}^n} f(x) \).
+%     \end{itemize}
+% \end{proof}
 
 \section{Subdiferencial}
+
 
 La noción de subdiferencial generaliza el concepto de gradiente a funciones convexas que no son necesariamente diferenciables. Esta herramienta es fundamental en optimización convexa, ya que permite caracterizar óptimos incluso en presencia de no diferenciabilidad.
 
@@ -3252,160 +3290,841 @@ Intuitivamente, un subgradiente define un hiperplano de soporte al epígrafo de 
 
 A continuación, resumimos algunas propiedades fundamentales del subdiferencial en dimensión finita.
 
-\paragraph{Propiedades clave.}
-Sea \( f: \mathbb{R}^n \to (-\infty,+\infty] \) convexa y \( x \in \mathrm{dom}(f) \). Entonces:
-\begin{itemize}
-    \item El conjunto \( \partial f(x) \) es convexo y cerrado.
-    \item Si \( f \) es diferenciable en \( x \), entonces
-    \[
-    \partial f(x) = \{ \nabla f(x) \}.
-    \]
-    \item La condición de optimalidad de primer orden se escribe:
-    \[
-    0 \in \partial f(x) \quad \Longleftrightarrow \quad x \text{ es un minimizador global de } f.
-    \]
-    \item La aplicación \( x \mapsto \partial f(x) \) es monótona en el sentido de operadores:
-    \[
-    (g_1 - g_2)^T (x_1 - x_2) \geq 0
-    \quad \text{para todo } g_i \in \partial f(x_i).
-    \]
-\end{itemize}
-
-Para ilustrar esta noción, presentamos ahora algunos ejemplos clásicos de cálculo de subdiferenciales.
-
-\paragraph{Ejemplos.}
-
-\begin{itemize}
-    \item \textbf{Valor absoluto.} Sea \( f(x) = |x| \) con \( x \in \mathbb{R} \). Entonces:
-    \[
-    \partial f(x) =
-    \begin{cases}
-        \{1\} & \text{si } x > 0, \\
-        \{-1\} & \text{si } x < 0, \\
-        [-1,1] & \text{si } x = 0.
-    \end{cases}
-    \]
-
-    \item \textbf{Parte positiva.} Sea \( f(x) = \max(0,x) \). Entonces:
-    \[
-    \partial f(x) =
-    \begin{cases}
-        \{1\} & \text{si } x > 0, \\
-        \{0\} & \text{si } x < 0, \\
-        [0,1] & \text{si } x = 0.
-    \end{cases}
-    \]
-
-    \item \textbf{Función indicatriz.} Sea \( C \subset \mathbb{R}^n \) un conjunto convexo cerrado y
-    \[
-    \iota_C(x) =
-    \begin{cases}
-        0 & \text{si } x \in C, \\
-        +\infty & \text{si } x \notin C.
-    \end{cases}
-    \]
-    Entonces, para \( x \in C \), el subdiferencial está dado por el cono normal:
-    \[
-    \partial \iota_C(x) = N_C(x) = \{ g \in \mathbb{R}^n \mid g^T (y - x) \leq 0, \ \forall y \in C \}.
-    \]
-\end{itemize}
-
-Estos ejemplos muestran cómo el subdiferencial captura la falta de diferenciabilidad mediante conjuntos de pendientes admisibles, lo cual resulta esencial en el análisis y la resolución de problemas de optimización convexa no suave.
-
-\subsection{Caracterización de mínimos} % mediante el subdiferencial}
-
-Una de las principales ventajas del subdiferencial es que permite formular condiciones de optimalidad de primer orden sin requerir diferenciabilidad. En el contexto de funciones convexas, esta caracterización es particularmente simple y poderosa.
+% =====================================================================
+%  El subdiferencial de funcionales convexos: propiedades clave
+%  desarrolladas como proposiciones con demostraciones detalladas.
 %
-El siguiente resultado establece una condición necesaria y suficiente de optimalidad global.
+%  Requisitos de preambulo (adaptar a la clase de documento):
+%     \usepackage{amsmath,amssymb,amsthm}
+%     \newtheorem{proposicion}{Proposici\'on}
+%     \newtheorem{lema}[proposicion]{Lema}
+%     \newtheorem{corolario}[proposicion]{Corolario}
+%     \theoremstyle{remark}
+%     \newtheorem{observacion}[proposicion]{Observaci\'on}
+%  (con numeracion por seccion:  \newtheorem{proposicion}{Proposici\'on}[section] )
+% =====================================================================
 
-\begin{theorem}[Caracterización de mínimos]
-Sea \( f: \mathbb{R}^n \to (-\infty, +\infty] \) una función convexa. Un punto \( x^* \in \mathrm{dom}(f) \) es un mínimo global de \( f \) si y solo si
+\paragraph{Notaci\'on y definiciones.}
+Sea $V$ un espacio vectorial real de dimensi\'on finita $n$, provisto de
+un producto interior $\langle\cdot,\cdot\rangle$ y de la norma inducida
+$\|\cdot\|$ (el modelo can\'onico es $V=\mathbb{R}^{n}$ con el producto
+interior eucl\'ideo; todo lo que sigue vale igualmente para subespacios
+de $\mathbb{R}^{n}$ o para cualquier espacio eucl\'ideo de dimensi\'on
+finita). Sea $\mathcal{J}\colon V\to(-\infty,+\infty]$ un funcional
+\emph{propio} (no id\'enticamente $+\infty$) y \emph{convexo}, con
+dominio efectivo
 \[
-0 \in \partial f(x^*).
+\operatorname{dom}(\mathcal{J})
+=\{x\in V:\ \mathcal{J}(x)<+\infty\},
 \]
-\end{theorem}
+que es un conjunto convexo de $V$, y ep\'igrafo
+\[
+\operatorname{epi}(\mathcal{J})
+=\{(y,t)\in V\times\mathbb{R}:\ \mathcal{J}(y)\le t\},
+\]
+que es un conjunto convexo de $V\times\mathbb{R}$. Para
+$x\in\operatorname{dom}(\mathcal{J})$ el \emph{subdiferencial} de
+$\mathcal{J}$ en $x$ es
+\[
+\partial\mathcal{J}(x)
+=\bigl\{g\in V:\ \mathcal{J}(y)\ \ge\
+\mathcal{J}(x)+\langle g,\,y-x\rangle
+\ \ \text{para todo } y\in V\bigr\}.
+\]
+Los elementos de $\partial\mathcal{J}(x)$ se llaman \emph{subgradientes}
+de $\mathcal{J}$ en $x$: son exactamente los vectores $g\in V$ tales que
+el hiperplano affine
+\[
+(y,t)\mapsto \mathcal{J}(x)+\langle g,\,y-x\rangle
+\]
+mayora a $\mathcal{J}$ en todo punto y coincide con ella en
+$(x,\mathcal{J}(x))$; es decir, son las ``pendientes'' de los
+hiperplanos soporte al ep\'igrafo que pasan por el punto
+$(x,\mathcal{J}(x))$. Si $x\notin\operatorname{dom}(\mathcal{J})$ se
+conviene $\partial\mathcal{J}(x)=\varnothing$; la justificaci\'on se da
+en la Proposici\'on~\ref{prop:estructura}(b).
 
-Este resultado generaliza la condición clásica \( \nabla f(x^*) = 0 \) del caso diferenciable. En efecto, cuando \( f \) es diferenciable en \( x^* \), se tiene \( \partial f(x^*) = \{\nabla f(x^*)\} \), y la condición anterior se reduce a la conocida anulación del gradiente.
+Diremos que $\mathcal{J}$ es \emph{diferenciable} (Fr\'echet) en un punto
+$x$ si existe un \'unico vector $\nabla\mathcal{J}(x)\in V$ tal que
+\[
+\mathcal{J}(x+h)=\mathcal{J}(x)
++\langle\nabla\mathcal{J}(x),\,h\rangle
++o(\|h\|)\qquad(h\to 0),
+\]
+que llamamos el \emph{gradiente} de $\mathcal{J}$ en $x$.
 
-\paragraph{Idea de la demostración.}
-La demostración se basa directamente en la definición de subgradiente.
-\begin{itemize}
-    \item (\emph{Suficiencia}) Si \( 0 \in \partial f(x^*) \), entonces por definición:
-    \[
-    f(y) \geq f(x^*) \quad \forall y \in \mathbb{R}^n,
-    \]
-    lo que implica que \( x^* \) es un mínimo global.
-    \item (\emph{Necesidad}) Si \( x^* \) es un mínimo global, entonces
-    \[
-    f(y) \geq f(x^*) \quad \forall y,
-    \]
-    lo que corresponde exactamente a la desigualdad de subgradiente con \( g = 0 \).
-\end{itemize}
+\paragraph{Propiedades clave.}
 
-Para una demostración más detallada y en un marco más general (espacios vectoriales normados), se puede consultar textos clásicos de optimización convexa como \cite{hiriart2001}. %Rockafellar o Hiriart-Urruty y Lemaréchal.
+%---------------------------------------------------------------------
+\begin{proposicion}[Estructura del conjunto
+$\partial\mathcal{J}(x)$]
+\label{prop:estructura}
+Sea $\mathcal{J}\colon V\to(-\infty,+\infty]$ propio y convexo.
+\begin{enumerate}
+  \item[(a)] Para todo $x\in V$, el conjunto
+        $\partial\mathcal{J}(x)$ es convexo y cerrado.
+  \item[(b)] Si $x\notin\operatorname{dom}(\mathcal{J})$, entonces
+        $\partial\mathcal{J}(x)=\varnothing$.
+  \item[(c)] Si $x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$,
+        entonces $\partial\mathcal{J}(x)\neq\varnothing$.
+  \item[(d)] Si $x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$,
+        entonces $\partial\mathcal{J}(x)$ es acotado; en particular, es
+        compacto.
+\end{enumerate}
+\end{proposicion}
 
-\paragraph{Interpretación geométrica.}
-La condición \( 0 \in \partial f(x^*) \) significa que existe un hiperplano de soporte horizontal al epígrafo de \( f \) en \( x^* \). Intuitivamente, esto indica que no existe ninguna dirección de descenso, lo que caracteriza un mínimo global en el caso convexo.
+\begin{proof}
+\emph{(a) Convexidad y cerradura.}
+Fijemos $x\in V$. De la definici\'on,
+\[
+\partial\mathcal{J}(x)=\bigcap_{y\in V} H_y,
+\qquad
+H_y:=\bigl\{g\in V:\ \langle g,\,y-x\rangle
+\le \mathcal{J}(y)-\mathcal{J}(x)\bigr\}.
+\]
+En efecto, $g\in\partial\mathcal{J}(x)$ si y solo si la desigualdad
+subgradiente se cumple \emph{para todo} $y$, lo cual equivale a que $g$
+pertenezca a todos los $H_y$ a la vez. Cada $H_y$ es un semiespacio
+cerrado de $V$ (convexo y cerrado, posiblemente degenerado:
+$H_y=V$ si $\mathcal{J}(y)-\mathcal{J}(x)=+\infty$, o si $y=x$ y
+$\mathcal{J}(x)<+\infty$). Como los semiespacios cerrados son conjuntos
+convexos y cerrados, y toda intersecci\'on arbitraria de conjuntos
+convexos es convexa y toda intersecci\'on arbitraria de conjuntos
+cerrados es cerrada, se concluye que $\partial\mathcal{J}(x)$ es convexo
+y cerrado.
 
-A continuación, ilustramos esta caracterización con ejemplos clásicos.
+\smallskip
+\emph{(b) Vacuidad fuera del dominio.}
+Supongamos $\mathcal{J}(x)=+\infty$. Como $\mathcal{J}$ es propio existe
+$y_{0}$ con $\mathcal{J}(y_{0})<+\infty$. Si $g\in V$ fuera subgradiente
+en $x$, la desigualdad subgradiente con $y=y_{0}$ dar\'ia
+\[
+\mathcal{J}(y_{0})\ \ge\
+\mathcal{J}(x)+\langle g,\,y_{0}-x\rangle=+\infty,
+\]
+absurdo. Luego $\partial\mathcal{J}(x)=\varnothing$.
 
-\paragraph{Ejemplos.}
+\smallskip
+\emph{(c) No vacuidad en el interior del dominio.}
+Necesitamos dos lemas auxiliares.
 
-\begin{itemize}
-    \item \textbf{Valor absoluto.} Sea \( f(x) = |x| \). Entonces:
-    \[
-    \partial f(0) = [-1,1].
-    \]
-    Como \( 0 \in [-1,1] \), se concluye que \( x^* = 0 \) es un mínimo global. En cambio, si \( x \neq 0 \), entonces \( \partial f(x) \) no contiene al cero, lo que confirma que no son minimizadores.
+\begin{lema}[Acotaci\'on superior local]
+\label{lema:acotacion}
+Si $x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$, existen
+$\delta>0$ y $M\in\mathbb{R}$ tales que $\mathcal{J}(z)\le M$ para todo
+$z\in\overline{B}(x,\delta)=\{z\in V:\ \|z-x\|\le\delta\}$.
+\end{lema}
 
-    \item \textbf{Parte positiva.} Sea \( f(x) = \max(0,x) \). Se tiene:
-    \[
-    \partial f(0) = [0,1].
-    \]
-    Dado que \( 0 \in \partial f(0) \), el punto \( x^* = 0 \) es un mínimo global (de hecho, \( f(x) \geq 0 \) para todo \( x \)).
+\begin{proof}[Demostraci\'on del Lema~\ref{lema:acotacion}]
+Como $x$ es interior a $\operatorname{dom}(\mathcal{J})$, podemos
+escoger $n+1$ puntos $y_{1},\dots,y_{n+1}\in
+\operatorname{dom}(\mathcal{J})$ tales que $x$ pertenece al interior del
+simplejo $S=\operatorname{conv}\{y_{1},\dots,y_{n+1}\}$ (por ejemplo, un
+simplejo de dimensi\'on $n=\dim V$ contenido en una bola cerrada
+incluida en $\operatorname{dom}(\mathcal{J})$ y centrada en $x$).
+Escribamos $x=\sum_{i}\lambda_{i}y_{i}$ con $\lambda_{i}>0$ y
+$\sum_{i}\lambda_{i}=1$ (coordenadas baric\'entricas). La aplicaci\'on
+que asigna a cada $z\in V$ sus coordenadas baric\'entricas $\mu_{i}(z)$
+respecto de $\{y_{i}\}$ es af\'in (en particular continua), y
+$\mu_{i}(x)=\lambda_{i}>0$. Por continuidad existe $\delta>0$ tal que
+$\mu_{i}(z)\ge 0$ para todo $z\in\overline{B}(x,\delta)$ y todo $i$; es
+decir, cada $z\in\overline{B}(x,\delta)$ se escribe
+$z=\sum_{i}\mu_{i}(z)\,y_{i}$ con $\mu_{i}(z)\ge0$,
+$\sum_{i}\mu_{i}(z)=1$. Por convexidad de $\mathcal{J}$ (desigualdad de
+Jensen finita) y no negatividad de los pesos,
+\[
+\mathcal{J}(z)\ \le\
+\sum_{i=1}^{n+1}\mu_{i}(z)\,\mathcal{J}(y_{i})
+\ \le\ \max_{1\le i\le n+1} \mathcal{J}(y_{i})=:M ,
+\]
+donde $M<+\infty$ pues todos los $y_{i}$ pertenecen a
+$\operatorname{dom}(\mathcal{J})$.
+\end{proof}
 
-    \item \textbf{Función indicatriz.} Sea \( C \subset \mathbb{R}^n \) convexo cerrado y \( f = \iota_C \). Entonces:
-    \[
-    \partial f(x) = N_C(x).
-    \]
-    La condición de optimalidad se escribe:
-    \[
-    0 \in N_C(x^*),
-    \]
-    lo cual equivale a decir que
-    \[
-    0^T (y - x^*) \leq 0 \quad \forall y \in C,
-    \]
-    condición que es siempre verdadera. Esto refleja el hecho de que todo punto de \( C \) es minimizador de \( \iota_C \).
-\end{itemize}
+\begin{lema}[Derivada direccional]
+\label{lema:derivada}
+Sea $x\in\operatorname{dom}(\mathcal{J})$ y $d\in V$. Para $t>0$ con
+$x+td\in\operatorname{dom}(\mathcal{J})$ definamos
+\[
+q_{d}(t):=\dfrac{\mathcal{J}(x+td)-\mathcal{J}(x)}{t}.\] Entonces:
+\begin{enumerate}
+  \item[(i)] $t\mapsto q_{d}(t)$ es no decreciente; en consecuencia la
+        derivada direccional
+        \[
+        \mathcal{J}'(x;d)
+        :=\lim_{t\downarrow 0}
+        \frac{\mathcal{J}(x+td)-\mathcal{J}(x)}{t}
+        =\inf_{t>0}\frac{\mathcal{J}(x+td)-\mathcal{J}(x)}{t}
+        \]
+        existe. % (posiblemente $-\infty$ si $d$ apunta fuera del dominio).
+  \item[(ii)] Si $x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$,
+la funci\'on \[d\mapsto \mathcal{J}'(x;d)\] es finita en todo $V$ y
+        sublineal:
+        \[\mathcal{J}'(x;\alpha d)=\alpha\mathcal{J}'(x;d)\] para
+        $\alpha\ge0$ y
+        \[\mathcal{J}'(x;d_{1}+d_{2})\le\mathcal{J}'(x;d_{1})
+        +\mathcal{J}'(x;d_{2}).\]
+\end{enumerate}
+\end{lema}
 
-\paragraph{Comentario.}
-Este criterio es fundamental en optimización convexa y sirve como base para numerosos algoritmos (métodos de subgradiente, métodos proximales, etc.). Su simplicidad contrasta con su gran generalidad, ya que sigue siendo válido incluso en ausencia de diferenciabilidad.
+\begin{proof}[Demostraci\'on del Lema~\ref{lema:derivada}]
 
-\section{Newton semi-suave}
+\medskip
 
-Aquí describimos el algoritmo de Newton semi-suave.
+\noindent \emph{(i)} Sean $0<t<s$ con los puntos correspondientes en el dominio.
+Como \[
+\displaystyle
+x+td=\left(1-\tfrac{t}{s}\right)x+\tfrac{t}{s}(x+sd)\] y
+$\mathcal{J}$ es convexa,
+\[
+\mathcal{J}(x+td)\ \le\
+\Bigl(1-\frac{t}{s}\Bigr)\mathcal{J}(x)
++\frac{t}{s}\,\mathcal{J}(x+sd).
+\]
+Restando $\mathcal{J}(x)$ y dividiendo entre $t$ se obtiene:
+\[
+\frac{1}{t} \left (
+\mathcal{J}(x+td) - 
+\mathcal{J}(x) \right )
+\ \le\
+\frac{1}{t}
+\left (
+\Bigl(1-\frac{t}{s}\Bigr)\mathcal{J}(x)
++\frac{t}{s}\,\mathcal{J}(x+sd)
+- \mathcal{J}(x) \right )
+\]
+y simplificando
+\[
+\frac{1}{t} \left (
+\mathcal{J}(x+td) - 
+\mathcal{J}(x) \right )
+\ \le\
+\frac{1}{s}
+\left (
+\mathcal{J}(x+sd)
+- \mathcal{J}(x) \right )
+\] osea, en otros terminos: 
+$q_{d}(t)\le q_{d}(s)$. As\'i, $q_{d}$ es no de creciente y por tanto
+$\lim_{t\downarrow0}q_{d}(t)=\inf_{t>0}q_{d}(t)$ existe en
+$[-\infty,+\infty)$.
 
-\section{Caso no convexo}
+\medskip
 
-Subdiferencial de Clarke.
-% Projection sur la boule unite
+\noindent
+\emph{(ii)} \emph{Homogeneidad positiva.} Para $\alpha>0$,
+$q_{\alpha d}(t)=q_{d}(\alpha t)$; tomando $t\downarrow0$,
+$\mathcal{J}'(x;\alpha d)=\alpha\mathcal{J}'(x;d)$. Adem\'as
+$\mathcal{J}'(x;0)=0$.
 
-\section{Restricciones}
+\medskip
 
-Para problemas con restricciones, podemos aplicar además las siguiente técnicas.
+\noindent
+\emph{(iii)}
+\emph{Subaditividad.} Para $t>0$ lo bastante peque\~no, $x+2td_{1}$,
+$x+2td_{2}$ y $x+t(d_{1}+d_{2})$ pertenecen a
+$\operatorname{dom}(\mathcal{J})$ (esto usa $x$ interior). Como
+\[
+x+t(d_{1}+d_{2})=\tfrac12(x+2td_{1})+\tfrac12(x+2td_{2}),
+\]
+la convexidad de $\mathcal{J}$ da
+\[
+\mathcal{J}\bigl(x+t(d_{1}+d_{2})\bigr)
+\le\tfrac12 \mathcal{J}(x+2td_{1})
++\tfrac12 \mathcal{J}(x+2td_{2}).
+\] 
+Restando $\mathcal{J}(x)$:
+\[
+\mathcal{J}\bigl(x+t(d_{1}+d_{2})\bigr) - \mathcal{J}(x)
+\le\tfrac12 \mathcal{J}(x+2td_{1})
++\tfrac12 \mathcal{J}(x+2td_{2})
+- \mathcal{J}(x)
+.
+\] 
+Volvemos a escribir
+\[
+\tfrac12 \mathcal{J}(x+2td_{1})
++\tfrac12 \mathcal{J}(x+2td_{2})
+- \mathcal{J}(x)
+\]
+como
+\[
+\tfrac12 \mathcal{J}(x+2td_{1})
+- \tfrac12 \mathcal{J}(x)
++\tfrac12 \mathcal{J}(x+2td_{2})
+- \tfrac12 \mathcal{J}(x).
+%
+\]
+Dividiendo entre $t$
+%
+y usando que
+\[\tfrac12\bigl[\mathcal{J}(x+2td_{i})-\mathcal{J}(x)\bigr]/t=
+\bigl[\mathcal{J}(x+2td_{i})-\mathcal{J}(x)\bigr]/(2t)\] obtenemos
+\[
+q_{d_{1}+d_{2}}(t)\le q_{d_{1}}(2t)+q_{d_{2}}(2t).
+\]
+Haciendo $t\downarrow0$ y usando $(i)$:
+\[
+\mathcal{J}'(x;d_{1}+d_{2})\le
+\mathcal{J}'(x;d_{1})+\mathcal{J}'(x;d_{2}).\]
 
-\subsection{Penalización}
+\emph{Finitud.} Sea $d\neq0$ y sean $\delta,M$ como en el
+Lema~\ref{lema:acotacion}. Con $\varepsilon:=\delta/\|d\|$ el punto
+$y_{\varepsilon}:=x+\varepsilon d$ pertenece a
+$\overline{B}(x,\delta)$, y para $0<t\le\varepsilon$ se tiene
+$x+td=\bigl(1-\tfrac{t}{\varepsilon}\bigr)x
++\tfrac{t}{\varepsilon}(x+\varepsilon d)$, luego
+\[
+q_{d}(t)\le q_{d}(\varepsilon)
+=\frac{\mathcal{J}(x+\varepsilon d)-\mathcal{J}(x)}{\varepsilon}
+\le\frac{M-\mathcal{J}(x)}{\varepsilon}
+%=\frac{(M-\mathcal{J}(x))\,\|d\|}{\delta}=:L\|d\|.
+\]
+y
+\[
+%q_{d}(t)\le q_{d}(\varepsilon)
+=\frac{\mathcal{J}(x+\varepsilon d)-\mathcal{J}(x)}{\varepsilon}
+%\le
+\frac{M-\mathcal{J}(x)}{\varepsilon}
+=\frac{(M-\mathcal{J}(x))\,\|d\|}{\delta}=:L\|d\|.
+\]
+As\'i $\mathcal{J}'(x;d)\le L\|d\|<+\infty$. Para la cota inferior,
+$\mathcal{J}'(x;d)\ge -\mathcal{J}'(x;-d)\ge -L\|d\|$, donde la primera
+desigualdad sigue de la subadditividad:
+$\mathcal{J}'(x;d)+\mathcal{J}'(x;-d)\ge\mathcal{J}'(x;0)=0$. Luego
+$|\mathcal{J}'(x;d)|\le L\|d\|$ para todo $d$.
+\end{proof}
 
-Ver \cite{glowinski80}.
-% Regularisation de Moreau-Yosida pour les operateurs maximaux monotones
+\emph{Continuaci\'on de la demostraci\'on de (c).}
+Por el Lema~\ref{lema:derivada}(ii), $p(d):=\mathcal{J}'(x;d)$ es una
+funci\'on sublineal y finita en $V$. El teorema de
+Hahn--Banach\footnote{En forma anal\'itica y en dimensi\'on finita: si
+$p\colon V\to\mathbb{R}$ es sublineal, existe una forma lineal $\ell$
+con $\ell\le p$ en todo $V$. Se prueba por inducci\'on sobre la
+dimensi\'on extendiendo el funcional desde el subespacio $\{0\}$: dado
+$\ell\le p$ en un subespacio propio $W\subsetneq V$ y $v\notin W$, se
+elige
+\[
+\alpha\in\Bigl[\sup_{w\in W}\bigl(\ell(w)-p(w-v)\bigr),\ 
+\inf_{w\in W}\bigl(p(w+v)-\ell(w)\bigr)\Bigr],
+\]
+intervalo no vac\'io porque $\ell(w_{1})+\ell(w_{2})
+=\ell(w_{1}+w_{2})\le p(w_{1}+w_{2})\le p(w_{1}+v)+p(w_{2}-v)$ para
+todos $w_{1},w_{2}\in W$; definiendo
+$\ell'(w+tv):=\ell(w)+t\alpha$ se verifica $\ell'\le p$ tanto para
+$t>0$ como para $t<0$. Como $V$ es de dimensi\'on finita y est\'a
+dotado de producto interior, toda forma lineal $\ell$ sobre $V$ se
+escribe $\ell(d)=\langle g,d\rangle$ para un \'unico $g\in V$
+(representaci\'on de Riesz).}
+proporciona un vector $g\in V$ tal que
+\begin{equation}
+\langle g,d\rangle\ \le\ \mathcal{J}'(x;d)
+\qquad\text{para todo } d\in V.
+\label{eq:hb}
+\end{equation}
+Afirmamos que $g\in\partial\mathcal{J}(x)$. Sea $y\in V$ arbitrario y
+$t\in(0,1]$. Por convexidad de $\mathcal{J}$,
+\[
+\mathcal{J}\bigl(x+t(y-x)\bigr)
+\le(1-t)\mathcal{J}(x)+t\,\mathcal{J}(y),
+\]
+de donde, restado $\mathcal{J}(x)$ y dividido entre $t$,
+\[
+\frac{\mathcal{J}\bigl(x+t(y-x)\bigr)-\mathcal{J}(x)}{t}
+\ \le\ \mathcal{J}(y)-\mathcal{J}(x).
+\]
+Haciendo $t\downarrow0$ y usando el Lema~\ref{lema:derivada}(i):
+\[
+\mathcal{J}'(x;\,y-x)\ \le\ \mathcal{J}(y)-\mathcal{J}(x).
+\]
+Combinando con \eqref{eq:hb} aplicada a $d=y-x$:
+\[
+\mathcal{J}(y)\ \ge\
+\mathcal{J}(x)+\mathcal{J}'(x;y-x)
+\ \ge\ \mathcal{J}(x)+\langle g,\,y-x\rangle .
+\]
+Como $y$ era arbitrario, $g\in\partial\mathcal{J}(x)\neq\varnothing$.
 
-\subsection{Lagrangiano}
+\smallskip
+\emph{(d) Acotaci\'on.}
+Sean $\delta>0$ y $M$ como en el Lema~\ref{lema:acotacion} y sea
+$g\in\partial\mathcal{J}(x)$. Para todo $y\in\overline{B}(x,\delta)$ la
+desigualdad subgradiente y la cota del lema dan
+\[
+\langle g,\,y-x\rangle
+\ \le\ \mathcal{J}(y)-\mathcal{J}(x)
+\ \le\ M-\mathcal{J}(x)=:K.
+\]
+Si $g\neq0$, tomando en particular
+$y=x+\delta\,\dfrac{g}{\|g\|}\in\overline{B}(x,\delta)$:
+\[
+\delta\,\|g\|\ \le\ K
+\qquad\Longrightarrow\qquad
+\|g\|\ \le\ \frac{M-\mathcal{J}(x)}{\delta}.
+\]
+As\'i $\partial\mathcal{J}(x)$ est\'a contenido en la bola cerrada de
+radio $(M-\mathcal{J}(x))/\delta$ centrada en el origen. Por (a) es
+cerrado, y en dimensi\'on finita cerrado + acotado $=$ compacto
+(Heine--Borel). N\'otese que la prueba muestra que \emph{cualquier} cota
+local superior de $\mathcal{J}$ sobre una bola de radio $\delta$ acota
+los subgradientes: los subgradientes nunca pueden ``crecer m\'as
+r\'apido'' que el propio funcional.
+\end{proof}
 
-Ver \cite{glowinski80} y \cite{allaire2007}.
-\subsection{Lagrangiano aumentado}
+\begin{observacion}
+\label{obs:soporte}
+La demostraci\'on de (c) contiene un hecho m\'as fuerte que se usa
+constantemente: tomando $y=x+td$ en la desigualdad subgradiente y
+haciendo $t\downarrow0$ se obtiene
+\begin{equation}
+\langle g,d\rangle\ \le\ \mathcal{J}'(x;d)
+\qquad\text{para todo }
+g\in\partial\mathcal{J}(x),\ d\in V,
+\label{eq:menor}
+\end{equation}
+y de hecho, para
+$x\in\operatorname{relint}\operatorname{dom}(\mathcal{J})$,
+$\mathcal{J}'(x;\cdot)$ es exactamente la funci\'on soporte de
+$\partial\mathcal{J}(x)$:
+\[
+\mathcal{J}'(x;d)
+=\max_{g\in\partial\mathcal{J}(x)}\langle g,d\rangle
+=\sigma_{\partial\mathcal{J}(x)}(d)
+\qquad\forall d\in V
+\]
+(Rockafellar, \emph{Convex Analysis}, Thm.~23.2). En particular
+$\partial\mathcal{J}(x)=\{g:\ \langle g,d\rangle
+\le \mathcal{J}'(x;d)\ \forall d\}$ recupera el conjunto a partir de la
+derivada direccional. Adem\'as, $\partial\mathcal{J}(x)$ puede ser
+vac\'io en la frontera \emph{relativa} del dominio: por ejemplo, en
+$V=\mathbb{R}$, el funcional $\mathcal{J}(x)=-\sqrt{x}$ en $[0,1]$ y
+$\mathcal{J}=+\infty$ fuera tiene $\partial\mathcal{J}(0)=\varnothing$,
+pues $-\sqrt{y}\ge g\,y$ para todo $y\in(0,1]$ obligar\'ia
+$g\le-1/\sqrt{y}$ para todo $y>0$, imposible.
+\end{observacion}
 
-Ver \cite{glowinski80} y trabajos recientes de Erik Burman.
+%---------------------------------------------------------------------
+\begin{proposicion}[Caso diferenciable]
+\label{prop:diferenciable}
+Sea $\mathcal{J}\colon V\to(-\infty,+\infty]$ propio y convexo, y sea
+$x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$. Si
+$\mathcal{J}$ es diferenciable (Fr\'echet) en $x$, entonces
+\[
+\partial\mathcal{J}(x)
+=\bigl\{\nabla\mathcal{J}(x)\bigr\}.
+\]
+\end{proposicion}
+
+\begin{proof}
+Probamos las dos inclusiones.
+
+\emph{Paso 1: $\nabla\mathcal{J}(x)\in\partial\mathcal{J}(x)$.}
+Fijemos $y\in V$ arbitrario y definamos
+$\varphi(t):=\mathcal{J}\bigl(x+t(y-x)\bigr)$ para $t\in[0,1]$. La
+funci\'on $\varphi$ es convexa en $[0,1]$ (composici\'on de
+$\mathcal{J}$ con la aplicaci\'on af\'in $t\mapsto x+t(y-x)$) y
+$\varphi(0)=\mathcal{J}(x)$, $\varphi(1)=\mathcal{J}(y)$. Por
+convexidad, para $t\in(0,1)$:
+\[
+\varphi(t)\ \le\ (1-t)\,\varphi(0)+t\,\varphi(1).
+\]
+Restando $\varphi(0)$ y dividiendo entre $t$:
+\[
+\frac{\varphi(t)-\varphi(0)}{t}\ \le\ \varphi(1)-\varphi(0)
+=\mathcal{J}(y)-\mathcal{J}(x).
+\]
+Como $\mathcal{J}$ es diferenciable en $x$, el cociente de la izquierda
+converge cuando $t\downarrow0$ hacia la derivada direccional de
+$\mathcal{J}$ en $x$ en la direcci\'on $y-x$, que por diferenciabilidad
+es $\langle\nabla\mathcal{J}(x),\,y-x\rangle$:
+\[
+\biggl[\frac{\mathcal{J}(x+t(y-x))-\mathcal{J}(x)}{t}\biggr]
+\ \xrightarrow[t\downarrow0]{}\ 
+\langle\nabla\mathcal{J}(x),\,y-x\rangle .
+\]
+En consecuencia
+\[
+\langle\nabla\mathcal{J}(x),\,y-x\rangle
+\ \le\ \mathcal{J}(y)-\mathcal{J}(x)
+\qquad\text{para todo } y\in V,
+\]
+que es exactamente la \emph{desigualdad del gradiente}:
+\[
+\mathcal{J}(y)\ \ge\
+\mathcal{J}(x)+\langle\nabla\mathcal{J}(x),\,y-x\rangle .
+\]
+Por tanto $\nabla\mathcal{J}(x)\in\partial\mathcal{J}(x)$.
+Obs\'ervese que este paso solo usa la diferenciabilidad de
+$\mathcal{J}$ \emph{en el punto} $x$; no se requiere diferenciabilidad
+global ni continuidad del gradiente.
+
+\emph{Paso 2: todo subgradiente es $\nabla\mathcal{J}(x)$.}
+Sea $g\in\partial\mathcal{J}(x)$ y $d\in V$ arbitrario. Como
+$x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$, para $t>0$
+suficientemente peque\~no
+$x+td\in\operatorname{dom}(\mathcal{J})$, y la desigualdad subgradiente
+con $y=x+td$ da
+\[
+\mathcal{J}(x+td)\ \ge\
+\mathcal{J}(x)+t\langle g,d\rangle
+\qquad\Longrightarrow\qquad
+\langle g,d\rangle\ \le\
+\frac{\mathcal{J}(x+td)-\mathcal{J}(x)}{t}.
+\]
+Haciendo $t\downarrow0$, el miembro derecho converge (por
+diferenciabilidad) a $\langle\nabla\mathcal{J}(x),d\rangle$, luego
+\[
+\langle g,d\rangle\ \le\
+\langle\nabla\mathcal{J}(x),d\rangle .
+\]
+Aplicando lo mismo a $-d$ se obtiene la desigualdad opuesta, luego
+\[
+\langle g,d\rangle=\langle\nabla\mathcal{J}(x),d\rangle
+\qquad\text{para todo } d\in V.
+\]
+Tomando $d=g-\nabla\mathcal{J}(x)$ resulta
+$0=\langle g-\nabla\mathcal{J}(x),\,g-\nabla\mathcal{J}(x)\rangle
+=\|g-\nabla\mathcal{J}(x)\|^{2}$, es decir
+$g=\nabla\mathcal{J}(x)$.
+\end{proof}
+
+\begin{observacion}
+\label{obs:reciproco}
+La rec\'iproca es cierta en dimensi\'on finita: si $\mathcal{J}$ es
+convexa, $x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$ y
+$\partial\mathcal{J}(x)=\{g\}$ es un singlete, entonces
+$\mathcal{J}$ es diferenciable en $x$ con $\nabla\mathcal{J}(x)=g$. La
+idea es que, por la Observaci\'on~\ref{obs:soporte},
+$\mathcal{J}'(x;d)=\langle g,d\rangle$ es lineal en $d$, y un funcional
+convexo cuyas derivadas direccionales son lineales en un punto interior
+del dominio es diferenciable all\'i (Rockafellar, \emph{Convex
+Analysis}, Thm.~25.1). Adem\'as, si $\mathcal{J}$ es convexa y
+diferenciable en todo un abierto convexo de $V$, entonces
+$\nabla\mathcal{J}$ es autom\'aticamente continuo en ese abierto
+(Thm.~25.5): la hip\'otesis ``$\mathcal{J}\in\mathcal{C}^{1}$'',
+frecuente en la literatura de optimizaci\'on, es redundante salvo por
+comodidad.
+\end{observacion}
+
+%---------------------------------------------------------------------
+\begin{proposicion}[Condici\'on de optimalidad de primer orden
+(regla de Fermat)]
+\label{prop:fermat}
+Sea $\mathcal{J}\colon V\to(-\infty,+\infty]$ propio (no se requiere
+convexidad) y $x\in\operatorname{dom}(\mathcal{J})$. Entonces
+\[
+0\in\partial\mathcal{J}(x)
+\qquad\Longleftrightarrow\qquad
+\mathcal{J}(y)\ \ge\ \mathcal{J}(x)
+\ \ \text{para todo } y\in V,
+\]
+es decir, $x$ es un minimizador \emph{global} de $\mathcal{J}$.
+Si $\mathcal{J}$ es adem\'as convexa y diferenciable en
+$x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$, esto se reduce
+a $\nabla\mathcal{J}(x)=0$.
+\end{proposicion}
+
+\begin{proof}
+Por definici\'on, $0\in\partial\mathcal{J}(x)$ significa
+\[
+\mathcal{J}(y)\ \ge\
+\mathcal{J}(x)+\langle 0,\,y-x\rangle=\mathcal{J}(x)
+\qquad\text{para todo } y\in V,
+\]
+que es, literalmente, la definici\'on de que $x$ es un minimizador
+global de $\mathcal{J}$. La equivalencia es por tanto inmediata: no hay
+nada extra que demostrar, y es precisamente esta ``trivialidad'' lo que
+hace tan \'util a la desigualdad subgradiente. La \'ultima afirmaci\'on
+combina la Proposici\'on~\ref{prop:diferenciable} con la equivalencia
+reci\'en probada:
+$0\in\partial\mathcal{J}(x)\iff 0=\nabla\mathcal{J}(x)$.
+\end{proof}
+
+\begin{observacion}
+\label{obs:fermat}
+\emph{(i) Local $=$ global.} Para $\mathcal{J}$ convexa, todo
+minimizador \emph{local} es global: si
+$\mathcal{J}(x)\le\mathcal{J}(z)$ para $z\in B(x,r)$ y hubiera
+$\hat z$ con $\mathcal{J}(\hat z)<\mathcal{J}(x)$, el punto
+$z_{t}=(1-t)x+t\hat z$ con $t<r/(2\|\hat z-x\|)$ cumple
+$z_{t}\in B(x,r)$ y
+\[
+\mathcal{J}(z_{t})\le(1-t)\mathcal{J}(x)
++t\,\mathcal{J}(\hat z)<\mathcal{J}(x),
+\]
+contradicci\'on. Por eso en la Proposici\'on~\ref{prop:fermat} no hace
+falta distinguir entre \'optimos locales y globales.
+
+\smallskip
+\emph{(ii) Versi\'on con restricciones.} Para el problema
+$\min_{y\in C}\mathcal{J}(y)$ con $C\subseteq V$ convexo cerrado no
+vac\'io, introduciendo el cono normal
+$N_{C}(x)=\{v\in V:\ \langle v,\,y-x\rangle\le0\ \forall y\in C\}$ y
+aplicando Fermat a $\mathcal{J}+\iota_{C}$ (con la regla de la suma,
+v\'alida bajo condiciones de calificaci\'on) se obtiene
+\[
+x\ \text{resuelve}\ \min_{C}\mathcal{J}
+\quad\Longleftrightarrow\quad
+0\in\partial\mathcal{J}(x)+N_{C}(x),
+\]
+que generaliza las condiciones KKT. Para $C=V$,
+$N_{C}\equiv\{0\}$ y se recupera la
+Proposici\'on~\ref{prop:fermat}.
+\end{observacion}
+
+%---------------------------------------------------------------------
+\begin{proposicion}[Monoton\'ia en el sentido de operadores]
+\label{prop:monotonia}
+Sea $\mathcal{J}\colon V\to(-\infty,+\infty]$ convexa. Para cualesquiera
+$x_{1},x_{2}\in\operatorname{dom}(\mathcal{J})$ y subgradientes
+$g_{i}\in\partial\mathcal{J}(x_{i})$, $i=1,2$, se tiene
+\[
+\langle g_{1}-g_{2},\ x_{1}-x_{2}\rangle\ \ge\ 0.
+\]
+Es decir, la aplicaci\'on multivaluada
+$x\mapsto\partial\mathcal{J}(x)$ es un operador \emph{mon\'otono} en
+$V$.
+\end{proposicion}
+
+\begin{proof}
+Escribamos la desigualdad subgradiente de $g_{1}$ en $x_{1}$ evaluada en
+$y=x_{2}$, y la de $g_{2}$ en $x_{2}$ evaluada en $y=x_{1}$:
+\begin{align}
+\mathcal{J}(x_{2})\ &\ge\
+\mathcal{J}(x_{1})+\langle g_{1},\,x_{2}-x_{1}\rangle,
+\label{eq:sub1}\\[2pt]
+\mathcal{J}(x_{1})\ &\ge\
+\mathcal{J}(x_{2})+\langle g_{2},\,x_{1}-x_{2}\rangle.
+\label{eq:sub2}
+\end{align}
+De \eqref{eq:sub1}:
+$\ \langle g_{1},\,x_{1}-x_{2}\rangle
+\ \ge\ \mathcal{J}(x_{1})-\mathcal{J}(x_{2})$.
+De \eqref{eq:sub2}:
+$\ \mathcal{J}(x_{1})-\mathcal{J}(x_{2})
+\ \ge\ \langle g_{2},\,x_{1}-x_{2}\rangle$.
+Encadenando ambas desigualdades:
+\[
+\langle g_{1},\,x_{1}-x_{2}\rangle
+\ \ge\ \mathcal{J}(x_{1})-\mathcal{J}(x_{2})
+\ \ge\ \langle g_{2},\,x_{1}-x_{2}\rangle,
+\]
+de donde
+\[
+\langle g_{1}-g_{2},\ x_{1}-x_{2}\rangle\ \ge\ 0. \qedhere
+\]
+\end{proof}
+
+\begin{observacion}
+\label{obs:monotonia}
+\emph{(i) Interpretaci\'on.} La monoton\'ia dice que el subgradiente
+``no puede disminuir en la direcci\'on del desplazamiento'': si uno se
+mueve de $x_{2}$ a $x_{1}$, la componente del subgradiente a lo largo
+del desplazamiento no baja. En dimensi\'on uno ($V=\mathbb{R}$), con
+$x_{2}<x_{1}$, dice que todo $g_{1}\in\partial\mathcal{J}(x_{1})$ es
+$\ge$ que todo $g_{2}\in\partial\mathcal{J}(x_{2})$: el subdiferencial
+de un funcional convexo unidimensional es una multifunci\'on \emph{no
+decreciente} (y de hecho, para $\mathcal{J}$ continua por tramos,
+$\partial\mathcal{J}$ invierte las derivadas laterales
+$\mathcal{J}'_{-}\le\mathcal{J}'_{+}$).
+
+\smallskip
+\emph{(ii) Monoton\'ia maximal.} El operador
+$\partial\mathcal{J}$ no es solo mon\'otono sino \emph{maximalmente}
+mon\'otono: no admite ninguna extensi\'on mon\'otona propia;
+equivalentemente, si
+$\langle v-g,\,u-x\rangle\ge0$ para todo
+$x\in\operatorname{dom}(\mathcal{J})$ y todo
+$g\in\partial\mathcal{J}(x)$, entonces
+$v\in\partial\mathcal{J}(u)$. Esto se debe a Rockafellar (1970) y es la
+puerta de entrada a la teor\'ia de operadores mon\'otonos maximales
+(algoritmos de punto pr\'oximo, teorema de suryectividad de Minty:
+$\operatorname{ran}(\partial\mathcal{J}+\operatorname{Id})=V$ cuando
+$\mathcal{J}$ es convexa, cerrada y propia).
+
+\smallskip
+\emph{(iii) Caso diferenciable.} Si $\mathcal{J}$ es diferenciable, la
+Proposici\'on~\ref{prop:monotonia} dice que el gradiente de un funcional
+convexo diferenciable es mon\'otono:
+$\langle\nabla\mathcal{J}(x_{1})-\nabla\mathcal{J}(x_{2}),
+\,x_{1}-x_{2}\rangle\ge0$. Si adem\'as $\mathcal{J}$ es $L$-suave (es
+decir, $\nabla\mathcal{J}$ es $L$-lipschitziano), el gradiente es
+\emph{cocoercivo}:
+\[
+\langle\nabla\mathcal{J}(x_{1})-\nabla\mathcal{J}(x_{2}),
+\,x_{1}-x_{2}\rangle
+\ \ge\ \frac{1}{L}\,
+\bigl\|\nabla\mathcal{J}(x_{1})-\nabla\mathcal{J}(x_{2})\bigr\|^{2},
+\]
+desigualdad de Baillon--Hadamard (v\'ease Bauschke--Combettes,
+Cor.~18.16), clave en el an\'alisis de convergencia del m\'etodo del
+gradiente.
+\end{observacion}
+
+% \begin{proposition}
+% [Fuerte monoton\'ia bajo fuerte convexidad]
+% \label{cor:fuerte}
+% Sea $\mathcal{J}$ $\mu$-fuertemente convexa, es decir,
+% $h:=\mathcal{J}-\dfrac{\mu}{2}\|\cdot\|^{2}$ es convexa ($\mu>0$).
+% Entonces para todos
+% $x_{1},x_{2}\in\operatorname{dom}(\mathcal{J})$ y
+% $g_{i}\in\partial\mathcal{J}(x_{i})$:
+% \[
+% \langle g_{1}-g_{2},\ x_{1}-x_{2}\rangle
+% \ \ge\ \mu\,\|x_{1}-x_{2}\|^{2}.
+% \]
+% \end{proposition}
+% %\end{corollary}
+
+% \begin{proof}
+% Afirmamos que si $g\in\partial\mathcal{J}(x)$ entonces
+% $g-\mu x\in\partial h(x)$, donde
+% $h=\mathcal{J}-\tfrac{\mu}{2}\|\cdot\|^{2}$. En efecto, para todo $y$:
+% \begin{align*}
+% h(y)-h(x)-\langle g-\mu x,\,y-x\rangle
+% &=\underbrace{\bigl[\mathcal{J}(y)-\mathcal{J}(x)
+% -\langle g,\,y-x\rangle\bigr]}_{\ge 0\ \text{pues } 
+% g\in\partial\mathcal{J}(x)}
+% +\frac{\mu}{2}\bigl(\|x\|^{2}-\|y\|^{2}\bigr)
+% +\mu\,\langle x,\,y-x\rangle\\[2pt]
+% &\ge\frac{\mu}{2}\Bigl(\|x\|^{2}-\|y\|^{2}
+% +2\langle x,y\rangle-2\|x\|^{2}\Bigr)
+% =\frac{\mu}{2}\Bigl(2\langle x,y\rangle
+% -\|x\|^{2}-\|y\|^{2}\Bigr)\\[2pt]
+% &=-\frac{\mu}{2}\,\|y-x\|^{2}\ \le\ 0 .
+% \end{align*}
+% Luego $h(y)\ge h(x)+\langle g-\mu x,\,y-x\rangle$ para todo $y$, es
+% decir $g-\mu x\in\partial h(x)$. Aplicando ahora la
+% Proposici\'on~\ref{prop:monotonia} a la funci\'on convexa $h$ con los
+% subgradientes $g_{i}-\mu x_{i}\in\partial h(x_{i})$:
+% \[
+% \bigl\langle (g_{1}-\mu x_{1})-(g_{2}-\mu x_{2}),\
+% x_{1}-x_{2}\bigr\rangle\ \ge\ 0,
+% \]
+% es decir,
+% \[
+% \langle g_{1}-g_{2},\,x_{1}-x_{2}\rangle
+% \ \ge\ \mu\,\langle x_{1}-x_{2},\,x_{1}-x_{2}\rangle
+% =\mu\,\|x_{1}-x_{2}\|^{2}. \qedhere
+% \]
+% \end{proof}
+
+%---------------------------------------------------------------------
+% \begin{proposicion}[Cerradura del grafo del subdiferencial]
+% \label{prop:grafo}
+% Sea $\mathcal{J}\colon V\to(-\infty,+\infty]$ convexa, propia y cerrada
+% (semicontinua inferior). Sean
+% $\{x_{k}\}\subset\operatorname{dom}(\mathcal{J})$,
+% $g_{k}\in\partial\mathcal{J}(x_{k})$, con
+% \[
+% x_{k}\to x,\qquad g_{k}\to g,\qquad
+% \mathcal{J}(x_{k})\to\mathcal{J}(x)<+\infty .
+% \]
+% (En particular estas hip\'otesis se cumplen autom\'aticamente si
+% $x\in\operatorname{int}\operatorname{dom}(\mathcal{J})$, pues all\'i
+% $\mathcal{J}$ es localmente lipschitziana y continua.) Entonces
+% $g\in\partial\mathcal{J}(x)$.
+% \end{proposicion}
+
+% \begin{proof}
+% Para cada $k$ y cada $y\in V$, la desigualdad subgradiente de $g_{k}$ en
+% $x_{k}$ da
+% \[
+% \mathcal{J}(y)\ \ge\
+% \mathcal{J}(x_{k})+\langle g_{k},\,y-x_{k}\rangle .
+% \]
+% El miembro derecho converge a
+% $\mathcal{J}(x)+\langle g,\,y-x\rangle$: en efecto,
+% $\mathcal{J}(x_{k})\to\mathcal{J}(x)$ por hip\'otesis,
+% $g_{k}\to g$, y
+% \[
+% \bigl|\langle g_{k},y-x_{k}\rangle-\langle g,y-x\rangle\bigr|
+% \le\|g_{k}-g\|\,\|y-x_{k}\|
+% +\|g\|\,\|x_{k}-x\|\ \xrightarrow[k\to\infty]{}\ 0
+% \]
+% por Cauchy--Schwarz. Pasando al l\'imite en la desigualdad:
+% \[
+% \mathcal{J}(y)\ \ge\
+% \mathcal{J}(x)+\langle g,\,y-x\rangle
+% \qquad\text{para todo } y\in V,
+% \]
+% que es la pertenencia $g\in\partial\mathcal{J}(x)$.
+% \end{proof}
+
+% \begin{observacion}
+% La Proposici\'on~\ref{prop:grafo} complementa la cerradura
+% ``puntual'' de la Proposici\'on~\ref{prop:estructura}(a): el grafo
+% $\operatorname{gra}\,\partial\mathcal{J}
+% =\{(x,g):\ g\in\partial\mathcal{J}(x)\}$ es secuencialmente cerrado en
+% el sentido anterior, y esta propiedad es la que permite pasar al
+% l\'imite subgradientes en los argumentos de convergencia de los
+% m\'etodos de subgradiente y de punto pr\'oximo.
+% \end{observacion}
+
+%---------------------------------------------------------------------
+% \paragraph{Resumen.}
+
+% \begin{center}
+% \begin{tabular}{@{}lll@{}}
+% \toprule
+% Propiedad & Enunciado & Referencia \\
+% \midrule
+% Estructura & $\partial\mathcal{J}(x)$ convexo, cerrado; compacto y no
+% vac\'io en $\operatorname{int}\operatorname{dom}(\mathcal{J})$ &
+% Prop.~\ref{prop:estructura} \\
+% Diferenciable & $\mathcal{J}$ dif. en $x
+% \Rightarrow\partial\mathcal{J}(x)=\{\nabla\mathcal{J}(x)\}$ &
+% Prop.~\ref{prop:diferenciable} \\
+% Fermat & $0\in\partial\mathcal{J}(x)\iff x$ minimizador global &
+% Prop.~\ref{prop:fermat} \\
+% Monoton\'ia & $\langle g_{1}-g_{2},x_{1}-x_{2}\rangle\ge0$ &
+% Prop.~\ref{prop:monotonia}, Cor.~\ref{cor:fuerte} \\
+% Cerradura del grafo & l\'imites de subgradientes son subgradientes &
+% Prop.~\ref{prop:grafo} \\
+% \bottomrule
+% \end{tabular}
+% \end{center}
+
+% \paragraph{Referencias sugeridas.}
+
+% \begin{itemize}
+%   \item \textsc{R.~T. Rockafellar}, \emph{Convex Analysis}, Princeton
+%         University Press, 1970. Referencia cl\'asica para todo lo
+%         anterior: acotaci\'on local de funciones convexas
+%         (\S10, Lema~10.1), derivadas direccionales y existencia del
+%         subgradiente (Thms.~23.1--23.2), diferenciabilidad
+%         (Thms.~25.1, 25.5), condiciones de optimalidad (\S27).
+%   \item \textsc{R.~T. Rockafellar}, \emph{On the maximal monotonicity of
+%         subdifferential mappings}, Pacific Journal of Mathematics
+%         \textbf{33} (1970), 209--216. Monoton\'ia maximal de
+%         $\partial\mathcal{J}$.
+%   \item \textsc{H.~H. Bauschke} y \textsc{P.~L. Combettes},
+%         \emph{Convex Analysis and Monotone Operator Theory in Hilbert
+%         Spaces}, 2.ª ed., Springer, 2017. Tratamiento moderno en
+%         espacios de Hilbert: subdiferencial (Cap.~16), reglas de
+%         c\'alculo (Cap.~16 y 18), operadores mon\'otonos maximales
+%         (Cap.~20) y cocoercividad (Cor.~18.16).
+%   \item \textsc{J.-B. Hiriart-Urruty} y \textsc{C. Lemar\'echal},
+%         \emph{Fundamentals of Convex Analysis}, Springer, 2001.
+%         Desarrollo gradual con pruebas detalladas de las desigualdades
+%         subgradiente y de monoton\'ia.
+%   \item \textsc{J.~M. Borwein} y \textsc{A.~S. Lewis}, \emph{Convex
+%         Analysis and Nonlinear Optimization}, 2.ª ed., Springer, 2006.
+%         Versi\'on funcional-anal\'itica compacta (separaci\'on,
+%         Hahn--Banach, subdiferenciales).
+%   \item \textsc{Y. Nesterov}, \emph{Introductory Lectures on Convex
+%         Optimization: A Basic Course}, Kluwer, 2004. Secci\'on~3.1:
+%         desigualdades subgradiente, condici\'on de optimalidad y
+%         monoton\'ia con miras a m\'etodos num\'ericos.
+%   \item \textsc{S. Boyd} y \textsc{L. Vandenberghe}, \emph{Convex
+%         Optimization}, Cambridge University Press, 2004. Secci\'on~9.1:
+%         introducci\'on accesible a subgradientes y condiciones de
+%         optimalidad (con ejemplos computacionales).
+%   \item \textsc{R.~T. Rockafellar} y \textsc{R. J.-B. Wets},
+%         \emph{Variational Analysis}, Springer, 1998. Para el punto de
+%         vista variacional y las extensiones no convexas
+%         (subdiferenciales regulares).
+% \end{itemize}
+
 
 \chapter{Desigualdades variacionales}
 

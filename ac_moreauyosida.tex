@@ -1,0 +1,1139 @@
+% ============================================================
+%  El problema del obstáculo:
+%  indicatrices, conos normales, regularización de Moreau–Yosida
+%  y método de Newton semisuave
+% ------------------------------------------------------------
+%  Compilar con pdflatex (dos pasadas) o en Overleaf.
+%  Paquetes requeridos: babel-spanish, amsmath, amssymb, amsthm,
+%  mathtools, booktabs, geometry, algorithm, algpseudocode, hyperref.
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black]{hyperref}
+\usepackage{hyperref}
+
+% ----------------- Entornos -----------------
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{proposicion}[teorema]{Proposición}
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{corolario}[teorema]{Corolario}
+\theoremstyle{definition}
+\newtheorem{definicion}[teorema]{Definición}
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+\theoremstyle{remark}
+\newtheorem{observacion}[teorema]{Observación}
+
+% ----------------- Notación -----------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Norm}[1]{\left\lVert #1 \right\rVert}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\inte}{int}
+\newcommand{\dk}{\delta_K}
+\newcommand{\dke}{\delta_K^\varepsilon}
+\newcommand{\pk}{P_K}
+
+\title{\textbf{El problema del obstáculo:}\\[2mm]
+\large indicatrices, conos normales, regularización de Moreau--Yosida\\
+y método de Newton semisuave}
+\author{Notas de curso}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Estas notas desarrollan, con todas las demostraciones, el análisis del problema
+del obstáculo: la subdiferencial de la indicatriz de un convexo como cono normal,
+la regularización de Moreau--Yosida de esa indicatriz (envolvente, proyección,
+penalización explícita y aproximación de Yosida), la convergencia de los problemas
+penalizados hacia la solución del problema con restricciones, y finalmente el
+método de Newton semisuave para el sistema penalizado, con su interpretación como
+método de conjunto activo.
+\end{abstract}
+
+\tableofcontents
+
+% ============================================================
+\section{Planteamiento del problema}
+% ============================================================
+
+Sea $\Omega \subset \R^d$ un dominio acotado y lipschitziano,
+$f \in L^2(\Omega)$ y un obstáculo $\psi$ con, por ejemplo,
+$\psi \in H^1(\Omega)$ y $\psi \le 0$ sobre $\partial\Omega$
+(de modo que $K \neq \emptyset$).
+El \emph{problema del obstáculo} consiste en encontrar la deformación
+$u^\ast$ de una membrana elástica que está por encima del obstáculo:
+\begin{equation}\label{eq:obstaculo}
+\boxed{\; u^\ast \in K \text{ y } \int_\Omega \nabla u^\ast \cdot \nabla(v - u^\ast)\,dx
+\;\ge\; \int_\Omega f\,(v - u^\ast)\,dx
+\quad \forall\, v \in K, \;}
+\end{equation}
+donde el conjunto de funciones admisibles es el convexo cerrado
+\[
+K \;=\; \bigl\{ v \in H^1_0(\Omega) \;:\; v \ge \psi \ \text{c.s. en } \Omega \bigr\}.
+\]
+
+Con la forma bilineal coerciva $a(u,v) = \int_\Omega \nabla u\cdot\nabla v\,dx$,
+el problema \eqref{eq:obstaculo} es exactamente la condición de optimalidad
+de primer orden del problema de minimización de energía
+\begin{equation}\label{eq:minimizacion}
+\min_{u \in H^1_0(\Omega)}\; J(u)
+\;=\; \frac12 \int_\Omega |\nabla u|^2\,dx \;-\; \int_\Omega f\,u\,dx
+\;+\; \dk(u),
+\end{equation}
+donde $\dk$ es la \emph{indicatriz} del convexo $K$:
+\begin{equation}\label{eq:indicatriz}
+\dk(u) \;=\;
+\begin{cases}
+0 & \text{si } u \in K,\\[1mm]
++\infty & \text{si } u \notin K.
+\end{cases}
+\end{equation}
+La única parte no regular de $J$ es $\dk$: una «función» que vale $0$ sobre
+$K$ y salta a $+\infty$ fuera. Toda la dificultad del problema reside en esta
+discontinuidad vertical, y toda esta nota consiste en estudiarla y en
+
+\begin{observacion}[Marco funcional]
+La restricción $u \ge \psi$ tiene sentido en $L^2(\Omega)$, y
+$H^1_0(\Omega) \hookrightarrow L^2(\Omega)$ con inclusión compacta.
+Trabajaremos por comodidad en $H = L^2(\Omega)$ cuando estudiemos la
+estructura de $K$ y la proyección, y en $V = H^1_0(\Omega)$ para la parte
+variacional. El producto escalar de $L^2$ se escribe $(\cdot,\cdot)$ y el de
+$H^1_0$ con la forma $a(\cdot,\cdot)$.
+\end{observacion}
+
+% ============================================================
+\section{La subdiferencial de la indicatriz es el cono normal}
+% ============================================================
+
+\begin{definicion}[Subdiferencial convexa]
+Sea $F : H \to \R \cup \{+\infty\}$ convexa, propia y cerrada.
+La subdiferencial de $F$ en $u$ es
+\[
+\partial F(u) \;=\; \bigl\{ w \in H \;:\;
+F(v) \;\ge\; F(u) + (w,\, v-u) \quad \forall\, v \in H \bigr\}.
+\]
+Es decir: $w \in \partial F(u)$ si el gráfico de $F$ está por encima del
+hiperplano afín $v \mapsto F(u) + (w, v-u)$ tangente en $u$.
+\end{definicion}
+
+\begin{definicion}[Cono normal]
+Sea $K \subset H$ un convexo cerrado no vacío y $u \in K$. El \emph{cono
+normal} a $K$ en $u$ es
+\[
+N_K(u) \;=\; \bigl\{ w \in H \;:\; (w,\, v - u) \;\le\; 0 \quad \forall\, v \in K \bigr\}.
+\]
+Geométricamente: $w$ es normal a $K$ en $u$ si forma un ángulo obtuso con
+todas las direcciones $v - u$ que apuntan hacia el interior del convexo.
+Es un cono cerrado y convexo, y por definición $N_K(u) = \emptyset$ si $u \notin K$.
+\end{definicion}
+
+\begin{teorema}[$\partial \dk = N_K$]\label{thm:ind-normal}
+Sea $K \subset H$ convexo cerrado no vacío. Entonces, para todo $u \in H$,
+\[
+\partial \dk(u) \;=\; N_K(u).
+\]
+\end{teorema}
+
+\begin{proof}
+Distinguimos tres casos.
+
+\smallskip
+\emph{Caso 1: $u \notin K$.} Entonces $\dk(u) = +\infty$ y, por la convención
+usual, $\partial \dk(u) = \emptyset = N_K(u)$.
+
+\smallskip
+\emph{Caso 2: $u \in K$.} Probamos la doble inclusión.
+
+($\subseteq$) Sea $w \in \partial\dk(u)$. La desigualdad de subtangente dice
+\[
+\dk(v) \;\ge\; \dk(u) + (w, v-u) \quad \forall v \in H.
+\]
+Como $\dk(u) = 0$, si tomamos $v \in K$ (de modo que $\dk(v) = 0$) obtenemos
+\[
+0 \;\ge\; (w, v - u) \quad \forall\, v \in K,
+\]
+que es exactamente $w \in N_K(u)$. Nótese que para $v \notin K$ la
+desigualdad es trivial ($+\infty \ge$ cualquier cosa), así que no aporta
+nada más.
+
+($\supseteq$) Sea $w \in N_K(u)$, es decir $(w, v-u) \le 0$ para todo
+$v \in K$. Verifiquemos la desigualdad de subtangiente:
+\begin{itemize}
+\item si $v \in K$: $\dk(v) = 0 \ge (w, v-u)$ por hipótesis, y
+$\dk(u) + (w,v-u) = (w, v-u) \le 0$;\,✓
+\item si $v \notin K$: $\dk(v) = +\infty$, y la desigualdad es automática.\,✓
+\end{itemize}
+Por lo tanto $w \in \partial\dk(u)$.
+
+\smallskip
+\emph{Conclusión:} en ambos casos los dos conjuntos coinciden.
+\end{proof}
+
+\begin{proposicion}[Puntos interiores]\label{prop:interior}
+Si $u \in \inte K$, entonces $N_K(u) = \{0\}$.
+\end{proposicion}
+
+\begin{proof}
+Sea $w \in N_K(u)$. Como $u$ es interior, existe $\rho > 0$ tal que
+$u \pm t w \in K$ para todo $t \in (0, \rho/\Norm{w}]$. Aplicando la
+desigualdad del cono normal con $v = u + t w$ y con $v = u - t w$:
+\[
+(w,\, t w) \le 0 \quad\text{y}\quad (w,\, -t w) \le 0
+\qquad\Longrightarrow\qquad
+t\,\Norm{w}^2 \le 0 .
+\]
+Luego $w = 0$.
+\end{proof}
+
+\begin{observacion}
+La proposición expresa un hecho físico evidente: en el interior del convexo
+la restricción no actúa, la reacción de contacto es nula. La reacción
+(reacción = elemento del cono normal = multiplicador de Lagrange) solo puede
+ser no nula sobre la \emph{frontera} de $K$, es decir, sobre la zona de
+contacto $\{u^\ast = \psi\}$. Este es el origen de las condiciones de
+complementariedad del problema del obstáculo.
+\end{observacion}
+
+\subsection{Monotonía y monotonía maximal de $N_K$}
+
+Recordemos que un operador multivaluado $A : H \rightrightarrows H$ es
+\emph{monótono} si
+\[
+(w - z,\, x - y) \;\ge\; 0
+\qquad \forall\, x, y \in H,\ \forall\, w \in A(x),\ z \in A(y),
+\]
+y es \emph{maximal monótono} si ningún par $(x,w)$ puede añadirse a su
+gráfico sin destruir la monotonía.
+
+\begin{proposicion}\label{prop:monotono}
+$N_K$ es un operador monótono.
+\end{proposicion}
+
+\begin{proof}
+Sean $x, y \in K$, $w_x \in N_K(x)$, $w_y \in N_K(y)$. Por definición,
+aplicando cada cono normal al punto del otro:
+\[
+(w_x,\, y - x) \le 0
+\qquad\text{(tomando } v = y \text{ en } N_K(x)\text{)},
+\]
+\[
+(w_y,\, x - y) \le 0
+\qquad\text{(tomando } v = x \text{ en } N_K(y)\text{)}.
+\]
+Sumando ambas desigualdades y reordenando:
+\[
+(w_x - w_y,\, x - y) \;=\; -(w_x, y - x) - (w_y, x - y) \;\ge\; 0. \qedhere
+\]
+\end{proof}
+
+\begin{teorema}[Maximalidad]\label{thm:maximal}
+$N_K$ es maximal monótono en $H$.
+\end{teorema}
+
+\begin{proof}
+Supongamos que $(x, w)$ se puede añadir al gráfico de $N_K$ conservando la
+monotonía, es decir
+\begin{equation}\label{eq:hip-max}
+(w - z,\, x - u) \;\ge\; 0
+\qquad \forall\, u \in K,\ \forall\, z \in N_K(u).
+\end{equation}
+Debemos probar que $w \in N_K(x)$.
+
+\emph{Paso 1: construimos un buen punto de prueba.}
+Para $t > 0$ sea $u_t := \pk(x + t w) \in K$ la proyección de $x + t w$
+sobre $K$. La caracterización variacional de la proyección dice
+\[
+(y - \pk(y),\, v - \pk(y)) \le 0 \quad \forall v \in K,
+\]
+que aplicada con $y = x + t w$ da
+\[
+x + t w - u_t \;\in\; N_K(u_t).
+\]
+Como $N_K(u_t)$ es un cono, también
+\[
+z_t := \frac{x + t w - u_t}{t} \;\in\; N_K(u_t).
+\]
+
+\emph{Paso 2: explotamos la hipótesis.}
+Escribiendo \eqref{eq:hip-max} con $u = u_t$ y $z = z_t$:
+\[
+(w - z_t,\, x - u_t) \;\ge\; 0.
+\]
+Ahora bien, descomponiendo $x + t w - u_t = (x - u_t) + t w$,
+\[
+(z_t,\, x - u_t)
+= \frac{1}{t}\Norm{x - u_t}^2 + (w,\, x - u_t).
+\]
+Sustituyendo:
+\[
+(w,\, x - u_t) - \frac{1}{t}\Norm{x - u_t}^2 - (w,\, x - u_t) \;\ge\; 0
+\qquad\Longrightarrow\qquad
+\Norm{x - u_t}^2 \;\le\; 0.
+\]
+¡La desigualdad degeneró! Concluimos que $u_t = x$ para todo $t > 0$.
+
+\emph{Paso 3: conclusión.}
+Entonces $x \in K$ (es proyección de un punto, luego pertenece a $K$) y
+\[
+x + t w - u_t \;=\; t w \;\in\; N_K(x),
+\]
+y como $N_K(x)$ es un cono, $w \in N_K(x)$. $\blacksquare$
+\end{proof}
+
+\begin{observacion}
+Este argumento es la demostración general (Debrunner--Haine / Rockafellar)
+de que todo $\partial F$ convexo propio cerrado es maximal monótono,
+especializada al caso de la indicatriz, donde la resolución del paso
+variacional es la proyección. La estructura es siempre la misma: la
+hipótesis de monotonía «aplana» la desigualdad y fuerza la conclusión.
+\end{observacion}
+
+% ============================================================
+\section{Paso 1: la regularización de Moreau--Yosida de $\delta_K$}
+% ============================================================
+
+La idea de Moreau es sustituir la pared vertical de la indicatriz por una
+parábola de pendiente finita: en lugar de pagar $+\infty$ al salir de $K$,
+se paga la distancia al cuadrado.
+
+\begin{definicion}[Envolvente de Moreau]\label{def:envolvente}
+Para $\varepsilon > 0$ y $u \in H$,
+\[
+\dke(u)
+\;=\; \min_{v \in H} \left\{ \dk(v) + \frac{1}{2\varepsilon}\Norm{u - v}^2 \right\}.
+\]
+\end{definicion}
+
+\subsection{Existencia y unicidad del minimizador}
+
+\begin{proposicion}\label{prop:existencia}
+Para todo $u \in H$ y todo $\varepsilon > 0$, el problema de la
+Definición~\ref{def:envolvente} tiene un único minimizador
+$p_\varepsilon(u) \in K$. Además $p_\varepsilon(u) = \pk(u)$, la proyección
+de $u$ sobre $K$.
+\end{proposicion}
+
+\begin{proof}
+\emph{Existencia (método directo).} Sea
+$\Phi_u(v) = \dk(v) + \frac{1}{2\varepsilon}\Norm{u-v}^2$.
+Desarrollando el cuadrado,
+\[
+\Phi_u(v)
+\;\ge\; \frac{1}{2\varepsilon}\Norm{v}^2
+- \frac{1}{\varepsilon}(u, v)
++ \frac{1}{2\varepsilon}\Norm{u}^2 .
+\]
+Es decir, fuera de $K$ el funcional vale $+\infty$, y sobre $K$ es
+coercivo: la parte cuadrática domina la parte lineal por Young,
+\[
+\frac{1}{2\varepsilon}\Norm{v}^2 - \frac{1}{\varepsilon}(u,v)
+\;\ge\; \frac{1}{4\varepsilon}\Norm{v}^2 - \frac{1}{\varepsilon}\Norm{u}^2 ,
+\]
+así que toda sucesión minimizante está acotada. Tomemos $(v_n) \subset K$
+minimizante. Como $K$ es convexo y cerrado, es débilmente secuencialmente
+cerrado; por compacidad débil, $v_n \rightharpoonup p \in K$. El funcional
+$\Phi_u$ es débilmente semicontinuo inferior (norma y producto escalar lo
+son, y $\dk$ es débilmente s.c.i. porque $K$ es débilmente cerrado). Luego
+$p$ es minimizador.
+
+\smallskip
+\emph{Unicidad.} $\Phi_u$ es estrictamente convexo: la indicatriz de un
+convexo es convexa, y $\frac{1}{2\varepsilon}\Norm{u - \cdot}^2$ es
+estrictamente convexa. Un funcional estrictamente convexo tiene a lo sumo un
+minimizador.
+
+\smallskip
+\emph{Identificación con la proyección.} Por la regla de suma de
+subdiferenciales (válida sin condición de calificación aquí, porque
+$v \mapsto \frac{1}{2\varepsilon}\Norm{u-v}^2$ es de clase $C^1$ en todo
+$H$ con gradiente continuo):
+\[
+0 \in \partial \Phi_u(p)
+= \partial \dk(p) + \frac{p - u}{\varepsilon}.
+\]
+Por el Teorema~\ref{thm:ind-normal}, $\frac{u - p}{\varepsilon} \in N_K(p)$,
+es decir
+\begin{equation}\label{eq:carac-proy}
+(u - p,\, v - p) \;\le\; 0 \qquad \forall\, v \in K,
+\end{equation}
+que es exactamente la caracterización variacional de la proyección:
+$p = \pk(u)$. (Para el lector que no recuerde la equivalencia:
+\eqref{eq:carac-proy} es la derivación en $t=0$ del hecho de que
+$t \mapsto \Norm{u - \pk(u) + t(p - \pk(u))}^2$ tiene un mínimo en $t=0$
+sobre la cuerda de $K$; la implicación inversa se obtiene integrando a lo
+largo de la cuerda $p + t(v-p)$, $t\in[0,1]$.)
+\end{proof}
+
+\subsection{Valor de la envolvente y primera fórmula fundamental}
+
+\begin{corolario}[Fórmula de la envolvente]\label{cor:valor}
+\[
+\dke(u) \;=\; \frac{1}{2\varepsilon}\, \Norm{u - \pk(u)}^2
+\;=\; \frac{1}{2\varepsilon}\, \dist(u, K)^2 .
+\]
+\end{corolario}
+
+\begin{proof}
+El minimizador $p = \pk(u)$ pertenece a $K$, luego $\dk(p) = 0$ y solo
+queda el término cuadrático. La segunda igualdad es la definición de la
+distancia a un convexo cerrado, alcanzada en la proyección.
+\end{proof}
+
+\begin{observación}[Lectura de la fórmula]
+La envolvente de Moreau de la indicatriz es la \emph{penalización
+cuadrática} de la distancia al conjunto: $\dke \le \dk$ para todo $u$,
+con igualdad exactamente en $K$ (donde ambas valen $0$). La pared vertical
+se ha redondeado en un valle parabólico de anchura $O(\sqrt{\varepsilon})$
+alrededor del convexo.
+\end{observación}
+
+\begin{corolario}[Resolvente de $N_K$]\label{cor:resolvente}
+Para todo $\lambda > 0$,
+\[
+J_\lambda^{N_K}(u) := (I + \lambda N_K)^{-1}(u) = \pk(u),
+\]
+y $J_\lambda^{N_K}$ es unívoco y contractante.
+\end{corolario}
+
+\begin{proof}
+$w \in (I + \lambda N_K)^{-1}(u)$ significa $u \in w + \lambda N_K(w)$, es
+decir $\frac{u - w}{\lambda} \in N_K(w)$, que es
+\eqref{eq:carac-proy} con $p = w$. Luego $w = \pk(u)$, único por la
+Proposición~\ref{prop:existencia}. La contractividad es la no-expansividad
+de la proyección:
+\[
+\Norm{\pk(u) - \pk(u')} \;\le\; \Norm{u - u'} ,
+\]
+que se obtiene sumando $(u - \pk(u), v - \pk(u)) \le 0$ con
+$v = \pk(u')$ y la desigualdad simétrica, y aplicando Cauchy--Schwarz.
+\end{proof}
+
+\begin{observación}
+Este corolario es el teorema de Minty hecho carne: el operador maximal
+monótono multivaluado $N_K$ tiene resolvente unívoco y lipschitziano, y ese
+resolvente es la proyección. Es el punto exacto donde la teoría abstracta
+de la sección anterior se convierte en un objeto computable.
+\end{observación}
+
+\subsection{Diferenciabilidad de la envolvente y aproximación de Yosida}
+
+\begin{teorema}\label{thm:diferenciable}
+La envolvente $\dke$ es Fréchet-diferenciable en todo $H$, y
+\[
+\nabla \dke(u) \;=\; \frac{u - \pk(u)}{\varepsilon}.
+\]
+\end{teorema}
+
+\begin{proof}
+Fijemos $u \in H$, escribamos $p = \pk(u)$ y, para $h \in H$,
+$p_h = \pk(u + h)$. Recordemos que la proyección es no expansiva:
+$\Norm{p - p_h} \le \Norm{h}$.
+
+\smallskip
+\emph{Cota superior.} Probando $v = p$ en el problema que define
+$\dke(u+h)$:
+\[
+\dke(u+h) \;\le\; \frac{1}{2\varepsilon}\Norm{u + h - p}^2
+\;=\; \dke(u) + \frac{1}{\varepsilon}(u - p,\, h) + \frac{1}{2\varepsilon}\Norm{h}^2 ,
+\]
+donde el último paso es la identidad polar
+$\Norm{(u-p)+h}^2 = \Norm{u-p}^2 + 2(u-p,h) + \Norm{h}^2$ y el
+Corolario~\ref{cor:valor}.
+
+\smallskip
+\emph{Cota inferior.} Como $p_h$ minimiza en $u + h$ y $p_h \in K$, el
+Corolario~\ref{cor:valor} da
+$\dke(u+h) = \frac{1}{2\varepsilon}\Norm{u + h - p_h}^2$, mientras que
+probando $v = p_h$ en el problema que define $\dke(u)$:
+\[
+\dke(u) \;\le\; \frac{1}{2\varepsilon}\Norm{u - p_h}^2 .
+\]
+Restando:
+\[
+\dke(u+h) - \dke(u)
+\;\ge\; \frac{1}{2\varepsilon}\Bigl(\Norm{u + h - p_h}^2 - \Norm{u - p_h}^2\Bigr)
+\;=\; \frac{1}{\varepsilon}(u - p_h,\, h) + \frac{1}{2\varepsilon}\Norm{h}^2 .
+\]
+
+\smallskip
+\emph{Conclusión.} Combinando ambas cotas con el gradiente candidato
+$g = \frac{u - p}{\varepsilon}$:
+\begin{align*}
+\text{(inferior)}\quad
+\dke(u+h) - \dke(u) - (g, h)
+&\;\ge\; \frac{1}{\varepsilon}(p - p_h,\, h) + \frac{1}{2\varepsilon}\Norm{h}^2
+\;\ge\; -\frac{1}{\varepsilon}\Norm{h}^2 + \frac{1}{2\varepsilon}\Norm{h}^2
+\;=\; -\frac{1}{2\varepsilon}\Norm{h}^2,\\[1mm]
+\text{(superior)}\quad
+\dke(u+h) - \dke(u) - (g, h)
+&\;\le\; \frac{1}{2\varepsilon}\Norm{h}^2 .
+\end{align*}
+donde hemos usado Cauchy--Schwarz y la no-expansividad en
+$(p - p_h, h) \ge -\Norm{p-p_h}\,\Norm{h} \ge -\Norm{h}^2$. Por lo tanto
+\[
+\Bigl|\, \dke(u+h) - \dke(u) - \tfrac{1}{\varepsilon}(u - \pk(u),\, h) \,\Bigr|
+\;\le\; \frac{1}{2\varepsilon}\Norm{h}^2 \;\xrightarrow[h \to 0]{}\; 0 ,
+\]
+lo que es exactamente la diferenciabilidad Fréchet con el gradiente
+anunciado (¡y con resto explícito $O(\Norm{h}^2)$!).
+\end{proof}
+
+\begin{definicion}[Aproximación de Yosida]
+El operador
+\[
+(N_K)_\varepsilon
+\;:=\; \frac{1}{\varepsilon}\bigl(I - \pk\bigr)
+\;=\; \nabla \dke
+\]
+se llama \emph{aproximación de Yosida} de $N_K$.
+\end{definicion}
+
+\begin{proposicion}\label{prop:yosida-prop}
+$(N_K)_\varepsilon$ es:
+\begin{enumerate}
+\item unívoco y $\tfrac{1}{\varepsilon}$-lipschitziano;
+\item monótono (es más: cocoercivo, $\varepsilon\,\Norm{(N_K)_\varepsilon u - (N_K)_\varepsilon v}^2 \le \bigl((N_K)_\varepsilon u - (N_K)_\varepsilon v,\, u - v\bigr)$);
+\item maximal monótono;
+\item exacto sobre $K^\ast := \{ u : 0 \in N_K(u) \}$:
+$(N_K)_\varepsilon(u) = 0 \iff u \in K$ con $N_K(u) \ni 0$, es decir
+$(N_K)_\varepsilon(u) = 0 \iff u = \pk(u) \iff u \in K$.
+\end{enumerate}
+\end{proposicion}
+
+\begin{proof}
+(1) es la no-expansividad de $\pk$. Para (2), usando la caracterización
+variacional de la proyección dos veces
+$(u - \pk(u),\, \pk(v) - \pk(u)) \le 0$ y la simétrica:
+\begin{align*}
+\bigl((N_K)_\varepsilon u - (N_K)_\varepsilon v,\; u - v\bigr)
+&= \frac{1}{\varepsilon}\Bigl(\Norm{u-v}^2 - \bigl(\pk(u) - \pk(v),\, u-v\bigr)\Bigr)\\
+&\ge\; \frac{1}{\varepsilon}\Bigl(\Norm{u-v}^2 - \Norm{\pk(u)-\pk(v)}\,\Norm{u-v}\Bigr)
+\;\ge\; 0 ,
+\end{align*}
+de hecho $\ge \frac{1}{\varepsilon}\Norm{\pk(u)-\pk(v)}^2 \ge 0$ si se usa
+la firme no-expansividad $\Norm{p_u - p_v}^2 \le (u-v, p_u - p_v)$.
+(3) Un gradiente de funcional convexo diferenciable definido en todo $H$
+es maximal monótono (teorema de Rockafellar). (4) es inmediato de
+$(N_K)_\varepsilon(u) = \frac{1}{\varepsilon}(u - \pk(u))$.
+\end{proof}
+
+% ============================================================
+\section{Paso 2: el cálculo explícito para el obstáculo}
+% ============================================================
+
+Hasta ahora el desarrollo vale para \emph{todo} convexo cerrado. Ahora
+explotamos la estructura puntual del conjunto del obstáculo
+\[
+K = \bigl\{ v \in L^2(\Omega) : v \ge \psi \ \text{c.s.}\bigr\}.
+\]
+
+\begin{teorema}[Proyección puntual sobre el conjunto del obstáculo]\label{thm:proy-puntual}
+Para todo $u \in L^2(\Omega)$,
+\[
+\pk(u)(x) \;=\; \max\bigl(u(x),\, \psi(x)\bigr) \quad \text{c.s. en } \Omega,
+\]
+y por lo tanto
+\[
+u - \pk(u) \;=\; (u - \psi)_- ,\qquad
+\Norm{u - \pk(u)}_{L^2}^2 \;=\; \int_\Omega \bigl(u - \psi\bigr)_-^2\,dx .
+\]
+\end{teorema}
+
+\begin{proof}
+Escribamos $w := \max(u, \psi)$ y verifiquemos que $w$ satisface la
+caracterización variacional \eqref{eq:carac-proy}; por unicidad de la
+proyección (Proposición~\ref{prop:existencia}) concluimos.
+
+\smallskip
+\emph{(i) $w \in K$:} evidente, $\max(u,\psi) \ge \psi$ c.s.
+
+\smallskip
+\emph{(ii) $u - w = (u - \psi)_-$:} en cada punto, si $u(x) \ge \psi(x)$
+entonces $w(x) = u(x)$ y $u - w = 0 = (u-\psi)_-(x)$; si $u(x) < \psi(x)$
+entonces $w(x) = \psi(x)$ y $u - w = u - \psi = (u-\psi)_-(x) < 0$. En
+ambos casos $u - w = \min(u - \psi, 0) = (u-\psi)_-$. En particular
+\[
+\Norm{u - w}_{L^2}^2 = \int_\Omega (u-\psi)_-^2\,dx .
+\]
+
+\emph{(iii) Desacoplamiento puntual:} el funcional
+$v \mapsto \int_\Omega (u(x) - v(x))^2\,dx$ sujeto a $v \ge \psi$ es una
+integral de funcionales puntuales independientes en cada $x$; su
+minimizador se obtiene minimizando en cada punto
+$v(x) \mapsto (u(x) - v(x))^2$ bajo $v(x) \ge \psi(x)$, cuyo mínimo
+evidente es $v(x) = \max(u(x), \psi(x))$. Formalmente basta verificar la
+caracterización variacional:
+
+\smallskip
+\emph{(iv) $(u - w,\, v - w)_{L^2} \le 0$ para todo $v \in K$:}
+descompongamos el dominio en
+\[
+\Omega_+ = \{ u \ge \psi \}
+\qquad\text{y}\qquad
+\Omega_- = \{ u < \psi \}.
+\]
+Sobre $\Omega_+$, $u - w = 0$ y el integrando es nulo. Sobre $\Omega_-$,
+$u - w = u - \psi < 0$ y $v - w = v - \psi \ge 0$ (porque $v \in K$).
+Luego el integrando
+\[
+(u - w)(v - w) = \underbrace{(u - \psi)}_{<\,0}\,\underbrace{(v - \psi)}_{\ge\,0}
+\;\le\; 0 \quad\text{c.s. en } \Omega_- ,
+\]
+y por integración $(u-w,\,v-w)_{L^2} \le 0$. $\blacksquare$
+\end{proof}
+
+\begin{corolario}[Fórmulas explícitas para el obstáculo]\label{cor:explicito}
+Para todo $u \in L^2(\Omega)$:
+\[
+\dke(u) = \frac{1}{2\varepsilon}\int_\Omega (u - \psi)_-^2\,dx,
+\qquad
+\nabla\dke(u) = \frac{1}{\varepsilon}(u - \psi)_-,
+\qquad
+(N_K)_\varepsilon(u) = \frac{1}{\varepsilon}(u - \psi)_- .
+\]
+\end{corolario}
+
+\begin{proof}
+Combinar el Corolario~\ref{cor:valor}, el Teorema~\ref{thm:diferenciable}
+y el Teorema~\ref{thm:proy-puntual}.
+\end{proof}
+
+\begin{observación}[Interpretación física]
+El funcional penalizado
+\[
+J_\varepsilon(u)
+\;=\; \frac12 \int_\Omega |\nabla u|^2\,dx
+\;-\; \int_\Omega f\,u\,dx
+\;+\; \frac{1}{2\varepsilon}\int_\Omega \bigl(u - \psi\bigr)_-^2\,dx
+\]
+describe la membrana sujeta por \emph{muelles elásticos} de rigidez
+$1/\varepsilon$ distribuidos por todo el dominio, que solo actúan allí
+donde la membrana tiende a penetrar el obstáculo. No hay restricción dura:
+la reacción de contacto $(1/\varepsilon)(u-\psi)_-$ crece suavemente con la
+penetración. Cuando $\varepsilon \to 0$, los muelles se vuelven
+infinitamente rígidos y se recupera la restricción.
+\end{observación}
+
+% ============================================================
+\section{El problema penalizado y su convergencia}
+% ============================================================
+
+\subsection{Ecuación de Euler del problema penalizado}
+
+$J_\varepsilon$ es coercivo, estrictamente convexo y continuo en
+$H^1_0(\Omega)$ (la penalidad es $C^1$ por el Teorema~\ref{thm:diferenciable},
+con gradiente $\frac{1}{\varepsilon}(u - \psi)_- \in L^2 \hookrightarrow
+H^{-1}$). Tiene pues un único minimizador $u_\varepsilon$,
+caracterizado por la ecuación de Euler no lineal:
+\begin{equation}\label{eq:euler-penalizado}
+a(u_\varepsilon,\, v) \;+\; \frac{1}{\varepsilon}\bigl( (u_\varepsilon - \psi)_- ,\, v \bigr)_{L^2}
+\;=\; \int_\Omega f\,v\,dx
+\qquad \forall\, v \in H^1_0(\Omega).
+\end{equation}
+La violación de la restricción se controla \emph{en una línea}:
+
+\begin{proposicion}[Violación de la restricción]\label{prop:violacion}
+Existe $C > 0$ independiente de $\varepsilon$ tal que
+\[
+\Norm{(u_\varepsilon - \psi)_-}_{L^2} \;\le\; \sqrt{2 C \,\varepsilon} .
+\]
+\end{proposicion}
+
+\begin{proof}
+Como $u^\ast \in K$ es admisible para $J_\varepsilon$ con
+$J_\varepsilon(u^\ast) = J(u^\ast)$ (su penalidad es nula), y como
+$J_\varepsilon(u) \ge \frac12\Norm{\nabla u}^2 - (f, u) \ge
+-\frac12 \Norm{f}_{H^{-1}}^2$ para todo $u$ (completando el cuadrado):
+\[
+\frac{1}{2\varepsilon}\Norm{(u_\varepsilon - \psi)_-}_{L^2}^2
+\;\le\; J_\varepsilon(u_\varepsilon) \;\le\; J_\varepsilon(u^\ast) = J(u^\ast)
+\;\le\; J(u^\ast) + \frac12\Norm{f}_{H^{-1}}^2 .
+\]
+\end{proof}
+
+\subsection{Convergencia $u_\varepsilon \to u^\ast$}
+
+\begin{teorema}\label{thm:convergencia}
+Cuando $\varepsilon \downarrow 0$,
+\[
+u_\varepsilon \rightharpoonup u^\ast \text{ débilmente en } H^1_0,
+\qquad
+u_\varepsilon \to u^\ast \text{ fuertemente en } L^2,
+\]
+donde $u^\ast$ es la solución del problema del obstáculo \eqref{eq:obstaculo}.
+\end{teorema}
+
+\begin{proof}
+\emph{Paso 1: acotación.} De $J_\varepsilon(u_\varepsilon) \le J(u^\ast)$ y
+$J_\varepsilon \ge \frac12\Norm{\nabla\cdot}^2 - (f,\cdot)$ deducimos
+$\Norm{u_\varepsilon}_{H^1_0} \le C$ uniformemente.
+
+\emph{Paso 2: paso al límite en la restricción.}
+Por la Proposición~\ref{prop:violacion}, $(u_\varepsilon - \psi)_- \to 0$
+fuertemente en $L^2$. Por compacidad de Rellich, de toda sucesión
+$\varepsilon_n \to 0$ se extrae $u_{\varepsilon_n} \rightharpoonup \bar u$
+débilmente en $H^1_0$ y fuertemente en $L^2$. Entonces
+$(u_{\varepsilon_n} - \psi)_- \to (\bar u - \psi)_-$ fuertemente en $L^2$
+(el operador $(\cdot)_-$ es lipschitziano), luego $(\bar u - \psi)_- = 0$,
+es decir $\bar u \in K$.
+
+\emph{Paso 3: $\bar u$ resuelve el problema.} Semi-continuidad inferior
+débil de la norma y convergencia fuerte del término lineal dan
+\[
+J(\bar u) \;\le\; \liminf J_\varepsilon(u_\varepsilon)
+\;\le\; J(u^\ast),
+\]
+donde la primera desigualdad usa que la penalidad tiende a $0$
+(Proposición~\ref{prop:violacion}) y que $\delta_K(\bar u) = 0$. Como
+$u^\ast$ es el único minimizador de $J$ sobre $K$, $\bar u = u^\ast$.
+La unicidad del punto límite débil implica la convergencia de toda la
+familia.
+\end{proof}
+
+\begin{teorema}[Cota en norma de energía; Brezis--Stampacchia]
+\label{thm:BS}
+Si además $f \in L^2(\Omega)$, $\psi$ es suficientemente regular
+(por ejemplo $\psi \in H^2$ con $\psi \le 0$ en $\partial\Omega$) y
+$u^\ast \in H^2(\Omega)$, entonces existe $C$ independiente de
+$\varepsilon$ tal que
+\[
+\Norm{u_\varepsilon - u^\ast}_{H^1_0} \;\le\; C\,\sqrt{\varepsilon}.
+\]
+\end{teorema}
+
+\begin{proof}[Idea de la demostración]
+Se resta la ecuación de Euler \eqref{eq:euler-penalizado} de la ecuación del
+obstáculo $a(u^\ast, v) + \langle \lambda^\ast, v\rangle = (f, v)$
+(que vale para todo $v \in H^1_0$ por densidad, con el multiplicador
+$\lambda^\ast \in N_K(u^\ast) \subset H^{-1}$) con $v = u_\varepsilon -
+u^\ast$, y se acota el término
+$\langle (N_K)_\varepsilon(u_\varepsilon) - \lambda^\ast,\,
+u_\varepsilon - u^\ast\rangle$ descomponiendo
+$u_\varepsilon - u^\ast = (u_\varepsilon - \psi)_- + (z_\varepsilon - u^\ast)$
+con $z_\varepsilon := \max(u_\varepsilon, \psi) \in K$ y usando:
+$\langle \lambda^\ast, z_\varepsilon - u^\ast\rangle \le 0$ (cono normal),
+$(\lambda^\ast, (u_\varepsilon - \psi)_-) \ge 0$ en el sentido de medidas
+($\lambda^\ast \ge 0$ y $(u_\varepsilon-\psi)_- \le 0$), y la
+Proposición~\ref{prop:violacion}. Se obtiene
+$\Norm{u_\varepsilon - u^\ast}_{H^1_0}^2 \le C'\, \varepsilon$.
+Para la demostración completa, ver \cite{BS68, Glowinski}.
+\end{proof}
+
+\subsection{Convergencia del multiplicador}
+
+Definimos la reacción de los muelles
+\[
+\lambda_\varepsilon := \frac{1}{\varepsilon}(u_\varepsilon - \psi)_-
+\qquad (\text{un elemento de } H^{-1} \text{ vía }
+\langle \lambda_\varepsilon, v\rangle := (\lambda_\varepsilon, v)_{L^2}).
+\]
+
+\begin{teorema}\label{thm:multiplicador}
+De toda sucesión $\varepsilon_n \to 0$ se puede extraer una subsucesión tal
+que $\lambda_{\varepsilon_n} \overset{\ast}{\rightharpoonup} \lambda$
+débilmente-$\ast$ en $H^{-1}$, donde $\lambda$ satisface
+\[
+-\Delta u^\ast + \lambda = f \ \text{en } H^{-1},
+\qquad
+\lambda \in N_K(u^\ast).
+\]
+En consecuencia, en el límite se recuperan las condiciones de
+complementariedad del problema del obstáculo:
+\[
+u^\ast \ge \psi, \qquad \lambda \ge 0 \text{ (sobre la zona de contacto)},
+\qquad \lambda = 0 \text{ fuera del contacto}.
+\]
+\end{teorema}
+
+\begin{proof}
+\emph{Acotación en $H^{-1}$:} de \eqref{eq:euler-penalizado},
+\[
+\langle \lambda_\varepsilon, v \rangle = (f, v) - a(u_\varepsilon, v)
+\qquad\Longrightarrow\qquad
+\Norm{\lambda_\varepsilon}_{H^{-1}} \le \Norm{f}_{H^{-1}} + C\,\Norm{u_\varepsilon}_{H^1_0}.
+\]
+Extraemos una subsucesión débilmente-$\ast$ convergente a $\lambda$.
+Pasando al límite en la ecuación anterior (con
+$u_{\varepsilon_n} \rightharpoonup u^\ast$) se obtiene
+$-\Delta u^\ast + \lambda = f$.
+
+\emph{$\lambda \in N_K(u^\ast)$:} sea $v \in K$ arbitrario. Escribamos
+$z_\varepsilon := \max(u_\varepsilon, \psi) = u_\varepsilon -
+(u_\varepsilon - \psi)_- \in K$. Puntualmente,
+$(u_\varepsilon - \psi)_- \le 0$ y $v - z_\varepsilon = v - \max(u_\varepsilon, \psi) \ge 0$
+(pues $v \ge \psi$), luego
+\[
+\langle \lambda_\varepsilon, v \rangle
+= \frac{1}{\varepsilon}\bigl( (u_\varepsilon - \psi)_- ,\, v \bigr)
+\;\le\; \frac{1}{\varepsilon}\bigl( (u_\varepsilon - \psi)_- ,\, z_\varepsilon \bigr)
+= \langle \lambda_\varepsilon, u_\varepsilon \rangle
+- \Norm{\lambda_\varepsilon}_{L^2}^2\,\varepsilon
+\;\le\; \langle \lambda_\varepsilon, u_\varepsilon \rangle .
+\]
+Ahora, $\langle \lambda_\varepsilon, u_\varepsilon \rangle
+= (f, u_\varepsilon) - a(u_\varepsilon, u_\varepsilon)$ converge a
+$(f, u^\ast) - a(u^\ast, u^\ast) = \langle \lambda, u^\ast \rangle$
+(convergencia débil en $H^1_0$ para el término lineal,
+semi-continuidad inferior para el cuadrático y la ecuación límite para
+identificar el valor). Pasando al límite:
+\[
+\langle \lambda, v \rangle \;\le\; \langle \lambda, u^\ast \rangle
+\qquad \forall\, v \in K,
+\]
+que es la definición de $\lambda \in N_K(u^\ast)$.
+\end{proof}
+
+% ============================================================
+\section{El método de Newton semisuave para el problema penalizado}
+% ============================================================
+
+\subsection{Discretización}
+
+Tras una discretización por elementos finitos $P_1$ (o por diferencias
+finitas), el problema penalizado \eqref{eq:euler-penalizado} se convierte
+en un sistema no lineal en $\R^N$, con $N$ el número de nodos interiores:
+\begin{equation}\label{eq:sistema}
+F(u) \;=\; A\,u \;-\; b \;+\; \frac{1}{\varepsilon}\,(u - \psi)_- \;=\; 0,
+\end{equation}
+donde:
+\begin{itemize}
+\item $A \in \R^{N\times N}$ es la matriz de rigidez (definida positiva,
+SPD tras las condiciones de Dirichlet),
+\item $b$ es el vector de carga $(b_i = \int_\Omega f\,\varphi_i\,dx)$,
+\item $\psi \in \R^N$ contiene los valores nodales del obstáculo,
+\item $(u - \psi)_-$ se aplica \emph{componente a componente}:
+$((u-\psi)_-)_i = \min(u_i - \psi_i,\, 0)$.
+\end{itemize}
+
+\subsection{Semisuavidad del sistema}
+
+\begin{definicion}[Función semisuave en dimensión finita]
+Sea $G : \R^N \to \R^N$ localmente lipschitziana y $x \in \R^N$. $G$ es
+\emph{semisuave} en $x$ si
+\[
+\lim_{h \to 0}\;
+\sup_{V \in \partial_C G(x + t h),\; 0 < t \le 1}
+\frac{\Norm{G(x+h) - G(x) - V h}}{\Norm{h}} \;=\; 0,
+\]
+donde $\partial_C$ es el jacobiano generalizado de Clarke. Es
+\emph{fuertemente semisuave} si el límite es $O(\Norm{h})$, es decir
+$\Norm{G(x+h) - G(x) - Vh} = O(\Norm{h}^2)$.
+\end{definicion}
+
+\begin{lema}\label{lema:g-semisuave}
+La función escalar $g(t) = \min(t, 0) = -\max(-t, 0)$ es fuertemente
+semisuave en todo $\R$, con subdiferencial de Clarke
+\[
+\partial g(t) \;=\;
+\begin{cases}
+\{1\} & \text{si } t < 0,\\
+\{0\} & \text{si } t > 0,\\
+[0, 1] & \text{si } t = 0.
+\end{cases}
+\]
+\end{lema}
+
+\begin{proof}
+$g$ es localmente lipschitziana (constante $1$) y suave salvo en $t=0$,
+con lo que el cálculo de $\partial g$ es elemental. Para la semisuavidez,
+el punto clave es que en la definición el jacobiano $V$ se evalúa
+\emph{sobre el segmento} $x + th$, $0 < t \le 1$.
+
+Fijemos $t_0 \in \R$ y $h \neq 0$ pequeño.
+\begin{itemize}
+\item Si $t_0 > 0$: para $\Norm{h}$ pequeño, todo el segmento
+$[t_0, t_0 + h]$ está en $(0, \infty)$, donde $g \equiv$ lineal con
+derivada... más precisamente $g = 0$ allí: $g(t_0 + h) - g(t_0) = 0$ y
+$\partial g \equiv \{0\}$ sobre el segmento, luego $V = 0$ y el error es
+\emph{exactamente nulo}.
+\item Si $t_0 < 0$: el segmento está en $(-\infty, 0)$, donde $g(t) = t$:
+$g(t_0 + h) - g(t_0) = h$ y $V = 1$, luego $Vh = h$: error nulo.
+\item Si $t_0 = 0$: si $h > 0$, el segmento $(0, h]$ está en
+$(0,\infty)$, luego $V = 0$ y $g(h) - g(0) - Vh = \min(h,0) - 0 = 0$.
+Si $h < 0$, el segmento está en $(-\infty, 0)$, luego $V = 1$ y
+$g(h) - g(0) - Vh = h - h = 0$.
+\end{itemize}
+En todos los casos el error de linealización es idénticamente nulo: $g$
+es fuertemente semisuave (de hecho es lineal a trozos).
+\end{proof}
+
+\begin{teorema}\label{thm:F-semisuave}
+El funcional $F$ de \eqref{eq:sistema} es fuertemente semisuave en
+$\R^N$, y su jacobiano generalizado de Clarke es
+\[
+\partial_C F(u) \;=\; \left\{
+A + \frac{1}{\varepsilon}\,D
+\;:\;
+D = \operatorname{diag}(d_1, \dots, d_N),\;
+d_i \in
+\begin{cases}
+\{1\} & \text{si } u_i < \psi_i,\\
+\{0\} & \text{si } u_i > \psi_i,\\
+[0,1] & \text{si } u_i = \psi_i
+\end{cases}
+\right\}.
+\]
+Todo elemento $V \in \partial_C F(u)$ es definido positivo, y en
+particular invertible.
+\end{teorema}
+
+\begin{proof}
+$F$ es la suma de la aplicación afín $u \mapsto Au - b$ (suave) y de
+$u \mapsto \frac{1}{\varepsilon} g(u - \psi)$ con $g$ aplicada
+componente a componente. Por el Lema~\ref{lema:g-semisuave} y la regla de
+la cadena para funciones semisuaves (la aplicación diagonal
+componente a componente preserva la semisuavidad fuerte,
+\cite{FacchineiPang}), $F$ es fuertemente semisuave.
+
+Para el jacobiano de Clarke: en un punto $u$, cada componente
+$F_i$ solo depende de $u_i$ (más el término afín), luego $\partial_C F(u)$
+es el conjunto de las matrices $A + \frac{1}{\varepsilon}D$ con $D$
+diagonal y $d_i \in \partial g(u_i - \psi_i)$, exactamente como se
+anuncia.
+
+Definición positiva: $A \succ 0$ y $\frac{1}{\varepsilon}D \succeq 0$
+(diagonal con entradas $\ge 0$), luego
+$V = A + \frac{1}{\varepsilon}D \succeq A \succ 0$ y $\det V \ge \det A > 0$.
+\end{proof}
+
+\begin{observación}[Qué significa $\partial_C F$ aquí]
+Cada elemento de $\partial_C F(u)$ corresponde a una \emph{selección} de
+las derivadas de las piezas lineales: el nodo $i$ está en
+\emph{contacto activo} ($u_i < \psi_i$) y contribuye con rigidez
+$1/\varepsilon$, está \emph{libre} ($u_i > \psi_i$) y no contribuye, o
+está \emph{exactamente en el obstáculo} ($u_i = \psi_i$) y se le puede
+asignar cualquier rigidez intermedia. La linealización de Newton es pues
+la ecuación lineal de la membrana con un conjunto de resortes «congelado»
+en el estado actual.
+\end{observacion}
+
+\subsection{El algoritmo}
+
+El método de Newton semisuave aplicado a \eqref{eq:sistema} es:
+
+\begin{algorithm}[H]
+\caption{Newton semisuave para el problema del obstáculo penalizado}
+\label{alg:newton}
+\begin{algorithmic}[1]
+\Require $\varepsilon > 0$, vector inicial $u^{(0)} \in \R^N$,
+tolerancia $\mathsf{tol} > 0$
+\For{$k = 0, 1, 2, \dots$}
+  \State Calcular el residuo
+  $r^{(k)} := F(u^{(k)}) = A u^{(k)} - b + \frac{1}{\varepsilon}(u^{(k)} - \psi)_-$
+  \If{$\Norm{r^{(k)}} \le \mathsf{tol}$}
+    \State \textbf{parar}: devolver $u^{(k)}$
+  \EndIf
+  \State Formar el \emph{conjunto activo} y el \emph{conjunto inactivo}
+  \[
+  \mathcal{A}_k := \{ i : u_i^{(k)} < \psi_i \},
+  \qquad
+  \mathcal{I}_k := \{ i : u_i^{(k)} \ge \psi_i \}
+  \]
+  \State Formar la matriz de Newton
+  $V_k := A + \frac{1}{\varepsilon}\,\operatorname{diag}(d^{(k)})$
+  con $d_i^{(k)} = 1$ si $i \in \mathcal{A}_k$, $d_i^{(k)} = 0$ si no
+  \State Resolver $V_k\, \delta^{(k)} = -\,r^{(k)}$
+  \Comment{SPD: factorización de Cholesky}
+  \State (Opcional) Busca de línea: elegir $\alpha_k \approx 1$ tal que
+  $\Norm{F(u^{(k)} + \alpha_k \delta^{(k)})} < \Norm{r^{(k)}}$
+  \State $u^{(k+1)} := u^{(k)} + \alpha_k\,\delta^{(k)}$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{observación}[Interpretación como conjunto activo]
+En cada iteración el método clasifica los nodos en contactantes
+($\mathcal{A}_k$) y libres ($\mathcal{I}_k$). Sobre los nodos libres el
+sistema de Newton es la ecuación de Poisson; sobre los nodos activos añade
+un término de rigidez $1/\varepsilon$ que empuja $u_i$ hacia el obstáculo
+(cuanto más pequeño es $\varepsilon$, más se parece a imponer $u_i =
+\psi_i$ por penalización). Con $\varepsilon \to 0$ el método tiende al
+método \emph{primal--dual de conjunto activo} de Hinterm\"uller--Ito--Kunisch
+\cite{HIK02}, que resulta ser precisamente un Newton semisuave sobre la
+formulación de complementariedad del problema con restricciones. En
+práctica, con complementariedad estricta, el conjunto activo se estabiliza
+en un número finito de iteraciones y el método termina.
+\end{observacion}
+
+\subsection{Convergencia local cuadrática}
+
+\begin{teorema}\label{thm:newton-conv}
+Sea $u^\ast_\varepsilon$ la solución de \eqref{eq:sistema}. Existen
+$\rho > 0$ y $C > 0$ tales que si $\Norm{u^{(0)} - u^\ast_\varepsilon}
+\le \rho$, la sucesión generada por el Algoritmo~\ref{alg:newton}
+(con $\alpha_k = 1$) está bien definida y converge hacia
+$u^\ast_\varepsilon$ con velocidad cuadrática:
+\[
+\Norm{u^{(k+1)} - u^\ast_\varepsilon}
+\;\le\; C\,\Norm{u^{(k)} - u^\ast_\varepsilon}^2 .
+\]
+\end{teorema}
+
+\begin{proof}
+Es el teorema estándar de Newton semisuave, cuyas hipótesis verificamos:
+\begin{enumerate}
+\item \emph{$F$ fuertemente semisuave} en un entorno de
+$u^\ast_\varepsilon$: Teorema~\ref{thm:F-semisuave}. Esto da, para
+$\Norm{h}$ pequeño y todo $V \in \partial_C F(u^\ast_\varepsilon + h)$:
+\[
+F(u^\ast_\varepsilon + h) - \underbrace{F(u^\ast_\varepsilon)}_{=0}
+- V h \;=\; O(\Norm{h}^2).
+\]
+\item \emph{Invertibilidad uniforme de los jacobianos:} todo
+$V \in \partial_C F(u)$ es SPD
+(Teorema~\ref{thm:F-semisuave}); sobre una bola compacta los valores
+propios están uniformemente acotados inferiormente por $\lambda_{\min}(A) > 0$,
+luego $\Norm{V^{-1}} \le 1/\lambda_{\min}(A)$ uniformemente.
+\end{enumerate}
+Con estas dos propiedades, el argumento clásico se cierra: si
+$e_k := u^{(k)} - u^\ast_\varepsilon$ y $V_k \in \partial_C
+F(u^{(k)})$,
+\[
+e_{k+1}
+= V_k^{-1}\Bigl(V_k e_k - F(u^{(k)}) + F(u^\ast_\varepsilon)\Bigr)
+= V_k^{-1}\Bigl(F(u^\ast_\varepsilon) - F(u^{(k)}) + V_k\,(u^{(k)} - u^\ast_\varepsilon)\Bigr)
+= O(\Norm{e_k}^2),
+\]
+donde la última igualdad es exactamente la propiedad de semisuavidad fuerte
+aplicada con $h = -e_k$ y $V$ evaluado sobre el segmento entre
+$u^{(k)}$ y $u^\ast_\varepsilon$ (que es la selección que usa el
+algoritmo, con posible redefinición de $d_i \in [0,1]$ en nodos con
+$u_i = \psi_i$; todos esos elementos están en $\partial_C F$).
+\end{proof}
+
+\begin{observacion}[Sobre la elección de $\varepsilon$ y el condicionamiento]
+\leavevmode
+\begin{itemize}
+\item El error de penalización es $O(\sqrt{\varepsilon})$ en norma $H^1$
+(Teorema~\ref{thm:BS}) y $O(\sqrt{\varepsilon})$ en la violación de la
+restricción (Proposición~\ref{prop:violacion}): se quiere $\varepsilon$
+\emph{pequeño}.
+\item El número de condición de las matrices de Newton es
+$\kappa(V_k) = O(1/\varepsilon)$: se quiere $\varepsilon$ \emph{grande}.
+\item Práctica recomendada: \emph{continuación} $\varepsilon_0 >
+\varepsilon_1 > \dots \to \varepsilon_{\min}$, usando la solución anterior
+como inicialización. La convergencia cuadrática local hace que cada etapa
+cueste pocas iteraciones de Newton.
+\item La búsqueda de línea (o un criterio de disminución de
+$\Norm{F}$) globaliza el método; sin ella, la convergencia solo está
+garantizada localmente.
+\end{itemize}
+\end{observacion}
+
+\begin{observacion}[Newton semisuave en espacios de Hilbert]
+Todo el desarrollo se puede hacer \emph{sin discretizar}: el operador
+$B_\varepsilon(u) = \frac{1}{\varepsilon}(u - \psi)_-$ es semisuave como
+aplicación $L^p(\Omega) \to L^q(\Omega)$ con $p > q$
+(Hinterm\"uller--Ito--Kunisch \cite{HIK02}, Ulbrich \cite{Ulbrich}), y el
+Newton semisuave se define directamente en dimensión infinita, sustituyendo
+el jacobiano generalizado de Clarke por derivadas newtonianas. La
+estructura del algoritmo es idéntica; la discretización
+solo interviene al resolver el sistema lineal.
+\end{observacion}
+
+% ============================================================
+\section{Síntesis}
+% ============================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Objeto} & \textbf{Fórmula} \\
+\midrule
+Subdiferencial de la indicatriz &
+$\partial \delta_K(u) = N_K(u) = \{ w : (w, v-u) \le 0 \ \forall v \in K\}$ \\
+Maximalidad & $N_K$ maximal monótono; $J_\lambda^{N_K} = P_K$ (Minty) \\
+Envolvente de Moreau &
+$\delta_K^\varepsilon(u) = \frac{1}{2\varepsilon}\dist(u,K)^2$ \\
+Proyección (obstáculo) &
+$P_K(u)(x) = \max(u(x), \psi(x))$, \quad $u - P_K(u) = (u-\psi)_-$ \\
+Penalización explícita &
+$J_\varepsilon = J + \frac{1}{2\varepsilon}\int (u-\psi)_-^2$ \\
+Gradiente $=$ Yosida &
+$\nabla \delta_K^\varepsilon(u) = (N_K)_\varepsilon(u)
+= \frac{1}{\varepsilon}(u - \psi)_-$ \\
+Sistema penalizado &
+$A u + \frac{1}{\varepsilon}(u-\psi)_- = b$ \\
+Matriz de Newton &
+$V_k = A + \frac{1}{\varepsilon}\operatorname{diag}(\chi_{\mathcal{A}_k})$,
+\quad SPD \\
+Convergencia & $u_\varepsilon \to u^\ast$, error $O(\sqrt{\varepsilon})$;
+Newton cuadrático \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+El hilo conductor: la indicatriz es la función convexa más brutal posible
+(una pared infinita), su subdiferencial es el cono normal (un operador
+multivaluado maximal monótono imposible de linearizar), y sin embargo la
+regularización de Moreau--Yosida la convierte en un funcional diferenciable
+cuyo gradiente es una función semisuave explícita, $(1/\varepsilon)
+(u-\psi)_-$. Sobre esa función actúa Newton semisuave, cuya linealización
+no es otra cosa que el método de conjunto activo. El análisis convexo
+(subdiferencial, cono normal, resolvente) y el análisis numérico
+(penalización, Newton, conjunto activo) son la misma historia contada
+en dos idiomas.
+
+% ============================================================
+\begin{thebibliography}{9}
+
+\bibitem{BS68}
+H.~Brezis, G.~Stampacchia,
+\emph{Sur la régularité de la solution d'inéquations elliptiques},
+Bull. Soc. Math. France \textbf{96} (1968), 153--180.
+
+\bibitem{Glowinski}
+R.~Glowinski, J.-L.~Lions, R.~Trémolières,
+\emph{Analyse numérique des inéquations variationnelles},
+Dunod, Paris, 1976.
+
+\bibitem{HIK02}
+M.~Hinterm\"uller, K.~Ito, K.~Kunisch,
+\emph{The primal-dual active set strategy as a semismooth Newton method},
+SIAM J. Optim. \textbf{13} (2002), 865--888.
+
+\bibitem{FacchineiPang}
+F.~Facchinei, J.-S.~Pang,
+\emph{Finite-Dimensional Variational Inequalities and Complementarity
+Problems}, Springer, 2003.
+
+\bibitem{Ulbrich}
+M.~Ulbrich,
+\emph{Semismooth Newton Methods for Variational Inequalities and
+Constrained Optimization Problems in Function Spaces},
+SIAM, 2011.
+
+\bibitem{KinderlehrerStampacchia}
+D.~Kinderlehrer, G.~Stampacchia,
+\emph{An Introduction to Variational Inequalities and Their
+Applications}, Academic Press, 1980.
+
+\bibitem{Rockafellar70}
+R.~T.~Rockafellar,
+\emph{On the maximal monotonicity of subdifferential mappings},
+Pacific J. Math. \textbf{33} (1970), 209--216.
+
+\bibitem{Moreau65}
+J.-J.~Moreau,
+\emph{Proximité et dualité dans un espace hilbertien},
+Bull. Soc. Math. France \textbf{93} (1965), 273--299.
+
+\bibitem{Minty62}
+G.~J.~Minty,
+\emph{Monotone (nonlinear) operators in Hilbert space},
+Duke Math. J. \textbf{29} (1962), 341--346.
+
+\end{thebibliography}
+
+\end{document}
