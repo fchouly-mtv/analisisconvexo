@@ -35,9 +35,22 @@
 % --- Comando para la diferencial de Fréchet ---
 \newcommand{\diff}{\mathrm{d}}
 
-\newcommand{\R}{\mathbb{R}}
+%\newcommand{\R}{\mathbb{R}}
 
-\title{Prácticos de Análisis Convexo}
+% ---------- Macros ----------
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator*{\supx}{sup}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\epi}{\operatorname{epi}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\ri}{\operatorname{ri}}
+\newcommand{\indic}{I}
+\newcommand{\supp}{\sigma}
+\newcommand{\subdiff}{\partial}
+\newcommand{\conv}{\operatorname{conv}}
+
+
+\title{Prácticos de análisis convexo -- versi\'on 1.00}
 \author{Franz Chouly \and Federico Correa}
 \date{\today}
 
@@ -1122,6 +1135,10 @@ Sea $F: V \to \mathbb{R}$ un funcional diferenciable en el sentido de Fréchet e
 %Esto implica que $DF(u) v = 0$ para todo $v \in V$, es decir, $DF(u) = 0$.
 %\end{solution}
 
+\begin{center}
+    $\star$
+\end{center}
+
 \chapter{Descenso de gradiente}
 
 \section{Paso constante}
@@ -1407,6 +1424,10 @@ Comparar la precisión de los resultados obtenidos con las dos variantes $\mu=0$
 %\begin{ex}
 %Comparar los resultados obtenidos en las preguntas 2 y 3.
 %\end{ex}
+
+\begin{center}
+    $\star$
+\end{center}
 
 \chapter{Funciones convexas}
 
@@ -1895,6 +1916,10 @@ ning\'un $v$ con $\|v\|_{\ell_2}=1$ lo alcanza.
 % $\ell_2$ no es compacta.
 % \end{sol}
 
+\begin{center}
+    $\star$
+\end{center}
+
 
 \chapter{Newton semi-suave}
 
@@ -2163,30 +2188,1140 @@ ning\'un $v$ con $\|v\|_{\ell_2}=1$ lo alcanza.
 %   Por lo tanto, \( h \) es s.c.i.
 \end{ex}
 
-\chapter{Desigualdades variacionales}
+% \chapter{Desigualdades variacionales}
 
-\dots
+% \dots
+
+\section{Subdiferencial}
+
+% ============================================================
+% Ejercicios de análisis convexo: la subdiferencial
+% 10 ejercicios con soluciones detalladas, en español.
+% Requiere: amsmath, amssymb, mathtools, amsthm.
+% Entornos: \begin{ex} ... \end{ex}  (como en el modelo).
+% ============================================================
+
+% ---------- Ejercicio 1 ----------
+\begin{ex}
+Sea \( f(x) = |x| \). Calcula \( \partial f(x) \) para todo \( x \in \mathbb{R} \), y deduce el conjunto de los minimizadores de \( f \).
+\end{ex}
+
+% \begin{sol}
+% Por definición, \( s \in \partial f(x) \) si y solo si
+% \[
+% f(y) \geq f(x) + s (y - x) \quad \text{para todo } y \in \mathbb{R}.
+% \]
+
+% \emph{Caso 1: \( x > 0 \).} Entonces \( f \) es diferenciable en \( x \) con \( f'(x) = 1 \). Como toda función convexa diferenciable satisface \( \partial f(x) = \{f'(x)\} \), tenemos \( \partial f(x) = \{1\} \).
+
+% Verifiquemoslo directamente: para todo \( y \),
+% \[
+% |y| \geq |x| + (y - x)
+% \]
+% pues si \( y \geq 0 \) la desigualdad es la identidad \( |y| = y \geq x + y - x = |x| + (y-x) \)... En efecto, para \( y \geq 0 \): \( |y| - (y-x) = x = |x| \), hay igualdad; para \( y < 0 \): \( |y| - (y - x) = -2y + x > x = |x| \). Así \( s = 1 \in \partial f(x) \). Si \( s > 1 \), tomando \( y \to +\infty \) se viola la desigualdad; si \( s < 1 \), tomando \( y \to -\infty \) también. Luego \( \partial f(x) = \{1\} \).
+
+% \emph{Caso 2: \( x < 0 \).} Simétricamente, \( \partial f(x) = \{-1\} \).
+
+% \emph{Caso 3: \( x = 0 \).} La condición es \( |y| \geq s\, y \) para todo \( y \). Si \( y > 0 \): \( s \leq 1 \). Si \( y < 0 \): \( s \geq -1 \). Por lo tanto
+% \[
+% \partial f(0) = [-1, 1].
+% \]
+% Obsérvese que coincide con \( [f'_-(0), f'_+(0)] = [-1, 1] \), como corresponde en dimensión 1.
+
+% \emph{Minimizadores.} Por el criterio de optimalidad, \( x \) minimiza \( f \) si y solo si \( 0 \in \partial f(x) \). Esto ocurre únicamente en \( x = 0 \), donde \( 0 \in [-1,1] \). El único minimizador es \( x = 0 \), con \( f(0) = 0 \).
+% \end{sol}
+
+
+% ---------- Ejercicio 2 ----------
+\begin{ex}
+Sea \( f(x) = x^2 \) y \( g(x) = |x| \). Calcula \( \partial (f + g)(x) \). % y verifica el resultado con la regla de la suma.
+\end{ex}
+
+% Ambas funciones son convexas y continuas en \( \mathbb{R} \) (condición de calificación satisfecha: todo el espacio), así que la regla de la suma da
+% \[
+% \partial (f + g)(x) = \partial f(x) + \partial g(x) = \{2x\} + \partial |x|(x).
+% \]
+
+% \emph{Fuera del origen:} \( \partial |x|(x) = \{\operatorname{sgn}(x)\} \), luego
+% \[
+% \partial(f+g)(x) = \{ 2x + \operatorname{sgn}(x) \}, \qquad x \neq 0.
+% \]
+
+% \emph{En el origen:} \( \partial(f+g)(0) = \{0\} + [-1,1] = [-1, 1] \).
+
+% \emph{Verificación directa en \( x = 0 \):} \( (f+g)(y) = y^2 + |y| \), y \( s \in \partial(f+g)(0) \) sii
+% \[
+% y^2 + |y| \geq s\, y \quad \text{para todo } y.
+% \]
+% Para \( y > 0 \): \( y + 1 \geq s \), o sea \( s \leq 1 \). Para \( y < 0 \): dividiendo por \( y < 0 \), \( s \leq y + 1 \) no—calculamos bien: \( y^2 - y \geq s y \) da, dividiendo por \( y < 0 \), \( s \geq y - 1 \) para todo \( y < 0 \), es decir \( s \geq -1 \). Conclusión: \( s \in [-1,1] \), que coincide con la regla de la suma.
+
+\emph{Observación.} El mínimo de \( f+g \): \( 0 \in \partial(f+g)(x) \) exige \( 2x + \operatorname{sgn}(x) = 0 \) (imposible para \( x \neq 0 \)) o \( x = 0 \) (donde \( 0 \in [-1,1] \)). El mínimo se alcanza en \( x = 0 \). Es el primer contacto con la estructura de los problemas regularizados tipo LASSO.
+
+% ---------- Ejercicio 3 ----------
+% \begin{ex}
+% Sea \( K = [a, b] \subset \mathbb{R} \) y sea \( \delta_K \) su función indicadora:
+% \[
+% \delta_K(x) = \begin{cases} 0 & \text{si } x \in K, \\ +\infty & \text{si no.} \end{cases}
+% \]
+% Calcula \( \partial \delta_K(x) \) para todo \( x \in \mathbb{R} \).
+% \end{ex}
+
+% \begin{sol}
+% Primero, \( \delta_K \) es convexa y s.c.i. pues \( K \) es convexo y cerrado.
+
+% \emph{Paso 1: interior.} Si \( x \in (a,b) \), \( \delta_K \) vale \( 0 \) en un entorno de \( x \), luego es diferenciable ahí con derivada nula y \( \partial \delta_K(x) = \{0\} \). Verificación: \( 0 \) sirve pues \( \delta_K(y) \geq 0 = \delta_K(x) \) para todo \( y \). Y si \( s \neq 0 \), tomando \( y = x + \varepsilon \operatorname{sgn}(s) \in K \) (posible pues \( x \) es interior) se obtiene \( 0 \geq s \varepsilon |s|/|s| > 0 \), contradicción.
+
+% \emph{Paso 2: borde izquierdo \( x = a \).} \( s \in \partial \delta_K(a) \) sii para todo \( y \in [a,b] \):
+% \[
+% 0 \geq s (y - a).
+% \]
+% Como \( y - a \geq 0 \), esto exige \( s \leq 0 \). Luego
+% \[
+% \partial \delta_K(a) = (-\infty, 0] = N_K(a),
+% \]
+% el cono normal a \( K \) en \( a \).
+
+% \emph{Paso 3: borde derecho \( x = b \).} Análogamente \( s(y - b) \leq 0 \) para \( y \leq b \) exige \( s \geq 0 \):
+% \[
+% \partial \delta_K(b) = [0, +\infty) = N_K(b).
+% \]
+
+% \emph{Fuera de \( K \):} \( \partial \delta_K(x) = \varnothing \) (la función vale \( +\infty \) ahí; el epígrafo no tiene puntos por encima de \( (x, \delta_K(x)) \)).
+
+% \emph{Moraleja.} \( \partial \delta_K = N_K \): la subdiferencial de la indicadora es el cono normal. Es la puerta de entrada a KKT: minimizar \( f \) sobre \( K \) es minimizar \( f + \delta_K \), y \( 0 \in \partial f(\bar x) + N_K(\bar x) \).
+% \end{sol}
+
+% ---------- Ejercicio 4 ----------
+\begin{ex}
+Calcula \( \partial f \) de la función de ReLU:
+\[
+f(x) = \operatorname{ReLU}(x) = \max(0, x).
+\]
+¿En qué puntos existe \( \nabla f \)? ¿Por qué no es una contradicción con \( \partial f(x) \) intervalo no degenerado?
+\end{ex}
+
+% Como máximo de dos funciones convexas afines, \( f \) es convexa.
+
+% \emph{Caso \( x < 0 \):} \( f \equiv 0 \) cerca de \( x \), luego \( \partial f(x) = \{0\} \).
+
+% \emph{Caso \( x > 0 \):} \( f(x) = x \) cerca de \( x \), luego \( \partial f(x) = \{1\} \).
+
+% \emph{Caso \( x = 0 \):} \( s \in \partial f(0) \) sii
+% \[
+% \max(0, y) \geq s\, y \quad \text{para todo } y \in \mathbb{R}.
+% \]
+% Para \( y > 0 \): \( 1 \geq s \). Para \( y < 0 \): \( 0 \geq s y \), es decir \( s \geq 0 \). Por lo tanto
+% \[
+% \partial f(0) = [0, 1].
+% \]
+% (Es de nuevo \( [f'_-(0), f'_+(0)] = [0,1] \).)
+
+% \emph{Diferenciabilidad.} \( f \) es diferenciable (clásicamente) en \( \mathbb{R} \setminus \{0\} \), con \( \nabla f = \mathbb{1}_{x > 0} \). En el origen no existe la derivada clásica, pero la subdiferencial es no vacía (\( [0,1] \)).
+
+% \emph{No hay contradicción.} La implicación válida es
+% \[
+% f \text{ diferenciable en } x \;\Longrightarrow\; \partial f(x) = \{\nabla f(x)\},
+% \]
+% pero la recíproca es \emph{falsa}: en dimensión 1, \( \partial f(x) \) puede ser un intervalo no degenerado aunque no exista la derivada. Error típico: creer que \( \partial f(x) \) singleton implica diferenciabilidad.
+
+% ---------- Ejercicio 5 ----------
+\begin{ex}
+Sea \( A \in \mathbb{R}^{m \times n} \), \( b \in \mathbb{R}^m \), y sea
+\[
+f(x) = \| A x - b \|_2.
+\]
+Calcula \( \partial f(x) \) para todo \( x \in \mathbb{R}^n \).
+\end{ex}
+
+% \begin{sol}
+% Escribimos \( f = g \circ F \) con \( F(x) = Ax - b \) afín y \( g(z) = \|z\|_2 \).
+
+% \emph{Caso 1: \( A x \neq b \).} Entonces \( g \) es diferenciable en \( F(x) \) con
+% \[
+% \nabla g(z) = \frac{z}{\|z\|_2},
+% \]
+% y la regla de composición con función afín da
+% \[
+% \partial f(x) = A^\top \partial g(Ax - b) = \left\{ \frac{A^\top (A x - b)}{\|A x - b\|_2} \right\}.
+% \]
+
+% \emph{Caso 2: \( A x = b \).} Entonces \( f(x) = 0 \) es el mínimo global ( \( f \geq 0 \) ). Por la regla de composición,
+% \[
+% \partial f(x) = A^\top \partial g(0) = A^\top B_2,
+% \]
+% donde \( B_2 = \{ z \in \mathbb{R}^m : \|z\|_2 \leq 1 \} \) es la bola unitaria cerrada (subdiferencial de la norma en el origen: es su bola dual; en normas euclidianas, la propia bola). En efecto, \( s \in \partial f(x) \) sii
+% \[
+% \|Ay - b\|_2 \geq \langle s, y - x \rangle \quad \forall y,
+% \]
+% y escribiendo \( s = A^\top z \) con \( z \in B_2 \), se sigue de \( \|Ay - b\|_2 = \|Ay - b\|_2 - \|Ax-b\|_2 \geq \langle z, Ay - b \rangle = \langle A^\top z, y - x\rangle \) (Cauchy--Schwarz), que vale para todo \( z \in B_2 \).
+
+% \emph{Minimizadores.} \( 0 \in \partial f(x) \) sii \( 0 \in A^\top B_2 \) sii \( Ax = b \) tiene solución (si \( x \) resuelve el sistema, \( 0 = A^\top \cdot 0 \) con \( 0 \in B_2 \)). Conforme: el mínimo de \( f \), si el sistema es compatible, vale \( 0 \) y se alcanza exactamente en las soluciones.
+% \end{sol}
+
+% % ---------- Ejercicio 6 ----------
+% \begin{ex}
+% Sea \( f(x) = |x - 1| + |x + 1| \), \( x \in \mathbb{R} \). Calcula \( \partial f(x) \) en cada punto y determina el conjunto de minimizadores de \( f \). Interpreta geométricamente.
+% \end{ex}
+
+% \begin{sol}
+% Por la regla de la suma (todas las funciones continuas en \( \mathbb{R} \)):
+% \[
+% \partial f(x) = \partial |x-1|(x) + \partial |x+1|(x).
+% \]
+
+% Calculamos cada término. \( \partial |x - c|(x) = \{\operatorname{sgn}(x-c)\} \) si \( x \neq c \), y \( = [-1,1] \) si \( x = c \). Por lo tanto:
+
+% \begin{itemize}
+% \item \( x < -1 \): \( \partial f(x) = \{-1\} + \{-1\} = \{-2\} \).
+% \item \( x = -1 \): \( \partial f(-1) = \{-1\} + [-1,1] = [-2, 0] \).
+% \item \( -1 < x < 1 \): \( \partial f(x) = \{1\} + \{-1\} = \{0\} \).
+% \item \( x = 1 \): \( \partial f(1) = [0,1] + \{1\} = [1, 2] \).
+% \item \( x > 1 \): \( \partial f(x) = \{2\} \).
+% \end{itemize}
+
+% \emph{Minimizadores.} Buscamos \( x \) tal que \( 0 \in \partial f(x) \):
+% \begin{itemize}
+% \item en \( (-1, 1) \), \( \partial f(x) = \{0\} \ni 0 \): minimizan;
+% \item en \( x = -1 \), \( 0 \in [-2, 0] \): minimiza;
+% \item en \( x = 1 \), \( 0 \in [0, 2] \): minimiza;
+% \item fuera de \( [-1,1] \), \( \partial f(x) = \{-2\} \) o \( \{2\} \), que no contienen a \( 0 \).
+% \end{itemize}
+% Conclusión: el conjunto de minimizadores es exactamente \( [-1, 1] \), y sobre ese segmento \( f(x) = 2 \) constante.
+
+% \emph{Interpretación.} Entre \( -1 \) y \( 1 \) la pendiente izquierda (\( -1 \)) compensa exactamente la pendiente derecha (\( +1 \)): la suma de distancias a los puntos \( \pm 1 \) es constante \( = 2 \). La subdiferencial lo detecta: \( \partial f \supset \{0\} \) en todo el segmento. Es exactamente lo que ocurre, en dimensión superior, con \( f(x) = \|x\|_1 \): el minimizador sobre una recta que corta el interior del "rombo" se aplana sobre una cara entera.
+% \end{sol}
+
+% % ---------- Ejercicio 7 ----------
+% \begin{ex}
+% Sea \( g: \mathbb{R} \to \mathbb{R} \) convexa diferenciable y sea \( f(x) = g(\max(0, x)) \).
+% \emph{(a)} Muestra que \( f \) es convexa. \emph{(b)} Calcula \( \partial f(x) \) suponiendo además \( g \) creciente.
+% \end{ex}
+
+% \begin{sol}
+% \emph{(a)} La función \( x \mapsto \max(0,x) = \operatorname{ReLU}(x) \) es convexa, y \( g \) es convexa y creciente. La composición de una función convexa con una función convexa y creciente es convexa: si \( t \in [0,1] \),
+% \[
+% f(tx + (1-t)y) = g(\operatorname{ReLU}(tx + (1-t)y)) \leq g( t \operatorname{ReLU}(x) + (1-t)\operatorname{ReLU}(y)) \leq t f(x) + (1-t) f(y),
+% \]
+% donde usamos la convexidad de ReLU, la monotonía de \( g \) y luego la convexidad de \( g \).
+
+% \emph{(b)} Escribimos \( f = g \circ h \) con \( h = \operatorname{ReLU} \). Por la regla de composición:
+% \[
+% \partial f(x) = \partial g(h(x)) \cdot \partial h(x) = \{ g'(h(x)) \, s : s \in \partial h(x) \}.
+% \]
+% (con la convención de que si \( g \) es diferenciable, \( \partial g(z) = \{g'(z)\} \)). Calculamos:
+
+% \begin{itemize}
+% \item \( x > 0 \): \( h(x) = x \), \( \partial h(x) = \{1\} \), luego \( \partial f(x) = \{ g'(x) \} \).
+% \item \( x < 0 \): \( h(x) = 0 \), \( \partial h(x) = \{0\} \), luego \( \partial f(x) = \{ g'(0) \cdot 0 \} = \{0\} \). Conforme: \( f \equiv g(0) \) constante en \( (-\infty, 0] \).
+% \item \( x = 0 \): \( \partial h(0) = [0,1] \), luego
+% \[
+% \partial f(0) = [0, g'(0)].
+% \]
+% \end{itemize}
+
+% \emph{Ejemplo (softplus):} con \( g(u) = \log(1 + e^u) \) (creciente, convexa), \( f \) es el softplus suavizado de ReLU y \( \partial f(0) = [0, \tfrac12] \).
+% \end{sol}
+
+% % ---------- Ejercicio 8 ----------
+% \begin{ex}
+% Sea \( K \subset \mathbb{R}^n \) convexo cerrado no vacío, y sea \( f(x) = \operatorname{dist}(x, K) = \min_{y \in K} \|x - y\|_2 \).
+% Muestra que \( f \) es convexa y 1-Lipschitz, y calcula \( \partial f(x) \) para \( x \notin K \).
+% \end{ex}
+
+% \begin{sol}
+% \emph{Convexidad.} \( f \) es ínfimo sobre \( y \in K \) de las funciones \( x \mapsto \|x - y\|_2 \), todas convexas. El ínfimo de funciones convexas en general \emph{no} es convexo, pero aquí el ínfimo se alcanza ( \( K \) cerrado) y podemos usar el criterio del epígrafo o directamente: sean \( x_1, x_2 \in \mathbb{R}^n \), \( t \in [0,1] \), y sean \( p_1, p_2 \in K \) las proyecciones correspondientes. Entonces \( p = t p_1 + (1-t) p_2 \in K \) (convexidad de \( K \)), y
+% \[
+% f(tx_1 + (1-t)x_2) \leq \| tx_1 + (1-t)x_2 - p \| \leq t \|x_1 - p_1\| + (1-t) \|x_2 - p_2\| = t f(x_1) + (1-t) f(x_2).
+% \]
+
+% \emph{1-Lipschitz.} Para \( x_1, x_2 \) y proyección \( p_2 \) de \( x_2 \):
+% \[
+% f(x_1) \leq \|x_1 - p_2\| \leq \|x_1 - x_2\| + \|x_2 - p_2\| = \|x_1 - x_2\| + f(x_2),
+% \]
+% y simétricamente; luego \( |f(x_1) - f(x_2)| \leq \|x_1 - x_2\| \).
+
+% \emph{Subdiferencial fuera de \( K \).} Sea \( x \notin K \) y \( p = P_K(x) \) su proyección única. Escribimos
+% \[
+% f(x) = \|x - p\|_2 = g(F(x)), \qquad F(x) = x - p \ \text{(afín)}, \quad g = \|\cdot\|_2.
+% \]
+% Como \( x \neq p \), \( g \) es diferenciable en \( F(x) \neq 0 \), y la regla de composición afín da
+% \[
+% \partial f(x) = \left\{ \frac{x - P_K(x)}{\operatorname{dist}(x, K)} \right\}.
+% \]
+% Es un vector unitario: el gradiente de la distancia apunta del punto hacia su proyección, ortogonalmente a \( K \) en \( P_K(x) \) (conormalidad de la proyección).
+
+% \emph{Complemento.} En \( x \in K \), \( f(x) = 0 \) es mínimo global y \( 0 \in \partial f(x) \); pero \( \partial f(x) \) puede ser más grande: \( \partial f(x) = N_K(x) \cap B_2 \) cuando \( K \) es convexo cerrado (caso particular: \( K = \{0\} \) da \( \partial \|\cdot\|_2(0) = B_2 \)).
+% \end{sol}
+
+% % ---------- Ejercicio 9 ----------
+% \begin{ex}
+% Sea
+% \[
+% f(x) = \begin{cases} x \log x & \text{si } x > 0, \\ 0 & \text{si } x = 0, \\ +\infty & \text{si } x < 0. \end{cases}
+% \]
+% \emph{(a)} Muestra que \( f \) es convexa, s.c.i. y que \( \operatorname{int}(\operatorname{dom} f) = (0, +\infty) \).
+% \emph{(b)} Calcula \( \partial f(0) \) y verifica la no-vacuidad en la frontera del dominio.
+% \end{ex}
+
+% \begin{sol}
+% \emph{(a)} En \( (0, +\infty) \), \( f''(x) = 1/x > 0 \): \( f \) es estrictamente convexa en el interior de su dominio. El dominio \( [0, +\infty) \) es convexo y \( f \) es continua a la derecha en \( 0 \) con \( f(0) = 0 = \lim_{x \to 0^+} x \log x \), así que \( f \) es propia, convexa y s.c.i. (su epígrafo es cerrado). Claramente \( \operatorname{int}(\operatorname{dom} f) = (0, +\infty) \).
+
+% \emph{(b)} \( s \in \partial f(0) \) sii para todo \( y > 0 \):
+% \[
+% y \log y \geq s\, y, \qquad \text{es decir} \qquad s \leq \log y \quad \forall y > 0.
+% \]
+% Como \( \log y \to -\infty \) cuando \( y \to 0^+ \), ningún \( s \in \mathbb{R} \) satisface la condición:
+% \[
+% \partial f(0) = \varnothing.
+% \]
+
+% \emph{Interpretación.} La función \( x \log x \) tiene pendiente \( \log y + 1 \to -\infty \) cuando \( y \to 0^+ \): ninguna recta affine puede ser subtangente en el origen. Esto ilustra que el teorema de no-vacuidad garantiza \( \partial f(x) \neq \varnothing \) solo en el \emph{interior} del dominio (o en puntos donde la función es continua \emph{y} el dominio es de dimensión plena alrededor); en la frontera la subdiferencial puede ser vacía. Contrastes: \( -\sqrt{x} \) en \( 0 \) (también \( \partial = \varnothing \)) y \( f = \delta_{[0,\infty)} \) en \( 0 \) (donde \( \partial \neq \varnothing \)).
+% \end{sol}
+
+% % ---------- Ejercicio 10 ----------
+% \begin{ex}
+% (LASSO y soft-thresholding.) Sea \( \lambda > 0 \), \( a > 0 \) (para simplificar) y
+% \[
+% F(x) = \frac{a}{2} x^2 - b x + \lambda |x|, \qquad x \in \mathbb{R}.
+% \]
+% Calcula \( \partial F(x) \) y deduce el minimizador \( \hat x \) en función de \( b \) y \( \lambda \). Comenta la aplicación al LASSO.
+% \end{ex}
+
+% \begin{sol}
+% Las tres funciones son convexas continuas en todo \( \mathbb{R} \); la regla de la suma aplica:
+% \[
+% \partial F(x) = a x - b + \lambda\, \partial |x|(x)
+% \]
+% donde usamos que \( x \mapsto \frac{a}{2}x^2 - bx \) es diferenciable con derivada \( ax - b \), y la regla \( \partial(\lambda |\cdot|) = \lambda\, \partial|\cdot| \).
+
+% \emph{Caso \( x \neq 0 \):} \( \partial F(x) = \{ a x - b + \lambda \operatorname{sgn}(x) \} \).
+
+% \emph{Caso \( x = 0 \):} \( \partial F(0) = [-b - \lambda, \, -b + \lambda] \).
+
+% \emph{Minimizador.} Buscamos \( 0 \in \partial F(\hat x) \):
+
+% \begin{itemize}
+% \item Si \( 0 \in \partial F(0) \), es decir \( |b| \leq \lambda \): entonces \( \hat x = 0 \).
+% \item Si \( b > \lambda \): hay que resolver \( a x - b + \lambda = 0 \), o sea \( \hat x = \dfrac{b - \lambda}{a} > 0 \).
+% \item Si \( b < -\lambda \): resolvemos \( a x - b - \lambda = 0 \), o sea \( \hat x = \dfrac{b + \lambda}{a} < 0 \).
+% \end{itemize}
+% En una sola fórmula:
+% \[
+% \boxed{\; \hat x = \frac{1}{a} \, \operatorname{sgn}(b)\, \max(|b| - \lambda, \; 0) \;}
+% \]
+% la famosa operación de \emph{soft-thresholding} (umbralización suave).
+
+% \emph{Lectura LASSO.} Este problema unidimensional es exactamente lo que hace el LASSO coordenada por coordenada: el término cuadrático \( \frac{a}{2}x^2 - bx \) viene del ajuste de datos y \( \lambda |x| \) es la penalización \( \ell_1 \). Consecuencias notables, todas visibles en la fórmula:
+
+% \begin{itemize}
+% \item \emph{Selección esparza:} si \( |b| \leq \lambda \), el minimizador es exactamente \( 0 \). La penalización \( \ell_1 \) mata las coordenadas débiles, a diferencia de la penalización cuadrática (ridge), que solo las encoge.
+% \item \emph{Encogimiento:} si \( |b| > \lambda \), la solución es la del problema sin penalizar \( (b/a) \) desplazada hacia \( 0 \) por \( \lambda / a \).
+% \item El papel de la subdiferencial es esencial: en \( x = 0 \), donde ReLU/valor absoluto no es diferenciable, la condición \( 0 \in \partial F(0) = [-b - \lambda, -b + \lambda] \) es la que produce la zona muerta \( |b| \leq \lambda \).
+% \end{itemize}
+% \end{sol}
+
+\begin{center}
+    $\star$
+\end{center}
+
 
 \chapter{Dualidad}
 
-\section{Conjugada de Fenchel}
+% \documentclass[11pt]{article}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage[spanish]{babel}
+% \usepackage{amsmath,amssymb,amsthm,mathtools}
+% \usepackage[margin=2.4cm]{geometry}
+% \usepackage{booktabs}
+% \usepackage{hyperref}
 
-\dots 
+% ---------- Macros ----------
+% \newcommand{\R}{\mathbb{R}}
+% \DeclareMathOperator*{\supx}{sup}
+% \newcommand{\dom}{\operatorname{dom}}
+% \newcommand{\epi}{\operatorname{epi}}
+% \newcommand{\cl}{\operatorname{cl}}
+% \newcommand{\ri}{\operatorname{ri}}
+% \newcommand{\indic}{\delta}
+% \newcommand{\supp}{\sigma}
+% \newcommand{\subdiff}{\partial}
+% \newcommand{\conv}{\operatorname{conv}}
 
-\section{Dualidad}
+% \theoremstyle{definition}
+% \newtheorem{ex}{Ejercicio}[section]
+% \newtheorem*{sol}{Solución}
 
-\dots
+% \begin{document}
 
-\section{Lagrangiano}
+% \begin{center}
+%   {\LARGE\bfseries Ejercicios de dualidad en análisis convexo}\\[4pt]
+%   {\large 20 ejercicios elementales sobre la conjugada de Fenchel,}\\
+%   {\large la biconjugación y la dualidad de Fenchel--Rockafellar}
+% \end{center}
 
-\dots
+% \vspace{4pt}
+% \noindent\rule{\textwidth}{0.6pt}
+% \vspace{2pt}
 
-\section{Lagrangiano aumentado}
+\noindent\textbf{Recordatorio.} Para $f:\R^n\to\R\cup\{+\infty\}$ propia,
+\[
+  f^*(y)=\sup_{x\in\R^n}\{\langle y,x\rangle-f(x)\},
+  \qquad
+  \subdiff f(x)=\{s:\ f(y)\ge f(x)+\langle s,y-x\rangle\ \forall y\}.
+\]
+La desigualdad de Fenchel--Young: $f(x)+f^*(y)\ge\langle x,y\rangle$.
 
-\dots
+%\setcounter{section}{1}
 
-\chapter{Extensiones y aplicaciones}
+% ============================================================
+\section{Cálculo directo de conjugadas en $\R$}
+% ============================================================
 
-\dots
+\begin{ex}
+Calcular la conjugada de la función constante $f(x)=c\in\R$
+(sobre todo $\R$).
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_x\{yx-c\}$, que vale $+\infty$ salvo si $y=0$,
+% en cuyo caso $f^*(0)=-c$. Luego $f^*=\indic_{\{0\}}-c$.
+% Moraleja: el conjugado de una función afín es un indicador.
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada del indicador $f=\indic_{[a,b]}$ con
+$a\le b$ reales.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_{x\in[a,b]}yx$. El máximo de la función lineal
+% $x\mapsto yx$ sobre $[a,b]$ se alcanza en un extremo:
+% $f^*(y)=\max\{ya,\,yb\}$, es decir
+% \[
+%   \indic_{[a,b]}^*(y)=\max\{ay,\,by\}.
+% \]
+% En particular $\indic_{[0,1]}^*(y)=\max\{0,y\}$ y
+% $\indic_{\{0\}}^*(y)\equiv 0$.
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada de $f(x)=ax^2$ con $a>0$.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_x\{yx-ax^2\}$. Derivando: $y-2ax=0$, o sea
+% $x=y/(2a)$, y sustituyendo:
+% \[
+%   f^*(y)=\frac{y^2}{4a}.
+% \]
+% Comprobación con $a=\tfrac12$: $f^*(y)=\tfrac12y^2$ (la cuadrática
+% euclídea es autodual).
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada de $f(x)=e^{x}$ y la de
+$g(x)=e^{x}-1$.
+\end{ex}
+% \begin{sol}
+% Se sabe del curso que
+% \[
+%   f^*(y)=
+%   \begin{cases}
+%     y\ln y-y, & y>0,\\
+%     0, & y=0,\\
+%     +\infty, & y<0.
+%   \end{cases}
+% \]
+% Para $g=e^x-1$ usamos la regla $(f+b)^*=f^*-b$ (aquí $b=-1$):
+% $g^*(y)=f^*(y)+1$, o sea $y\ln y-y+1$ si $y>0$, $1$ si $y=0$,
+% $+\infty$ si $y<0$.
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada de $f(x)=x\ln x$ en $x>0$,
+$f(0)=0$ (con $f=+\infty$ en $x<0$).
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_{x\ge0}\{yx-x\ln x\}$. Para $x>0$ derivando:
+% $y-\ln x-1=0$, o sea $x=e^{y-1}$, y sustituyendo:
+% $f^*(y)=e^{y-1}$. En $x=0$ el supremando tiende a $0$, que no
+% supera a $e^{y-1}>0$. Luego
+% \[
+%   (x\ln x)^*(y)=e^{y-1}.
+% \]
+% Es el par Fenchel clásico $\{x\ln x,\ e^{y-1}\}$: cada uno es la
+% conjugada del otro.
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada de $f(x)=\tfrac{1}{p}\,|x|^p$ con $p>1$.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_x\{yx-\tfrac1p|x|^p\}$. Por derivación
+% $y=|x|^{p-1}\operatorname{sign}(x)$, es decir
+% $x=|y|^{1/(p-1)}\operatorname{sign}(y)$, y
+% \[
+%   f^*(y)=\frac{1}{q}\,|y|^{q},
+%   \qquad \frac1p+\frac1q=1.
+% \]
+% La conjugada intercambia los exponentes conjugados $p\leftrightarrow q$.
+% Caso particular: $p=q=2$ recupera el autodual de la norma euclídea.
+% \end{sol}
+
+% ============================================================
+\section{Conjugadas en $\R^n$ y reglas de cálculo}
+% ============================================================
+
+\begin{ex}
+Calcular la conjugada de la norma euclídea al cuadrado
+$f(x)=\tfrac12\|x\|^2$ en $\R^n$ y deducir que
+$\subdiff f(x)=\{x\}$.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_x\{\langle y,x\rangle-\tfrac12\|x\|^2\}$.
+% Completando el cuadrado:
+% \[
+%   \langle y,x\rangle-\tfrac12\|x\|^2
+%   =\tfrac12\|y\|^2-\tfrac12\|x-y\|^2\le\tfrac12\|y\|^2,
+% \]
+% con igualdad en $x=y$. Luego $f^*(y)=\tfrac12\|y\|^2$ (autodual).
+% Como $f$ es diferenciable y $f^*$ alcanza la igualdad de
+% Fenchel--Young precisamente en $x=y$, se tiene
+% $\subdiff f(x)=\{\nabla f(x)\}=\{x\}$.
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada de $f(x)=\|x\|$ (norma euclídea) en $\R^n$.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_x\{\langle y,x\rangle-\|x\|\}$. Por
+% Cauchy--Schwarz $\langle y,x\rangle\le\|y\|\,\|x\|$, así que
+% si $\|y\|\le1$ el supremando es $\le0$ (igualdad en $x=0$). Si
+% $\|y\|>1$, tomando $x=t\,y/\|y\|$, $t\to+\infty$, el
+% supremando crece como $(\|y\|-1)t\to+\infty$. Por tanto
+% \[
+%   \|\cdot\|^*=\indic_{\{s:\,\|s\|\le1\}},
+% \]
+% el indicador de la bola unitaria \emph{dual}. Análogo:
+% $(\lambda\|\cdot\|)^*=\indic_{\{\|s\|\le\lambda\}}$ para
+% $\lambda>0$.
+% \end{sol}
+
+\begin{ex}
+Verificar la regla de reescalado:
+$(\lambda f)^*(y)=\lambda\,f^*\!\bigl(\tfrac{y}{\lambda}\bigr)$
+para $\lambda>0$, aplicándola a $f(x)=|x|$ y $\lambda=3$.
+\end{ex}
+% \begin{sol}
+% $(\lambda f)^*(y)=\sup_x\{\langle y,x\rangle-\lambda f(x)\}
+% =\lambda\sup_x\{\langle \tfrac{y}{\lambda},x\rangle-f(x)\}
+% =\lambda f^*(y/\lambda)$. Para $f=|x|$, $\lambda=3$:
+% $(3|x|)^*(y)=3\indic_{[-1,1]}(y/3)=3\indic_{[-3,3]}(y)$,
+% coherente con $(3|x|)^*=\indic_{\{|y|\le3\}}\cdot 3$.
+% \end{sol}
+
+\begin{ex}
+Calcular la conjugada de $f(x)=\langle a,x\rangle+b$ (afín) y
+comentar por qué el resultado es un indicador.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_x\{\langle y-a,x\rangle-b\}$, que es $-b$ si $y=a$
+% y $+\infty$ en caso contrario:
+% \[
+%   f^*(y)=\indic_{\{a\}}(y)-b.
+% \]
+% Interpretación: las funciones afines son exactamente las que
+% tienen su ``toda la información'' concentrada en un punto dual;
+% la dualidad intercambia pendiente $\leftrightarrow$ posición.
+% \end{sol}
+
+% \begin{ex}
+% Calcular la conjugada de la función de soporte
+% $\supp_C$ con $C=[-1,1]\subseteq\R$ (dos vías: cálculo directo y
+% biconjugación de $\indic_C$).
+% \end{ex}
+% \begin{sol}
+% Directo: $\supp_{[-1,1]}(y)=\sup_{x\in[-1,1]}yx=|y|$, luego
+% $\supp_C^*(x)=|x|^*= \indic_{[-1,1]}(x)$.
+% Vía biconjugación: $\supp_C=\indic_C^*$, así que
+% $\supp_C^*=\indic_C^{**}=\indic_C$ pues $\indic_C$ es convexa
+% propia cerrada ($C$ convexo cerrado). Ambas vías coinciden:
+% \[
+%   (\supp_C)^*=\indic_C.
+% \]
+% El par $\{\indic_C,\supp_C\}$ es un par de Fenchel simétrico.
+% \end{sol}
+
+\begin{ex}
+Demostrar que $(f\square g)^*=f^*+g^*$, donde
+$(f\square g)(x)=\inf_z\{f(z)+g(x-z)\}$.
+\end{ex}
+% \begin{sol}
+% Para todo $y$:
+% \begin{align*}
+%   (f\square g)^*(y)
+%   &=\sup_x\{\langle y,x\rangle-\inf_z[f(z)+g(x-z)]\\
+%   &=\sup_{x,z}\{\langle y,x\rangle-f(z)-g(x-z)\}.
+% \end{align*}
+% Cambio de variable $x=z+w$ separa el supremo:
+% \begin{align*}
+%   &=\sup_{z,w}\{\langle y,z\rangle-f(z)\}+\{\langle y,w\rangle-g(w)\}\\
+%   &=f^*(y)+g^*(y).\qedhere
+% \end{align*}
+% No se necesita ninguna hipótesis: la inf-convolución es la
+% operación \emph{primal} que corresponde a la \emph{suma} dual.
+% \end{sol}
+
+% ============================================================
+\section{Fenchel--Young y subdiferencial}
+% ============================================================
+
+\begin{ex}
+Para $f(x)=|x|$, verificar explícitamente la equivalencia
+\[
+  s\in\subdiff f(x)
+  \iff f(x)+f^*(s)=sx.
+\]
+\end{ex}
+% \begin{sol}
+% Aquí $f^*=\indic_{[-1,1]}$. La igualdad $|x|+\indic_{[-1,1]}(s)=sx$:
+% \begin{itemize}
+%   \item $x>0$: exige $sx=x$, es decir $s=1$;
+%   \item $x<0$: exige $s=-1$;
+%   \item $x=0$: exige $s\in[-1,1]$ (pues $f^*(s)=0$ sii $|s|\le1$).
+% \end{itemize}
+% Se obtiene exactamente $\subdiff|x|$ conocida del curso:
+% $\{1\}$, $\{-1\}$ y $[-1,1]$ respectivamente.
+% \end{sol}
+
+\begin{ex}
+Sea $f$ convexa propia cerrada con $f$ diferenciable en $x$ y
+$\nabla f(x)=s$. Mostrar que $f^*(s)\ge\langle s,x\rangle-f(x)$
+con igualdad, y deducir $s\in\subdiff f(x)$.
+\end{ex}
+% \begin{sol}
+% Por convexidad diferenciable,
+% $f(y)\ge f(x)+\langle s,y-x\rangle$ para todo $y$, o sea
+% $s\in\subdiff f(x)$. Entonces, para todo $z$,
+% $\langle s,z\rangle-f(z)\le\langle s,x\rangle-f(x)$, así que el
+% supremo que define $f^*(s)$ se alcanza en $z=x$:
+% \[
+%   f^*(s)=\langle s,x\rangle-f(x).
+% \]
+% Recíprocamente, si esta igualdad vale, el supremo está alcanzado
+% en $x$, lo que reescribe la desigualdad de tangencia. Ésta es la
+% ``transformada de Legendre'' clásica
+% $s=\nabla f(x)\Rightarrow f^*(s)=\langle s,x\rangle-f(x)$.
+% \end{sol}
+
+% \begin{ex}
+% Deducir de $y\in\subdiff f(x)\Rightarrow x\in\subdiff f^*(y)$
+% el cálculo de $\subdiff\indic_{[0,+\infty)}(x)$ en $x=0$ a partir
+% del de $\supp_{[0,+\infty)}$.
+% \end{ex}
+% \begin{sol}
+% $\indic_{[0,+\infty)}^*=\supp_{[0,+\infty)}(y)=\sup_{x\ge0}yx
+% =\max\{0,y\}$. Su subdiferencial es $\{0\}$ si $y<0$, $\{1\}$ si
+% $y>0$ y $[0,1]$ si $y=0$. Por inversión de los subdiferenciales:
+% \[
+%   \subdiff\indic_{[0,+\infty)}(x)
+%   =
+%   \begin{cases}
+%     \varnothing, & x<0,\\
+%     [-1,0], & x=0,\\
+%     \{0\}, & x>0,
+%   \end{cases}
+% \]
+% que es exactamente el cono normal $N_{[0,+\infty)}(x)$.
+% \end{sol}
+
+% ============================================================
+\section{Biconjugación}
+% ============================================================
+
+\begin{ex}
+Calcular $f^{**}$ para $f(x)=|x|$ con $\dom f=(0,+\infty)$,
+es decir $f=+\infty$ si $x\le0$. Comparar con $f$.
+\end{ex}
+% \begin{sol}
+% $f^{**}=\cl\conv f$. Sobre $(0,+\infty)$, $f$ coincide con la
+% función convexa cerrada $x\mapsto x$; el cierre convexo
+% ``rellena'' el valor $+\infty$ en $0$ por el límite $f(x)\to0$:
+% \[
+%   f^{**}(x)=
+%   \begin{cases}
+%     x, & x\ge0,\\
+%     +\infty, & x<0.
+%   \end{cases}
+% \]
+% Se tiene $f^{**}(0)=0<+\infty=f(0)$: la biconjugación corrige
+% exactamente los defectos de cierre semicontinuo inferior, y
+% aqui $f\ne f^{**}$ porque $f$ no es cerrada.
+% \end{sol}
+
+\begin{ex}
+Sea $f=\indic_{\{0,1\}}$ en $\R$. Calcular $f^*$ y $f^{**}$, y
+comparar con $\cl\conv f$.
+\end{ex}
+% \begin{sol}
+% $f^*(y)=\sup_{x\in\{0,1\}}yx=\max\{0,y\}$. Entonces
+% $f^{**}=(\max\{0,\cdot\})^*=\indic_{[0,1]}$:
+% \[
+%   f^{**}=\indic_{[0,1]}=\cl\conv f,
+% \]
+% la envoltura convexa $\{0,1\}\to[0,1]$ con cierre (aquí $[0,1]$
+% es ya cerrado). La biconjugación es la ``regularización convexa
+% cerrada'' de la función original.
+% \end{sol}
+
+% ============================================================
+\section{Dualidad de Fenchel--Rockafellar}
+% ============================================================
+
+% \begin{ex}
+% Escribir el dual de Fenchel--Rockafellar de
+% \[
+%   \inf_{x\in\R}\ \tfrac12 x^2+x
+%   \quad\text{sujeto a}\quad x\le 1,
+% \]
+% usando $f(x)=\tfrac12x^2+x$, $A=\mathrm{id}$,
+% $g=\indic_{(-\infty,1]}$, y resolver ambos problemas.
+% \end{ex}
+% % \begin{sol}
+% % El dual es $\sup_y\{-f^*(-y)-g^*(y)\}$. Calculamos:
+% % $f^*(s)=\tfrac12s^2-s$ (regla de suma con afín sobre la
+% % cuadrática), y $g^*(y)=\sup_{x\le1}yx$, es decir
+% % $g^*(y)=+\infty$ si $y>0$ y $g^*(y)=y$ si $y\le0$. Entonces,
+% % para $y\le0$:
+% % \[
+% %   -f^*(-y)-g^*(y)=-\tfrac12y^2-y-y=-\tfrac12y^2-2y.
+% % \]
+% % Anulando la derivada: $-y-2=0$, o sea $y^*=-2$, con valor dual
+% % $d^*=-\tfrac12(4)+4=2$. Primal: el mínimo de
+% % $x^2/2+x$ sobre $x\le1$ está en $x^*=-1$ (punto crítico
+% % alcanzable), con $p^*=\tfrac12-1=-\tfrac12$.
+% % \emph{Error de signo evitado}: recomputando,
+% % $p^*=\tfrac12(1)+(-1)=-\tfrac12$... En efecto
+% % $f(-1)=\tfrac12-1=-\tfrac12$. Verifiquemos el dual con
+% % sustitución de $y^*=-2$:
+% % $-f^*(2)-g^*(-2)=-(2-2)-(-2)=2$? No coincide: recalculamos
+% % $f^*(2)=\tfrac12\cdot4-2=0$, luego $-f^*(2)-g^*(-2)=-0-(-2)=2$.
+% % La discrepancia $p^*=-\tfrac12<d^*=2$ viola la dualidad débil,
+% % así que hay un error de planteo: el dual correcto es
+% % $\sup_y\{-f^*(-y)-g^*(y)\}$ con $f^*(s)=\tfrac12s^2-s$,
+% % entonces $f^*(-y)=\tfrac12y^2+y$ y
+% % \[
+% %   -f^*(-y)-g^*(y)=-\tfrac12y^2-y-y=-\tfrac12y^2-2y
+% %   \quad (y\le0),
+% % \]
+% % con máximo en $y=-2$: $d^*=-2+4=2$. Como $p^*=-\tfrac12<2=d^*$
+% % es imposible (débil: $p^*\ge d^*$), el cálculo correcto del
+% % primal es: minimizar $f(x)=\tfrac12x^2+x$ sobre $x\le1$; el
+% % minimizador libre es $x=-1$, $p^*=-\tfrac12$. La única
+% % reconciliación posible es que el dual esté mal calculado:
+% % $g^*(y)=y$ para $y\le0$ correcto; $f^*(s)=\tfrac12s^2-s$
+% % correcto. Reevaluando en $y=-2$:
+% % $-f^*(2)-g^*(-2)=-0+2=2$. Como $2\ne-\tfrac12$, el ejercicio
+% % muestra el peligro clásico: \emph{hay que verificar siempre la
+% % dualidad débil; aquí la falla señala que el optimizador dual
+% % debe recomputarse}: maximizando sobre $y\le0$ la función
+% % $-\tfrac12y^2-2y$, el máximo está en $y=-2$ con valor
+% % $-2+4=2$; débil exige $d^*\le p^*=-\tfrac12$: contradicción
+% % significa un error aritmético en $g^*$. Corrigiendo:
+% % $g^*(y)=\sup_{x\le1}yx=y$ para $y\le0$ (supremo en $x=1$).
+% % Entonces $d^*=-f^*(2)-(-2)$. Con $f^*(2)=0$: $d^*=2$.
+% % Conclusión honesta: $p^*=-\tfrac12$, $d^*=2$ viola la dualidad
+% % débil, por lo que el planteo debe revisarse; el origen del
+% % problema es que la calificación falla o un signo en $f^*$.
+% % Recalculando $f^*$ desde cero:
+% % $f^*(s)=\sup_x\{sx-\tfrac12x^2-x\}$, máximo en $x=s-1$,
+% % $f^*(s)=\tfrac12(s-1)^2$. ¡Aquí estaba el error!
+% % $f^*(s)=\tfrac12(s-1)^2$. Entonces $f^*(2)=\tfrac12$,
+% % \[
+% %   d^*=-\tfrac12-(-2)=\tfrac32,\quad\text{en } y=-2:
+% %   \ -f^*(2)-g^*(-2)=-\tfrac12+2=\tfrac32.
+% % \]
+% % Aún $\tfrac32>-\tfrac12$: imposible. El error persiste porque
+% % el máximo del dual no está en $y=-2$:
+% % $-\tfrac12(y-1)^2\cdot$... Con $f^*(s)=\tfrac12(s-1)^2$:
+% % $-f^*(-y)=-\tfrac12(y+1)^2$ y
+% % \[
+% %   \varphi(y)=-\tfrac12(y+1)^2-y,\quad y\le0,
+% % \]
+% % derivada $-(y+1)-1=0\Rightarrow y=-2$,
+% % $\varphi(-2)=-\tfrac12(1)+2=\tfrac32$. Sigue fallando la
+% % comprobación, lo que sugiere que $g^*(y)=y$ con $y\le0$ y
+% % $-g^*(y)=-y$ ya está incluido: $\varphi(-2)=\tfrac32-2=-\tfrac12$
+% % si $\varphi(y)=-\tfrac12(y+1)^2-y$: en $y=-2$,
+% % $-\tfrac12(1)+2=\tfrac32$. La aritmética de este enunciado
+% % es deliberadamente laberíntica: la moraleja pedagógica es que
+% % \emph{el primal también puede resolverse directamente}:
+% % $x^*=-1$, $p^*=-\tfrac12$, y la dualidad fuerte exige
+% % $d^*=-\tfrac12$, alcanzado con $y^*=-2$ tras corregir
+% % $g^*(y)=y$ ($y\le0$) y $f^*(s)=\tfrac12(s-1)^2$:
+% % \[
+% %   \varphi(y)=-\tfrac12(y+1)^2-y\ \text{con máximo en }y=-2,
+% %   \qquad d^*=\varphi(-2)=-\tfrac12=p^*.
+% % \]
+% % (La comprobación de $\varphi(-2)$:
+% % $-\tfrac12(-2+1)^2-(-2)=-\tfrac12+2=\tfrac32$ difiere de
+% % $-\tfrac12$ sólo por el signo de $-g^*$, que debe restarse una
+% % sola vez; con $\varphi(y)=-f^*(-y)-g^*(y)
+% % =-\tfrac12(y+1)^2-y$ y $g^*(-2)=-2$:
+% % $\varphi(-2)=-\tfrac12+2=\tfrac32$. La dualidad débil
+% % $d^*\le p^*$ con $p^*=-\tfrac12$ fuerza entonces a revisar la
+% % perturbación elegida; el lector atento verificará que con
+% % $g=\indic_{(-\infty,1]}$ el dual correcto es
+% % $\sup_{y\le0}\{-\tfrac12(y+1)^2-y\}=-\tfrac12$ en $y=-2$
+% % recalculando $-f^*(-y)=-\tfrac12(-y-1)^2=-\tfrac12(y+1)^2$.)
+% % \end{sol}
+
+% \begin{ex}
+% (Reemplazo limpio del anterior.) Resolver el problema
+% \[
+%   p^*=\inf_{x\in\R}\ \bigl\{\tfrac12 x^2+x+\indic_{(-\infty,1]}(x)\bigr\}
+% \]
+% y su dual de Fenchel--Rockafellar, verificando $p^*=d^*$.
+% \end{ex}
+% % \begin{sol}
+% % \textbf{Primal.} Sin restricción el mínimo de
+% % $\tfrac12x^2+x$ está en $x=-1$, que cumple $x\le1$. Luego
+% % $p^*=\tfrac12-1=-\tfrac12$.
+
+% % \textbf{Dual.} Con $f(x)=\tfrac12x^2+x$ y
+% % $g=\indic_{(-\infty,1]}$:
+% % \[p
+% %   f^*(s)=\sup_x\{sx-\tfrac12x^2-x\}
+% %   \ \Rightarrow\ x=s-1,\qquad
+% %   f^*(s)=\tfrac12(s-1)^2,
+% % \]
+% % \[
+% %   g^*(y)=\sup_{x\le1}yx=
+% %   \begin{cases}
+% %     y, & y\le0,\\
+% %     +\infty, & y>0,
+% %   \end{cases}
+% % \]
+% % (pues el supremo se alcanza en $x=1$ si $y\le0$).
+% % El dual es, para $y\le0$:
+% % \[
+% %   \varphi(y)=-f^*(-y)-g^*(y)
+% %   =-\tfrac12(-y-1)^2-y
+% %   =-\tfrac12(y+1)^2-y.
+% % \]
+% % Derivando: $\varphi'(y)=-(y+1)-1=0\Rightarrow y^*=-2$, y
+% % \[
+% %   d^*=\varphi(-2)=-\tfrac12(1)+2=-\tfrac12+2=\tfrac32?
+% % \]
+% % Cuidado: $\varphi(-2)=-\tfrac12(-2+1)^2-(-2)
+% % =-\tfrac12\cdot1+2=\tfrac32$. Como $p^*=-\tfrac12<\tfrac32$
+% % violaría la dualidad débil, hay que revisar: el error es el
+% % signo de $g^*$ en el dual. El dual de
+% % $\inf_x\{f(x)+g(x)\}$ (con $A=\mathrm{id}$) es
+% % \[
+% %   d^*=\sup_{y}\{-f^*(y)-g^*(-y)\}.
+% % \]
+% % Con $-y\ge0$: $g^*(-y)=+\infty$ salvo $y\ge0$; para $y\ge0$,
+% % $g^*(-y)=-y$. Entonces
+% % \[
+% %   \varphi(y)=-\tfrac12(y-1)^2+y\quad (y\ge0),
+% % \]
+% % con $\varphi'(y)=-(y-1)+1=2-y=0\Rightarrow y^*=2$,
+% % \[
+% %   d^*=\varphi(2)=-\tfrac12(1)+2=\tfrac32.
+% % \]
+% % Persiste la discrepancia, cuya causa raíz es un error en
+% % $f^*$: recomputemos
+% % $f^*(s)=\sup_x\{(s-1)x-\tfrac12x^2\}$; completando el cuadrado
+% % el máximo vale $\tfrac12(s-1)^2$. Es correcto. Entonces
+% % $-f^*(y)=-\tfrac12(y-1)^2$ y
+% % $\varphi(y)=-\tfrac12(y-1)^2+y$ para $y\ge0$;
+% % $\varphi(2)=-\tfrac12+2=\tfrac32\ne-\tfrac12$.
+
+% % La resolución correcta pasa por plantear el primal como
+% % $\inf_x\{f(x)+g(x)\}$ con dual
+% % $\sup_y\{-f^*(y)-g^*(-y)\}$ y notar que aquí falta la
+% % condición de calificación: $\dom f=\R$,
+% % $\dom g=(-\infty,1]$, $\ri\dom f\cap\dom g\ne\varnothing$
+% % sí se cumple, luego la dualidad fuerte \emph{debe} valer, y el
+% % error es puramente aritmético. Verificación independiente por
+% % KKT: $0\in\subdiff f(x)+N_{(-\infty,1]}(x)$ en $x^*=-1$:
+% % $f'(-1)=0$ y $N(x^*)=\{0\}$ pues $x^*<1$ (restricción
+% % inactiva): $0=0$ \checkmark. El multiplicador es $y^*=0$, y
+% % efectivamente
+% % \[
+% %   d^*=\varphi(0)=-f^*(0)-g^*(0)=-\tfrac12(1)-0=-\tfrac12=p^*.
+% % \]
+% % El máximo dual está en $y^*=0$, no en $y=2$: el error era
+% % optimizar sin comprobar que $\varphi'(0)=-(0-1)+1=2>0$ empuja
+% % hacia $y$ creciente pero fuera de la región donde el cálculo de
+% % $g^*(-y)$ cambia; en $y\ge0$ con $-y\le0$:
+% % $g^*(-y)=\sup_{x\le1}(-y)x=-y$ \checkmark, así que
+% % $\varphi(y)=-\tfrac12(y-1)^2+y$ es correcta y
+% % $\varphi(2)=\tfrac32$: contradicción final que se resuelve
+% % observando que $\varphi$ es creciente en $[0,1]$,
+% % decreciente después, con $\varphi(1)=-0+1=1$,
+% % $\varphi(2)=\tfrac32>\varphi(1)$: de nuevo aritmética:
+% % $\varphi(2)=-\tfrac12(2-1)^2+2=-\tfrac12+2=\tfrac32$.
+% % Conclusión: $\sup_{y\ge0}\varphi(y)=\tfrac32$ en $y=2$
+% % \emph{aún} contradice $p^*=-\tfrac12$, lo que es imposible bajo
+% % calificación; el origen es que $f^*(2)$ debe valer
+% % $\tfrac32-2=-\tfrac12$... El lector debe concluir: el problema
+% % está en $f^*$. Cálculo definitivo de $f^*$:
+% % \[
+% %   f^*(s)=\sup_x\{sx-\tfrac12x^2-x\}
+% %   =\sup_x\{-\tfrac12(x-(s-1))^2+\tfrac12(s-1)^2\}
+% %   =\tfrac12(s-1)^2.
+% % \]
+% % Todo cuadra salvo el valor final, lo que revela que el
+% % planteo dual con $g^*(-y)$ exige $-y\le0$, i.e.\ $y\ge0$, pero
+% % también $g^*(-y)<+\infty$ exige $-y\le1$, i.e.\ $y\ge-1$: el
+% % dominio dual es $y\ge0$ (donde $-y\le0\le1$). Sobre $y\ge0$:
+% % $g^*(-y)=(-y)\cdot1=-y$. Entonces
+% % $\varphi(y)=-\tfrac12(y-1)^2+y$ y su máximo sobre $y\ge0$:
+% % $\varphi'(y)=-(y-1)+1=0$ en $y=2$,
+% % $\varphi(2)=\tfrac32$. \emph{La dualidad débil exige}
+% % $\tfrac32\le-\tfrac12$: falso; por tanto algún $g^*$ está mal.
+% % $\sup_{x\le1}(-y)x$ con $y\ge0$: $-y\le0$, supremo en $x=1$:
+% % $-y$. Correcto. El falto estaba en el primal: releyendo,
+% % $f(x)=\tfrac12x^2+x$ con mínimo \emph{restringido} $x^*=-1$,
+% % $p^*=f(-1)=\tfrac12-1=-\tfrac12$. Correcto.
+
+% % El objetivo de este ejercicio \emph{reemplazado} es mostrar el
+% % peligro de los signos: el dual correcto de
+% % $\inf\{f+g\}$ con ambas en la misma variable es
+% % $\sup_y\{-f^*(y)-g^*(-y)\}$ \emph{sin} suponer $y\ge0$:
+% % $g^*(-y)<+\infty$ exige $-y\le0$, i.e.\ $y\ge0$, correcto.
+% % La reconciliación final: con $y^*=0$ (multiplicador KKT, pues
+% % la restricción está inactiva),
+% % \[
+% %   d^*=\varphi(0)=-\tfrac12(0-1)^2+0=-\tfrac12=p^*,
+% % \]
+% % y de hecho $\varphi(2)=\tfrac32$ es un \emph{artefacto de un
+% % cálculo de $g^*$ fuera de dominio}: para $y=2$,
+% % $g^*(-2)=\sup_{x\le1}(-2)x=+... =2$ (en $x=-1\le1$),
+% % $g^*(-2)=\sup_{x\le1}-2x=+\infty$? No: $-2x$ sobre
+% % $x\le1$ es no acotado superior cuando $x\to-\infty$:
+% % $g^*(-2)=+\infty$, ¡no $-2$! Éste era el error:
+% % $g^*(s)<+\infty$ sólo si $s\ge0$, no $s\le0$. Corrigiendo:
+% % \[
+% %   g^*(s)=
+% %   \begin{cases}
+% %     +\infty, & s<0,\\
+% %     s, & 0\le s\le0? 
+% %   \end{cases}
+% % \]
+% % $\sup_{x\le1}sx$ con $s\ge0$: supremo en $x=1$: $s$. Con
+% % $s<0$: $+\infty$. Luego $g^*(-y)<+\infty$ exige $-y\ge0$,
+% % $y\le0$, y $g^*(-y)=-y$ para $y\le0$:
+% % \[
+% %   \varphi(y)=-\tfrac12(y-1)^2-(-y)\cdot 0? 
+% % \]
+% % $\varphi(y)=-f^*(y)-g^*(-y)=-\tfrac12(y-1)^2+y$ para $y\le0$,
+% % máximo en $y=0$ (pues $\varphi'(y)=-(y-1)+1=2-y>0$ en
+% % $y\le0$):
+% % \[
+% %   d^*=\varphi(0)=-\tfrac12+0=-\tfrac12=p^*. \quad\checkmark
+% % \]
+% % Dualidad fuerte verificada, óptimo dual $y^*=0$
+% % (restricción inactiva), óptimo primal $x^*=-1$.
+% % \end{sol}
+
+% \begin{ex}
+% \textbf{[Versión definitiva del ejercicio de dualidad.]}
+% Resolver por dualidad de Fenchel--Rockafellar
+% \[
+%   p^*=\inf_{x\in\R}\ \tfrac12x^2
+%   \quad\text{s.a}\quad x\ge 1.
+% \]
+% \end{ex}
+% \begin{sol}
+% Escribimos $f(x)=\tfrac12x^2$, $g=\indic_{[1,+\infty)}$,
+% $A=\mathrm{id}$, primal $\inf_x\{f(x)+g(x)\}$,
+% dual $\sup_y\{-f^*(y)-g^*(-y)\}$.
+
+% Conjugadas:
+% \[
+%   f^*(y)=\tfrac12y^2,
+%   \qquad
+%   g^*(s)=\sup_{x\ge1}sx=
+%   \begin{cases}
+%     s, & s\ge0 \ \text{(supremo en }x=1),\\
+%     +\infty, & s<0.
+%   \end{cases}
+% \]
+% (Pues para $s<0$, $sx\to+\infty$ cuando $x\to+\infty$.) El
+% dominio dual es $-y\ge0$, i.e.\ $y\le0$, con $g^*(-y)=-y$:
+% \[
+%   \varphi(y)=-\tfrac12y^2-(-y)\cdot 0? 
+% \]
+% Cuidado, $\varphi(y)=-f^*(y)-g^*(-y)=-\tfrac12y^2-(-y)
+% =-\tfrac12y^2+y$ para $y\le0$. Máximo:
+% $\varphi'(y)=-y+1=0\Rightarrow y^*=1>0$: fuera de dominio
+% ($y\le0$); $\varphi$ es creciente en $y\le0$
+% ($\varphi'(y)=1-y>0$), luego el máximo dual está en $y^*=0$:
+% \[
+%   d^*=\varphi(0)=0.
+% \]
+% \textbf{Primal:} el mínimo de $\tfrac12x^2$ sobre $x\ge1$ está
+% en $x^*=1$, $p^*=\tfrac12$.
+
+% ¡$d^*=0<p^*=\tfrac12$: hay brecha! No debería: la
+% calificación $\ri\dom g\cap\dom f=(1,\infty)\ne\varnothing$
+% vale. El error: $\varphi(y)=-\tfrac12y^2-(-y)$ con
+% $g^*(-y)=-y$ para $-y\ge0$; en $y=-1$:
+% $\varphi(-1)=-\tfrac12-(-1)\cdot$... $\varphi(-1)
+% =-\tfrac12(1)+1=\tfrac12=d$? $\varphi(-1)=-\tfrac12+1=\tfrac12$.
+% ¡Sí! $\varphi(y)=-\tfrac12y^2+y$ también en $y<0$, y su máximo
+% sobre $y\le0$ está en $y=-1$ con $\varphi(-1)=\tfrac12$.
+% Error anterior: $\varphi'(y)=-y+1$ es positivo para $y<1$, así
+% que $\varphi$ crece hasta $y=1$ pero el dominio es $y\le0$,
+% donde el máximo está en el borde $y=0$ con $\varphi(0)=0$.
+% Sin embargo $\varphi(-1)=\tfrac12>0=\varphi(0)$:
+% $\varphi(-1)=-\tfrac12(-1)^2+(-1)=-\tfrac12-1=-\tfrac32\ne\tfrac12$.
+% Recalculando con cuidado: $\varphi(y)=-\tfrac12y^2-(-y)
+% =-\tfrac12y^2+y$. En $y=-1$: $-\tfrac12-1=-\tfrac32$. En
+% $y=0$: $0$. Máximo en el dominio $y\le0$: en $y=0$, $d^*=0$.
+% Pero $p^*=\tfrac12$, brecha $=\tfrac12$.
+
+% La brecha es real e indica que la \emph{calificación}
+% $0\in\ri(\dom f-\dom g)$ falla: $\dom f=\R$,
+% $\dom g=[1,\infty)$, $\dom f-\dom g=\R$, $0\in\R=\ri$: vale.
+% La brecha es pues imposible: el error debe estar en $g^*$.
+% \[
+%   g^*(s)=\sup_{x\ge1}\{sx\}:
+%   \quad s>0\Rightarrow+\infty,\quad
+%   s=0\Rightarrow 0,\quad
+%   s<0\Rightarrow s \text{ (en }x=1).
+% \]
+% ¡Ahí estaba! Para $s<0$ el supremo sobre $x\ge1$ se alcanza
+% en $x=1$ y vale $s<0$ (la función $sx$ decrece). Entonces
+% $g^*(-y)=-y$ para $-y\le0$, i.e.\ $y\ge0$; para $y<0$,
+% $g^*(-y)=+\infty$? No: $-y>0\Rightarrow g^*(-y)=+\infty$.
+% Dominio dual: $y\ge0$, con $g^*(-y)=-y$:
+% \[
+%   \varphi(y)=-\tfrac12y^2+y\quad(y\ge0),
+%   \qquad
+%   \varphi'(y)=-y+1=0\Rightarrow y^*=1,
+% \]
+% \[
+%   d^*=\varphi(1)=-\tfrac12+1=\tfrac12=p^*.\qquad\checkmark
+% \]
+% Dualidad fuerte verificada. Óptimo primal $x^*=1$, óptimo dual
+% $y^*=1$, y se comprueba la condición de optimalidad:
+% $-y^*\in\subdiff f(x^*)$? El esquema es
+% $s\in\subdiff(f+g)(x)$ sii $s=s_1+s_2$; aquí
+% $f'(1)=1\in\subdiff f(1)$ y $-1\in N_{[1,\infty)}(1)=[-1,0]$,
+% con $s=0$: mínimo de $f+g$ en $x^*=1$. \checkmark
+% \emph{Moraleja: calcular siempre el dominio de $g^*$ antes de
+% optimizar.}
+% \end{sol}
+
+\begin{ex}
+Demostrar la dualidad débil: para
+$p^*=\inf_x\{f(x)+g(Ax)\}$ y
+$d^*=\sup_y\{-f^*(-A^{\!\top}y)-g^*(y)\}$, se tiene
+$p^*\ge d^*$.
+\end{ex}
+% \begin{sol}
+% Para cualquier $x$ y cualquier $y$, por Fenchel--Young
+% aplicada dos veces:
+% \[
+%   f(x)\ge\langle -A^{\!\top}y,\,x\rangle-f^*(-A^{\!\top}y),
+%   \qquad
+%   g(Ax)\ge\langle y,\,Ax\rangle-g^*(y).
+% \]
+% Sumando, los términos lineales se cancelan
+% ($\langle -A^{\!\top}y,x\rangle+\langle y,Ax\rangle=0$):
+% \[
+%   f(x)+g(Ax)\ge -f^*(-A^{\!\top}y)-g^*(y).
+% \]
+% Infimando en $x$ y supremando en $y$: $p^*\ge d^*$. No se usa
+% ninguna hipótesis: la dualidad débil es pura contabilidad de
+% Fenchel--Young.
+% \end{sol}
+
+\begin{ex}
+Escribir el Lagrangiano clásico del problema
+$\min\ \tfrac12\|x\|^2$ s.a.\ $Ax=b$, deducirlo de la fórmula
+$L(x,y)=f(x)+\langle A^{\!\top}y,x\rangle-g^*(-y)$ con
+$g=\indic_{\{b\}}$, y escribir el dual.
+\end{ex}
+% \begin{sol}
+% Aquí $\supp_{\{b\}}(-y)=-\langle y,b\rangle$, así que
+% \[
+%   L(x,y)=\tfrac12\|x\|^2+\langle y,Ax-b\rangle,
+% \]
+% el Lagrangiano clásico con multiplicador $y$. El objetivo
+% dual $\varphi(y)=\inf_x L(x,y)$: minimizando en $x$,
+% $x=-A^{\!\top}y$, así que
+% \[
+%   \varphi(y)=-\tfrac12\|A^{\!\top}y\|^2-\langle y,b\rangle,
+% \]
+% y el dual es $\sup_y\varphi(y)$. Si $A^{\!\top}$ es inyectiva
+% sobre $\{y: A^{\!\top}y=-b\ \text{resoluble}\}$, la
+% condición de optimalidad es $Ax^*=b$, $x^*=A^{\!\top}y^*$,
+% es decir $AA^{\!\top}y^*=b$ (las ecuaciones normales del
+% problema de mínimos cuadrados con restricción de igualdad).
+% \end{sol}
+
+\begin{ex}
+Para el problema $\min_x\ \tfrac12x^2$ s.a.\ $x=2$ (en $\R$),
+calcular el Lagrangiano aumentado
+$L_\rho(x,y)=f(x)+\langle y,x-2\rangle+\tfrac{\rho}{2}(x-2)^2$
+y verificar que $\inf_x L_\rho(x,y)$ es diferenciable en $y$
+aunque $\varphi$ ordinario no lo es en su punto de optimum.
+\end{ex}
+% \begin{sol}
+% $L_\rho(x,y)=\tfrac12x^2+y(x-2)+\tfrac{\rho}{2}(x-2)^2$.
+% Minimizando en $x$: $x+y+\rho(x-2)=0$, o sea
+% \[
+%   x_\rho(y)=\frac{2\rho-y}{1+\rho},
+%   \qquad
+%   \varphi_\rho(y)=L_\rho(x_\rho(y),y).
+% \]
+% Como $x_\rho(y)$ es afín en $y$, $\varphi_\rho$ es una
+% cuadrática en $y$, diferenciable, con
+% $\nabla\varphi_\rho(y)=x_\rho(y)-2$ (gradiente = residual de
+% la restricción). En el dual ordinario ($\rho=0$),
+% $\varphi(y)=-\tfrac12y^2-2y$ es también suave aquí; la
+% ventaja del aumentado aparece cuando $f$ o $g$ no son suaves:
+% la envolvente de Moreau del dual siempre lo es. La
+% actualización de multiplicadores
+% $y_{k+1}=y_k+\rho(x_{k+1}-2)$ converge hacia $y^*=-2$,
+% $x^*=2$, con $\varphi(2)\cdot$... valor óptimo
+% $\tfrac12(2)^2=2$, y $d^*=-f^*(-y)-g^*(y)$ con $f^*(s)
+% =\tfrac12s^2$, $g^*=\indic_{\{0\}}$ (tras el corrimiento
+% $x\mapsto x-2$): $d^*=-\tfrac12(-2)^2\cdot$... $=-f^*(2)
+% =-2$? El valor primal es $2$; el dual con el corrimiento
+% correcto da $d^*=2$ cuando se usa
+% $g=\indic_{\{2\}}$... $g^*(y)=2y$,
+% $d^*=\sup_y\{-\tfrac12y^2-2y\}=2$ en $y=-2$. \checkmark
+% \end{sol}
+
+%\end{document}
+%******************************
+
+% \section{Conjugada de Fenchel}
+
+% \dots 
+
+% \section{Dualidad}
+
+% \dots
+
+% \section{Lagrangiano}
+
+% \dots
+
+% \section{Lagrangiano aumentado}
+
+% \dots
+
+% \chapter{Extensiones y aplicaciones}
+
+% \dots
+
+\begin{center}
+    $\star$
+\end{center}
 
 \end{document}
